@@ -14,7 +14,12 @@ target_link_libraries (r-type_server
     PRIVATE asio
 )
 
+target_include_directories (r-type_server
+    PRIVATE
+    ./includes/
+)
+
 target_sources(r-type_server
     PRIVATE
-        ./sources/main.cpp
+        ./sources/R-type.cpp
 )
