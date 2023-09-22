@@ -28,16 +28,16 @@ public:
 
     template <class Component>
     sparse_array<Component> &get_components() {
-        return &_components_arrays[typeid(sparse_array<Component>)]; //TODO: change it to fit the return type, convert the std::any to a Component
+        return std::any_cast<sparse_array<Component> &>(_components_arrays.at(typeid(sparse_array<Component>))); //TODO: change it to fit the return type, convert the std::any to a Component
     }
 
     template <class Component>
     sparse_array<Component> const &get_components() const {
-        return std::any_cast<sparse_array<Component> const &>(&_components_arrays.at(typeid(sparse_array<Component>))); //TODO: change it to fit the return type, convert the std::any to a Component
+        return std::any_cast<sparse_array<Component> const &>(_components_arrays.at(typeid(sparse_array<Component>))); //TODO: change it to fit the return type, convert the std::any to a Component
     }
 
 private:
-    std::unordered_map<std::type_index, sparse_array<std::any>> _components_arrays;
+    std::unordered_map<std::type_index, std::any> _components_arrays;
 };
 
 #endif /* !REGISTRY_HPP_ */

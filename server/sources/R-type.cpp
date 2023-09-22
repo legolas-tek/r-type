@@ -33,6 +33,7 @@ int main()
 	component comp1(4, 5);
 	component comp2(2, 3);
 	component comp3(6, 8);
+	component2 comp4(0, 1);
 	Registry regi;
 
 	regi.register_component<component>();
@@ -40,13 +41,16 @@ int main()
 	regi.get_components<component>().insert_at(0, std::move(comp1));
 	regi.get_components<component>().insert_at(5, std::move(comp2));
 	regi.get_components<component>().insert_at(1, std::move(comp3));
+	regi.get_components<component2>().insert_at(5, std::move(comp4));
 	// std::cout << "Hello CMake. " << (*array.begin())->_a << " " << (*(array.end() - 1))->_a << std::endl;
+	std::cout << "component 1:" << std::endl;
 	for (auto comp: regi.get_components<component>()) {
 		if (comp)
 			std::cout << "value _a = " << comp->_a << " value _b = " << comp->_b << std::endl;
 		else
 			std::cout << "value empty" << std::endl;
 	}
+	std::cout << "component 2:" << std::endl;
 	for (auto comp: regi.get_components<component2>()) {
 		if (comp)
 			std::cout << "value _c = " << comp->_c << " value _d = " << comp->_d << std::endl;
