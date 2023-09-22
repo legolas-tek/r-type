@@ -28,12 +28,12 @@ public:
 
     template <class Component>
     sparse_array<Component> &get_components() {
-        return std::any_cast<sparse_array<Component> &>(_components_arrays.at(typeid(sparse_array<Component>))); //TODO: change it to fit the return type, convert the std::any to a Component
+        return std::any_cast<sparse_array<Component> &>(_components_arrays.at(typeid(sparse_array<Component>)));
     }
 
     template <class Component>
     sparse_array<Component> const &get_components() const {
-        return std::any_cast<sparse_array<Component> const &>(_components_arrays.at(typeid(sparse_array<Component>))); //TODO: change it to fit the return type, convert the std::any to a Component
+        return std::any_cast<sparse_array<Component> const &>(_components_arrays.at(typeid(sparse_array<Component>)));
     }
 
 private:
