@@ -28,21 +28,17 @@ public:
 
 int main()
 {
-	Entity first(2);
-	size_t test = first;
 	component comp1(4, 5);
-	component comp2(2, 3);
-	component comp3(6, 8);
 	component2 comp4(0, 1);
 	Registry regi;
+	Entity first(0);
+	Entity second(1);
 
 	regi.register_component<component>();
 	regi.register_component<component2>();
 	regi.get_components<component>().insert_at(0, std::move(comp1));
-	regi.get_components<component>().insert_at(5, std::move(comp2));
-	regi.get_components<component>().insert_at(1, std::move(comp3));
-	regi.get_components<component2>().insert_at(5, std::move(comp4));
-	// std::cout << "Hello CMake. " << (*array.begin())->_a << " " << (*(array.end() - 1))->_a << std::endl;
+	regi.get_components<component2>().insert_at(1, std::move(comp4));
+	regi.erase_component<component>(first);
 	std::cout << "component 1:" << std::endl;
 	for (auto comp: regi.get_components<component>()) {
 		if (comp)
