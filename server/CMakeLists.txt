@@ -22,4 +22,5 @@ target_include_directories (r-type_server
 target_sources(r-type_server
     PRIVATE
         ./sources/R-type.cpp
+        ./sources/systems.cpp
 )
