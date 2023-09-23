@@ -8,9 +8,13 @@
 #ifndef VELOCITY_HPP_
 #define VELOCITY_HPP_
 
-struct velocity {
-    float vx;
-    float vy;
-};
-
+namespace Component
+{
+    struct velocity
+    {
+        velocity(int vx = 0, int vy = 0) : _vx(vx) , _vy(vy) {}
+        float _vx;
+        float _vy;
+    };
+}
 #endif /* !VELOCITY_HPP_ */

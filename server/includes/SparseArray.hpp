@@ -23,6 +23,9 @@ public:
     using size_type = typename container_t::size_type;
     using iterator = typename container_t::iterator;
     using const_iterator = typename container_t ::const_iterator;
+    using pointer_type = value_type*;
+    using difference_type = std::ptrdiff_t;
+    using iterator_category = std::forward_iterator_tag;
 
 public:
     sparse_array() = default;                         // You can add more constructors .
@@ -43,13 +46,13 @@ public:
     reference_type operator[](size_t idx) {
         if (idx >= _data.size())
             throw std::out_of_range("Position out of range.");
-        return &_data[idx];
+        return _data[idx];
     }
 
     const_reference_type operator[](size_t idx) const {
         if (idx >= _data.size())
             throw std::out_of_range("Position out of range.");
-        return &_data[idx];
+        return _data[idx];
     }
 
     iterator begin() {
@@ -124,6 +127,41 @@ template <class... Params>
         }
         return -1;
     }
+
+    struct Components_iterator {
+    public:
+        Components_iterator(pointer_type ptr) : m_ptr(ptr) {
+            while (!m_ptr->has_value())
+                m_ptr++;
+        }
+
+        reference_type operator*() const { return *m_ptr; }
+
+        pointer_type operator->() { return m_ptr; }
+
+        // Prefix increment
+        Components_iterator& operator++() {
+            m_ptr++;
+            while (!m_ptr->has_value())
+                m_ptr++;
+            return *this;
+            }
+
+        // Postfix increment
+        Components_iterator operator++(int) {
+                Components_iterator tmp = *this;
+
+                ++(*this);
+                while (!this->m_ptr->has_value())
+                    ++(*this);
+                return tmp;
+            }
+
+        friend bool operator== (const Components_iterator& a, const Components_iterator& b) { return a.m_ptr == b.m_ptr; };
+        friend bool operator!= (const Components_iterator& a, const Components_iterator& b) { return a.m_ptr != b.m_ptr; };
+    private:
+        pointer_type m_ptr;
+    };
 
 private:
     container_t _data;

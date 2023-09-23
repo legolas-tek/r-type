@@ -10,9 +10,15 @@
 #ifndef POSITION_HPP_
 #define POSITION_HPP_
 
-struct position {
-    size_t x;
-    size_t y;
-};
+namespace Component
+{
+    struct position
+    {
+        public:
+            position(int x = 0, int y = 0) : _x(x) , _y(y) {}
+            int _x;
+            int _y;
+    };
+}
 
 #endif /* !POSITION_HPP_ */
