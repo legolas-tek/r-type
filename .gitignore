@@ -34,3 +34,5 @@
 # Cmake cache
 build/
 libs/deps
+CMakeCache.txt
+CMakeFiles/
