@@ -54,12 +54,14 @@ int main()
 	Registry reg;
 	Entity player(0);
 	Entity target(4);
+	Entity test(2);
 
 	reg.register_component<Component::position>();
 	reg.register_component<Component::velocity>();
 	reg.get_components<Component::position>().insert_at(player, std::move(Component::position(1, 2)));
 	reg.get_components<Component::position>().insert_at(target, std::move(Component::position(3, 4)));
 	reg.get_components<Component::velocity>().insert_at(player, std::move(Component::velocity(5, 6)));
+	reg.get_components<Component::velocity>().insert_at(target, std::move(Component::velocity(5, 6)));
 	logging_system(reg);
 	position_system(reg);
 	return 0;

@@ -41,9 +41,17 @@ public:
         Components_iterator &operator++()
         {
             m_ptr++;
-            while (m_ptr != _end_ptr && !m_ptr->has_value())
+            _iterations++;
+            while (m_ptr != _end_ptr && !m_ptr->has_value()) {
                 m_ptr++;
+                _iterations++;
+            }
             return *this;
+        }
+
+        size_t get_iterations()
+        {
+            return _iterations;
         }
 
         // Postfix increment
@@ -52,8 +60,11 @@ public:
             Components_iterator tmp = *this;
 
             ++(*this);
-            while (m_ptr != _end_ptr && !this->m_ptr->has_value())
+            ++_iterations;
+            while (m_ptr != _end_ptr && !this->m_ptr->has_value()) {
                 ++(*this);
+                ++_iterations;
+            }
             return tmp;
         }
 
@@ -63,6 +74,7 @@ public:
     private:
         pointer_type m_ptr;
         pointer_type _end_ptr;
+        size_t _iterations = 0;
     };
 
     using iterator = sparse_array<Component>::Components_iterator;
@@ -87,7 +99,7 @@ public:
     reference_type operator[](size_t idx)
     {
         if (idx >= _data.size())
-            throw std::out_of_range("Position out of range.");
+            _data.resize(idx + 1);
         return _data[idx];
     }
 
@@ -102,10 +114,8 @@ public:
     {
         iterator it(&_data[0], &_data[_data.size()]);
 
-        while (it != end() && !it->has_value())
-        {
+        if (it != end() && !it->has_value())
             ++it;
-        }
         return it;
     }
 
