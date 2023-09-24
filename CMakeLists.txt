@@ -18,7 +18,7 @@ set(CMAKE_MODULE_PATH
   "${PROJECT_SOURCE_DIR}/cmake"
 )
 include(CPack)
-include(Dependencies)
+include(dependencies)
 
 add_subdirectory("./client/")
 add_subdirectory("./server/")
