@@ -6,6 +6,7 @@ enable_language(CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+include(CPack)
 include(FetchContent)
 
 FetchContent_Declare(asio
@@ -20,7 +21,7 @@ if(NOT asio_POPULATED)
     message(STATUS "Fetching asio ${ASIO_CMAKE_ASIO_TAG}")
 
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/libs/deps/asio")
-        set(FETCHCONTENT_SOURCE_DIR_ASIO "${CMAKE_CURRENT_SOURCE_DIR}/libs/deps/asio")
+        set(FETCHCONTENT_SOURCE_DIR_ASIO "${CMAKE_CURRENT_SOURCE_DIR}/libs/deps/")
         message(STATUS "Asio sources found at ${CMAKE_CURRENT_SOURCE_DIR}/libs/deps/, skip fetching")
     endif()
 
