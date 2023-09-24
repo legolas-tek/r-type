@@ -3,12 +3,13 @@
 project ("R-Type")
 
 enable_language(CXX)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(FetchContent)
 
 FetchContent_Declare(asio
     GIT_REPOSITORY  https://github.com/chriskohlhoff/asio.git
-    GIT_TAG         asio-1-12-2
     GIT_SHALLOW     TRUE
     SOURCE_DIR      ${CMAKE_CURRENT_SOURCE_DIR}/libs/deps/
 )
@@ -20,11 +21,11 @@ if(NOT asio_POPULATED)
 
     if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/libs/deps/asio")
         set(FETCHCONTENT_SOURCE_DIR_ASIO "${CMAKE_CURRENT_SOURCE_DIR}/libs/deps/asio")
-        message(STATUS "Asio source found at ${CMAKE_CURRENT_SOURCE_DIR}/libs/deps/ skip fetching.")
+        message(STATUS "Asio sources found at ${CMAKE_CURRENT_SOURCE_DIR}/libs/deps/, skip fetching")
     endif()
 
     FetchContent_Populate(asio)
-    message(STATUS "Populating Asio done; src at ${asio_SOURCE_DIR}")
+    message(STATUS "Populating Asio done, sources at ${asio_SOURCE_DIR}")
 endif()
 
 add_library(asio INTERFACE)
@@ -42,9 +43,11 @@ target_compile_definitions(asio
         ASIO_STANDALONE
         ASIO_NO_DEPRECATED
 )
-target_link_libraries(asio
-    INTERFACE pthread
-)
+if (UNIX)
+    target_link_libraries(asio
+        INTERFACE pthread
+    )
+endif()
 
 add_subdirectory("./client/")
 add_subdirectory("./server/")
