@@ -1,0 +1,21 @@
+name: Mirroring action
+
+env:
+  MIRROR_URL: "git@github.com:EpitechPromo2026/B-CPP-500-PAR-5-1-rtype-jeremy.elalouf.git"
+
+on: push
+
+jobs:
+  push_to_mirror:
+    name: "Push code to the mirror repository"
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: "actions/checkout@v3"
+        with:
+          fetch-depth: 0
+      - uses: "pixta-dev/repository-mirroring-action@v1"
+        with:
+          target_repo_url:
+            ${{ env.MIRROR_URL }}
+          ssh_private_key:
+            ${{ secrets.GIT_SSH_PRIVATE_KEY }}
