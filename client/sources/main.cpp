@@ -1,14 +1,29 @@
 #include <iostream>
 
-#include "asio.hpp"
-#include "asio/ts/buffer.hpp"
-#include "asio/ts/internet.hpp"
+#include <asio.hpp>
+#include <asio/ts/buffer.hpp>
+#include <asio/ts/internet.hpp>
+
+#include <SFML/Graphics.hpp>
 
 int main(int argc, char *argv[])
 {
-    asio::error_code ec;
+    auto window = sf::RenderWindow{ { 1920u, 1080u }, "CMake SFML Project" };
+    window.setFramerateLimit(144);
 
-    asio::io_context context;
-    std::cout << "Welcome to the R-Type client." << std::endl;
+    while (window.isOpen())
+    {
+        for (auto event = sf::Event{}; window.pollEvent(event);)
+        {
+            if (event.type == sf::Event::Closed)
+            {
+                window.close();
+            }
+        }
+
+        window.clear();
+        window.display();
+    }
+
     return 0;
 }
