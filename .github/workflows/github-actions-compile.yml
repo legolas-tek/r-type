@@ -1,0 +1,19 @@
+name: Compiling action
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  compile_project:
+    name: "Test that the project compile as expected"
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: "actions/checkout@v3"
+        with:
+          fetch-depth: 0
+      - name: "Configure the project using cmake"
+        run: "cmake -Bbuild --preset linux-amd64"
+      - name: "Compile the code"
+        run: "cmake --build build"
