@@ -11,10 +11,19 @@
 #include "Registry.hpp"
 #include "position.hpp"
 #include "velocity.hpp"
+#include "drawable.hpp"
 #include <vector>
 #include <algorithm>
+#include <memory>
+#include <unistd.h>
+#include <SFML/Window.hpp>
+#include "Sfml_SpriteFactory.hpp"
+
+#define WIDTH 1980
+#define HEIGHT 1080
 
 void position_system(Registry &regi);
+void draw_system(Registry &regi, sf::RenderWindow window);
 
 class component
 {
@@ -50,50 +59,44 @@ void logging_system(Registry &r)
 
 int main()
 {
-
 	Registry reg;
 	Entity player(0);
 	Entity target(4);
 	Entity test(2);
+    sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "My window");
+	Sprite background("ressources/sand.png", sf::Rect<int>(0, 0, WIDTH, HEIGHT));
 
 	reg.register_component<Component::position>();
 	reg.register_component<Component::velocity>();
-	reg.get_components<Component::position>().insert_at(player, std::move(Component::position(1, 2)));
-	reg.get_components<Component::position>().insert_at(target, std::move(Component::position(3, 4)));
-	reg.get_components<Component::velocity>().insert_at(player, std::move(Component::velocity(5, 6)));
-	reg.get_components<Component::velocity>().insert_at(target, std::move(Component::velocity(5, 6)));
-	logging_system(reg);
-	position_system(reg);
-	return 0;
+	reg.register_component<Component::drawable>();
+	reg.get_components<Component::position>().insert_at(player, std::move(Component::position(1, 200)));
+	reg.get_components<Component::position>().insert_at(target, std::move(Component::position(1, 500)));
+	reg.get_components<Component::velocity>().insert_at(player, std::move(Component::velocity(5, 0)));
+	reg.get_components<Component::velocity>().insert_at(target, std::move(Component::velocity(5, 0)));
+	reg.get_components<Component::drawable>().insert_at(player, std::move(Component::drawable(std::move(Sprite("ressources/alex.png", sf::Rect<int>(0, 0, 32, 32))))));
+	reg.get_components<Component::drawable>().insert_at(target, std::move(Component::drawable(std::move(Sprite("ressources/alex.png", sf::Rect<int>(0, 0, 32, 32))))));
+    // run the program as long as the window is open
+    while (window.isOpen())
+    {
+		usleep(100000);
+		window.clear(sf::Color::Black);
+		logging_system(reg);
+		position_system(reg);
+		window.draw(background.getSprite());
+    	for (auto it = reg.get_components<Component::drawable>().begin(); it != reg.get_components<Component::drawable>().end(); ++it) {
+    	    if ((*it)->_is_drawable)
+    	        window.draw((*it)->_sprite.getSprite());
+    	}
+		window.display();
+        // check all the window's events that were triggered since the last iteration of the loop
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            // "close requested" event: we close the window
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+    }
+
+    return 0;
 }
-
-// int main()
-// {
-	// component comp1(4, 5);
-	// component2 comp4(0, 1);
-	// Registry regi;
-	// Entity first(0);
-	// Entity second(1);
-
-	// regi.register_component<component>();
-	// regi.register_component<component2>();
-	// regi.get_components<component>().insert_at(0, std::move(comp1));
-	// regi.get_components<component2>().insert_at(1, std::move(comp4));
-	// regi.erase_component<component>(first);
-	// std::cout << "component 1:" << std::endl;
-	// for (auto comp : regi.get_components<component>())
-	// {
-	// 	if (comp)
-	// 		std::cout << "value _a = " << comp->_a << " value _b = " << comp->_b << std::endl;
-	// 	else
-	// 		std::cout << "value empty" << std::endl;
-	// }
-	// std::cout << "component 2:" << std::endl;
-	// for (auto comp : regi.get_components<component2>())
-	// {
-	// 	if (comp)
-	// 		std::cout << "value _c = " << comp->_c << " value _d = " << comp->_d << std::endl;
-	// 	else
-	// 		std::cout << "value empty" << std::endl;
-	// }
-// }

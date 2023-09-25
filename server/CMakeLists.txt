@@ -11,7 +11,9 @@ cmake_minimum_required (VERSION 3.8)
 add_executable (r-type_server)
 
 target_link_libraries (r-type_server
-    PRIVATE asio
+    PRIVATE
+    asio
+    sfml-graphics
 )
 
 target_include_directories (r-type_server

@@ -15,9 +15,9 @@ namespace Component
     struct position
     {
         public:
-            position(int x = 0, int y = 0) : _x(x) , _y(y) {}
-            int _x;
-            int _y;
+            position(float x = 0, float y = 0) : _x(x) , _y(y) {}
+            float _x;
+            float _y;
     };
 }
 

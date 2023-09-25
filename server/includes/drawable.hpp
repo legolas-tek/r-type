@@ -8,11 +8,15 @@
 #ifndef DRAWABLE_HPP_
 #define DRAWABLE_HPP_
 
+#include "Sfml_SpriteFactory.hpp"
+
 namespace Component
 {
     struct drawable
     {
-        bool is_drawable;
+        drawable(Sprite &&sprite, bool drawable = true) : _is_drawable(drawable), _sprite(sprite) {}
+        bool _is_drawable;
+        Sprite _sprite;
     };
 }
 

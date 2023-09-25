@@ -12,7 +12,7 @@ namespace Component
 {
     struct velocity
     {
-        velocity(int vx = 0, int vy = 0) : _vx(vx) , _vy(vy) {}
+        velocity(float vx = 0, float vy = 0) : _vx(vx) , _vy(vy) {}
         float _vx;
         float _vy;
     };
