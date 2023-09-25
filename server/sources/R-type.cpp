@@ -78,8 +78,8 @@ int main()
     // run the program as long as the window is open
     while (window.isOpen())
     {
-		usleep(100000);
 		window.clear(sf::Color::Black);
+		usleep(100000);
 		logging_system(reg);
 		position_system(reg);
 		window.draw(background.getSprite());
