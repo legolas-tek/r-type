@@ -49,7 +49,7 @@ public:
             return *this;
         }
 
-        size_t get_iterations()
+        size_t get_entity()
         {
             return _iterations;
         }
@@ -115,7 +115,7 @@ public:
         iterator it(&_data[0], &_data[_data.size()]);
 
         if (it != end() && !it->has_value())
-            ++it;
+            it++;
         return it;
     }
 
