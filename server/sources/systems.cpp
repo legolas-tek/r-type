@@ -15,12 +15,12 @@
 void position_system(Registry &regi)
 {
     for (auto it = regi.get_components<Component::position>().begin(); it != regi.get_components<Component::position>().end(); ++it) {
-        if (regi.get_components<Component::velocity>()[it.get_entity()].has_value()) {
-            (*it)->_x += regi.get_components<Component::velocity>()[it.get_entity()]->_vx;
-            (*it)->_y += regi.get_components<Component::velocity>()[it.get_entity()]->_vy;
-            if (regi.get_components<Component::drawable>()[it.get_entity()].has_value())
-                regi.get_components<Component::drawable>()[it.get_entity()]->_sprite.getSprite().setPosition((*it)->_x, (*it)->_y);
+        if (auto velocity = regi.get_components<Component::velocity>()[it.get_entity()]) {
+            (*it)->_x += velocity->_vx;
+            (*it)->_y += velocity->_vy;
         }
+        if (regi.get_components<Component::drawable>()[it.get_entity()].has_value())
+            regi.get_components<Component::drawable>()[it.get_entity()]->_sprite.getSprite().setPosition((*it)->_x, (*it)->_y);
     }
 }
 

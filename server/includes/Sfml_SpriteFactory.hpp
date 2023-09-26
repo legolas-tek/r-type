@@ -15,7 +15,7 @@ class Sprite {
     public:
         Sprite() = default;
         Sprite(Sprite const & sprite) : _Rect(sprite._Rect), _Texture(sprite._Texture), _sprite(sprite._sprite) {}
-        Sprite(std::string const &path, sf::Rect<int> rect) {
+        Sprite(std::string const &path, sf::Rect<int> &&rect) {
             _Rect = rect;
             _Texture.loadFromFile(path);
             _Texture.setSmooth(true);
