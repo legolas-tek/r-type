@@ -173,7 +173,7 @@ public:
 
     reference_type emplace_at(size_type pos, Params &&...args)
     {
-        if (pos > _data.size())
+        if (pos >= _data.size())
             _data.resize(pos + 1);
         if (_data[pos])
             _data.erase(_data.begin() + pos);

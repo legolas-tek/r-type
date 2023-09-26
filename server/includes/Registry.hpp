@@ -9,11 +9,13 @@
 #define REGISTRY_HPP_
 
 #include "SparseArray.hpp"
+#include "ISystem.hpp"
 #include "Entity.hpp"
 #include <typeindex>
 #include <unordered_map>
 #include <any>
 #include <functional>
+#include <memory>
 
 class Registry
 {
@@ -46,9 +48,20 @@ public:
         _erase_comp_funcs[typeid(sparse_array<Component>)](*this, entity);
     }
 
+    template <class... Components, typename Function>
+    void add_system(Function &&f) {
+        _systems.emplace(std::function<Function(Components)>(f)...);
+    }
+
+    // void run_systems() {
+    //     for (auto it = _systems.begin(); it != _systems.end(); it++)
+    //         (*it).get()->operator();
+    // }
+
 private:
     std::unordered_map<std::type_index, std::any> _components_arrays;
     std::unordered_map<std::type_index, std::function<void (Registry &, Entity const &)>> _erase_comp_funcs;
+    std::vector<std::unique_ptr<ISystem>> _systems;
 };
 
 #endif /* !REGISTRY_HPP_ */
