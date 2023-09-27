@@ -8,25 +8,15 @@
 
 cmake_minimum_required (VERSION 3.8)
 
-add_executable (r-type_server)
+add_library (rendering SHARED)
 
-set(CMAKE_CXX_FLAGS -g)
-
-target_link_libraries (r-type_server
-    PRIVATE
-    asio
-    sfml-graphics
-    engine
-    networking
-)
-
-target_include_directories (r-type_server
-    PRIVATE
+target_include_directories (rendering
+    PUBLIC
     ./includes/
+    ./sources/
 )
 
-target_sources(r-type_server
+target_sources (rendering
     PRIVATE
-        ./sources/R-type.cpp
-        ./sources/systems.cpp
+    ./sources/Render.cpp
 )
