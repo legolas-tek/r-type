@@ -24,3 +24,5 @@ add_subdirectory (./client/)
 add_subdirectory (./server/)
 
 add_subdirectory (./libs/engine/)
+add_subdirectory (./libs/networking/)
+add_subdirectory (./libs/rendering/)
