@@ -10,13 +10,9 @@ cmake_minimum_required (VERSION 3.8)
 
 add_executable (r-type_server)
 
-set(CMAKE_CXX_FLAGS -g)
-
 target_link_libraries (r-type_server
     PRIVATE
     asio
-    sfml-graphics
-    engine
     networking
 )
 
@@ -27,16 +23,5 @@ target_include_directories (r-type_server
 
 target_sources (r-type_server
     PRIVATE
-        ./sources/R-type.cpp
-        ./sources/systems.cpp
+        ./sources/main.cpp
 )
-
-target_compile_options (r-type_server
-    PRIVATE -g
-    PRIVATE -fsanitize=address
-)
-
-target_link_options (r-type_server
-    PRIVATE -fsanitize=address
-)
-
