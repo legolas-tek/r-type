@@ -25,8 +25,18 @@ target_include_directories (r-type_server
     ./includes/
 )
 
-target_sources(r-type_server
+target_sources (r-type_server
     PRIVATE
         ./sources/R-type.cpp
         ./sources/systems.cpp
 )
+
+target_compile_options (r-type_server
+    PRIVATE -g
+    PRIVATE -fsanitize=address
+)
+
+target_link_options (r-type_server
+    PRIVATE -fsanitize=address
+)
+

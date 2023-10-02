@@ -36,3 +36,5 @@ build/
 libs/deps
 CMakeCache.txt
 CMakeFiles/
+
+.vscode
