@@ -17,5 +17,6 @@ target_include_directories (engine
 
 target_sources (engine
     PRIVATE
-    ./sources/Tmp.cpp
+    ./sources/R-type.cpp
+    ./sources/systems.cpp
 )

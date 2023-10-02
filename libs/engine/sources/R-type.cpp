@@ -11,13 +11,10 @@
 #include "Registry.hpp"
 #include "position.hpp"
 #include "velocity.hpp"
-#include "drawable.hpp"
 #include <vector>
 #include <algorithm>
 #include <memory>
 #include <unistd.h>
-#include <SFML/Window.hpp>
-#include "Sfml_SpriteFactory.hpp"
 #include "Logging_system.hpp"
 
 #define WIDTH 1980
@@ -38,29 +35,29 @@ void logging_system(Registry &reg,
 	}
 }
 
-int main()
-{
-	Registry reg;
-	Entity background(0);
-	Entity player(1);
-	Entity target(2);
+//int main()
+//{
+	//Registry reg;
+	//Entity background(0);
+	//Entity player(1);
+	//Entity target(2);
 	// sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "My window");
 
-	reg.register_component<Component::position>();
-	reg.register_component<Component::velocity>();
-	reg.register_component<Component::drawable>();
-	reg.get_components<Component::position>().insert_at(player, std::move(Component::position(1, 200)));
-	reg.get_components<Component::position>().insert_at(target, std::move(Component::position(1, 500)));
-	reg.get_components<Component::velocity>().insert_at(player, std::move(Component::velocity(5, 0)));
-	reg.get_components<Component::velocity>().insert_at(target, std::move(Component::velocity(10, 0)));
+	//reg.register_component<Component::position>();
+	//reg.register_component<Component::velocity>();
+	//reg.register_component<Component::drawable>();
+	//reg.get_components<Component::position>().insert_at(player, std::move(Component::position(1, 200)));
+	//reg.get_components<Component::position>().insert_at(target, std::move(Component::position(1, 500)));
+	//reg.get_components<Component::velocity>().insert_at(player, std::move(Component::velocity(5, 0)));
+	//reg.get_components<Component::velocity>().insert_at(target, std::move(Component::velocity(10, 0)));
 	// reg.get_components<Component::drawable>().emplace_at(background, std::move(Sprite("ressources/sand.png", sf::Rect<int>(0, 0, WIDTH, HEIGHT))));
 	// reg.get_components<Component::drawable>().emplace_at(player, std::move(Sprite("ressources/alex.png", sf::Rect<int>(0, 0, 32, 32))));
 	// reg.get_components<Component::drawable>().emplace_at(target, std::move(Sprite("ressources/alex.png", sf::Rect<int>(0, 0, 32, 32))));
-	reg.add_system<System::Logging>(reg.get_components<Component::position>(), reg.get_components<Component::velocity>());
+	//reg.add_system<System::Logging>(reg.get_components<Component::position>(), reg.get_components<Component::velocity>());
 	// run the program as long as the window is open
-	reg.run_systems();
-	reg.run_systems();
-	reg.run_systems();
+	//reg.run_systems();
+	//reg.run_systems();
+	//reg.run_systems();
 	// while (window.isOpen())
 	// {
 	// 	window.clear(sf::Color::Black);
@@ -79,5 +76,5 @@ int main()
 	// 	}
 	// }
 
-	return 0;
-}
+	//return 0;
+//}

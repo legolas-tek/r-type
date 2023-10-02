@@ -1,18 +1,21 @@
+/*
+** EPITECH PROJECT, 2023
+** r-type
+** File description:
+** Entity
+*/
+
+#ifndef ENTITY_H_
+#define ENTITY_H_
 
 #include <cstddef>
 
-/*! \class Entity
- *  \brief Brief class description
- *
- *  Detailed description
- */
-class Entity
-{
-public:
-    Entity(std::size_t id)
-        : _id(id) {}
-    virtual ~Entity() = default;
-
-private:
-    std::size_t _id;
+class Entity {
+    public:
+        explicit Entity(size_t value) : _value(value) {}
+        operator size_t() const { return _value; }
+    private:
+        size_t _value;
 };
+
+#endif /* !ENTITY_H_ */
