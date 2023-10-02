@@ -14,7 +14,6 @@
 #include <vector>
 #include <algorithm>
 #include <memory>
-#include <unistd.h>
 #include "Logging_system.hpp"
 
 #define WIDTH 1980
