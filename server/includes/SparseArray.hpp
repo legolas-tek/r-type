@@ -79,7 +79,7 @@ public:
 
     using iterator = sparse_array<Component>::Components_iterator;
 
-    sparse_array() = default;                         // You can add more constructors .
+    sparse_array() : _data(container_t(500)) {};      // You can add more constructors .
     sparse_array(sparse_array const &) = default;     // copy constructor
     sparse_array(sparse_array &&) noexcept = default; // move constructor
     ~sparse_array() = default;

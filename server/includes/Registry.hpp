@@ -16,6 +16,7 @@
 #include <any>
 #include <functional>
 #include <memory>
+#include <list>
 
 class Registry
 {
@@ -48,15 +49,21 @@ public:
         _erase_comp_funcs[typeid(sparse_array<Component>)](*this, entity);
     }
 
-    template <class... Components, typename Function>
-    void add_system(Function &&f) {
-        _systems.emplace(std::function<Function(Components)>(f)...);
+    template <typename System, class... Params>
+    void add_system(Params ...args) {
+        auto &test = _systems.emplace_back(std::make_unique<System>(std::forward<Params>(args)...));
+        std::cout << "begin" << std::endl;
+        (*_systems.front())();
+        std::cout << "adresse = " << std::addressof(*(_systems.front())) << std::endl;
+        std::cout << "end" << std::endl;
     }
 
-    // void run_systems() {
-    //     for (auto it = _systems.begin(); it != _systems.end(); it++)
-    //         (*it).get()->operator();
-    // }
+    void run_systems() {
+        for (auto &system : _systems) {
+            std::cout << "adresse = " << std::addressof(*system) << std::endl;
+            (*system)();
+        }
+    }
 
 private:
     std::unordered_map<std::type_index, std::any> _components_arrays;

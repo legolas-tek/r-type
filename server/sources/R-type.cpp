@@ -25,7 +25,7 @@
 
 void position_system(Registry &regi);
 
-void logging_system(Registry &r,
+void logging_system(Registry &reg,
 					sparse_array<Component::position> const &positions,
 					sparse_array<Component::velocity> const &velocities)
 {
@@ -44,7 +44,7 @@ int main()
 	Entity background(0);
 	Entity player(1);
 	Entity target(2);
-	sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "My window");
+	// sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "My window");
 
 	reg.register_component<Component::position>();
 	reg.register_component<Component::velocity>();
@@ -56,28 +56,28 @@ int main()
 	reg.get_components<Component::drawable>().emplace_at(background, std::move(Sprite("ressources/sand.png", sf::Rect<int>(0, 0, WIDTH, HEIGHT))));
 	reg.get_components<Component::drawable>().emplace_at(player, std::move(Sprite("ressources/alex.png", sf::Rect<int>(0, 0, 32, 32))));
 	reg.get_components<Component::drawable>().emplace_at(target, std::move(Sprite("ressources/alex.png", sf::Rect<int>(0, 0, 32, 32))));
+	reg.add_system<System::Logging>(reg.get_components<Component::position>(), reg.get_components<Component::velocity>());
 	// run the program as long as the window is open
-	while (window.isOpen())
-	{
-		window.clear(sf::Color::Black);
-		usleep(100000);
-		// logging_system(reg);
-		position_system(reg);
-		for (auto it = reg.get_components<Component::drawable>().begin(); it != reg.get_components<Component::drawable>().end(); ++it)
-		{
-			if ((*it)->_is_drawable)
-				window.draw((*it)->_sprite.getSprite());
-		}
-		window.display();
-		// check all the window's events that were triggered since the last iteration of the loop
-		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			// "close requested" event: we close the window
-			if (event.type == sf::Event::Closed)
-				window.close();
-		}
-	}
+	reg.run_systems();
+	reg.run_systems();
+	reg.run_systems();
+	// while (window.isOpen())
+	// {
+	// 	window.clear(sf::Color::Black);
+	// 	usleep(100000);
+	// 	// logging_system(reg, reg.get_components<Component::position>(), reg.get_components<Component::velocity>());
+	// 	// position_system(reg);
+	// 	// reg.run_systems();
+	// 	window.display();
+	// 	// check all the window's events that were triggered since the last iteration of the loop
+	// 	sf::Event event;
+	// 	while (window.pollEvent(event))
+	// 	{
+	// 		// "close requested" event: we close the window
+	// 		if (event.type == sf::Event::Closed)
+	// 			window.close();
+	// 	}
+	// }
 
 	return 0;
 }

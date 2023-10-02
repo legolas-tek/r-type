@@ -13,12 +13,10 @@
 #include "velocity.hpp"
 #include "Registry.hpp"
 
-class Position_systeme : public ISysteme<void (Registry &,
-					sparse_array<Component::position> const &,
-					sparse_array<Component::velocity> const &)> {
+class Position_systeme : public ISysteme {
     public:
-        Position_systeme operator()() {
-            _func
+        void operator()() {
+            // _func
         }
 };
 
