@@ -50,19 +50,13 @@ public:
     }
 
     template <typename System, class... Params>
-    void add_system(Params ...args) {
-        auto &test = _systems.emplace_back(std::make_unique<System>(std::forward<Params>(args)...));
-        std::cout << "begin" << std::endl;
-        (*_systems.front())();
-        std::cout << "adresse = " << std::addressof(*(_systems.front())) << std::endl;
-        std::cout << "end" << std::endl;
+    void add_system(Params &&...args) {
+        _systems.emplace_back(std::make_unique<System>(std::forward<Params>(args)...));
     }
 
     void run_systems() {
-        for (auto &system : _systems) {
-            std::cout << "adresse = " << std::addressof(*system) << std::endl;
+        for (auto &system : _systems)
             (*system)();
-        }
     }
 
 private:

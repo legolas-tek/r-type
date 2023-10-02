@@ -20,25 +20,17 @@ namespace System {
         public:
             Logging(sparse_array<Component::position> const &positions,
 					sparse_array<Component::velocity> const &velocities) :
-                    _positions(positions), _velocities(velocities) {
-                        for (auto const &it : _positions)
-                            if (it.has_value())
-                                std::cout << "first test : x = " << it->_x << " y = " << it->_y << std::endl;
-                        for (auto it : positions)
-                            if (it.has_value())
-                                std::cout << "second test : x = " << it->_x << " y = " << it->_y << std::endl;
-                    }
+                    _positions(positions), _velocities(velocities) {}
             Logging(System::Logging const &other) = delete;
 
             void operator()() {
                 for (size_t i = 0; i < _positions.size() && i < _velocities.size(); i++) {
                 		auto const &pos = _positions[i];
                 		auto const &vel = _velocities[i];
-                		if (pos.has_value() && vel.has_value()) {
-                            std::cout << "Condition validated" << std::endl;
+                		if (pos && vel) {
                 			std ::cerr << i << " : Position = { " << pos.value()._x << " , " << pos.value()._y << " } , Velocity = { " << vel.value()._vx << " , " << vel.value()._vy << " } " << std ::endl;
-                		}
-            	}
+                        }
+                }
             }
 
         private:
