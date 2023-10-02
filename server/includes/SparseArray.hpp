@@ -79,7 +79,7 @@ public:
 
     using iterator = sparse_array<Component>::Components_iterator;
 
-    sparse_array() : _data(container_t(500)) {};      // You can add more constructors .
+    sparse_array() : _data(container_t(500)) {}       // You can add more constructors .
     sparse_array(sparse_array const &) = default;     // copy constructor
     sparse_array(sparse_array &&) noexcept = default; // move constructor
     ~sparse_array() = default;
@@ -154,7 +154,7 @@ public:
         if (pos >= _data.size())
             _data.resize(pos + 1);
         if (_data.at(pos))
-            _data.erase(_data.begin() + pos);
+            _data[pos].reset();
         _data.insert(_data.begin() + pos, comp);
         return *(_data.begin() + pos);
     }
@@ -164,7 +164,7 @@ public:
         if (pos >= _data.size())
             _data.resize(pos + 1);
         if (_data.at(pos))
-            _data.erase(_data.begin() + pos);
+            _data[pos].reset();
         _data.insert(_data.begin() + pos, comp);
         return *(_data.begin() + pos);
     }
@@ -176,7 +176,7 @@ public:
         if (pos >= _data.size())
             _data.resize(pos + 1);
         if (_data[pos])
-            _data.erase(_data.begin() + pos);
+            _data[pos].reset();
         return *_data.emplace(_data.begin() + pos, std::forward<Params>(args)...);
     }
 
@@ -184,7 +184,7 @@ public:
     {
         if (pos >= _data.size())
             throw std::out_of_range("Position out of range.");
-        _data.erase(_data.begin() + pos);
+        _data[pos].reset();
     }
 
     size_type get_index(value_type const &value_searched) const

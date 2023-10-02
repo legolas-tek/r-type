@@ -53,9 +53,9 @@ int main()
 	reg.get_components<Component::position>().insert_at(target, std::move(Component::position(1, 500)));
 	reg.get_components<Component::velocity>().insert_at(player, std::move(Component::velocity(5, 0)));
 	reg.get_components<Component::velocity>().insert_at(target, std::move(Component::velocity(10, 0)));
-	reg.get_components<Component::drawable>().emplace_at(background, std::move(Sprite("ressources/sand.png", sf::Rect<int>(0, 0, WIDTH, HEIGHT))));
-	reg.get_components<Component::drawable>().emplace_at(player, std::move(Sprite("ressources/alex.png", sf::Rect<int>(0, 0, 32, 32))));
-	reg.get_components<Component::drawable>().emplace_at(target, std::move(Sprite("ressources/alex.png", sf::Rect<int>(0, 0, 32, 32))));
+	// reg.get_components<Component::drawable>().emplace_at(background, std::move(Sprite("ressources/sand.png", sf::Rect<int>(0, 0, WIDTH, HEIGHT))));
+	// reg.get_components<Component::drawable>().emplace_at(player, std::move(Sprite("ressources/alex.png", sf::Rect<int>(0, 0, 32, 32))));
+	// reg.get_components<Component::drawable>().emplace_at(target, std::move(Sprite("ressources/alex.png", sf::Rect<int>(0, 0, 32, 32))));
 	reg.add_system<System::Logging>(reg.get_components<Component::position>(), reg.get_components<Component::velocity>());
 	// run the program as long as the window is open
 	reg.run_systems();
