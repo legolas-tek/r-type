@@ -15,6 +15,8 @@ jobs:
           fetch-depth: 0
       - name: "Install dependencies"
         run: choco install ninja cmake visualstudio2022buildtools
+      - name: Enable Developer Command Prompt
+        uses: ilammy/msvc-dev-cmd@v1.12.1
       - name: "Configure the project using cmake"
         run: "cmake -Bbuild --preset x64-release"
       - name: "Compile the code"
