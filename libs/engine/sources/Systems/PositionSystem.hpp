@@ -9,15 +9,16 @@
 #define POSITION_SYSTEME_HPP_
 
 #include "ISystem.hpp"
+#include "Registry.hpp"
 #include "position.hpp"
 #include "velocity.hpp"
-#include "Registry.hpp"
 
 class Position_system : public ISystem {
-    public:
-        void operator()() {
-            // _func
-        }
+public:
+    void operator()()
+    {
+        // _func
+    }
 };
 
 #endif /* !POSITION_SYSTEME_HPP_ */

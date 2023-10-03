@@ -3,13 +3,11 @@
  *
  *  Detailed description
  */
-class NetManager
-{
+class NetManager {
 
 public:
     NetManager();
     virtual ~NetManager();
 
 private:
-
 };

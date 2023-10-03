@@ -11,4 +11,3 @@ Entity::Entity(std::size_t value)
     : _value(value)
 {
 }
-

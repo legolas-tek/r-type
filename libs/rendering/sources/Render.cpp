@@ -2,10 +2,8 @@
 
 Render::Render()
 {
-
 }
 
 Render::~Render()
 {
-
 }

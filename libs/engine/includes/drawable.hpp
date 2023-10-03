@@ -10,14 +10,16 @@
 
 #include "Sfml_SpriteFactory.hpp"
 
-namespace Component
-{
-    struct drawable
+namespace Component {
+struct drawable {
+    drawable(Sprite &&sprite, bool drawable = true)
+        : _is_drawable(drawable)
+        , _sprite(sprite)
     {
-        drawable(Sprite &&sprite, bool drawable = true) : _is_drawable(drawable), _sprite(sprite) {}
-        bool _is_drawable;
-        Sprite _sprite;
-    };
+    }
+    bool _is_drawable;
+    Sprite _sprite;
+};
 }
 
 #endif /* !DRAWABLE_HPP_ */

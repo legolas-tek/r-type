@@ -3,11 +3,9 @@
  *
  *  Detailed description
  */
-class Render
-{
+class Render {
 
 public:
     Render();
     virtual ~Render();
-
 };

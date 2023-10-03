@@ -9,5 +9,4 @@ NetManager::NetManager()
 
 NetManager::~NetManager()
 {
-
 }

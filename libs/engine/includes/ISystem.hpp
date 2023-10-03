@@ -11,9 +11,9 @@
 #include <functional>
 
 class ISystem {
-    public:
-        virtual ~ISystem() = default;
-        virtual void operator()() = 0;
+public:
+    virtual ~ISystem() = default;
+    virtual void operator()() = 0;
 };
 
 #endif /* !ISYSTEM_HPP_ */

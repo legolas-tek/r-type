@@ -8,13 +8,11 @@
 #ifndef SPARSEARRAY_HPP_
 #define SPARSEARRAY_HPP_
 
-#include <vector>
-#include <optional>
 #include <iostream>
+#include <optional>
+#include <vector>
 
-template <typename Component>
-class SparseArray
-{
+template <typename Component> class SparseArray {
 
 public:
     using value_type = std::optional<Component>;
@@ -28,20 +26,25 @@ public:
     using iterator_category = std::forward_iterator_tag;
 
 public:
-    struct components_iterator
-    {
+    struct components_iterator {
 
     public:
         components_iterator(pointer_type ptr, pointer_type end_ptr = 0)
-            : _m_ptr(ptr), _end_ptr(end_ptr) {}
+            : _m_ptr(ptr)
+            , _end_ptr(end_ptr)
+        {
+        }
 
-        reference_type operator*() const {
+        reference_type operator*() const
+        {
             return *_m_ptr;
         }
-        pointer_type operator->() {
+        pointer_type operator->()
+        {
             return _m_ptr;
         }
-        components_iterator &operator++() {
+        components_iterator &operator++()
+        {
             _m_ptr++;
             _iterations++;
             while (_m_ptr != _end_ptr && !_m_ptr->has_value()) {
@@ -63,18 +66,26 @@ public:
             return tmp;
         }
 
-        size_t get_entity() {
+        size_t get_entity()
+        {
             return _iterations;
         }
 
-        friend bool operator==(const components_iterator &a, const components_iterator &b) { return a._m_ptr == b.m_ptr; };
-        friend bool operator!=(const components_iterator &a, const components_iterator &b) { return a._m_ptr != b.m_ptr; };
+        friend bool
+        operator==(components_iterator const &a, components_iterator const &b)
+        {
+            return a._m_ptr == b.m_ptr;
+        };
+        friend bool
+        operator!=(components_iterator const &a, components_iterator const &b)
+        {
+            return a._m_ptr != b.m_ptr;
+        };
 
     private:
         pointer_type _m_ptr;
         pointer_type _end_ptr;
         size_t _iterations = 0;
-
     };
 
 public:
@@ -82,7 +93,9 @@ public:
 
 public:
     SparseArray()
-        : _data(container_t(500)) {}
+        : _data(container_t(500))
+    {
+    }
     SparseArray(SparseArray const &) = default;
     SparseArray(SparseArray &&) noexcept = default;
 
@@ -173,7 +186,9 @@ public:
             _data.resize(pos + 1);
         if (_data[pos])
             _data[pos].reset();
-        return *_data.emplace(_data.begin() + pos, std::forward<Params>(args)...);
+        return *_data.emplace(
+            _data.begin() + pos, std::forward<Params>(args)...
+        );
     }
 
     void erase(size_type pos)
@@ -187,8 +202,7 @@ public:
     {
         size_type pos = 0;
 
-        for (auto it = _data.begin(); it != _data.end(); it++)
-        {
+        for (auto it = _data.begin(); it != _data.end(); it++) {
             if (*it == value_searched)
                 return pos;
             pos++;
