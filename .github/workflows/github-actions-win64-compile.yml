@@ -14,7 +14,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: "Install dependencies"
-        run: choco install ninja cmake
+        run: choco install ninja cmake visualstudio2022buildtools
       - name: "Configure the project using cmake"
         run: "cmake -Bbuild --preset x64-release"
       - name: "Compile the code"
