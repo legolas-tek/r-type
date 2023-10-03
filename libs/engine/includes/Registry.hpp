@@ -23,30 +23,30 @@ class Registry
 public:
 
     template <class Component>
-    sparse_array<Component> &register_component() {
-        sparse_array<Component> array;
-        sparse_array<Component> &array_ref = array;
+    SparseArray<Component> &register_component() {
+        SparseArray<Component> array;
+        SparseArray<Component> &array_ref = array;
 
-        if (_components_arrays.try_emplace(typeid(sparse_array<Component>), std::move(array)).second)
-            _erase_comp_funcs.emplace(typeid(sparse_array<Component>), [](Registry& registry, const Entity& entity) {
+        if (_components_arrays.try_emplace(typeid(SparseArray<Component>), std::move(array)).second)
+            _erase_comp_funcs.emplace(typeid(SparseArray<Component>), [](Registry& registry, const Entity& entity) {
                 registry.get_components<Component>().erase(entity);
             });
         return array_ref;
     }
 
     template <class Component>
-    sparse_array<Component> &get_components() {
-        return std::any_cast<sparse_array<Component> &>(_components_arrays.at(typeid(sparse_array<Component>)));
+    SparseArray<Component> &get_components() {
+        return std::any_cast<SparseArray<Component> &>(_components_arrays.at(typeid(SparseArray<Component>)));
     }
 
     template <class Component>
-    sparse_array<Component> const &get_components() const {
-        return std::any_cast<sparse_array<Component> const &>(_components_arrays.at(typeid(sparse_array<Component>)));
+    SparseArray<Component> const &get_components() const {
+        return std::any_cast<SparseArray<Component> const &>(_components_arrays.at(typeid(SparseArray<Component>)));
     }
 
     template <class Component>
     void erase_component(Entity const &entity) {
-        _erase_comp_funcs[typeid(sparse_array<Component>)](*this, entity);
+        _erase_comp_funcs[typeid(SparseArray<Component>)](*this, entity);
     }
 
     template <typename System, class... Params>

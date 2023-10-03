@@ -9,12 +9,12 @@
 #include "Entity.hpp"
 #include "SparseArray.hpp"
 #include "Registry.hpp"
-#include "position.hpp"
-#include "velocity.hpp"
+#include "Components/PositionComponent.hpp"
+#include "Components/VelocityComponent.hpp"
 #include <vector>
 #include <algorithm>
 #include <memory>
-#include "Logging_system.hpp"
+#include "Systems/LoggingSystem.hpp"
 
 #define WIDTH 1980
 #define HEIGHT 1080
@@ -22,8 +22,8 @@
 void position_system(Registry &regi);
 
 void logging_system(Registry &reg,
-					sparse_array<Component::position> const &positions,
-					sparse_array<Component::velocity> const &velocities)
+					SparseArray<Component::Position> const &positions,
+					SparseArray<Component::Velocity> const &velocities)
 {
 	for (size_t i = 0; i < positions.size() && i < velocities.size(); ++i) {
 		auto const &pos = positions[i];

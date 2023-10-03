@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2023
-** r-type
+** R-Type
 ** File description:
-** position
+** Position
 */
 
 #include <cstddef>
@@ -12,10 +12,10 @@
 
 namespace Component
 {
-    struct position
+    struct Position
     {
         public:
-            position(float x = 0, float y = 0) : _x(x) , _y(y) {}
+            Position(float x = 0, float y = 0) : _x(x) , _y(y) {}
             float _x;
             float _y;
     };

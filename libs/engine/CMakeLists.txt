@@ -13,10 +13,11 @@ add_library (engine SHARED)
 target_include_directories (engine
     PUBLIC
     ./includes/
+    ./sources/
 )
 
 target_sources (engine
     PRIVATE
+    ./sources/Entity.cpp
     ./sources/R-type.cpp
-    ./sources/systems.cpp
 )
