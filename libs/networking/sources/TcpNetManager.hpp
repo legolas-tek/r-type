@@ -6,22 +6,21 @@
 */
 
 #ifndef TCPNETMANAGER_HPP_
-    #define TCPNETMANAGER_HPP_
+#define TCPNETMANAGER_HPP_
 
-    #include <string>
-    #include <exception>
-    #include <thread>
-    #include <future>
-    #include <asio.hpp>
+#include <asio.hpp>
+#include <exception>
+#include <future>
+#include <string>
+#include <thread>
 
-    #include "CircularBuffer.hpp"
+#include "CircularBuffer.hpp"
 
-    #define BUFF_SIZE 1024 * 6
+#define BUFF_SIZE 1024 * 6
 
 namespace rtype {
 
-class TcpNetManager
-{
+class TcpNetManager {
 
 public:
     TcpNetManager(std::string addr, std::size_t port);
@@ -36,9 +35,12 @@ public:
     class TcpNetManagerError : public std::exception {
 
     public:
-        TcpNetManagerError(const std::string &msg) : _msg(msg) {}
+        TcpNetManagerError(std::string const &msg)
+            : _msg(msg)
+        {
+        }
 
-        const char *what() const noexcept override
+        char const *what() const noexcept override
         {
             return _msg.c_str();
         }
@@ -48,7 +50,6 @@ public:
     };
 
 private:
-
     void reader();
 
     asio::error_code _ec;
