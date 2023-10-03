@@ -8,12 +8,12 @@
 #ifndef POSITION_SYSTEME_HPP_
 #define POSITION_SYSTEME_HPP_
 
-#include "ISysteme.hpp"
+#include "ISystem.hpp"
 #include "position.hpp"
 #include "velocity.hpp"
 #include "Registry.hpp"
 
-class Position_systeme : public ISysteme {
+class Position_system : public ISystem {
     public:
         void operator()() {
             // _func

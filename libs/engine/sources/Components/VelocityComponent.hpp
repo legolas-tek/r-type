@@ -10,9 +10,9 @@
 
 namespace Component
 {
-    struct velocity
+    struct Velocity
     {
-        velocity(float vx = 0, float vy = 0) : _vx(vx) , _vy(vy) {}
+        Velocity(float vx = 0, float vy = 0) : _vx(vx) , _vy(vy) {}
         float _vx;
         float _vy;
     };

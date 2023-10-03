@@ -9,17 +9,18 @@
 #define LOGGING_HPP_
 
 #include "ISystem.hpp"
-#include "position.hpp"
-#include "velocity.hpp"
+
 #include "Registry.hpp"
 
+#include "Components/PositionComponent.hpp"
+#include "Components/VelocityComponent.hpp"
 
 namespace System {
 
     class Logging : public ISystem {
         public:
-            Logging(sparse_array<Component::position> const &positions,
-                    sparse_array<Component::velocity> const &velocities) :
+            Logging(SparseArray<Component::Position> const &positions,
+                    SparseArray<Component::Velocity> const &velocities) :
                     _positions(positions), _velocities(velocities) {
                         for (auto const &it : _positions)
                             if (it.has_value())
@@ -42,8 +43,8 @@ namespace System {
             }
 
         private:
-            sparse_array<Component::position> const &_positions;
-            sparse_array<Component::velocity> const &_velocities;
+            SparseArray<Component::Position> const &_positions;
+            SparseArray<Component::Velocity> const &_velocities;
     };
 }
 
