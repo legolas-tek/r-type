@@ -8,7 +8,9 @@
 #include "CircularBuffer.hpp"
 
 rtype::CircularBuffer::CircularBuffer(std::size_t size)
-: _buffer(size), _reader(0), _writer(0)
+    : _buffer(size)
+    , _reader(0)
+    , _writer(0)
 {
     std::memset(_buffer.data(), 0, size);
 }
@@ -27,12 +29,17 @@ std::vector<char> rtype::CircularBuffer::readUntil(char delim)
     if (is_circular)
         end = _buffer.end();
     else
-        end = std::find(_buffer.begin() + _reader, _buffer.begin() + _writer, delim);
+        end = std::find(
+            _buffer.begin() + _reader, _buffer.begin() + _writer, delim
+        );
 
     std::vector<char> res(begin, end);
 
     if (is_circular)
-        res.insert(res.end(), _buffer.begin(), std::find(_buffer.begin(), _buffer.begin() + _writer, delim));
+        res.insert(
+            res.end(), _buffer.begin(),
+            std::find(_buffer.begin(), _buffer.begin() + _writer, delim)
+        );
 
     _reader = (_reader + res.size()) % _buffer.size() + 1;
     return res;
@@ -59,17 +66,16 @@ std::vector<char> rtype::CircularBuffer::readAvailableData()
     return res;
 }
 
-
 char *rtype::CircularBuffer::getWritePtr()
 {
     return _buffer.data() + _writer;
 }
 
-std::size_t rtype::CircularBuffer::getAvailableCapacityUntilWrappingAround() const
+std::size_t
+rtype::CircularBuffer::getAvailableCapacityUntilWrappingAround() const
 {
     return _buffer.size() - _writer;
 }
-
 
 bool rtype::CircularBuffer::isAvailableData(char delim) const
 {
@@ -86,7 +92,9 @@ bool rtype::CircularBuffer::isAvailableData(char delim) const
 
         it = std::find(_buffer.begin(), _buffer.begin() + _writer, delim);
     } else
-        it = std::find(_buffer.begin() + _reader, _buffer.begin() + _writer, delim);
+        it = std::find(
+            _buffer.begin() + _reader, _buffer.begin() + _writer, delim
+        );
 
     if (it == _buffer.begin() + _writer)
         return false;

@@ -6,18 +6,17 @@
 */
 
 #ifndef CIRCULARBUFFER_HPP_
-    #define CIRCULARBUFFER_HPP_
+#define CIRCULARBUFFER_HPP_
 
-    #include <vector>
-    #include <atomic>
-    #include <algorithm>
-    #include <cstring>
-    #include <iostream>
+#include <algorithm>
+#include <atomic>
+#include <cstring>
+#include <iostream>
+#include <vector>
 
 namespace rtype {
 
-class CircularBuffer
-{
+class CircularBuffer {
 
 public:
     CircularBuffer(std::size_t size);
@@ -27,10 +26,8 @@ public:
     std::vector<char> readUntil(char delim);
     std::vector<char> readAvailableData();
 
-
     char *getWritePtr();
     std::size_t getAvailableCapacityUntilWrappingAround() const;
-
 
     bool isAvailableData(char delim) const;
     bool isAvailableData() const;
