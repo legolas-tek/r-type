@@ -19,6 +19,8 @@ target_link_libraries (r-type_server
 target_include_directories (r-type_server
     PRIVATE
     ./includes/
+    ../libs/engine/includes/
+    ../libs/engine/includes/zipper_containers/
 )
 
 target_sources (r-type_server
