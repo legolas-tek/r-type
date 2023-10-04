@@ -18,6 +18,8 @@
 #include <typeindex>
 #include <unordered_map>
 
+namespace engine
+{
 class Registry {
 public:
     template <class Component> SparseArray<Component> &register_component()
@@ -52,7 +54,7 @@ public:
         );
     }
 
-    template <class Component> void erase_component(Entity const &entity)
+    template <class Component> void erase_component(engine::Entity const &entity)
     {
         _erase_comp_funcs[typeid(SparseArray<Component>)](*this, entity);
     }
@@ -73,9 +75,11 @@ public:
 private:
     std::unordered_map<std::type_index, std::any> _components_arrays;
     std::unordered_map<
-        std::type_index, std::function<void(Registry &, Entity const &)>>
+        std::type_index, std::function<void(Registry &, engine::Entity const &)>>
         _erase_comp_funcs;
     std::vector<std::unique_ptr<ISystem>> _systems;
 };
+} // namespace engine
+
 
 #endif /* !REGISTRY_HPP_ */

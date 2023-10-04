@@ -10,8 +10,9 @@
 
 #include <cstddef>
 
+namespace engine
+{
 class Entity {
-
 public:
     explicit Entity(std::size_t value);
     operator std::size_t() const
@@ -22,5 +23,6 @@ public:
 private:
     std::size_t _value;
 };
+}
 
 #endif /* !ENTITY_H_ */
