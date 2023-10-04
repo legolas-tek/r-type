@@ -21,8 +21,18 @@ target_include_directories (networking
     ./sources/
 )
 
+target_include_directories (networking
+    PRIVATE
+    ../engine/includes/
+)
+
 target_sources (networking
     PRIVATE
     ./sources/TcpNetManager.cpp
     ./sources/CircularBuffer.cpp
+)
+
+target_link_libraries (networking
+    PUBLIC
+    engine
 )
