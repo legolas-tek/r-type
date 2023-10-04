@@ -66,3 +66,54 @@ TEST(Diffing, RemoveOnly)
 
     ASSERT_EQ(diff, expected);
 }
+
+TEST(Diffing, SingleUpdate)
+{
+    Snapshot previous;
+    Snapshot current;
+
+    previous.data.push_back(ComponentData { .entity = Entity(0x01),
+                                           .componentId = 0x02,
+                                           .data = { 0x05, 0x04, 0x05 } });
+    current.data.push_back(ComponentData { .entity = Entity(0x01),
+                                           .componentId = 0x02,
+                                           .data = { 0x03, 0x04, 0x05 } });
+    std::vector<char> diff = diffSnapshots(previous, current);
+    std::vector<char> expected = {
+        // First Component Data
+        0x01, 0x00, 0x00, 0x00, // entity number
+        0x02, // component id
+        0x01, // updated
+        0x03, 0x04, 0x05, // data
+    };
+
+    ASSERT_EQ(diff, expected);
+}
+
+
+TEST(Diffing, RemoveAndAdd)
+{
+    Snapshot previous;
+    Snapshot current;
+
+    previous.data.push_back(ComponentData { .entity = Entity(0x01),
+                                           .componentId = 0x02,
+                                           .data = { 0x05 } });
+    current.data.push_back(ComponentData { .entity = Entity(0x01),
+                                           .componentId = 0x03,
+                                           .data = { 0x03, 0x04, 0x05 } });
+    std::vector<char> diff = diffSnapshots(previous, current);
+    std::vector<char> expected = {
+        // Second Component Data
+        0x01, 0x00, 0x00, 0x00, // entity number
+        0x03, // component id
+        0x01, // added
+        0x03, 0x04, 0x05, // data
+        // First Component Data
+        0x01, 0x00, 0x00, 0x00, // entity number
+        0x02, // component id
+        0x00, // removed
+    };
+
+    ASSERT_EQ(diff, expected);
+}
