@@ -23,18 +23,19 @@ public:
     template <class Component> SparseArray<Component> &register_component()
     {
         SparseArray<Component> array;
-        SparseArray<Component> &array_ref = array;
-
-        if (_components_arrays
-                .try_emplace(typeid(SparseArray<Component>), std::move(array))
-                .second)
+        auto emplace_result = _components_arrays.try_emplace(
+            typeid(SparseArray<Component>), std::move(array)
+        );
+        if (emplace_result.second)
             _erase_comp_funcs.emplace(
                 typeid(SparseArray<Component>),
                 [](Registry &registry, Entity const &entity) {
                     registry.get_components<Component>().erase(entity);
                 }
             );
-        return array_ref;
+        return std::any_cast<SparseArray<Component> &>(
+            emplace_result.first->second
+        );
     }
 
     template <class Component> SparseArray<Component> &get_components()
