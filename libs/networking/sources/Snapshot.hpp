@@ -11,23 +11,7 @@
 #include <cstddef>
 #include <vector>
 #include "Entity.hpp"
-
-struct ComponentData {
-    /**
-     * The id of the entity
-     */
-    Entity entity;
-
-    /**
-     * The id of the component
-     */
-    size_t componentId;
-
-    /**
-     * The data of the component
-     */
-    std::vector<char> data;
-};
+#include "Registry.hpp"
 
 struct Snapshot {
     /**

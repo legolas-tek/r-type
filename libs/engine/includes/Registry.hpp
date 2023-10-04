@@ -17,6 +17,24 @@
 #include <memory>
 #include <typeindex>
 #include <unordered_map>
+#include <vector>
+
+struct ComponentData {
+    /**
+     * The id of the entity
+     */
+    Entity entity;
+
+    /**
+     * The id of the component
+     */
+    size_t componentId;
+
+    /**
+     * The serialized data of the component
+     */
+    std::vector<char> data;
+};
 
 class Registry {
 public:
@@ -34,6 +52,29 @@ public:
                                                Entity const &entity) {
             registry.get_components<Component>().erase(entity);
         });
+        _serialize_component_funcs.emplace_back([](Registry &registry) {
+            std::vector<ComponentData> data;
+            SparseArray<Component> &array
+                = registry.get_components<Component>();
+            for (size_t i = 0; i < array.size(); i++) {
+                if (!array[i])
+                    continue;
+                Entity entity(i);
+                data.push_back(ComponentData {
+                    entity, registry.get_component_id<Component>(),
+                    array[i]->serialize() });
+            }
+            return data;
+        });
+        _deserialize_component_funcs.emplace_back(
+            [](Registry &registry, Entity entity, char const *buffer) {
+                SparseArray<Component> &array
+                    = registry.get_components<Component>();
+                if (!array[entity])
+                    array[entity] = Component();
+                return array[entity]->deserialize(buffer);
+            }
+        );
         return std::any_cast<SparseArray<Component> &>(
             _component_arrays[component_id]
         );
@@ -76,6 +117,18 @@ public:
         )...));
     }
 
+    std::vector<ComponentData> collectData()
+    {
+        std::vector<ComponentData> data;
+
+        for (auto &serialize_func : _serialize_component_funcs) {
+            auto component_data = serialize_func(*this);
+            data.insert(data.end(), component_data.begin(),
+                        component_data.end());
+        }
+        return data;
+    }
+
     void run_systems()
     {
         for (auto &system : _systems)
@@ -96,6 +149,19 @@ private:
      */
     std::vector<std::function<void(Registry &, Entity const &)>>
         _erase_component_funcs;
+    /**
+     * 'Map' of component id to serialization function
+     */
+    std::vector<std::function<std::vector<ComponentData>(Registry &)>>
+        _serialize_component_funcs;
+    /**
+     * 'Map' of component id to deserialization function
+     */
+    std::vector<std::function<size_t(Registry &, Entity, char const *)>>
+        _deserialize_component_funcs;
+    /**
+     * List of systems
+     */
     std::vector<std::unique_ptr<ISystem>> _systems;
 };
 
