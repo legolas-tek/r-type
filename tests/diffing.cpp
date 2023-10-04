@@ -47,3 +47,22 @@ TEST(Diffing, Initial)
 
     ASSERT_EQ(diff, expected);
 }
+
+TEST(Diffing, RemoveOnly)
+{
+    Snapshot one;
+    Snapshot empty;
+
+    one.data.push_back(ComponentData { .entity = Entity(0x01),
+                                           .componentId = 0x02,
+                                           .data = { 0x03, 0x04, 0x05 } });
+    std::vector<char> diff = diffSnapshots(one, empty);
+    std::vector<char> expected = {
+        // Component Data
+        0x01, 0x00, 0x00, 0x00, // entity number
+        0x02, // component id
+        0x00, // removed
+    };
+
+    ASSERT_EQ(diff, expected);
+}

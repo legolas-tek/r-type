@@ -101,5 +101,9 @@ diffSnapshots(Snapshot const &previous, Snapshot const &current)
         // current does not exist in previous, so it was added
         diffAdd(diff, currentIt);
     }
+    // all remaining components in previous are removals
+    for (auto it = previousIt; it != previous.data.end(); ++it) {
+        diffRemove(diff, it);
+    }
     return diff;
 }
