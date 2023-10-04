@@ -117,16 +117,22 @@ public:
         )...));
     }
 
-    std::vector<ComponentData> collectData()
+    std::vector<ComponentData> collect_data()
     {
         std::vector<ComponentData> data;
 
         for (auto &serialize_func : _serialize_component_funcs) {
             auto component_data = serialize_func(*this);
-            data.insert(data.end(), component_data.begin(),
-                        component_data.end());
+            data.insert(
+                data.end(), component_data.begin(), component_data.end()
+            );
         }
         return data;
+    }
+
+    void apply_data(Entity entity, size_t componentId, char const *buffer)
+    {
+        _deserialize_component_funcs[componentId](*this, entity, buffer);
     }
 
     void run_systems()

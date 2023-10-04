@@ -14,6 +14,6 @@ Snapshot createSnapshot(size_t tick, Registry &registry)
 
     snapshot.tick = tick;
     snapshot.wasAck = false;
-    snapshot.data = registry.collectData();
+    snapshot.data = registry.collect_data();
     return snapshot;
 }
