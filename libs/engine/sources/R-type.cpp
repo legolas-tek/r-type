@@ -19,10 +19,10 @@
 #define WIDTH 1980
 #define HEIGHT 1080
 
-void position_system(Registry &regi);
+void position_system(engine::Registry &regi);
 
 void logging_system(
-    Registry &reg, SparseArray<Component::Position> const &positions,
+    engine::Registry &reg, SparseArray<Component::Position> const &positions,
     SparseArray<Component::Velocity> const &velocities
 )
 {

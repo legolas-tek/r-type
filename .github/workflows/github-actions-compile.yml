@@ -18,8 +18,10 @@ jobs:
           sudo apt update
           sudo apt install \
           libxrandr-dev \
+          libxinerama-dev \
           libxcursor-dev \
           libudev-dev \
+          libxi-dev \
           libfreetype-dev \
           libopenal-dev \
           libflac-dev \
