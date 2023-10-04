@@ -24,6 +24,10 @@ Snapshot::Snapshot(size_t tick, Registry const &registry)
 {
 }
 
+using EntityNumber = uint32_t;
+using ComponentId = uint8_t;
+using UpdateType = bool;
+
 static void diffAdd(
     std::vector<std::byte> &diff,
     std::vector<ComponentData>::const_iterator const &it
@@ -31,15 +35,15 @@ static void diffAdd(
 {
     size_t offset = diff.size();
     diff.resize(
-        offset + sizeof(uint64_t) + sizeof(uint8_t) + sizeof(bool)
+        offset + sizeof(EntityNumber) + sizeof(ComponentId) + sizeof(UpdateType)
         + it->data.size()
     );
-    std::memcpy(&diff[offset], &it->entity, sizeof(uint64_t));
-    offset += sizeof(uint64_t);
-    std::memcpy(&diff[offset], &it->componentId, sizeof(uint8_t));
-    offset += sizeof(uint8_t);
-    diff.push_back(std::byte(0x01));
-    offset += sizeof(bool);
+    std::memcpy(&diff[offset], &it->entity, sizeof(EntityNumber));
+    offset += sizeof(EntityNumber);
+    std::memcpy(&diff[offset], &it->componentId, sizeof(ComponentId));
+    offset += sizeof(ComponentId);
+    diff[offset] = std::byte(0x01);
+    offset += sizeof(UpdateType);
     std::memcpy(&diff[offset], it->data.data(), it->data.size());
 }
 
@@ -50,13 +54,13 @@ static void diffRemove(
 {
     size_t offset = diff.size();
     diff.resize(
-        offset + sizeof(uint64_t) + sizeof(uint8_t) + sizeof(bool)
+        offset + sizeof(EntityNumber) + sizeof(ComponentId) + sizeof(UpdateType)
     );
-    std::memcpy(&diff[offset], &it->entity, sizeof(uint64_t));
-    offset += sizeof(uint64_t);
-    std::memcpy(&diff[offset], &it->componentId, sizeof(uint8_t));
-    offset += sizeof(uint8_t);
-    diff.push_back(std::byte(0x00));
+    std::memcpy(&diff[offset], &it->entity, sizeof(EntityNumber));
+    offset += sizeof(EntityNumber);
+    std::memcpy(&diff[offset], &it->componentId, sizeof(ComponentId));
+    offset += sizeof(ComponentId);
+    diff[offset] = std::byte(0x00);
 }
 
 std::vector<std::byte>

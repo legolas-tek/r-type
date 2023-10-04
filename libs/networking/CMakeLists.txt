@@ -26,4 +26,5 @@ target_sources (networking
     ./sources/TcpNetManager.cpp
     ./sources/UdpNetManager.cpp
     ./sources/CircularBuffer.cpp
+    ./sources/Snapshot.cpp
 )
