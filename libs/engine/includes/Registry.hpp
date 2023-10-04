@@ -52,9 +52,9 @@ public:
                                                Entity const &entity) {
             registry.get_components<Component>().erase(entity);
         });
-        _serialize_component_funcs.emplace_back([](Registry &registry) {
+        _serialize_component_funcs.emplace_back([](Registry const &registry) {
             std::vector<ComponentData> data;
-            SparseArray<Component> &array
+            SparseArray<Component> const &array
                 = registry.get_components<Component>();
             for (size_t i = 0; i < array.size(); i++) {
                 if (!array[i])
@@ -117,7 +117,7 @@ public:
         )...));
     }
 
-    std::vector<ComponentData> collect_data()
+    std::vector<ComponentData> collect_data() const
     {
         std::vector<ComponentData> data;
 
@@ -158,7 +158,7 @@ private:
     /**
      * 'Map' of component id to serialization function
      */
-    std::vector<std::function<std::vector<ComponentData>(Registry &)>>
+    std::vector<std::function<std::vector<ComponentData>(Registry const &)>>
         _serialize_component_funcs;
     /**
      * 'Map' of component id to deserialization function

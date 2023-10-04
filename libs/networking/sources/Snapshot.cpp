@@ -7,13 +7,23 @@
 
 #include "Snapshot.hpp"
 #include "Registry.hpp"
+#include <vector>
 
-Snapshot createSnapshot(size_t tick, Registry &registry)
+Snapshot::Snapshot()
+    : tick(0)
+    , wasAck(true)
+    , data()
 {
-    Snapshot snapshot;
+}
 
-    snapshot.tick = tick;
-    snapshot.wasAck = false;
-    snapshot.data = registry.collect_data();
-    return snapshot;
+Snapshot::Snapshot(size_t tick, Registry const &registry)
+    : tick(tick)
+    , wasAck(false)
+    , data(registry.collect_data())
+{
+}
+
+std::vector<char>
+diffSnapshots(Snapshot const &previous, Snapshot const &current)
+{
 }
