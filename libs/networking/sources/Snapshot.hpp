@@ -8,26 +8,10 @@
 #ifndef NETWORKING_SNAPSHOT_HPP_
 #define NETWORKING_SNAPSHOT_HPP_
 
+#include "Entity.hpp"
+#include "Registry.hpp"
 #include <cstddef>
 #include <vector>
-#include "Entity.hpp"
-
-struct ComponentData {
-    /**
-     * The id of the entity
-     */
-    Entity entity;
-
-    /**
-     * The id of the component
-     */
-    size_t componentId;
-
-    /**
-     * The data of the component
-     */
-    std::vector<char> data;
-};
 
 struct Snapshot {
     /**
@@ -44,6 +28,14 @@ struct Snapshot {
      * The data of the snapshot
      */
     std::vector<ComponentData> data;
+
+    /** The dummy snapshot */
+    Snapshot();
+    /** Snapshot the current state of a registry */
+    Snapshot(size_t tick, Registry const &registry);
 };
+
+std::vector<std::byte>
+diffSnapshots(Snapshot const &previous, Snapshot const &current);
 
 #endif /* !NETWORKING_SNAPSHOT_HPP_ */
