@@ -28,12 +28,12 @@ public:
     {
         for (auto const &it : _positions)
             if (it.has_value())
-                std::cout << "first test : x = " << it->_x << " y = " << it->_y
-                          << std::endl;
+                std::cout << "first test : x = " << it->_pos.first << " y = "
+                          << it->_pos.second << std::endl;
         for (auto it : positions)
             if (it.has_value())
-                std::cout << "second test : x = " << it->_x << " y = " << it->_y
-                          << std::endl;
+                std::cout << "second test : x = " << it->_pos.first << " y = "
+                          << it->_pos.second << std::endl;
     }
     Logging(System::Logging const &other) = delete;
 
@@ -45,9 +45,9 @@ public:
             auto const &vel = _velocities[i];
             if (pos.has_value() && vel.has_value()) {
                 std::cout << "Condition validated" << std::endl;
-                std ::cerr << i << " : Position = { " << pos.value()._x << " , "
-                           << pos.value()._y << " } , Velocity = { "
-                           << vel.value()._vx << " , " << vel.value()._vy
+                std ::cerr << i << " : Position = { " << pos.value()._pos.first << " , "
+                           << pos.value()._pos.second << " } , Velocity = { "
+                           << vel.value()._velocity.first << " , " << vel.value()._velocity.second
                            << " } " << std ::endl;
             }
         }

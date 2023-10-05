@@ -30,9 +30,9 @@ void logging_system(
         auto const &pos = positions[i];
         auto const &vel = velocities[i];
         if (pos && vel) {
-            std ::cerr << i << " : Position = { " << pos.value()._x << " , "
-                       << pos.value()._y << " } , Velocity = { "
-                       << vel.value()._vx << " , " << vel.value()._vy << " } "
+            std ::cerr << i << " : Position = { " << pos.value()._pos.first << " , "
+                       << pos.value()._pos.first << " } , Velocity = { "
+                       << vel.value()._velocity.first << " , " << vel.value()._velocity.second << " } "
                        << std ::endl;
         }
     }
