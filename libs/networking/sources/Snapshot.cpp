@@ -23,7 +23,7 @@ Snapshot::Snapshot(size_t tick, Registry const &registry)
 {
 }
 
-std::vector<char>
+std::vector<std::byte>
 diffSnapshots(Snapshot const &previous, Snapshot const &current)
 {
 }
