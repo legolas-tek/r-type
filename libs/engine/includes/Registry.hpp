@@ -50,7 +50,7 @@ public:
             return data;
         });
         _deserialize_component_funcs.emplace_back(
-            [](Registry &registry, Entity entity, char const *buffer) {
+            [](Registry &registry, Entity entity, std::byte const *buffer) {
                 SparseArray<Component> &array
                     = registry.get_components<Component>();
                 if (!array[entity])
@@ -113,7 +113,7 @@ public:
         return data;
     }
 
-    void apply_data(Entity entity, size_t componentId, char const *buffer)
+    void apply_data(Entity entity, size_t componentId, std::byte const *buffer)
     {
         _deserialize_component_funcs[componentId](*this, entity, buffer);
     }
@@ -146,7 +146,7 @@ private:
     /**
      * 'Map' of component id to deserialization function
      */
-    std::vector<std::function<size_t(Registry &, Entity, char const *)>>
+    std::vector<std::function<size_t(Registry &, Entity, std::byte const *)>>
         _deserialize_component_funcs;
     /**
      * List of systems

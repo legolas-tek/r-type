@@ -24,15 +24,15 @@ struct Velocity {
     {
     }
 
-    std::vector<char> serialize() const
+    std::vector<std::byte> serialize() const
     {
-        std::vector<char> vec(sizeof(Velocity));
+        std::vector<std::byte> vec(sizeof(Velocity));
 
         std::memcpy(vec.data(), this, sizeof(Velocity));
         return vec;
     }
 
-    size_t deserialize(char const *buffer)
+    size_t deserialize(std::byte const *buffer)
     {
         std::memcpy(this, buffer, sizeof(Velocity));
         return sizeof(Velocity);

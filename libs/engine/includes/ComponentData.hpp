@@ -26,7 +26,7 @@ struct ComponentData {
     /**
      * The serialized data of the component
      */
-    std::vector<char> data;
+    std::vector<std::byte> data;
 };
 
 #endif /* !ENGINE_COMPONENTDATA_HPP_ */

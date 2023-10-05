@@ -25,15 +25,15 @@ struct Position {
     {
     }
 
-    std::vector<char> serialize() const
+    std::vector<std::byte> serialize() const
     {
-        std::vector<char> vec(sizeof(Position));
+        std::vector<std::byte> vec(sizeof(Position));
 
         std::memcpy(vec.data(), this, sizeof(Position));
         return vec;
     }
 
-    size_t deserialize(char const *buffer)
+    size_t deserialize(std::byte const *buffer)
     {
         std::memcpy(this, buffer, sizeof(Position));
         return sizeof(Position);
