@@ -22,16 +22,16 @@ int main(int argc, char *argv[])
     reg.register_component<Component::Velocity>();
 
     reg.get_components<Component::Position>().insert_at(
-        player, std::move(Component::Position(0, std::make_pair(0, 0)))
+        player, Component::Position(0, 0)
     );
     reg.get_components<Component::Position>().insert_at(
-        target, std::move(Component::Position(1, std::make_pair(0, 0)))
+        target, Component::Position(0, 0)
     );
     reg.get_components<Component::Velocity>().insert_at(
-        player, std::move(Component::Velocity(0, std::make_pair(10, 0)))
+        player, Component::Velocity(10, 0)
     );
     reg.get_components<Component::Velocity>().insert_at(
-        target, std::move(Component::Velocity(1, std::make_pair(0, 10)))
+        target, Component::Velocity(5, 0)
     );
 
     reg.add_system<System::Logging>(
