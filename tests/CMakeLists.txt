@@ -23,16 +23,12 @@ add_executable (unit_tests)
 target_link_libraries (unit_tests
     PRIVATE
     GTest::gtest_main
+    networking
 )
 
 target_sources (unit_tests
     PRIVATE
     diffing.cpp
-)
-
-target_link_libraries (unit_tests
-    PRIVATE
-    networking
 )
 
 include (GoogleTest)
