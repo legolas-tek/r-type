@@ -10,31 +10,14 @@
 
 #include "Entity.hpp"
 #include "ISystem.hpp"
+#include "ComponentData.hpp"
 #include "SparseArray.hpp"
 #include <any>
-#include <functional>
 #include <list>
 #include <memory>
 #include <typeindex>
 #include <unordered_map>
 #include <vector>
-
-struct ComponentData {
-    /**
-     * The id of the entity
-     */
-    Entity entity;
-
-    /**
-     * The id of the component
-     */
-    size_t componentId;
-
-    /**
-     * The serialized data of the component
-     */
-    std::vector<char> data;
-};
 
 class Registry {
 public:
