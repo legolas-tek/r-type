@@ -14,10 +14,15 @@
 namespace Component {
 
 struct HitBox {
-    HitBox(std::pair<int, int> pos, std::pair<int, int> size) : _pos(pos), _size(size) {}
+    HitBox(float x, float y, float width, float height)
+        : _x(x), _y(y), _width(width), _height(height)
+    {
+    }
 
-    std::pair<int, int> _pos;
-    std::pair<int, int> _size;
+    float _x;
+    float _y;
+    float _width;
+    float _height;
 };
 
 }
