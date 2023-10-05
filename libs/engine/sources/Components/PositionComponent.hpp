@@ -12,6 +12,8 @@
 #include <cstring>
 #include <vector>
 
+#include <cstddef>
+
 namespace Component {
 
 struct Position {

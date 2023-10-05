@@ -5,15 +5,19 @@
 ** Animation
 */
 
-#include <cstddef>
-
 #ifndef ANIMATION_HPP_
     #define ANIMATION_HPP_
 
+#include <cstddef>
+
 namespace Component {
+
 struct Animation {
-    bool _isAnimation;
+    Animation(int id) : _id(id) {}
+
+    int _id;
 };
+
 }
 
 #endif /* !ANIMATION_HPP_ */
