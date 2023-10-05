@@ -22,6 +22,7 @@ include (dependencies)
 
 add_subdirectory (./client/)
 add_subdirectory (./server/)
+add_subdirectory (./tests/)
 
 add_subdirectory (./libs/engine/)
 add_subdirectory (./libs/networking/)
