@@ -16,9 +16,8 @@
 namespace Component {
 
 struct Drawable {
-    Drawable(int id, std::string path) : _id(id), _path(std::move(path)) {}
+    Drawable(std::string path) : _path(std::move(path)) {}
 
-    int _id;
     std::string _path;
 };
 

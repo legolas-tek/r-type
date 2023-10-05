@@ -13,9 +13,8 @@
 namespace Component {
 
 struct Power {
-    Power(int id, int power) : _id(id), _power(power) {}
+    Power(int power) : _power(power) {}
 
-    int _id;
     int _power;
 };
 

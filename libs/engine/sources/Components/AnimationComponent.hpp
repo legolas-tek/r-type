@@ -13,9 +13,7 @@
 namespace Component {
 
 struct Animation {
-    Animation(int id) : _id(id) {}
-
-    int _id;
+    Animation() = default;
 };
 
 }

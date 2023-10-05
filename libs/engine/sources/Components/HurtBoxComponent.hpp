@@ -14,11 +14,10 @@
 namespace Component {
 
 struct HurtBox {
-    HurtBox(int id, std::pair<int, int> pos, std::pair<int, int> size) : _id(id), _pos(pos), _size(size) {}
+    HurtBox(float width, float height) : _width(width), _height(height) {}
 
-    int _id;
-    std::pair<int, int> _pos;
-    std::pair<int, int> _size;
+    float _width;
+    float _height;
 };
 
 }

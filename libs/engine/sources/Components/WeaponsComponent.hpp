@@ -11,9 +11,8 @@
 namespace Component {
 
 struct WeaponsComponent {
-    WeaponsComponent(int id, int weaponId) : _id(id), _weaponId(weaponId) {}
+    WeaponsComponent(int weaponId) : _weaponId(weaponId) {}
 
-    int _id;
     int _weaponId;
 };
 

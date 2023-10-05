@@ -14,9 +14,8 @@
 namespace Component {
 
 struct HitBox {
-    HitBox(int id, std::pair<int, int> pos, std::pair<int, int> size) : _id(id), _pos(pos), _size(size) {}
+    HitBox(std::pair<int, int> pos, std::pair<int, int> size) : _pos(pos), _size(size) {}
 
-    int _id;
     std::pair<int, int> _pos;
     std::pair<int, int> _size;
 };
