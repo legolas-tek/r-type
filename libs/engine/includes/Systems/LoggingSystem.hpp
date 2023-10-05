@@ -10,7 +10,7 @@
 
 #include "ISystem.hpp"
 
-#include "Registry.hpp"
+#include "SparseArray.hpp"
 
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
