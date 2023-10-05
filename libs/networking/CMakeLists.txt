@@ -29,6 +29,7 @@ target_include_directories (networking
 target_sources (networking
     PRIVATE
     ./sources/TcpNetManager.cpp
+    ./sources/UdpNetManager.cpp
     ./sources/CircularBuffer.cpp
 )
 
