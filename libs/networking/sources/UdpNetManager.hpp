@@ -24,13 +24,31 @@ public:
 
 public:
     UdpNetManager(std::string addr, std::size_t port);
+    UdpNetManager(std::string addr);
     ~UdpNetManager();
 
     std::size_t send(UdpNetManager::Buffer &cmd);
 
-    std::size_t receive();
+    std::vector<rtype::UdpNetManager::Buffer> receive();
 
-    Buffer &getPacket();
+    class Client {
+
+    public:
+        Client(asio::ip::udp::endpoint const &endpoint)
+            : _endpoint(endpoint) {}
+
+        ~Client() = default;
+
+        asio::ip::udp::endpoint &getEndpoint()
+        {
+            return _endpoint;
+        }
+
+    private:
+        asio::ip::udp::endpoint _endpoint;
+    };
+
+    std::vector<UdpNetManager::Client> &getOthers();
 
     class UdpNetManagerError : public std::exception {
 
@@ -53,14 +71,11 @@ private:
 
     asio::error_code _ec;
 
-    Buffer _buffer;
-
     asio::io_context _io_ctxt;
-
-    asio::ip::udp::endpoint _endpoint;
 
     asio::ip::udp::socket _socket;
 
+    std::vector<UdpNetManager::Client> _others;
 };
 
 }
