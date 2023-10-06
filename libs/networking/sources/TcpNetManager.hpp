@@ -18,52 +18,54 @@
 
 #define BUFF_SIZE 1024 * 6
 
-namespace rtype {
+namespace net {
 
-class TcpNetManager {
-
-public:
-    TcpNetManager(std::string addr, std::size_t port);
-    ~TcpNetManager();
-
-    bool canRead();
-
-    std::string getLastResponse();
-
-    void write(std::string cmd);
-
-    class TcpNetManagerError : public std::exception {
+namespace manager {
+    class Tcp {
 
     public:
-        TcpNetManagerError(std::string const &msg)
-            : _msg(msg)
-        {
-        }
+        Tcp(std::string addr, std::size_t port);
+        ~Tcp();
 
-        char const *what() const noexcept override
-        {
-            return _msg.c_str();
-        }
+        bool canRead();
+
+        std::string getLastResponse();
+
+        void write(std::string cmd);
+
+        class TcpNetManagerError : public std::exception {
+
+        public:
+            TcpNetManagerError(std::string const &msg)
+                : _msg(msg)
+            {
+            }
+
+            char const *what() const noexcept override
+            {
+                return _msg.c_str();
+            }
+
+        private:
+            std::string _msg;
+        };
 
     private:
-        std::string _msg;
+        void reader();
+
+        asio::error_code _ec;
+
+        rtype::CircularBuffer _buffer;
+
+        asio::io_context _io_ctxt;
+
+        asio::ip::tcp::endpoint _endpoint;
+
+        asio::ip::tcp::socket _socket;
+
+        std::thread _t;
     };
-
-private:
-    void reader();
-
-    asio::error_code _ec;
-
-    rtype::CircularBuffer _buffer;
-
-    asio::io_context _io_ctxt;
-
-    asio::ip::tcp::endpoint _endpoint;
-
-    asio::ip::tcp::socket _socket;
-
-    std::thread _t;
-};
+}
 
 }
 
