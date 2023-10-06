@@ -13,14 +13,20 @@
 #include <vector>
 
 rtype::UdpNetManager::UdpNetManager(std::string addr, std::size_t port)
-    : _buffer(USHRT_MAX)
-    , _endpoint(asio::ip::make_address(addr.c_str(), _ec), port)
-    , _socket(_io_ctxt)
+    : _socket(_io_ctxt, asio::ip::udp::endpoint(asio::ip::make_address(addr.c_str(), _ec), port))
 {
     if (_ec)
         throw UdpNetManagerError(_ec.message());
-
     _socket.non_blocking(true);
+}
+
+rtype::UdpNetManager::UdpNetManager(std::string addr)
+    : _socket(_io_ctxt)
+{
+    _socket.open(asio::ip::udp::v4());
+    _socket.non_blocking(true);
+
+    _others.emplace_back(asio::ip::udp::endpoint(asio::ip::make_address(addr.c_str(), _ec), 4242));
 }
 
 rtype::UdpNetManager::~UdpNetManager()
@@ -30,15 +36,36 @@ rtype::UdpNetManager::~UdpNetManager()
 
 std::size_t rtype::UdpNetManager::send(rtype::UdpNetManager::Buffer &cmd)
 {
-    return _socket.send_to(asio::buffer(cmd.data(), cmd.size()), _endpoint);
+    std::size_t totalSended = 0;
+
+    for (auto &client: _others) {
+        totalSended += _socket.send_to(asio::buffer(cmd.data(), cmd.size()), client.getEndpoint());
+    }
+    return totalSended;
 }
 
-std::size_t rtype::UdpNetManager::receive()
+std::vector<rtype::UdpNetManager::Buffer> rtype::UdpNetManager::receive()
 {
-    return _socket.receive_from(asio::buffer(_buffer), _endpoint);
+    asio::ip::udp::endpoint tmp;
+    std::vector<UdpNetManager::Buffer> packets;
+    std::size_t totalReaded = 0;
+
+    do {
+        UdpNetManager::Buffer buff(USHRT_MAX);
+        totalReaded = _socket.receive_from(asio::buffer(buff), tmp);
+
+        packets.push_back(buff);
+        if (find_if(_others.begin(), _others.end(), [&] (UdpNetManager::Client &i) {
+                return i.getEndpoint() != tmp;
+            }) == _others.end())
+            continue;
+
+        _others.emplace_back(tmp);
+    } while (totalReaded == 0);
+    return packets;
 }
 
-rtype::UdpNetManager::Buffer &rtype::UdpNetManager::getPacket()
+std::vector<rtype::UdpNetManager::Client> &rtype::UdpNetManager::getOthers()
 {
-    return _buffer;
+    return _others;
 }
