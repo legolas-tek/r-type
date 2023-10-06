@@ -4,8 +4,8 @@
 
 int main(int argc, char *argv[])
 {
-    rtype::UdpNetManager ntm("127.0.0.1", 4242);
-    std::vector<rtype::UdpNetManager::Buffer> res;
+    net::manager::Udp ntm(net::server_netmanager, "127.0.0.1", 4242);
+    std::vector<net::manager::Udp::Buffer> res;
 
     while (1) {
         try {

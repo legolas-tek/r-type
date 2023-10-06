@@ -15,21 +15,26 @@
 
 #include <climits>
 
-namespace rtype {
+namespace net {
 
-class UdpNetManager {
+constexpr struct ServerNetmanager{} server_netmanager;
+constexpr struct ClientNetmanager{} client_netmanager;
+
+namespace manager {
+
+class Udp {
 
 public:
     using Buffer = std::vector<std::byte>;
 
 public:
-    UdpNetManager(std::string addr, std::size_t port);
-    UdpNetManager(std::string addr);
-    ~UdpNetManager();
+    Udp(net::ServerNetmanager, std::string addr, std::size_t port);
+    Udp(net::ClientNetmanager, std::string addr, std::size_t port);
+    ~Udp();
 
-    std::size_t send(UdpNetManager::Buffer &cmd);
+    std::size_t send(Udp::Buffer &cmd);
 
-    std::vector<rtype::UdpNetManager::Buffer> receive();
+    std::vector<Udp::Buffer> receive();
 
     class Client {
 
@@ -48,7 +53,7 @@ public:
         asio::ip::udp::endpoint _endpoint;
     };
 
-    std::vector<UdpNetManager::Client> &getOthers();
+    std::vector<Udp::Client> &getOthers();
 
     class UdpNetManagerError : public std::exception {
 
@@ -75,8 +80,10 @@ private:
 
     asio::ip::udp::socket _socket;
 
-    std::vector<UdpNetManager::Client> _others;
+    std::vector<Udp::Client> _others;
 };
+
+}
 
 }
 

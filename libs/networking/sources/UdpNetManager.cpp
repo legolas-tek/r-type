@@ -12,7 +12,7 @@
 #include <iostream>
 #include <vector>
 
-rtype::UdpNetManager::UdpNetManager(std::string addr, std::size_t port)
+net::manager::Udp::Udp(net::ServerNetmanager, std::string addr, std::size_t port)
     : _socket(_io_ctxt, asio::ip::udp::endpoint(asio::ip::make_address(addr.c_str(), _ec), port))
 {
     if (_ec)
@@ -20,21 +20,21 @@ rtype::UdpNetManager::UdpNetManager(std::string addr, std::size_t port)
     _socket.non_blocking(true);
 }
 
-rtype::UdpNetManager::UdpNetManager(std::string addr)
+net::manager::Udp::Udp(net::ClientNetmanager, std::string addr, std::size_t port)
     : _socket(_io_ctxt)
 {
     _socket.open(asio::ip::udp::v4());
     _socket.non_blocking(true);
 
-    _others.emplace_back(asio::ip::udp::endpoint(asio::ip::make_address(addr.c_str(), _ec), 4242));
+    _others.emplace_back(asio::ip::udp::endpoint(asio::ip::make_address(addr.c_str(), _ec), port));
 }
 
-rtype::UdpNetManager::~UdpNetManager()
+net::manager::Udp::~Udp()
 {
     _socket.close();
 }
 
-std::size_t rtype::UdpNetManager::send(rtype::UdpNetManager::Buffer &cmd)
+std::size_t net::manager::Udp::send(net::manager::Udp::Buffer &cmd)
 {
     std::size_t totalSended = 0;
 
@@ -44,18 +44,18 @@ std::size_t rtype::UdpNetManager::send(rtype::UdpNetManager::Buffer &cmd)
     return totalSended;
 }
 
-std::vector<rtype::UdpNetManager::Buffer> rtype::UdpNetManager::receive()
+std::vector<net::manager::Udp::Buffer> net::manager::Udp::receive()
 {
     asio::ip::udp::endpoint tmp;
-    std::vector<UdpNetManager::Buffer> packets;
+    std::vector<net::manager::Udp::Buffer> packets;
     std::size_t totalReaded = 0;
 
     do {
-        UdpNetManager::Buffer buff(USHRT_MAX);
+        Udp::Buffer buff(USHRT_MAX);
         totalReaded = _socket.receive_from(asio::buffer(buff), tmp);
 
         packets.push_back(buff);
-        if (find_if(_others.begin(), _others.end(), [&] (UdpNetManager::Client &i) {
+        if (find_if(_others.begin(), _others.end(), [&] (Udp::Client &i) {
                 return i.getEndpoint() != tmp;
             }) == _others.end())
             continue;
@@ -65,7 +65,7 @@ std::vector<rtype::UdpNetManager::Buffer> rtype::UdpNetManager::receive()
     return packets;
 }
 
-std::vector<rtype::UdpNetManager::Client> &rtype::UdpNetManager::getOthers()
+std::vector<net::manager::Udp::Client> &net::manager::Udp::getOthers()
 {
     return _others;
 }
