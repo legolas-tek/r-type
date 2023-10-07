@@ -5,9 +5,8 @@
 ** Drawable
 */
 
-
 #ifndef DRAWABLE_HPP_
-    #define DRAWABLE_HPP_
+#define DRAWABLE_HPP_
 
 #include <cstddef>
 #include <string>
@@ -16,7 +15,10 @@
 namespace Component {
 
 struct Drawable {
-    Drawable(std::string path) : _path(std::move(path)) {}
+    Drawable(std::string path)
+        : _path(std::move(path))
+    {
+    }
 
     std::string _path;
 };

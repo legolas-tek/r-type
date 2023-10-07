@@ -8,9 +8,9 @@
 #ifndef REGISTRY_HPP_
 #define REGISTRY_HPP_
 
+#include "ComponentData.hpp"
 #include "Entity.hpp"
 #include "ISystem.hpp"
-#include "ComponentData.hpp"
 #include "SparseArray.hpp"
 #include <any>
 #include <list>

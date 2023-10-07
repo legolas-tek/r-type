@@ -6,7 +6,7 @@
 */
 
 #ifndef VELOCITY_HPP_
-    #define VELOCITY_HPP_
+#define VELOCITY_HPP_
 
 #include <cstddef>
 #include <cstring>

@@ -28,12 +28,12 @@ public:
     {
         for (auto const &it : _positions)
             if (it.has_value())
-                std::cout << "first test : x = " << it->_x << " y = "
-                          << it->_x << std::endl;
+                std::cout << "first test : x = " << it->_x << " y = " << it->_x
+                          << std::endl;
         for (auto it : positions)
             if (it.has_value())
-                std::cout << "second test : x = " << it->_x << " y = "
-                          << it->_y << std::endl;
+                std::cout << "second test : x = " << it->_x << " y = " << it->_y
+                          << std::endl;
     }
     Logging(System::Logging const &other) = delete;
 

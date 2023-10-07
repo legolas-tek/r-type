@@ -6,12 +6,15 @@
 */
 
 #ifndef WEAPONSCOMPONENT_HPP_
-    #define WEAPONSCOMPONENT_HPP_
+#define WEAPONSCOMPONENT_HPP_
 
 namespace Component {
 
 struct WeaponsComponent {
-    WeaponsComponent(int weaponId) : _weaponId(weaponId) {}
+    WeaponsComponent(int weaponId)
+        : _weaponId(weaponId)
+    {
+    }
 
     int _weaponId;
 };
