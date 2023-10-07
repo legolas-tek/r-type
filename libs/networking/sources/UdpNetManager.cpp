@@ -59,13 +59,13 @@ std::vector<net::manager::Udp::Buffer> net::manager::Udp::receive() noexcept
 {
     asio::ip::udp::endpoint client_endpoint;
     std::vector<net::manager::Udp::Buffer> packets;
-    std::size_t totalReaded = 0;
+    std::size_t read = 0;
 
     do {
         Udp::Buffer buff(USHRT_MAX);
 
         try {
-            totalReaded
+            read
                 = _socket.receive_from(asio::buffer(buff), client_endpoint);
         } catch (std::exception &e) {
             break;
@@ -82,8 +82,8 @@ std::vector<net::manager::Udp::Buffer> net::manager::Udp::receive() noexcept
             continue;
 
         _others.emplace_back(client_endpoint);
-        totalReaded = 0;
-    } while (totalReaded == 0);
+        read = 0;
+    } while (read == 0);
 
     return packets;
 }
