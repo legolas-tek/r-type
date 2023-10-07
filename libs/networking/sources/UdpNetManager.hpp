@@ -17,8 +17,10 @@
 
 namespace net {
 
-constexpr struct ServerNetmanager{} server_netmanager;
-constexpr struct ClientNetmanager{} client_netmanager;
+constexpr struct ServerNetmanager {
+} server_netmanager;
+constexpr struct ClientNetmanager {
+} client_netmanager;
 
 namespace manager {
 
@@ -34,13 +36,15 @@ public:
 
     std::size_t send(Udp::Buffer &cmd);
 
-    std::vector<Udp::Buffer> receive();
+    std::vector<Udp::Buffer> receive() noexcept;
 
     class Client {
 
     public:
         Client(asio::ip::udp::endpoint const &endpoint)
-            : _endpoint(endpoint) {}
+            : _endpoint(endpoint)
+        {
+        }
 
         ~Client() = default;
 
@@ -73,7 +77,6 @@ public:
     };
 
 private:
-
     asio::error_code _ec;
 
     asio::io_context _io_ctxt;
