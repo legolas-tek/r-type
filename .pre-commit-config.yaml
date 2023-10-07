@@ -3,6 +3,6 @@ repos:
       hooks:
         -   id: custom-clang-format
             name: Custom Clang-Format
-            entry: ./.cl-format-exe
+            entry: ./.cl-format.sh
             language: system
             types: [file]
