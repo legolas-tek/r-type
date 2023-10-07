@@ -17,9 +17,9 @@
 
 namespace net {
 
-constexpr struct ServerNetmanager {
+constexpr struct ServerNetManager {
 } server_netmanager;
-constexpr struct ClientNetmanager {
+constexpr struct ClientNetManager {
 } client_netmanager;
 
 namespace manager {
@@ -30,8 +30,8 @@ public:
     using Buffer = std::vector<std::byte>;
 
 public:
-    Udp(net::ServerNetmanager, std::string addr, std::size_t port);
-    Udp(net::ClientNetmanager, std::string addr, std::size_t port);
+    Udp(net::ServerNetManager, std::string addr, std::size_t port);
+    Udp(net::ClientNetManager, std::string addr, std::size_t port);
     ~Udp();
 
     std::size_t send(Udp::Buffer &cmd);

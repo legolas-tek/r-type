@@ -13,7 +13,7 @@
 #include <vector>
 
 net::manager::Udp::Udp(
-    net::ServerNetmanager, std::string addr, std::size_t port
+    net::ServerNetManager, std::string addr, std::size_t port
 )
     : _socket(
         _io_ctxt,
@@ -26,7 +26,7 @@ net::manager::Udp::Udp(
 }
 
 net::manager::Udp::Udp(
-    net::ClientNetmanager, std::string addr, std::size_t port
+    net::ClientNetManager, std::string addr, std::size_t port
 )
     : _socket(_io_ctxt)
 {
