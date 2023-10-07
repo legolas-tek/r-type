@@ -8,13 +8,12 @@ int main(int argc, char *argv[])
     std::vector<net::manager::Udp::Buffer> res;
 
     while (1) {
-        try {
-            if (not (res = ntm.receive()).empty()) {
-                std::cout << res.back().size() << std::endl;
-                break;
-            }
-        } catch (std::exception &e) {
-            std::cerr << e.what() << std::endl;
+        if (not (res = ntm.receive()).empty()) {
+            std::cout << res.size() << "packets received" << std::endl;
+            net::manager::Udp::Buffer buff(0x01);
+            ntm.send(buff);
+            res.clear();
+            break;
         }
     }
     return 0;
