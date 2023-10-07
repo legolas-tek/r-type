@@ -6,7 +6,6 @@
 */
 
 #include "Snapshot.hpp"
-#include "Registry.hpp"
 #include <cstring>
 #include <vector>
 
