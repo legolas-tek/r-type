@@ -1,5 +1,8 @@
 repos:
-  - repo: https://github.com/pocc/pre-commit-hooks
-    rev: master
-    hooks:
-      - id: clang-format
+  -   repo: local
+      hooks:
+        -   id: custom-clang-format
+            name: Custom Clang-Format
+            entry: ./.cl-format-exe
+            language: system
+            types: [file]
