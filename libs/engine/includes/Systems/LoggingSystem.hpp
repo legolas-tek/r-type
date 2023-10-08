@@ -44,11 +44,11 @@ public:
             auto const &pos = _positions[i];
             auto const &vel = _velocities[i];
             if (pos.has_value() && vel.has_value()) {
-                // std::cout << "Condition validated" << std::endl;
-                // std ::cerr << i << " : Position = { " << pos.value()._x << " , "
-                //            << pos.value()._y << " } , Velocity = { "
-                //            << vel.value()._vx << " , " << vel.value()._vy
-                //            << " } " << std ::endl;
+                std::cout << "Condition validated" << std::endl;
+                std ::cerr << i << " : Position = { " << pos.value()._x << " , "
+                           << pos.value()._y << " } , Velocity = { "
+                           << vel.value()._vx << " , " << vel.value()._vy
+                           << " } " << std ::endl;
             }
         }
     }
