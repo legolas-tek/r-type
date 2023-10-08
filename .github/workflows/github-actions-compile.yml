@@ -27,7 +27,13 @@ jobs:
           libflac-dev \
           libvorbis-dev \
           libgl1-mesa-dev \
-          libegl1-mesa-dev
+          libegl1-mesa-dev \
+          libasound2-dev \
+          mesa-common-dev \
+          libx11-dev \
+          xorg-dev \
+          libglu1-mesa-dev
+
       - name: "Configure the project using cmake"
         run: "cmake -Bbuild --preset linux-amd64"
       - name: "Compile the code"
