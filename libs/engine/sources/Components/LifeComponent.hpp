@@ -31,16 +31,10 @@ struct Life : Serializable<Life> {
      * @param id The unique identifier for the entity.
      * @param life The life value of the entity.
      */
-    Life(int id, int life)
-        : _id(id)
-        , _life(life)
+    Life(int life)
+        : _life(life)
     {
     }
-
-    /**
-     * @brief The unique identifier for the entity.
-     */
-    int _id;
 
     /**
      * @brief The life value of the entity.

@@ -28,7 +28,7 @@ public:
     {
         for (auto const &it : _positions)
             if (it.has_value())
-                std::cout << "first test : x = " << it->_x << " y = " << it->_x
+                std::cout << "first test : x = " << it->_x << " y = " << it->_y
                           << std::endl;
         for (auto it : positions)
             if (it.has_value())

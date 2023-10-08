@@ -40,16 +40,6 @@ struct HurtBox : Serializable<HurtBox> {
         , _damage(damage) {};
 
     /**
-     * @brief The width of the hurtbox.
-     */
-    float _width;
-
-    /**
-     * @brief The height of the hurtbox.
-     */
-    float _height;
-
-    /**
      * @brief The x-coordinate of the top-left corner of the hurtbox.
      * Is a relative position to the entity's position.
      */
@@ -60,6 +50,16 @@ struct HurtBox : Serializable<HurtBox> {
      * Is a relative position to the entity's position.
      */
     float _y;
+
+    /**
+     * @brief The width of the hurtbox.
+     */
+    float _width;
+
+    /**
+     * @brief The height of the hurtbox.
+     */
+    float _height;
 
     /**
      * @brief The damage of the hurtbox.
