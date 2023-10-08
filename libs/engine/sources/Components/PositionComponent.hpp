@@ -14,6 +14,8 @@
 
 #include <cstddef>
 
+#include "Serializable.hpp"
+
 namespace Component {
 
 /**
@@ -22,7 +24,7 @@ namespace Component {
  * This structure is used to represent a 2D position with x and y coordinates.
  * It can be used as a component to store the position of an entity.
  */
-struct Position {
+struct Position : Serializable<Position> {
     /**
      * @brief The x-coordinate of the position.
      */
@@ -54,33 +56,6 @@ struct Position {
         : _x(x)
         , _y(y)
     {
-    }
-
-    /**
-     * @brief Serializes the Position structure into a byte vector.
-     *
-     * @return A vector containing the serialized bytes of the Position
-     * structure.
-     */
-    std::vector<std::byte> serialize() const
-    {
-        std::vector<std::byte> vec(sizeof(Position));
-        std::memcpy(vec.data(), this, sizeof(Position));
-        return vec;
-    }
-
-    /**
-     * @brief Deserializes a byte buffer into the Position structure.
-     *
-     * @param buffer A pointer to the byte buffer containing serialized Position
-     * data.
-     * @return The size of the serialized data that was deserialized
-     * (sizeof(Position)).
-     */
-    size_t deserialize(std::byte const *buffer)
-    {
-        std::memcpy(this, buffer, sizeof(Position));
-        return sizeof(Position);
     }
 };
 
