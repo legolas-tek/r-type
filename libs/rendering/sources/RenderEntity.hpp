@@ -19,9 +19,9 @@ public:
     Entity(std::string texture_path, std::optional<std::string> model_path);
     ~Entity();
 
-private:
     Texture2D _texture;
     Model _model;
+private:
 };
 }
 
