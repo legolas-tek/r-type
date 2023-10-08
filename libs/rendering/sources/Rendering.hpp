@@ -15,20 +15,30 @@
 #include "Entity.hpp"
 #include "RenderEntity.hpp"
 #include "Registry.hpp"
+#include "ISystem.hpp"
+
+#include "Components/Drawable.hpp"
 
 namespace rendering
 {
 const int SCREEN_WIDTH  = 800;
 const int SCREEN_HEIGHT = 450;
 
-class Rendering {
+class Rendering : public ISystem {
 public:
     Rendering(engine::Registry &registry);
     ~Rendering();
 
     void operator()()
     {
-        for (auto &component : _registry.get_components<Component::Drawable>())
+        // std::cout << "asd " << std::endl;
+        std::size_t index = 0;
+
+        for (auto &component : _registry.get_components<Component::Drawable>()) {
+            std::cout << "aaa" << _registry._assets_paths[index] << std::endl;
+
+            index++;
+        }
         // // dessiner tous les entities
         // for (const auto& pair : entities) {
         //     // std::cout << "asd" << std::endl;

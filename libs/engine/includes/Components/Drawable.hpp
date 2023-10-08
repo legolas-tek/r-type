@@ -34,10 +34,14 @@ struct Drawable : Serializable<Drawable> {
     {
     }
 
+    Drawable() = default;
+
+
+
     /**
      * @brief The index to the resource associated in Registry::_assets_paths with the drawable entity.
      */
-    size_t _index;
+    size_t _index = 0;
 };
 
 }

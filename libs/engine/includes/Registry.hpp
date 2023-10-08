@@ -126,6 +126,8 @@ public:
             (*system)();
     }
 
+    std::vector<std::string> _assets_paths;
+
 private:
     /**
      * Map of component type to component id
@@ -154,8 +156,6 @@ private:
      * List of systems
      */
     std::vector<std::unique_ptr<ISystem>> _systems;
-
-    std::vector<std::string> _assets_paths;
 };
 } // namespace engine
 
