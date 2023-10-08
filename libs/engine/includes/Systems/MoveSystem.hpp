@@ -5,8 +5,8 @@
 ** Move System
 */
 
-#ifndef MOVE_SYSTEME_HPP_
-#define MOVE_SYSTEME_HPP_
+#ifndef MOVE_SYSTEM_HPP_
+#define MOVE_SYSTEM_HPP_
 
 #include "ISystem.hpp"
 #include "Registry.hpp"
@@ -26,4 +26,4 @@ struct MoveSystem : public ISystem {
     SparseArray<Component::Velocity> &_velocities;
 };
 
-#endif /* !MOVE_SYSTEME_HPP_ */
+#endif /* !MOVE_SYSTEM_HPP_ */
