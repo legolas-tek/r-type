@@ -45,14 +45,14 @@ net::manager::Udp::~Udp()
 
 std::size_t net::manager::Udp::send(net::manager::Udp::Buffer &cmd)
 {
-    std::size_t totalSended = 0;
+    std::size_t sent = 0;
 
     for (auto &client : _others) {
-        totalSended += _socket.send_to(
+        sent += _socket.send_to(
             asio::buffer(cmd.data(), cmd.size()), client.getEndpoint()
         );
     }
-    return totalSended;
+    return sent;
 }
 
 std::vector<std::pair<net::manager::Udp::Buffer, net::manager::Udp::Client>> net::manager::Udp::receive() noexcept
