@@ -11,6 +11,8 @@
 #include <cstddef>
 #include <utility>
 
+#include "Serializable.hpp"
+
 namespace Component {
 
 /**
@@ -20,7 +22,7 @@ namespace Component {
  * It stores the position (x, y) and dimensions (width and height) of the
  * hitbox. It can be used as a component in a collision detection system.
  */
-struct HitBox {
+struct HitBox : Serializable<HitBox> {
     /**
      * @brief Constructor for the HitBox structure.
      *
@@ -42,11 +44,13 @@ struct HitBox {
 
     /**
      * @brief The x-coordinate of the top-left corner of the hitbox.
+     * Is a relative position to the entity's position.
      */
     float _x;
 
     /**
      * @brief The y-coordinate of the top-left corner of the hitbox.
+     * Is a relative position to the entity's position.
      */
     float _y;
 

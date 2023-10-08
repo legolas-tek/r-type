@@ -30,7 +30,7 @@ struct Drawable {
      *
      * @param path The path to the resource associated with the drawable entity.
      */
-    Drawable(std::string path)
+    Drawable(std::string &&path)
         : _path(std::move(path))
     {
     }

@@ -8,6 +8,8 @@
 #ifndef CONTROLLABLE_HPP_
 #define CONTROLLABLE_HPP_
 
+#include "Serializable.hpp"
+
 namespace Component {
 
 /**
@@ -17,7 +19,7 @@ namespace Component {
  * unique identifier. It can be used as a component in a system for managing
  * controllable entities.
  */
-struct Controllable {
+struct Controllable : Serializable<Controllable> {
     /**
      * @brief Constructor for the Controllable structure.
      *

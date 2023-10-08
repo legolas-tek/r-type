@@ -10,6 +10,8 @@
 
 #include <cstddef>
 
+#include "Serializable.hpp"
+
 namespace Component {
 
 /**
@@ -19,7 +21,7 @@ namespace Component {
  * identifier and life value. It can be used as a component in a system for
  * managing the life of entities.
  */
-struct Life {
+struct Life : Serializable<Life> {
     /**
      * @brief Constructor for the Life structure.
      *

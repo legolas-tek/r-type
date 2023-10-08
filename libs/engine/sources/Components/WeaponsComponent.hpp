@@ -8,6 +8,8 @@
 #ifndef WEAPONSCOMPONENT_HPP_
 #define WEAPONSCOMPONENT_HPP_
 
+#include "Serializable.hpp"
+
 namespace Component {
 
 /**
@@ -17,7 +19,7 @@ namespace Component {
  * entity. It stores the unique identifier of the weapon. It can be used as a
  * component to manage the weapons of an entity.
  */
-struct WeaponsComponent {
+struct WeaponsComponent : Serializable<WeaponsComponent> {
     /**
      * @brief Constructor for the WeaponsComponent structure.
      *

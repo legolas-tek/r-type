@@ -11,6 +11,8 @@
 #include <cstddef>
 #include <utility>
 
+#include "Serializable.hpp"
+
 namespace Component {
 
 /**
@@ -20,7 +22,7 @@ namespace Component {
  * game or application. It stores the dimensions (width and height) of the
  * hurtbox. It can be used as a component in a collision detection system.
  */
-struct HurtBox {
+struct HurtBox : Serializable<HurtBox> {
     /**
      * @brief Constructor for the HurtBox structure.
      *
@@ -30,11 +32,14 @@ struct HurtBox {
      * @param width The width of the hurtbox.
      * @param height The height of the hurtbox.
      */
-    HurtBox(float width, float height)
-        : _width(width)
+    HurtBox(float x, float y, float width, float height, int damage)
+        : _x(x)
+        , _y(y)
+        , _width(width)
         , _height(height)
+        , _damage(damage)
     {
-    }
+    };
 
     /**
      * @brief The width of the hurtbox.
@@ -45,6 +50,23 @@ struct HurtBox {
      * @brief The height of the hurtbox.
      */
     float _height;
+
+    /**
+     * @brief The x-coordinate of the top-left corner of the hurtbox.
+     * Is a relative position to the entity's position.
+     */
+    float _x;
+
+    /**
+     * @brief The y-coordinate of the top-left corner of the hurtbox.
+     * Is a relative position to the entity's position.
+     */
+    float _y;
+
+    /**
+     * @brief The damage of the hurtbox.
+     */
+    int _damage;
 };
 
 }

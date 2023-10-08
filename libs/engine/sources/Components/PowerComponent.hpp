@@ -9,6 +9,7 @@
 #define POWER_HPP_
 
 #include <cstddef>
+#include "Serializable.hpp"
 
 namespace Component {
 
@@ -18,7 +19,7 @@ namespace Component {
  * This structure is used to represent a power value associated with an entity.
  * It can be used as a component to store the power level of an entity.
  */
-struct Power {
+struct Power : Serializable<Power> {
     /**
      * @brief Constructor for the Power structure.
      *
