@@ -127,10 +127,32 @@ public:
     }
 
 private:
-    std::unordered_map<std::type_index, std::any> _components_arrays;
-    std::unordered_map<
-        std::type_index, std::function<void(Registry &, engine::Entity const &)>>
-        _erase_comp_funcs;
+    /**
+     * Map of component type to component id
+     */
+    std::unordered_map<std::type_index, size_t> _component_ids;
+    /**
+     * 'Map' of component id to component array
+     */
+    std::vector<std::any> _component_arrays;
+    /**
+     * 'Map' of component id to erase function
+     */
+    std::vector<std::function<void(Registry &, Entity const &)>>
+        _erase_component_funcs;
+    /**
+     * 'Map' of component id to serialization function
+     */
+    std::vector<std::function<std::vector<ComponentData>(Registry const &)>>
+        _serialize_component_funcs;
+    /**
+     * 'Map' of component id to deserialization function
+     */
+    std::vector<std::function<size_t(Registry &, Entity, std::byte const *)>>
+        _deserialize_component_funcs;
+    /**
+     * List of systems
+     */
     std::vector<std::unique_ptr<ISystem>> _systems;
 };
 } // namespace engine

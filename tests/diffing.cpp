@@ -10,6 +10,8 @@
 
 #include "Snapshot.hpp"
 
+using namespace engine;
+
 std::byte operator ""_b(unsigned long long value)
 {
     return std::byte(value);
