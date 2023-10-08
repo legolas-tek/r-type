@@ -152,6 +152,8 @@ private:
      * List of systems
      */
     std::vector<std::unique_ptr<ISystem>> _systems;
+
+    std::vector<std::string> _assets_paths;
 };
 
 #endif /* !REGISTRY_HPP_ */
