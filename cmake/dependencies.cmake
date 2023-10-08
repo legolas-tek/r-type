@@ -58,6 +58,6 @@ FetchContent_Declare(raylib
     GIT_PROGRESS TRUE
 )
 
-set(BUILD_SHARED_LIBS=ON)
+set(BUILD_SHARED_LIBS ON)
 
 FetchContent_MakeAvailable(raylib)
