@@ -16,7 +16,7 @@ namespace Component {
  * @brief Structure representing a drawable entity.
  *
  * This structure is used to represent a drawable entity and stores the index
- * to its associated resource. It can be used as a component in a system for
+ * to its associated resource in Registry::_assets_paths. It can be used as a component in a system for
  * managing drawable entities.
  */
 struct Drawable : Serializable<Drawable> {
@@ -35,7 +35,7 @@ struct Drawable : Serializable<Drawable> {
     }
 
     /**
-     * @brief The index to the resource associated with the drawable entity.
+     * @brief The index to the resource associated in Registry::_assets_paths with the drawable entity.
      */
     size_t _index;
 };
