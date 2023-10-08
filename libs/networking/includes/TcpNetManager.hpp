@@ -18,13 +18,13 @@
 
 #define BUFF_SIZE 1024 * 6
 
-namespace rtype {
+namespace net::manager {
 
-class TcpNetManager {
+class Tcp {
 
 public:
-    TcpNetManager(std::string addr, std::size_t port);
-    ~TcpNetManager();
+    Tcp(std::string addr, std::size_t port);
+    ~Tcp();
 
     bool canRead();
 

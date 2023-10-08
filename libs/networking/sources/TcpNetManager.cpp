@@ -12,7 +12,7 @@
 #include <iostream>
 #include <vector>
 
-rtype::TcpNetManager::TcpNetManager(std::string addr, std::size_t port)
+net::manager::Tcp::Tcp(std::string addr, std::size_t port)
     : _buffer(BUFF_SIZE)
     , _endpoint(asio::ip::make_address(addr.c_str(), _ec), port)
     , _socket(_io_ctxt)
@@ -32,26 +32,26 @@ rtype::TcpNetManager::TcpNetManager(std::string addr, std::size_t port)
     _t = std::thread([&]() { return _io_ctxt.run(); });
 }
 
-rtype::TcpNetManager::~TcpNetManager()
+net::manager::Tcp::~Tcp()
 {
     asio::post(_io_ctxt, [this]() { _socket.close(); });
 
     _t.join();
 }
 
-bool rtype::TcpNetManager::canRead()
+bool net::manager::Tcp::canRead()
 {
     return _buffer.isAvailableData('\n');
 }
 
-std::string rtype::TcpNetManager::getLastResponse()
+std::string net::manager::Tcp::getLastResponse()
 {
     std::vector<char> res = _buffer.readUntil('\n');
 
     return std::string(res.begin(), res.end());
 }
 
-void rtype::TcpNetManager::write(std::string cmd)
+void net::manager::Tcp::write(std::string cmd)
 {
     _socket.async_write_some(
         asio::buffer(cmd),
@@ -62,7 +62,7 @@ void rtype::TcpNetManager::write(std::string cmd)
     );
 }
 
-void rtype::TcpNetManager::reader()
+void net::manager::Tcp::reader()
 {
     _socket.async_read_some(
         asio::buffer(

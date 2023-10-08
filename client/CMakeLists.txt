@@ -12,8 +12,8 @@ add_executable (r-type_client)
 
 target_link_libraries (r-type_client
     PRIVATE
-    asio
     engine
+    networking
 )
 
 target_sources (r-type_client

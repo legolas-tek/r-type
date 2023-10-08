@@ -11,28 +11,20 @@ cmake_minimum_required (VERSION 3.8)
 add_library (networking SHARED)
 
 target_link_libraries (networking
-    PRIVATE
+    PUBLIC
     asio
+    engine
 )
 
 target_include_directories (networking
     PUBLIC
     ./includes/
-    ./sources/
-)
-
-target_include_directories (networking
-    PRIVATE
-    ../engine/includes/
 )
 
 target_sources (networking
     PRIVATE
     ./sources/TcpNetManager.cpp
+    ./sources/UdpNetManager.cpp
     ./sources/CircularBuffer.cpp
-)
-
-target_link_libraries (networking
-    PUBLIC
-    engine
+    ./sources/Snapshot.cpp
 )
