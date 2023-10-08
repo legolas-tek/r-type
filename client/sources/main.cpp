@@ -1,4 +1,5 @@
 #include <iostream>
+#include <ciso646>
 #include "UdpNetManager.hpp"
 
 int main(int argc, char *argv[])
