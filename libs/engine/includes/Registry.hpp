@@ -116,9 +116,9 @@ public:
         return data;
     }
 
-    void apply_data(Entity entity, size_t componentId, std::byte const *buffer)
+    std::size_t apply_data(Entity entity, size_t componentId, std::byte const *buffer)
     {
-        _deserialize_component_funcs[componentId](*this, entity, buffer);
+        return _deserialize_component_funcs[componentId](*this, entity, buffer);
     }
 
     void run_systems()
