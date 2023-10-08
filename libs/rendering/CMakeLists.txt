@@ -28,4 +28,4 @@ target_sources (rendering
     ./sources/RenderEntity.cpp
 )
 
-set(-DCUSTOMIZE_BUILD=ON)
+set(BUILD_SHARED_LIBS=ON)
