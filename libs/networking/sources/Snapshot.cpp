@@ -9,14 +9,14 @@
 #include <cstring>
 #include <vector>
 
-Snapshot::Snapshot()
+net::Snapshot::Snapshot()
     : tick(0)
     , wasAck(true)
     , data()
 {
 }
 
-Snapshot::Snapshot(size_t tick, engine::Registry const &registry)
+net::Snapshot::Snapshot(size_t tick, engine::Registry const &registry)
     : tick(tick)
     , wasAck(false)
     , data(registry.collect_data())
@@ -63,7 +63,7 @@ static void diffRemove(
 }
 
 std::vector<std::byte>
-diffSnapshots(Snapshot const &previous, Snapshot const &current)
+net::diffSnapshots(net::Snapshot const &previous, net::Snapshot const &current)
 {
     std::vector<std::byte> diff;
     auto previousIt = previous.data.begin();
