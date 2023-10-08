@@ -34,7 +34,7 @@ public:
     Udp(net::ClientNetManager, std::string addr, std::size_t port);
     ~Udp();
 
-    std::size_t send(Udp::Buffer &cmd);
+    void send(Udp::Buffer &cmd);
 
 
     class Client {
