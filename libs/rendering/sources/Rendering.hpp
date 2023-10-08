@@ -40,7 +40,9 @@ public:
                 DrawTexture(_cache.at(index)._texture, 0.0f, 0.0f, WHITE);
             } else {
                 std::cout << "key " << index << " doesn't exists" << std::endl;
-                _cache.insert({index, _registry._assets_paths[index]});
+                _cache.emplace(index, _registry._assets_paths[index]);
+
+
                 DrawTexture(_cache.at(index)._texture, 0.0f, 0.0f, WHITE);
             }
             index++;

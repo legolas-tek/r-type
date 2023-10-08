@@ -14,5 +14,5 @@ rendering::Entity::Entity(std::string texture_path)
 
 rendering::Entity::~Entity()
 {
-    // UnloadTexture(_texture);
+    UnloadTexture(_texture);
 }
