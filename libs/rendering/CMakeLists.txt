@@ -27,5 +27,3 @@ target_sources (rendering
     ./sources/Rendering.cpp
     ./sources/RenderEntity.cpp
 )
-
-set(-BUILD_SHARED_LIBS=ON)
