@@ -10,28 +10,7 @@ int main(int argc, char *argv[])
         res;
     bool onetime = true;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                             
-
-        while (1)
-    {
+    while (1) {
         try {
             if (onetime) {
                 ntm.send(buff);
