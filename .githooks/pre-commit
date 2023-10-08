@@ -6,6 +6,11 @@ exclude_dirs=("libs/deps" "build")
 # Récupérer la liste des fichiers à valider
 files_to_format=$(git diff --cached --name-only | grep -E '\.cpp$|\.hpp$')
 
+# Supprimer les fichiers supprimés de la zone de staging
+for deleted_file in $(git diff --cached --name-only --diff-filter=D | grep -E '\.cpp$|\.hpp$'); do
+    git rm --cached "$deleted_file"
+done
+
 # Formater les fichiers
 for file in $files_to_format; do
     exclude=false
@@ -18,8 +23,8 @@ for file in $files_to_format; do
         fi
     done
 
-    # Si le fichier n'est pas exclu, exécute clang-format
-    if [ "$exclude" = false ]; then
+    # Si le fichier n'est pas exclu et existe sur le système de fichiers, exécute clang-format
+    if [ "$exclude" = false ] && [ -e "$file" ]; then
         clang-format -i "$file"
     fi
 done
