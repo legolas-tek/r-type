@@ -34,10 +34,6 @@ struct Drawable : Serializable<Drawable> {
     {
     }
 
-    Drawable() = default;
-
-
-
     /**
      * @brief Default constructor for the Drawable structure.
      */

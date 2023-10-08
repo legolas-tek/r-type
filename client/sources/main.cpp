@@ -52,7 +52,20 @@ int main(int argc, char *argv[])
 
     reg.add_system<rendering::Rendering>(reg);
 
-    reg.run_systems();
+
+    // for (int i = 0; i < 1000; i++) {
+        // rendering::Entity entity("./client/assets/cyberpunk_street_background.png");
+    while (1) {
+
+        BeginDrawing();
+        ClearBackground(RAYWHITE);
+            // DrawTexture(texture, 0, 0, WHITE);
+        reg.run_systems();
+        // DrawTexture(entity._texture, 0, 0, WHITE);
+        EndDrawing();
+
+    }
+
     // rendering::Rendering window;
     // Render2dEntity entity2d(std::string("./client/assets/cyberpunk_street_background.png"));
     // Render3dEntity entity3d("./client/assets/SU-27.obj", "./client/assets/BODYMAINCOLORCG.png");

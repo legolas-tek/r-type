@@ -31,26 +31,20 @@ public:
 
     void operator()()
     {
-        // std::cout << "asd " << std::endl;
         std::size_t index = 0;
 
         for (auto &component : _registry.get_components<Component::Drawable>()) {
-            std::cout << "aaa" << _registry._assets_paths[index] << std::endl;
-
+            if(_cache.find(index) != _cache.end()) {
+                DrawTexture(_cache.at(index)._texture, 0.0f, 0.0f, WHITE);
+            } else {
+                std::cout << "key " << index << " doesn't exists" << std::endl;
+                _cache.insert({index, _registry._assets_paths[index]});
+                DrawTexture(_cache.at(index)._texture, 0.0f, 0.0f, WHITE);
+            }
             index++;
         }
-        // // dessiner tous les entities
-        // for (const auto& pair : entities) {
-        //     // std::cout << "asd" << std::endl;
-        //     // std::cout << pair.second.
-        // //     std::cout << "Key: " << pair.first << ", Value: " << pair.second << std::endl;
-        // }
     }
-// 2d
-// DrawTextureEx(_texture, _pos, _rotation, _scale, _tint);
 
-// 3d
-// DrawModelEx(_model, _pos, rotationAxis, 90.0f, scale, WHITE);
 private:
     std::unordered_map<size_t, rendering::Entity> _cache;
     engine::Registry &_registry;

@@ -16,11 +16,13 @@ namespace rendering
 {
 class Entity {
 public:
-    Entity(std::string texture_path, std::optional<std::string> model_path);
+    Entity(std::string texture_path);
+    // Entity(const Entity&) = delete;
+    // Entity(Entity&&) = delete;
+    // Entity &operator=(const Entity&) = delete;
     ~Entity();
 
     Texture2D _texture;
-    Model _model;
 private:
 };
 }
