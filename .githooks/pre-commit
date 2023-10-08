@@ -24,7 +24,7 @@ for file in $files_to_format; do
     done
 
     # Si le fichier n'est pas exclu, existe sur le système de fichiers et n'est pas un dossier, exécute clang-format
-    if [ "$exclude" = false ] && [ -e "$file" ] && [ ! -d "$file" ]; then
+    if [ "$exclude" = false ] && [ -e "$file" ]; then
         clang-format -i "$file"
         echo "Formatted $file"
     fi
