@@ -43,26 +43,31 @@ struct HitBox : Serializable<HitBox> {
     }
 
     /**
+     * @brief Default constructor for the HitBox structure.
+     */
+    HitBox() = default;
+
+    /**
      * @brief The x-coordinate of the top-left corner of the hitbox.
      * Is a relative position to the entity's position.
      */
-    float _x;
+    float _x = 0;
 
     /**
      * @brief The y-coordinate of the top-left corner of the hitbox.
      * Is a relative position to the entity's position.
      */
-    float _y;
+    float _y = 0;
 
     /**
      * @brief The width of the hitbox.
      */
-    float _width;
+    float _width = 0;
 
     /**
      * @brief The height of the hitbox.
      */
-    float _height;
+    float _height = 0;
 };
 
 }

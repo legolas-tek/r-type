@@ -24,12 +24,18 @@ struct Velocity : Serializable<Velocity> {
     /**
      * @brief The x-component of the velocity.
      */
-    float _vx;
+    float _vx = 0;
 
     /**
      * @brief The y-component of the velocity.
      */
-    float _vy;
+    float _vy = 0;
+
+    /**
+     * @brief Default constructor for the Velocity structure.
+     *
+     */
+    Velocity() = default;
 
     /**
      * @brief Constructor for the Velocity structure.
@@ -40,7 +46,7 @@ struct Velocity : Serializable<Velocity> {
      * @param vx The x-component of the velocity.
      * @param vy The y-component of the velocity.
      */
-    Velocity(float vx = 0, float vy = 0)
+    Velocity(float vx, float vy)
         : _vx(vx)
         , _vy(vy)
     {

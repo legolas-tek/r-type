@@ -14,6 +14,7 @@
 #include "Render3dEntity.hpp"
 
 #include "Systems/LoggingSystem.hpp"
+#include <ciso646>
 #include "UdpNetManager.hpp"
 
 int main(int argc, char *argv[])
