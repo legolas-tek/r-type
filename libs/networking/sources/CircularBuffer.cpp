@@ -8,7 +8,7 @@
 #include "CircularBuffer.hpp"
 #include <ciso646>
 
-rtype::CircularBuffer::CircularBuffer(std::size_t size)
+net::CircularBuffer::CircularBuffer(std::size_t size)
     : _buffer(size)
     , _reader(0)
     , _writer(0)
@@ -16,12 +16,12 @@ rtype::CircularBuffer::CircularBuffer(std::size_t size)
     std::memset(_buffer.data(), 0, size);
 }
 
-void rtype::CircularBuffer::updateWriteIndexAfterWrite(std::size_t writedLength)
+void net::CircularBuffer::updateWriteIndexAfterWrite(std::size_t writedLength)
 {
     _writer = (_writer + writedLength) % _buffer.size();
 }
 
-std::vector<char> rtype::CircularBuffer::readUntil(char delim)
+std::vector<char> net::CircularBuffer::readUntil(char delim)
 {
     bool is_circular = _writer < _reader;
     std::vector<char>::iterator begin = _buffer.begin() + _reader;
@@ -46,7 +46,7 @@ std::vector<char> rtype::CircularBuffer::readUntil(char delim)
     return res;
 }
 
-std::vector<char> rtype::CircularBuffer::readAvailableData()
+std::vector<char> net::CircularBuffer::readAvailableData()
 {
     bool is_circular = _writer < _reader;
     std::vector<char>::iterator begin = _buffer.begin() + _reader;
@@ -67,18 +67,18 @@ std::vector<char> rtype::CircularBuffer::readAvailableData()
     return res;
 }
 
-char *rtype::CircularBuffer::getWritePtr()
+char *net::CircularBuffer::getWritePtr()
 {
     return _buffer.data() + _writer;
 }
 
 std::size_t
-rtype::CircularBuffer::getAvailableCapacityUntilWrappingAround() const
+net::CircularBuffer::getAvailableCapacityUntilWrappingAround() const
 {
     return _buffer.size() - _writer;
 }
 
-bool rtype::CircularBuffer::isAvailableData(char delim) const
+bool net::CircularBuffer::isAvailableData(char delim) const
 {
     std::vector<char>::const_iterator it;
 
@@ -102,12 +102,12 @@ bool rtype::CircularBuffer::isAvailableData(char delim) const
     return true;
 }
 
-bool rtype::CircularBuffer::isAvailableData() const
+bool net::CircularBuffer::isAvailableData() const
 {
     return _writer != _reader;
 }
 
-char *rtype::CircularBuffer::data()
+char *net::CircularBuffer::data()
 {
     return _buffer.data();
 }

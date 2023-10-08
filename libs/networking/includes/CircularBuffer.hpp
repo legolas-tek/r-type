@@ -14,7 +14,7 @@
 #include <iostream>
 #include <vector>
 
-namespace rtype {
+namespace net {
 
 class CircularBuffer {
 
