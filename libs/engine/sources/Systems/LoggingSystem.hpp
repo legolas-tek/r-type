@@ -12,8 +12,8 @@
 
 #include "Registry.hpp"
 
-#include "Components/PositionComponent.hpp"
-#include "Components/VelocityComponent.hpp"
+#include "Components/Position.hpp"
+#include "Components/Velocity.hpp"
 
 namespace System {
 

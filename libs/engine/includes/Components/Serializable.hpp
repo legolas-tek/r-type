@@ -20,7 +20,7 @@ template <typename T> struct Serializable {
         return vec;
     }
 
-    size_t deserialize(std::byte const *buffer, size_t size)
+    size_t deserialize(std::byte const *buffer)
     {
         std::memcpy(this, buffer, sizeof(T));
         return sizeof(T);
