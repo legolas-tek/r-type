@@ -40,31 +40,36 @@ struct HurtBox : Serializable<HurtBox> {
         , _damage(damage) {};
 
     /**
+     * @brief Default constructor for the HurtBox structure.
+     */
+    HurtBox() = default;
+
+    /**
      * @brief The x-coordinate of the top-left corner of the hurtbox.
      * Is a relative position to the entity's position.
      */
-    float _x;
+    float _x = 0;
 
     /**
      * @brief The y-coordinate of the top-left corner of the hurtbox.
      * Is a relative position to the entity's position.
      */
-    float _y;
+    float _y = 0;
 
     /**
      * @brief The width of the hurtbox.
      */
-    float _width;
+    float _width = 0;
 
     /**
      * @brief The height of the hurtbox.
      */
-    float _height;
+    float _height = 0;
 
     /**
      * @brief The damage of the hurtbox.
      */
-    int _damage;
+    int _damage = 0;
 };
 
 }

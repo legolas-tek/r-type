@@ -37,9 +37,14 @@ struct Life : Serializable<Life> {
     }
 
     /**
+     * @brief Default constructor for the Life structure.
+     */
+    Life() = default;
+
+    /**
      * @brief The life value of the entity.
      */
-    int _life;
+    int _life = 0;
 };
 
 }
