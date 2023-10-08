@@ -33,6 +33,8 @@ public:
     {
         std::size_t index = 0;
 
+        BeginDrawing();
+        ClearBackground(RAYWHITE);
         for (auto &component : _registry.get_components<Component::Drawable>()) {
             if(_cache.find(index) != _cache.end()) {
                 DrawTexture(_cache.at(index)._texture, 0.0f, 0.0f, WHITE);
@@ -43,6 +45,7 @@ public:
             }
             index++;
         }
+        EndDrawing();
     }
 
 private:

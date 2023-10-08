@@ -57,12 +57,12 @@ int main(int argc, char *argv[])
         // rendering::Entity entity("./client/assets/cyberpunk_street_background.png");
     while (1) {
 
-        BeginDrawing();
-        ClearBackground(RAYWHITE);
+        // BeginDrawing();
+        // ClearBackground(RAYWHITE);
             // DrawTexture(texture, 0, 0, WHITE);
         reg.run_systems();
         // DrawTexture(entity._texture, 0, 0, WHITE);
-        EndDrawing();
+        // EndDrawing();
 
     }
 

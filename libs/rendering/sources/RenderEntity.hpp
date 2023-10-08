@@ -17,8 +17,8 @@ namespace rendering
 class Entity {
 public:
     Entity(std::string texture_path);
-    Entity(const Entity&) = delete;
-    Entity(Entity&&) = delete;
+    // Entity(const Entity&) = delete;
+    // Entity(Entity&&) = delete;
     ~Entity();
 
     Texture2D _texture;
