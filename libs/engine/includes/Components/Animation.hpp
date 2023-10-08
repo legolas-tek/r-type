@@ -20,6 +20,6 @@ namespace Component {
  */
 struct Animation { };
 
-} // namespace Component
+}
 
 #endif /* !ANIMATION_HPP_ */
