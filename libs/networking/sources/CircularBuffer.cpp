@@ -6,6 +6,7 @@
 */
 
 #include "CircularBuffer.hpp"
+#include <ciso646>
 
 rtype::CircularBuffer::CircularBuffer(std::size_t size)
     : _buffer(size)
