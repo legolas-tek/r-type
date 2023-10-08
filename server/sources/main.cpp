@@ -5,7 +5,7 @@
 int main(int argc, char *argv[])
 {
     net::manager::Udp ntm(net::server_netmanager, "127.0.0.1", 4242);
-    std::vector<net::manager::Udp::Buffer> res;
+    std::vector<std::pair<net::manager::Udp::Buffer, net::manager::Udp::Client>> res;
 
     while (1) {
         if (not (res = ntm.receive()).empty()) {

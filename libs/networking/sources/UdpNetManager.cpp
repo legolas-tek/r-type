@@ -55,10 +55,10 @@ std::size_t net::manager::Udp::send(net::manager::Udp::Buffer &cmd)
     return totalSended;
 }
 
-std::vector<net::manager::Udp::Buffer> net::manager::Udp::receive() noexcept
+std::vector<std::pair<net::manager::Udp::Buffer, net::manager::Udp::Client>> net::manager::Udp::receive() noexcept
 {
     asio::ip::udp::endpoint client_endpoint;
-    std::vector<net::manager::Udp::Buffer> packets;
+    std::vector<std::pair<net::manager::Udp::Buffer, net::manager::Udp::Client>> packets;
     std::size_t read = 0;
 
     do {
@@ -70,18 +70,22 @@ std::vector<net::manager::Udp::Buffer> net::manager::Udp::receive() noexcept
         } catch (std::exception &e) {
             break;
         }
-        packets.push_back(buff);
 
-        if (find_if(
+        auto it = find_if(
                 _others.begin(), _others.end(),
                 [&](Udp::Client &i) {
                     return i.getEndpoint() == client_endpoint;
                 }
-            )
-                != _others.end())
+        );
+
+
+        if (it != _others.end()) {
+            packets.emplace_back(buff, *it);
             continue;
+        }
 
         _others.emplace_back(client_endpoint);
+        packets.emplace_back(buff, _others.back());
         read = 0;
     } while (read == 0);
 
