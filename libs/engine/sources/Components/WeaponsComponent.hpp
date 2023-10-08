@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** R-Type
 ** File description:
-** WeaponsComponent
+** Weapons Component
 */
 
 #ifndef WEAPONSCOMPONENT_HPP_

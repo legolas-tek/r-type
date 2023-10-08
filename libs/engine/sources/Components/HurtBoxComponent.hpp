@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** R-Type
 ** File description:
-** HurtBox
+** HurtBox Component
 */
 
 #ifndef HURTBOX_HPP_
@@ -37,9 +37,7 @@ struct HurtBox : Serializable<HurtBox> {
         , _y(y)
         , _width(width)
         , _height(height)
-        , _damage(damage)
-    {
-    };
+        , _damage(damage) {};
 
     /**
      * @brief The width of the hurtbox.

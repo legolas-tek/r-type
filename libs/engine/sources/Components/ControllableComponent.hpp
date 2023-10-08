@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2023
-** r-type
+** R-Type
 ** File description:
-** controllable
+** Controllable Component
 */
 
 #ifndef CONTROLLABLE_HPP_

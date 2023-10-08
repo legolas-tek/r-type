@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** R-Type
 ** File description:
-** Life
+** Life Component
 */
 
 #ifndef LIFE_HPP_

@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** R-Type
 ** File description:
-** Position
+** Position Component
 */
 
 #ifndef POSITION_HPP_

@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** R-Type
 ** File description:
-** Animation
+** Animation Component
 */
 
 #ifndef ANIMATION_HPP_
@@ -18,8 +18,7 @@ namespace Component {
  * This structure is used to store information related to an animation.
  * It can be used as a component in an animation management system.
  */
-struct Animation {
-};
+struct Animation { };
 
 } // namespace Component
 

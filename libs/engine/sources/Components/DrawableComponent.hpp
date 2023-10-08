@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** R-Type
 ** File description:
-** Drawable
+** Drawable Component
 */
 
 #ifndef DRAWABLE_HPP_

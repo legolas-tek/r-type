@@ -2,14 +2,14 @@
 ** EPITECH PROJECT, 2023
 ** R-Type
 ** File description:
-** Power
+** Power Component
 */
 
 #ifndef POWER_HPP_
 #define POWER_HPP_
 
-#include <cstddef>
 #include "Serializable.hpp"
+#include <cstddef>
 
 namespace Component {
 

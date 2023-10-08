@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2023
-** r-type
+** R-Type
 ** File description:
-** velocity
+** Velocity Component
 */
 
 #ifndef VELOCITY_HPP_

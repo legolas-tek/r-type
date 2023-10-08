@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** R-Type
 ** File description:
-** HitBox
+** HitBox Component
 */
 
 #ifndef HITBOX_HPP_
