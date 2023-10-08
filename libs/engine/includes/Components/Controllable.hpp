@@ -34,9 +34,14 @@ struct Controllable : Serializable<Controllable> {
     }
 
     /**
+     * @brief Default constructor for the Controllable structure.
+     */
+    Controllable() = default;
+
+    /**
      * @brief The unique identifier for the controllable entity.
      */
-    int _id;
+    int _id = 0;
 };
 
 }
