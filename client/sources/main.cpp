@@ -14,6 +14,7 @@
 #include "Render3dEntity.hpp"
 
 #include "Systems/LoggingSystem.hpp"
+#include "UdpNetManager.hpp"
 
 int main(int argc, char *argv[])
 {

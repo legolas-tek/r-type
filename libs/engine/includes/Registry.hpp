@@ -8,9 +8,9 @@
 #ifndef REGISTRY_HPP_
 #define REGISTRY_HPP_
 
+#include "ComponentData.hpp"
 #include "Entity.hpp"
 #include "ISystem.hpp"
-#include "ComponentData.hpp"
 #include "SparseArray.hpp"
 #include <any>
 #include <list>
@@ -154,6 +154,8 @@ private:
      * List of systems
      */
     std::vector<std::unique_ptr<ISystem>> _systems;
+
+    std::vector<std::string> _assets_paths;
 };
 } // namespace engine
 

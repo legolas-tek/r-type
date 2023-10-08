@@ -6,8 +6,8 @@
 */
 
 #include "R-Type.hpp"
-#include "Components/PositionComponent.hpp"
-#include "Components/VelocityComponent.hpp"
+#include "Components/Position.hpp"
+#include "Components/Velocity.hpp"
 #include "Entity.hpp"
 #include "Registry.hpp"
 #include "SparseArray.hpp"

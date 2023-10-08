@@ -37,4 +37,6 @@ libs/deps
 CMakeCache.txt
 CMakeFiles/
 
+# IDE
 .vscode
+.idea
