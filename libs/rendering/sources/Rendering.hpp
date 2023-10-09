@@ -33,10 +33,10 @@ public:
     void operator()()
     {
         std::size_t index = 0;
-
+        auto drawable_list = _registry.get_components<Component::Drawable>();
         BeginDrawing();
         ClearBackground(RAYWHITE);
-        for (auto it = _registry.get_components<Component::Drawable>().begin(); it != _registry.get_components<Component::Drawable>().end(); ++it) {
+        for (auto it = drawable_list.begin(); it != drawable_list.end(); ++it) {
             auto pos = _registry.get_components<Component::Position>()[it.get_entity()];
 
             if (_cache.find(it.get_entity()) != _cache.end()) {
