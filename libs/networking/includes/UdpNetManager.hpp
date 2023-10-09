@@ -22,19 +22,18 @@ constexpr struct ServerNetManager {
 constexpr struct ClientNetManager {
 } client_netmanager;
 
+using Buffer = std::vector<std::byte>;
+
 namespace manager {
 
 class Udp {
-
-public:
-    using Buffer = std::vector<std::byte>;
 
 public:
     Udp(net::ServerNetManager, std::string addr, std::size_t port);
     Udp(net::ClientNetManager, std::string addr, std::size_t port);
     ~Udp();
 
-    void send(Udp::Buffer &cmd);
+    void send(net::Buffer &cmd);
 
     class Client {
 
@@ -46,7 +45,7 @@ public:
 
         ~Client() = default;
 
-        asio::ip::udp::endpoint &getEndpoint()
+        asio::ip::udp::endpoint getEndpoint() const
         {
             return _endpoint;
         }
@@ -55,8 +54,7 @@ public:
         asio::ip::udp::endpoint _endpoint;
     };
 
-    std::vector<std::pair<net::manager::Udp::Buffer, net::manager::Udp::Client>>
-    receive() noexcept;
+    std::vector<std::pair<net::Buffer, net::manager::Udp::Client>> receive() noexcept;
     std::vector<Udp::Client> &getOthers();
 
     class UdpNetManagerError : public std::exception {

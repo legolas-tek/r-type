@@ -43,7 +43,7 @@ net::manager::Udp::~Udp()
     _socket.close();
 }
 
-void net::manager::Udp::send(net::manager::Udp::Buffer &cmd)
+void net::manager::Udp::send(net::Buffer &cmd)
 {
     for (auto &client : _others) {
         _socket.send_to(
@@ -52,15 +52,13 @@ void net::manager::Udp::send(net::manager::Udp::Buffer &cmd)
     }
 }
 
-std::vector<std::pair<net::manager::Udp::Buffer, net::manager::Udp::Client>>
-net::manager::Udp::receive() noexcept
+std::vector<std::pair<net::Buffer, net::manager::Udp::Client>> net::manager::Udp::receive() noexcept
 {
     asio::ip::udp::endpoint client_endpoint;
-    std::vector<std::pair<net::manager::Udp::Buffer, net::manager::Udp::Client>>
-        packets;
+    std::vector<std::pair<net::Buffer, net::manager::Udp::Client>> packets;
 
     do {
-        Udp::Buffer buff(USHRT_MAX);
+        net::Buffer buff(USHRT_MAX);
 
         try {
             _socket.receive_from(asio::buffer(buff), client_endpoint);
