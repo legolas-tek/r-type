@@ -14,6 +14,8 @@
 #include "Components/PositionComponent.hpp"
 #include "Components/DrawableComponent.hpp"
 
+/// @brief This system draws in the window every entity that has the drawable
+//components using the renderer
 namespace System {
 
 template <typename Graphical_objs>

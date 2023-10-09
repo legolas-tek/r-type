@@ -14,8 +14,8 @@
 #include "Components/PositionComponent.hpp"
 #include "Components/VelocityComponent.hpp"
 
-
-
+/// @brief This system update the position of entities that has the
+//position and velocity components
 namespace System {
 
 class Position_system : public ISystem {

@@ -13,6 +13,8 @@
 
 #include "Components/AttackComponent.hpp"
 
+/// @brief This system allows an entity to launch an attack if it has the attack
+//component set on true
 namespace System {
 
 class AttackSystem : public ISystem {

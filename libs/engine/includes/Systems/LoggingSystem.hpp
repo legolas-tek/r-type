@@ -15,6 +15,8 @@
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
 
+/// @brief This system is juste a log system made for debug, it prints
+//the positions and velocities values
 namespace System {
 
 class Logging : public ISystem {
@@ -34,7 +36,6 @@ public:
             auto const &pos = _positions[i];
             auto const &vel = _velocities[i];
             if (pos.has_value() && vel.has_value()) {
-                std::cout << "Condition validated" << std::endl;
                 std ::cerr << i << " : Position = { " << pos.value()._x << " , "
                            << pos.value()._y << " } , Velocity = { "
                            << vel.value()._vx << " , " << vel.value()._vy

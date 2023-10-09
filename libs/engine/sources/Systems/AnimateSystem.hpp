@@ -13,19 +13,21 @@
 
 #include "Components/DrawableComponent.hpp"
 
+/// @brief This system animates all entities who has the component animate
+//using the renderer
 namespace System {
 
-template <typename Graphical_objs>
 class AnimateSystem {
     public:
-        AnimateSystem(SparseArray<Component::Drawable> const &drawables) : _drawables(drawables) {}
+        AnimateSystem(SparseArray<Component::Drawable> const &drawables, IRendering const &renderer)
+        : _drawables(drawables) _renderer(renderer) {}
         AnimateSystem(System::AnimateSystem const &other) = delete;
         void operator()() {
             // system logic
         }
     private:
         SparseArray<Component::Drawable> const &_drawables;
-        Graphical_objs const &_drawable_items; // could/should be std::unique_ptr<std::vector<Graphical_objs>> ??
+        IRendering const &_renderer; // could/should be std::unique_ptr<std::vector<IRendering>> ??
 };
 }
 
