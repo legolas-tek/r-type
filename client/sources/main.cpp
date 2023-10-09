@@ -10,8 +10,6 @@
 #include "Registry.hpp"
 
 #include "Rendering.hpp"
-#include "Render2dEntity.hpp"
-#include "Render3dEntity.hpp"
 
 #include "Systems/LoggingSystem.hpp"
 #include <ciso646>
@@ -58,7 +56,7 @@ int main(int argc, char *argv[])
 
     // reg.add_system<System::Logging>(
     //     reg.get_components<Component::Position>(),
-    //     reg.get_components<Component::Velocity>()
+    //     reg.get_compon33ents<Component::Velocity>()
     // );
 
     reg.add_system<rendering::Rendering>(reg);
