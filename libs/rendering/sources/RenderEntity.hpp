@@ -25,7 +25,6 @@ public:
     ~Entity();
 
     Texture2D _texture;
-private:
 };
 }
 
