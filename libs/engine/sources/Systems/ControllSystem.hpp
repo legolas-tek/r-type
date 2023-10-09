@@ -12,6 +12,7 @@
 #include "SparseArray.hpp"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #include "Components/Controllable.hpp"
 #include "Components/Velocity.hpp"
 
@@ -20,6 +21,10 @@
 =======
 #include "Components/ControllableComponent.hpp"
 #include "Components/VelocityComponent.hpp"
+=======
+#include "Components/Controllable.hpp"
+#include "Components/Velocity.hpp"
+>>>>>>> 4f36685 (chore: uselesse includes and change includes in systems)
 
 /// @brief This system allows the user to controll the entity by registering
 //the users inputs and changing components values
