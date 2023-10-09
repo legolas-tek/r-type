@@ -14,6 +14,8 @@
 #include "Components/PositionComponent.hpp"
 #include "Components/VelocityComponent.hpp"
 
+
+
 namespace System {
 
 class Position_system : public ISystem {
@@ -27,7 +29,7 @@ public:
     Position_system(System::Position_system const &other) = delete;
     void operator()()
     {
-        // system logic
+        // systeme logic
     }
 private:
     SparseArray<Component::Position> const &_positions;
