@@ -11,8 +11,8 @@
 #include "ISystem.hpp"
 #include "SparseArray.hpp"
 
-#include "Components/ControllableComponent.hpp"
-#include "Components/VelocityComponent.hpp"
+#include "Components/Controllable.hpp"
+#include "Components/Velocity.hpp"
 
 /// @brief This system allows the user to controll the entity by registering
 /// the users inputs and changing components values

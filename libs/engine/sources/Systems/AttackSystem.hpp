@@ -11,7 +11,7 @@
 #include "ISystem.hpp"
 #include "SparseArray.hpp"
 
-#include "Components/AttackComponent.hpp"
+#include "Components/Attack.hpp"
 
 /// @brief This system allows an entity to launch an attack if it has the attack
 /// component set on true
