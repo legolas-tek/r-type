@@ -19,6 +19,8 @@ public:
     Entity(std::string texture_path);
     Entity(const Entity&) = delete;
     Entity(Entity&&) = delete;
+    Entity& operator=(const Entity&) = delete;
+    Entity& operator=(Entity&&) = delete;
 
     ~Entity();
 
