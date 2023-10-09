@@ -74,12 +74,12 @@ public:
         friend bool
         operator==(components_iterator const &a, components_iterator const &b)
         {
-            return a._m_ptr == b.m_ptr;
+            return a._m_ptr == b._m_ptr;
         };
         friend bool
         operator!=(components_iterator const &a, components_iterator const &b)
         {
-            return a._m_ptr != b.m_ptr;
+            return a._m_ptr != b._m_ptr;
         };
 
     private:

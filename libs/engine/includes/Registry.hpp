@@ -18,6 +18,7 @@
 #include <typeindex>
 #include <unordered_map>
 #include <vector>
+#include <functional>
 
 namespace engine
 {
