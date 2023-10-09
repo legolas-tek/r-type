@@ -15,7 +15,11 @@
 // #include "Components/HitBoxComponent.hpp"    they are here to compile
 
 /// @brief This system launches an event depending if an entity hitboxe hit
+<<<<<<< HEAD
 /// and entity hurtbox
+=======
+//and entity hurtbox
+>>>>>>> 6787844 (feat: add some doxygens on the systems)
 namespace System {
 
 class ColisionsSystem : public ISystem {

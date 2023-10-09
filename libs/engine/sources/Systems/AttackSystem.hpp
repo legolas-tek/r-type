@@ -14,7 +14,11 @@
 #include "Components/Attack.hpp"
 
 /// @brief This system allows an entity to launch an attack if it has the attack
+<<<<<<< HEAD
 /// component set on true
+=======
+//component set on true
+>>>>>>> 6787844 (feat: add some doxygens on the systems)
 namespace System {
 
 class AttackSystem : public ISystem {

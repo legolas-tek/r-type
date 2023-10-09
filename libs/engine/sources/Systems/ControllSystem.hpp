@@ -11,11 +11,19 @@
 #include "ISystem.hpp"
 #include "SparseArray.hpp"
 
+<<<<<<< HEAD
 #include "Components/Controllable.hpp"
 #include "Components/Velocity.hpp"
 
 /// @brief This system allows the user to controll the entity by registering
 /// the users inputs and changing components values
+=======
+#include "Components/ControllableComponent.hpp"
+#include "Components/VelocityComponent.hpp"
+
+/// @brief This system allows the user to controll the entity by registering
+//the users inputs and changing components values
+>>>>>>> 6787844 (feat: add some doxygens on the systems)
 namespace System {
 
 class ControllSystem : public ISystem {
