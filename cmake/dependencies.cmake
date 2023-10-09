@@ -10,13 +10,6 @@ cmake_minimum_required (VERSION 3.8)
 
 include (FetchContent)
 
-FetchContent_Declare (SFML
-    GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG 2.6.x
-)
-
-FetchContent_MakeAvailable (SFML)
-
 FetchContent_Declare (asio
     GIT_REPOSITORY  https://github.com/chriskohlhoff/asio.git
     GIT_SHALLOW     TRUE
@@ -59,3 +52,13 @@ if (UNIX)
     )
 endif ()
 
+FetchContent_Declare(raylib
+    GIT_REPOSITORY "https://github.com/raysan5/raylib.git"
+    GIT_TAG "master"
+    GIT_PROGRESS TRUE
+)
+
+set(CUSTOMIZE_BUILD ON)
+set(BUILD_SHARED_LIBS ON CACHE INTERNAL "")
+
+FetchContent_MakeAvailable(raylib)

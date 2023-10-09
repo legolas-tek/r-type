@@ -32,7 +32,7 @@ struct Snapshot {
     /** The dummy snapshot */
     Snapshot();
     /** Snapshot the current state of a registry */
-    Snapshot(size_t tick, Registry const &registry);
+    Snapshot(size_t tick, engine::Registry const &registry);
 };
 
 std::vector<std::byte>

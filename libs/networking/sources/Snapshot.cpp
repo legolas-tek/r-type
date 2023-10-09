@@ -16,7 +16,7 @@ Snapshot::Snapshot()
 {
 }
 
-Snapshot::Snapshot(size_t tick, Registry const &registry)
+Snapshot::Snapshot(size_t tick, engine::Registry const &registry)
     : tick(tick)
     , wasAck(false)
     , data(registry.collect_data())

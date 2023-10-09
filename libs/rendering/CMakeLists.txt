@@ -10,6 +10,12 @@ cmake_minimum_required (VERSION 3.8)
 
 add_library (rendering SHARED)
 
+target_link_libraries (rendering
+    PUBLIC
+    raylib
+    engine
+)
+
 target_include_directories (rendering
     PUBLIC
     ./includes/
@@ -18,5 +24,6 @@ target_include_directories (rendering
 
 target_sources (rendering
     PRIVATE
-    ./sources/Render.cpp
+    ./sources/Rendering.cpp
+    ./sources/RenderEntity.cpp
 )

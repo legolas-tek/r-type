@@ -14,6 +14,7 @@ target_link_libraries (r-type_client
     PRIVATE
     engine
     networking
+    rendering
 )
 
 target_sources (r-type_client

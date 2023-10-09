@@ -7,7 +7,7 @@
 
 #include "Entity.hpp"
 
-Entity::Entity(std::size_t value)
+engine::Entity::Entity(std::size_t value)
     : _value(value)
 {
 }

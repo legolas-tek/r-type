@@ -58,11 +58,6 @@ public:
             components_iterator tmp = *this;
 
             ++(*this);
-            ++_iterations;
-            while (_m_ptr != _end_ptr && !this->_m_ptr->has_value()) {
-                ++(*this);
-                ++_iterations;
-            }
             return tmp;
         }
 
@@ -74,12 +69,12 @@ public:
         friend bool
         operator==(components_iterator const &a, components_iterator const &b)
         {
-            return a._m_ptr == b.m_ptr;
+            return a._m_ptr == b._m_ptr;
         };
         friend bool
         operator!=(components_iterator const &a, components_iterator const &b)
         {
-            return a._m_ptr != b.m_ptr;
+            return a._m_ptr != b._m_ptr;
         };
 
     private:
