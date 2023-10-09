@@ -14,6 +14,7 @@
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
 
+namespace System {
 struct MoveSystem : public ISystem {
     MoveSystem(
         SparseArray<Component::Position> &positions,
@@ -25,5 +26,6 @@ struct MoveSystem : public ISystem {
     SparseArray<Component::Position> &_positions;
     SparseArray<Component::Velocity> &_velocities;
 };
+}
 
 #endif /* !MOVE_SYSTEM_HPP_ */

@@ -12,6 +12,7 @@
 #include "Components/Controllable.hpp"
 #include "Registry.hpp"
 #include "ISystem.hpp"
+#include "raylib.h"
 
 namespace rendering
 {
@@ -21,30 +22,22 @@ class Key : public ISystem {
         ~Key();
         void operator()()
         {
-            auto velocity_list = _registry.get_components<Component::Velocity>();
+            auto &velocity_list = _registry.get_components<Component::Velocity>();
+            auto &controlable_list = _registry.get_components<Component::Controllable>();
 
             for (auto it = velocity_list.begin(); it != velocity_list.end(); ++it) {
-                // std::cout << it.get_entity() << std::endl;
-                auto velocity = _registry.get_components<Component::Velocity>()[it.get_entity()];
-                std::cout << "entity " << it.get_entity() << " " << velocity.value()._vx << std::endl;
+                bool isControllable = controlable_list[it.get_entity()].has_value();
 
+                // pos 있으면
+                if (isControllable) {
+                    if (IsKeyDown(KEY_W)) {
+                        std::cout << "entity " << it.get_entity() << "is pressed" << std::endl;
+                        velocity_list[it.get_entity()].value()._vx = 0.0f;
+                        velocity_list[it.get_entity()].value()._vy = -0.1f;
+
+                    }
+                }
             }
-            std::cout << "asd" << std::endl;
-            // std::size_t index = 0;
-            // auto drawable_list = _registry.get_components<Component::Drawable>();
-            // BeginDrawing();
-            // ClearBackground(RAYWHITE);
-            // for (auto it = drawable_list.begin(); it != drawable_list.end(); ++it) {
-            //     auto pos = _registry.get_components<Component::Position>()[it.get_entity()];
-
-            //     if (_cache.find(it.get_entity()) != _cache.end()) {
-            //         DrawTexture(_cache.at(it.get_entity())._texture, pos->_x, pos->_y, WHITE);
-            //     } else {
-            //         _cache.emplace(it.get_entity(), _registry._assets_paths[(*it)->_index]);
-            //         DrawTexture(_cache.at(it.get_entity())._texture, pos->_x, pos->_y, WHITE);
-            //     }
-            // }
-            // EndDrawing();
         }
     protected:
     private:

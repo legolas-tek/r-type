@@ -9,14 +9,12 @@
 #define LOGGING_HPP_
 
 #include "ISystem.hpp"
-
 #include "Registry.hpp"
 
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
 
 namespace System {
-
 class Logging : public ISystem {
 public:
     Logging(

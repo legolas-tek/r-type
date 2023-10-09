@@ -7,7 +7,7 @@
 
 #include "Systems/MoveSystem.hpp"
 
-MoveSystem::MoveSystem(
+System::MoveSystem::MoveSystem(
     SparseArray<Component::Position> &positions,
     SparseArray<Component::Velocity> &velocities
 )
@@ -16,15 +16,19 @@ MoveSystem::MoveSystem(
 {
 }
 
-void MoveSystem::operator()()
+void System::MoveSystem::operator()()
 {
-    for (size_t i = 0; i < _positions.size() && i < _velocities.size(); i++) {
-        auto &pos = _positions[i];
-        auto &vel = _velocities[i];
+    auto pos_it = _positions.begin();
+    auto vel_it = _velocities.begin();
 
-        if (pos && vel) {
-            pos.value()._x += vel.value()._vx;
-            pos.value()._y += vel.value()._vy;
+    for (; pos_it != _positions.end() && vel_it != _velocities.end(); ++pos_it, ++vel_it) {
+        auto &vel = _velocities[pos_it.get_entity()];
+
+        if (vel.has_value()) {
+            pos_it->value()._x += vel.value()._vx;
+            vel.value()._vx = 0;
+            pos_it->value()._y += vel.value()._vy;
+            vel.value()._vy = 0;
         }
     }
 }
