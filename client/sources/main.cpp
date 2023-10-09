@@ -10,6 +10,7 @@
 #include "Registry.hpp"
 
 #include "Rendering.hpp"
+#include "Key.hpp"
 
 #include "Systems/LoggingSystem.hpp"
 #include <ciso646>
@@ -42,7 +43,7 @@ int main(int argc, char *argv[])
         player, std::move(Component::Velocity(5, 0))
     );
     reg.get_components<Component::Velocity>().insert_at(
-        target, std::move(Component::Velocity(10, 0))
+        target, std::move(Component::Velocity(20, 0))
     );
     reg.get_components<Component::Velocity>().insert_at(
         player2, std::move(Component::Velocity(10, 0))
@@ -60,6 +61,7 @@ int main(int argc, char *argv[])
     // );
 
     reg.add_system<rendering::Rendering>(reg);
+    reg.add_system<rendering::Key>(reg);
 
 
     // for (int i = 0; i < 1000; i++) {
