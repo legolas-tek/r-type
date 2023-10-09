@@ -22,8 +22,10 @@ int main(int argc, char *argv[])
     engine::Registry reg;
     engine::Entity player(1);
     engine::Entity target(2);
+    engine::Entity player2(5);
 
     reg._assets_paths.push_back("./client/assets/cyberpunk_street_background.png");
+    reg._assets_paths.push_back("./client/assets/cyberpunk_street_foreground.png");
 
     reg.register_component<Component::Position>();
     reg.register_component<Component::Velocity>();
@@ -33,7 +35,10 @@ int main(int argc, char *argv[])
         player, std::move(Component::Position(1, 200))
     );
     reg.get_components<Component::Position>().insert_at(
-        target, std::move(Component::Position(1, 500))
+        target, std::move(Component::Position(1, 250))
+    );
+    reg.get_components<Component::Position>().insert_at(
+        player2, std::move(Component::Position(1, 300))
     );
     reg.get_components<Component::Velocity>().insert_at(
         player, std::move(Component::Velocity(5, 0))
@@ -41,14 +46,20 @@ int main(int argc, char *argv[])
     reg.get_components<Component::Velocity>().insert_at(
         target, std::move(Component::Velocity(10, 0))
     );
+    reg.get_components<Component::Velocity>().insert_at(
+        player2, std::move(Component::Velocity(10, 0))
+    );
     reg.get_components<Component::Drawable>().insert_at(
         player, 0
     );
-
-    reg.add_system<System::Logging>(
-        reg.get_components<Component::Position>(),
-        reg.get_components<Component::Velocity>()
+    reg.get_components<Component::Drawable>().insert_at(
+        player2, 1
     );
+
+    // reg.add_system<System::Logging>(
+    //     reg.get_components<Component::Position>(),
+    //     reg.get_components<Component::Velocity>()
+    // );
 
     reg.add_system<rendering::Rendering>(reg);
 
