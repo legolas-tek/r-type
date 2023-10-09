@@ -20,6 +20,7 @@ target_include_directories (rtype
     PUBLIC
     ./includes/
     ./sources/
+    ../engine/includes/
 )
 
 target_sources (rtype
