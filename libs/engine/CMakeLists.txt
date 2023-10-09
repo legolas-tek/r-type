@@ -20,4 +20,5 @@ target_sources (engine
     PRIVATE
     ./sources/Entity.cpp
     ./sources/R-type.cpp
+    ./sources/Systems/MoveSystem.cpp
 )

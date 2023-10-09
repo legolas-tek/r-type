@@ -11,8 +11,11 @@
 
 #include "Rendering.hpp"
 #include "Key.hpp"
+#include "Components/Controllable.hpp"
+
 
 #include "Systems/LoggingSystem.hpp"
+#include "Systems/MoveSystem.hpp"
 #include <ciso646>
 #include "UdpNetManager.hpp"
 
@@ -29,6 +32,7 @@ int main(int argc, char *argv[])
     reg.register_component<Component::Position>();
     reg.register_component<Component::Velocity>();
     reg.register_component<Component::Drawable>();
+    reg.register_component<Component::Controllable>();
 
     reg.get_components<Component::Position>().insert_at(
         player, std::move(Component::Position(1, 200))
@@ -40,28 +44,45 @@ int main(int argc, char *argv[])
         player2, std::move(Component::Position(1, 300))
     );
     reg.get_components<Component::Velocity>().insert_at(
-        player, std::move(Component::Velocity(5, 0))
+        player, std::move(Component::Velocity(0, 0))
     );
-    reg.get_components<Component::Velocity>().insert_at(
-        target, std::move(Component::Velocity(20, 0))
-    );
-    reg.get_components<Component::Velocity>().insert_at(
-        player2, std::move(Component::Velocity(10, 0))
-    );
+    // reg.get_components<Component::Velocity>().insert_at(
+    //     target, std::move(Component::Velocity(0, 0))
+    // );
+    // reg.get_components<Component::Velocity>().insert_at(
+    //     player2, std::move(Component::Velocity(0, 0))
+    // );
     reg.get_components<Component::Drawable>().insert_at(
         player, 0
     );
     reg.get_components<Component::Drawable>().insert_at(
         player2, 1
     );
+    reg.get_components<Component::Controllable>().insert_at(
+        player, 1
+    );
+    reg.get_components<Component::Controllable>().insert_at(
+        player2, 1
+    );
 
     // reg.add_system<System::Logging>(
     //     reg.get_components<Component::Position>(),
-    //     reg.get_compon33ents<Component::Velocity>()
+    //     reg.get_components<Component::Velocity>()
     // );
+
+    // MoveSystem asd(
+    //         reg.get_components<Component::Position>(),
+    //     reg.get_components<Component::Velocity>()
+    // );
+
+    reg.add_system<System::MoveSystem>(
+        reg.get_components<Component::Position>(),
+        reg.get_components<Component::Velocity>()
+    );
 
     reg.add_system<rendering::Rendering>(reg);
     reg.add_system<rendering::Key>(reg);
+    // reg.add_system<rendering::>(reg);
 
 
     // for (int i = 0; i < 1000; i++) {
