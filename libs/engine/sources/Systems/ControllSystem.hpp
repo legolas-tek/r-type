@@ -15,7 +15,7 @@
 #include "Components/VelocityComponent.hpp"
 
 /// @brief This system allows the user to controll the entity by registering
-//the users inputs and changing components values
+/// the users inputs and changing components values
 namespace System {
 
 class ControllSystem : public ISystem {
