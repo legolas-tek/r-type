@@ -1,37 +1,32 @@
 /*
 ** EPITECH PROJECT, 2023
-** engine
+** R-Type
 ** File description:
-** ColisionsSystem
+** Collisions System
 */
 
-#ifndef COLLISIONSSYSTEM_HPP_
-#define COLLISIONSSYSTEM_HPP_
+#ifndef R_TYPE_COLLISIONSSYSTEM_HPP
+#define R_TYPE_COLLISIONSSYSTEM_HPP
 
-#include "SparseArray.hpp"
 #include "ISystem.hpp"
+#include "Registry.hpp"
 
+#include "Components/Position.hpp"
 #include "Components/HitBox.hpp"
-#include "Components/Collision.hpp"
+#include "Components/HurtBox.hpp"
 
-/// @brief This system launches an event depending if an entity hitbox hit
-/// an other entity Hitbox
-namespace System {
+struct CollisionsSystem : public ISystem {
+    CollisionsSystem(
+        SparseArray<Component::Position> &positions,
+        SparseArray<Component::HitBox> &hitboxes,
+        SparseArray<Component::HurtBox> &hurtboxes
+    );
 
-class ColisionsSystem : public ISystem {
-    public:
-        ColisionsSystem(
-            SparseArray<Component::HitBox> const &hitBoxes,
-            SparseArray<Component::Collision> &collisions
-            ) : _hitBoxes(hitBoxes), _collisions(collisions) {}
-        ~ColisionsSystem();
-        void operator()() {
-            // func logic
-        }
-    private:
-        SparseArray<Component::HitBox> const &_hitBoxes;
-        SparseArray<Component::Collision> &_collisions;
+    void operator()() override;
+
+    SparseArray<Component::Position> &_positions;
+    SparseArray<Component::HitBox> &_hitboxes;
+    SparseArray<Component::HurtBox> &_hurtboxes;
 };
-}
 
-#endif /* !COLISIONSSYSTEM_HPP_ */
+#endif // R_TYPE_COLLISIONSSYSTEM_HPP
