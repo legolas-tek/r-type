@@ -12,6 +12,8 @@
 #include <cstring>
 #include <vector>
 
+#include "Serializable.hpp"
+
 namespace Component {
 
 /**
