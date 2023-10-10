@@ -2,21 +2,31 @@
 ** EPITECH PROJECT, 2023
 ** R-Type
 ** File description:
-** Network sync system
+** Network Sync abstract class
 */
 
-#include "NetworkSyncSystem.hpp"
+#include "Sync.hpp"
 
-net::system::NetworkServerSync::NetworkServerSync(engine::Registry &registry, int port)
+net::Sync::Sync(net::ClientNetManager, engine::Registry &registry, int port)
+    : _registry(registry), _nmu(net::client_netmanager, "0.0.0.0", port), _snapshots(32, SnapshotHistory()), _rd_index(0)
+{
+}
+
+net::Sync::Sync(net::ServerNetManager, engine::Registry &registry, int port)
     : _registry(registry), _nmu(net::server_netmanager, "0.0.0.0", port), _snapshots(32, SnapshotHistory()), _rd_index(0)
 {
 }
 
-net::system::NetworkServerSync::~NetworkServerSync()
+net::Sync::~Sync()
 {
 }
 
-void net::system::NetworkServerSync::processReceivedPacket(std::pair<net::Buffer, net::manager::Udp::Client> const &packet)
+bool net::Sync::canUpdate(engine::Entity &entity, uint8_t component_id, std::byte const *buffer)
+{
+    return true;
+}
+
+void net::Sync::processReceivedPacket(std::pair<net::Buffer, net::manager::Udp::Client> const &packet)
 {
     for (auto it = packet.first.begin() + 9; it != packet.first.end();) {
         uint32_t entity_nbr = 0; /// Variable declared to store temporarily the entity number
@@ -46,7 +56,7 @@ void net::system::NetworkServerSync::processReceivedPacket(std::pair<net::Buffer
 
 }
 
-void net::system::NetworkServerSync::processAckPacket(std::pair<net::Buffer, net::manager::Udp::Client> const &packet)
+void net::Sync::processAckPacket(std::pair<net::Buffer, net::manager::Udp::Client> const &packet)
 {
     uint32_t tick_number = 0;
 
@@ -71,11 +81,11 @@ void net::system::NetworkServerSync::processAckPacket(std::pair<net::Buffer, net
         snapshot_it->ack_users.push_back(index);
 }
 
-std::optional<std::vector<net::system::NetworkServerSync::SnapshotHistory>::iterator> net::system::NetworkServerSync::find_last_ack(std::size_t client_index)
+std::optional<std::vector<net::Sync::SnapshotHistory>::iterator> net::Sync::find_last_ack(std::size_t client_index)
 {
     auto it = _snapshots.begin() + _rd_index;
 
-    if (_rd_index == 0 && it->used == 0 && _snapshots.end()->used == 0)
+    if (_rd_index == 0 && it->used == 0 && _snapshots.back().used == 0)
         return std::nullopt;
 
     if (it != _snapshots.begin()) {
@@ -105,17 +115,16 @@ std::optional<std::vector<net::system::NetworkServerSync::SnapshotHistory>::iter
 
 static std::vector<std::byte> constructUpdatePacket(std::size_t actualTick, std::size_t previousTick, std::vector<std::byte> diff)
 {
-    std::vector<std::byte> result(sizeof(std::byte) + (sizeof(uint32_t) * 2));
+    std::vector<std::byte> result(sizeof(std::byte) + (sizeof(uint32_t) * 2), std::byte(0x00));
 
     result.at(0) = std::byte(0x01);
     std::memcpy(&result, &actualTick, sizeof(uint32_t));
     std::memcpy(&result, &previousTick, sizeof(uint32_t));
     result.insert(result.end(), diff.begin(), diff.end());
-
     return result;
 }
 
-void net::system::NetworkServerSync::updateSnapshotHistory(net::Snapshot &current)
+void net::Sync::updateSnapshotHistory(net::Snapshot &current)
 {
     if (_rd_index + 1 > _snapshots.size()) {
         SnapshotHistory &snap = _snapshots.at(0);
@@ -135,11 +144,13 @@ void net::system::NetworkServerSync::updateSnapshotHistory(net::Snapshot &curren
     _rd_index++;
 }
 
-void net::system::NetworkServerSync::operator()()
+void net::Sync::operator()()
 {
     auto _received_packets = _nmu.receive();
 
+    std::cout << "Helo" << std::endl;
     if (not _received_packets.empty()) {
+        std::cout << "received" <<std::endl;
         for (auto &packet: _received_packets) { /// Loop threw all the received packets
             if (*packet.first.begin() == std::byte(0x01)) // In case identifier = 0x01 then it's a state update
                 this->processReceivedPacket(packet);
@@ -151,19 +162,24 @@ void net::system::NetworkServerSync::operator()()
     auto &clients = _nmu.getOthers();
 
     for (auto it = clients.begin(); it != clients.end(); it++) {
+        std::cout << "A client" << std::endl;
         auto snapshot_it = find_last_ack(it - clients.begin());
         Snapshot current(_registry.getTick(), _registry);
         std::vector<std::byte> actualDiff;
 
-        if (not snapshot_it)
-            actualDiff = net::diffSnapshots(Snapshot(), current);
-        else
+        if (not snapshot_it) {
+            std::cout << "whay" << std::endl;
+            Snapshot dummy;
+            actualDiff = net::diffSnapshots(dummy, current);
+            std::cout << "oulala" << std::endl;
+        } else
             actualDiff = net::diffSnapshots(snapshot_it.value()->snapshot, current);
 
 
         if (not actualDiff.empty()) {
             updateSnapshotHistory(current);
-            auto packet = constructUpdatePacket(_registry.getTick(), snapshot_it.value()->snapshot.tick, actualDiff);
+            auto packet = constructUpdatePacket(_registry.getTick(), _snapshots.at(_rd_index).snapshot.tick, actualDiff);
+            std::cout << "whut" <<std::endl;
             _nmu.send(packet, *it);
         }
     }

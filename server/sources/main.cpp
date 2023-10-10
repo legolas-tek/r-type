@@ -4,7 +4,7 @@
 #include "Components/Velocity.hpp"
 #include "Systems/LoggingSystem.hpp"
 
-#include "NetworkSyncSystem.hpp"
+#include "NetworkServerSystem.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
         std::move(Component::Velocity(10, 0)));
     reg.add_system<System::Logging>(reg.get_components<Component::Position>(),
         reg.get_components<Component::Velocity>());
-    reg.add_system<net::system::NetworkServerSync>(reg, 4242);
+    reg.add_system<net::system::NetworkServer>(reg, 4242);
 
     while (1)
         reg.run_systems();

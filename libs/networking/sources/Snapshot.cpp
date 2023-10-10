@@ -35,8 +35,12 @@ static void diffAdd(
     size_t offset = diff.size();
     diff.resize(
         offset + sizeof(EntityNumber) + sizeof(ComponentId) + sizeof(UpdateType)
-        + it->data.size()
+        + it->data.size(), std::byte(0)
     );
+    std::cout << offset + sizeof(EntityNumber) + sizeof(ComponentId) + sizeof(UpdateType)
+        + it->data.size() << std::endl;
+
+    std::cout << offset << std::endl;
     std::memcpy(&diff[offset], &it->entity, sizeof(EntityNumber));
     offset += sizeof(EntityNumber);
     std::memcpy(&diff[offset], &it->componentId, sizeof(ComponentId));

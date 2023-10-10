@@ -20,7 +20,11 @@ else ()
     # additional warnings
     target_compile_options (networking
         PRIVATE
-        -Wall -Wextra
+        -Wall -Wextra -fsanitize=address
+    )
+    target_link_libraries (networking
+        PRIVATE
+        -fsanitize=address
     )
 endif ()
 
@@ -33,6 +37,7 @@ target_link_libraries (networking
 target_include_directories (networking
     PUBLIC
     ./includes/
+    ./sources/
 )
 
 target_sources (networking
@@ -41,5 +46,7 @@ target_sources (networking
     ./sources/UdpNetManager.cpp
     ./sources/CircularBuffer.cpp
     ./sources/Snapshot.cpp
-    ./sources/NetworkSyncSystem.cpp
+    ./sources/Sync.cpp
+    ./sources/NetworkServerSystem.cpp
+    ./sources/NetworkClientSystem.cpp
 )
