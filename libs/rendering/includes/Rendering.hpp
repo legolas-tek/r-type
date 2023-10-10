@@ -22,14 +22,48 @@
 
 namespace rendering::system
 {
+/*!
+ * \brief Constant integer value representing the screen width.
+ */
 const int SCREEN_WIDTH  = 800;
+
+/*!
+ * \brief Constant integer value representing the screen height.
+ */
 const int SCREEN_HEIGHT = 450;
 
+/*!
+ * \class Rendering
+ * \brief The Rendering class is responsible for rendering entities with Drawable and Position components.
+ *
+ * This class manages the drawing of entities to the screen by iterating through all entities,
+ * checking for Position and Drawable components, and drawing them to the screen using raylib.
+ */
 class Rendering : public ISystem {
 public:
+    /*!
+     * \brief Construct a new Rendering object.
+     *
+     * Initializes the Rendering system by storing a reference to the engine's registry.
+     *
+     * \param registry Reference to the engine's registry to access entity components.
+     */
     Rendering(engine::Registry &registry);
+
+    /*!
+     * \brief Destroy the Rendering object.
+     *
+     * Handles any necessary cleanup for the Rendering system upon its deletion.
+     */
     ~Rendering();
 
+    /*!
+     * \brief Operator function to perform rendering of entities.
+     *
+     * Loops through all entities and if they have a Drawable and Position component,
+     * renders them to the screen using raylib's drawing functions. Textures may be cached
+     * for efficiency.
+     */
     void operator()()
     {
         std::size_t index = 0;
