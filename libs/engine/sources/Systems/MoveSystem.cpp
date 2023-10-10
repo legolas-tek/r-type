@@ -25,8 +25,10 @@ void System::MoveSystem::operator()()
         auto &vel = _velocities[pos_it.get_entity()];
 
         if (vel.has_value()) {
-            pos_it->value()._x += vel.value()._vx;
-            pos_it->value()._y += vel.value()._vy;
+            (*pos_it)->_x += vel.value()._vx;
+            (*pos_it)->_y += vel.value()._vy;
+            // pos_it->value()._x += vel.value()._vx;
+            // pos_it->value()._y += vel.value()._vy;
         }
     }
 }

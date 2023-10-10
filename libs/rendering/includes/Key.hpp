@@ -56,25 +56,25 @@ class Key : public ISystem {
 
             for (auto it = velocity_list.begin(); it != velocity_list.end(); ++it) {
                 bool isControllable = controlable_list[it.get_entity()].has_value();
-                velocity_list[it.get_entity()].value()._vx = 0.0f;
-                velocity_list[it.get_entity()].value()._vy = 0.0f;
+                velocity_list[it.get_entity()]->_vx = 0.0f;
+                velocity_list[it.get_entity()]->_vy = 0.0f;
 
                 if (isControllable) {
                     if (IsKeyDown(KEY_W) || IsKeyDown(KEY_Z)) {
-                        velocity_list[it.get_entity()].value()._vx += 0.0f;
-                        velocity_list[it.get_entity()].value()._vy += -0.1f;
+                        velocity_list[it.get_entity()]->_vx += 0.0f;
+                        velocity_list[it.get_entity()]->_vy += -0.1f;
                     }
                     if (IsKeyDown(KEY_A) || IsKeyDown(KEY_Q)) {
-                        velocity_list[it.get_entity()].value()._vx += -0.1f;
-                        velocity_list[it.get_entity()].value()._vy += 0.0f;
+                        velocity_list[it.get_entity()]->_vx += -0.1f;
+                        velocity_list[it.get_entity()]->_vy += 0.0f;
                     }
                     if (IsKeyDown(KEY_S)) {
-                        velocity_list[it.get_entity()].value()._vx += 0.0f;
-                        velocity_list[it.get_entity()].value()._vy += 0.1f;
+                        velocity_list[it.get_entity()]->_vx += 0.0f;
+                        velocity_list[it.get_entity()]->_vy += 0.1f;
                     }
                     if (IsKeyDown(KEY_D)) {
-                        velocity_list[it.get_entity()].value()._vx += 0.1f;
-                        velocity_list[it.get_entity()].value()._vy += 0.0f;
+                        velocity_list[it.get_entity()]->_vx += 0.1f;
+                        velocity_list[it.get_entity()]->_vy += 0.0f;
                     }
                 }
             }
