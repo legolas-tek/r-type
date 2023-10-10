@@ -17,26 +17,26 @@ public:
     /**
      * Register all needed components into the registry.
      */
-    virtual void registerAllComponents(engine::Registry &reg) = 0;
+    virtual void registerAllComponents(Registry &reg) = 0;
 
     /**
      * Register extra systems for the client
      */
-    virtual void registerAdditionalClientSystems(engine::Registry &reg)
+    virtual void registerAdditionalClientSystems(Registry &reg)
     {
     }
 
     /**
      * Register extra systems for the server
      */
-    virtual void registerAdditionalServerSystems(engine::Registry &reg)
+    virtual void registerAdditionalServerSystems(Registry &reg)
     {
     }
 
     /**
      * Register extra systems for both client and server
      */
-    virtual void registerAdditionalSystems(engine::Registry &reg)
+    virtual void registerAdditionalSystems(Registry &reg)
     {
     }
 };
