@@ -10,6 +10,20 @@ cmake_minimum_required (VERSION 3.8)
 
 add_library (networking SHARED)
 
+if (MSVC)
+    # warning level 4
+    target_compile_options (networking
+        PRIVATE
+        /W4
+    )
+else ()
+    # additional warnings
+    target_compile_options (networking
+        PRIVATE
+        -Wall -Wextra
+    )
+endif ()
+
 target_link_libraries (networking
     PUBLIC
     asio

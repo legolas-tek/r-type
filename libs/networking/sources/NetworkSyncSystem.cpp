@@ -71,28 +71,36 @@ void net::system::NetworkServerSync::processAckPacket(std::pair<net::Buffer, net
         snapshot_it->ack_users.push_back(index);
 }
 
-std::vector<net::system::NetworkServerSync::SnapshotHistory>::iterator net::system::NetworkServerSync::find_last_ack(net::manager::Udp::Client const &client)
+std::optional<std::vector<net::system::NetworkServerSync::SnapshotHistory>::iterator> net::system::NetworkServerSync::find_last_ack(std::size_t client_index)
 {
-    auto result = _snapshots.begin() + _rd_index;
+    auto it = _snapshots.begin() + _rd_index;
 
-    if (result == _snapshots.begin() && _snapshots.back().used == 0)
-        return _snapshots.end();
+    if (_rd_index == 0 && it->used == 0 && _snapshots.end()->used == 0)
+        return std::nullopt;
 
-    if (result != _snapshots.begin()) {
-        result = std::find_if(result, _snapshots.begin(),
-            [] (SnapshotHistory &i) {
-                return i.used == 1;
+    if (it != _snapshots.begin()) {
+        auto first = _snapshots.rbegin() + (_snapshots.size() - _rd_index);
+        auto result = std::find_if(first, _snapshots.rend(),
+            [&] (SnapshotHistory &i) {
+                return i.used == 1 && (std::find(i.ack_users.begin(), i.ack_users.end(), client_index) != i.ack_users.end());
         });
+
+        if (result != _snapshots.rend()) {
+            return _snapshots.begin() + std::distance(result, _snapshots.rend()) - 1;
+        }
     }
 
-    if (result == _snapshots.begin()) {
-        result = std::find_if(_snapshots.end(), _snapshots.begin() + _rd_index,
-            [] (SnapshotHistory &i) {
-                return i.used == 1;
-        });
+    auto last = _snapshots.rbegin() + (_snapshots.size() - _rd_index);
+    auto result = std::find_if(_snapshots.rbegin(), last,
+        [&] (SnapshotHistory &i) {
+            return i.used == 1 && (std::find(i.ack_users.begin(), i.ack_users.end(), client_index) != i.ack_users.end());
+    });
+
+    if (result != last) {
+        return _snapshots.begin() + std::distance(result, _snapshots.rend()) - 1;
     }
 
-    return result;
+    return std::nullopt;
 }
 
 static std::vector<std::byte> constructUpdatePacket(std::size_t actualTick, std::size_t previousTick, std::vector<std::byte> diff)
@@ -107,9 +115,24 @@ static std::vector<std::byte> constructUpdatePacket(std::size_t actualTick, std:
     return result;
 }
 
-void net::system::NetworkServerSync::updateSnapshotHistory(std::vector<std::byte> &componentData)
+void net::system::NetworkServerSync::updateSnapshotHistory(net::Snapshot &current)
 {
+    if (_rd_index + 1 > _snapshots.size()) {
+        SnapshotHistory &snap = _snapshots.at(0);
 
+        snap.used = 1;
+        snap.snapshot = current;
+
+        _rd_index = 0;
+        return;
+    }
+
+    SnapshotHistory &snap = _snapshots.at(_rd_index + 1);
+
+    snap.used = 1;
+    snap.snapshot = current;
+
+    _rd_index++;
 }
 
 void net::system::NetworkServerSync::operator()()
@@ -127,15 +150,21 @@ void net::system::NetworkServerSync::operator()()
 
     auto &clients = _nmu.getOthers();
 
-    for (auto &client: clients) {
-        auto snapshot_it = find_last_ack(client);
+    for (auto it = clients.begin(); it != clients.end(); it++) {
+        auto snapshot_it = find_last_ack(it - clients.begin());
+        Snapshot current(_registry.getTick(), _registry);
+        std::vector<std::byte> actualDiff;
 
-        std::vector<std::byte> actualDiff = net::diffSnapshots(snapshot_it->snapshot, Snapshot(_registry.getTick(), _registry));
+        if (not snapshot_it)
+            actualDiff = net::diffSnapshots(Snapshot(), current);
+        else
+            actualDiff = net::diffSnapshots(snapshot_it.value()->snapshot, current);
+
 
         if (not actualDiff.empty()) {
-            updateSnapshotHistory(actualDiff);
-            auto packet = constructUpdatePacket(_registry.getTick(), snapshot_it->snapshot.tick, actualDiff);
-            _nmu.send(packet, client);
+            updateSnapshotHistory(current);
+            auto packet = constructUpdatePacket(_registry.getTick(), snapshot_it.value()->snapshot.tick, actualDiff);
+            _nmu.send(packet, *it);
         }
     }
 }

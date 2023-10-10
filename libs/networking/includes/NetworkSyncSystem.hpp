@@ -33,7 +33,7 @@ private:
     process_packet_t processReceivedPacket;
     process_packet_t processAckPacket;
 
-    void updateSnapshotHistory(std::vector<std::byte> &componentData);
+    void updateSnapshotHistory(net::Snapshot &current);
 
     engine::Registry &_registry;
     net::manager::Udp _nmu;
@@ -45,7 +45,7 @@ private:
         std::vector<std::size_t> ack_users;
     };
 
-    std::vector<SnapshotHistory>::iterator find_last_ack(net::manager::Udp::Client const &client);
+    std::optional<std::vector<net::system::NetworkServerSync::SnapshotHistory>::iterator> find_last_ack(std::size_t client_index);
 
     std::vector<SnapshotHistory> _snapshots;
     std::size_t _rd_index;
