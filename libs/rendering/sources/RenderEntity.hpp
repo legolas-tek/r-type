@@ -7,7 +7,7 @@
 #ifndef ENTITY_HPP
 #define ENTITY_HPP
 
-#include "raylib.h"
+#include <raylib.h>
 
 #include <string>
 #include <optional>

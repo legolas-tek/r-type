@@ -12,7 +12,7 @@
 #include "Components/Controllable.hpp"
 #include "Registry.hpp"
 #include "ISystem.hpp"
-#include "raylib.h"
+#include <raylib.h>
 
 namespace rendering
 {
@@ -28,9 +28,6 @@ class Key : public ISystem {
             for (auto it = velocity_list.begin(); it != velocity_list.end(); ++it) {
                 bool isControllable = controlable_list[it.get_entity()].has_value();
 
-                // wasd et zqsd
-
-                // pos 있으면
                 if (isControllable) {
                     if (IsKeyDown(KEY_W) || IsKeyDown(KEY_Z)) {
                         velocity_list[it.get_entity()].value()._vx += 0.0f;

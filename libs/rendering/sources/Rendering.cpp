@@ -6,7 +6,7 @@
 ** Rendering
 */
 
-#include "raylib.h"
+#include <raylib.h>
 
 #include "Rendering.hpp"
 
