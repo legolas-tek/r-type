@@ -16,7 +16,6 @@
 #include "ISystem.hpp"
 #include "Registry.hpp"
 #include "RenderEntity.hpp"
-#include <raylib.h>
 
 #include "Components/Drawable.hpp"
 

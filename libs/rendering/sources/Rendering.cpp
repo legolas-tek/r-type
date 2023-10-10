@@ -6,8 +6,6 @@
 ** Rendering
 */
 
-#include <raylib.h>
-
 #include "Rendering.hpp"
 
 rendering::system::Rendering::Rendering(engine::Registry &registry)
