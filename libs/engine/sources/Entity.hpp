@@ -10,8 +10,7 @@
 
 #include <cstddef>
 
-namespace engine
-{
+namespace engine {
 class Entity {
 public:
     explicit Entity(std::size_t value);

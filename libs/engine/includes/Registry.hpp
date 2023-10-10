@@ -19,8 +19,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace engine
-{
+namespace engine {
 class Registry {
 public:
     template <class Component> SparseArray<Component> &register_component()
@@ -85,7 +84,8 @@ public:
         );
     }
 
-    template <class Component> void erase_component(engine::Entity const &entity)
+    template <class Component>
+    void erase_component(engine::Entity const &entity)
     {
         _erase_component_funcs[get_component_id<Component>()](*this, entity);
     }
@@ -158,6 +158,5 @@ private:
     std::vector<std::unique_ptr<ISystem>> _systems;
 };
 } // namespace engine
-
 
 #endif /* !REGISTRY_HPP_ */

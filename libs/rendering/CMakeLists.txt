@@ -26,4 +26,5 @@ target_sources (rendering
     PRIVATE
     ./sources/Rendering.cpp
     ./sources/RenderEntity.cpp
+    ./sources/Key.cpp
 )

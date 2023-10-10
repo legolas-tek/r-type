@@ -7,20 +7,19 @@
 #ifndef ENTITY_HPP
 #define ENTITY_HPP
 
-#include "raylib.h"
+#include <raylib.h>
 
-#include <string>
 #include <optional>
+#include <string>
 
-namespace rendering
-{
+namespace rendering {
 class Entity {
 public:
     Entity(std::string texture_path);
-    Entity(const Entity&) = delete;
-    Entity(Entity&&) = delete;
-    Entity& operator=(const Entity&) = delete;
-    Entity& operator=(Entity&&) = delete;
+    Entity(Entity const &) = delete;
+    Entity(Entity &&) = delete;
+    Entity &operator=(Entity const &) = delete;
+    Entity &operator=(Entity &&) = delete;
 
     ~Entity();
 
@@ -28,5 +27,4 @@ public:
 };
 }
 
-
-#endif //ENTITY_HPP
+#endif // ENTITY_HPP
