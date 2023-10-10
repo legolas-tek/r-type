@@ -15,9 +15,9 @@
 #include "Components/Life.hpp"
 #include "Components/Controllable.hpp"
 
-class RTypeGame : public IGame {
+class RTypeGame : public engine::IGame {
 public:
-    void registerAllComponents(Registry &reg) override
+    void registerAllComponents(engine::Registry &reg) override
     {
         using namespace Component;
         reg.register_component<Position>();

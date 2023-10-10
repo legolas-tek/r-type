@@ -10,6 +10,8 @@
 
 #include "Registry.hpp"
 
+namespace engine {
+
 class IGame {
 public:
     /**
@@ -38,5 +40,6 @@ public:
     {
     }
 };
+}
 
 #endif /* !ENGINE_IGAME_H_ */
