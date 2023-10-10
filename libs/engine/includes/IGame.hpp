@@ -39,14 +39,6 @@ public:
     virtual void registerAdditionalSystems(engine::Registry &reg)
     {
     }
-
-    virtual void initScene(engine::Registry &reg)
-    {
-    }
-
-    virtual void initAssets(engine::Registry &reg)
-    {
-    }
 };
 }
 
