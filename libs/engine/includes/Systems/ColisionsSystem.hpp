@@ -15,7 +15,7 @@
 #include "Components/Collision.hpp"
 
 /// @brief This system launches an event depending if an entity hitboxe hit
-/// and entity hurtbox
+/// an other entity Hitbox
 namespace System {
 
 class ColisionsSystem : public ISystem {
