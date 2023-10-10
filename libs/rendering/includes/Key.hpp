@@ -77,9 +77,9 @@ class Key : public ISystem {
                 }
             }
         }
-    protected:
     private:
-        engine::Registry &_registry;
+        engine::Registry &_registry; /*!< Reference to the entity-component system's registry to manipulate entity data. */
+
 };
 }
 #endif /* !KEY_HPP_ */
