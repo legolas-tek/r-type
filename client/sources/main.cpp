@@ -5,6 +5,8 @@
 ** main
 */
 
+#include <chrono>
+
 #include "Registry.hpp"
 #include "RTypeGame.cpp"
 
@@ -17,11 +19,26 @@ int main(int argc, char *argv[])
     RTypeGame game;
 
     game.registerAllComponents(reg);
-    game.registerInitAssets(reg);
-    game.registerInitScene(reg);
+    game.InitAssets(reg);
+    game.InitScene(reg);
     game.registerAdditionalClientSystems(reg);
 
+    auto previous_time = std::chrono::high_resolution_clock::now();
+    float target_delta_time = 1.0f / 60.0f;
+    float elapsed_time = 0.0f;
+
     while (1) {
-        reg.run_systems();
+        auto current_time = std::chrono::high_resolution_clock::now();
+        auto time_difference = current_time - previous_time;
+        previous_time = current_time;
+
+        float delta_time = std::chrono::duration<float>(time_difference).count();
+        elapsed_time += delta_time;
+
+        std::cout << elapsed_time << std::endl;
+        if (elapsed_time >= target_delta_time) {
+            reg.run_systems();
+            elapsed_time = 0.0f;
+        }
     }
 }

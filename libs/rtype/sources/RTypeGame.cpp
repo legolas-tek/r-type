@@ -38,7 +38,7 @@ public:
         reg.add_system<rendering::system::Key>(reg);
     }
 
-    void registerInitAssets(engine::Registry &reg) override
+    void InitAssets(engine::Registry &reg) override
     {
         reg._assets_paths.push_back(
             "./client/assets/cyberpunk_street_background.png"
@@ -48,7 +48,7 @@ public:
         );
     }
 
-    void registerInitScene(engine::Registry &reg) override
+    void InitScene(engine::Registry &reg) override
     {
         engine::Entity player(1);
         engine::Entity target(2);
