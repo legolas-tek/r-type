@@ -56,6 +56,8 @@ class Key : public ISystem {
 
             for (auto it = velocity_list.begin(); it != velocity_list.end(); ++it) {
                 bool isControllable = controlable_list[it.get_entity()].has_value();
+                velocity_list[it.get_entity()].value()._vx = 0.0f;
+                velocity_list[it.get_entity()].value()._vy = 0.0f;
 
                 if (isControllable) {
                     if (IsKeyDown(KEY_W) || IsKeyDown(KEY_Z)) {

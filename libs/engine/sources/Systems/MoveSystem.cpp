@@ -26,9 +26,7 @@ void System::MoveSystem::operator()()
 
         if (vel.has_value()) {
             pos_it->value()._x += vel.value()._vx;
-            vel.value()._vx = 0;
             pos_it->value()._y += vel.value()._vy;
-            vel.value()._vy = 0;
         }
     }
 }
