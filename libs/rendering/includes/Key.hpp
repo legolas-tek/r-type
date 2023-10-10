@@ -14,7 +14,7 @@
 #include "ISystem.hpp"
 #include <raylib.h>
 
-namespace rendering
+namespace rendering::system
 {
 class Key : public ISystem {
     public:

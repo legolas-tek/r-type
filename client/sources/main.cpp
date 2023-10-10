@@ -80,8 +80,8 @@ int main(int argc, char *argv[])
         reg.get_components<Component::Velocity>()
     );
 
-    reg.add_system<rendering::Rendering>(reg);
-    reg.add_system<rendering::Key>(reg);
+    reg.add_system<rendering::system::Rendering>(reg);
+    reg.add_system<rendering::system::Key>(reg);
     // reg.add_system<rendering::>(reg);
 
 

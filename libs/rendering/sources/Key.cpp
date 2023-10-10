@@ -7,11 +7,11 @@
 
 #include "Key.hpp"
 
-rendering::Key::Key(engine::Registry &registry)
+rendering::system::Key::Key(engine::Registry &registry)
     :_registry(registry)
 {
 }
 
-rendering::Key::~Key()
+rendering::system::Key::~Key()
 {
 }

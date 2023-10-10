@@ -20,7 +20,7 @@
 
 #include "Components/Drawable.hpp"
 
-namespace rendering
+namespace rendering::system
 {
 const int SCREEN_WIDTH  = 800;
 const int SCREEN_HEIGHT = 450;
