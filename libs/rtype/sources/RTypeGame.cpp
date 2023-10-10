@@ -17,7 +17,7 @@
 
 class RTypeGame : public IGame {
 public:
-    void registerAllComponents(Registry &reg) override
+    void registerAllComponents(engine::Registry &reg) override
     {
         using namespace Component;
         reg.register_component<Position>();
