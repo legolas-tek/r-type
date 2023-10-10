@@ -33,10 +33,9 @@ struct Collision : Serializable<Collision> {
      * @param width The width of the Collision.
      * @param height The height of the Collision.
      */
-    Collision(float width, float height, engine::Entity colidingEntity)
+    Collision(float width, float height)
         : _width(width)
-        , _height(height)
-        , _colidingEntity(colidingEntity) {}
+        , _height(height) {}
 
     /**
      * @brief Default constructor for the Collision structure.
@@ -57,7 +56,7 @@ struct Collision : Serializable<Collision> {
      * @brief The damage of the Collision.
      */
     bool _damage = false;
-    engine::Entity _colidingEntity;
+    engine::Entity _colidingEntity = engine::Entity(0);
 };
 
 }
