@@ -5,8 +5,8 @@
 ** ColisionsSystem
 */
 
-#ifndef COLISIONSSYSTEM_HPP_
-#define COLISIONSSYSTEM_HPP_
+#ifndef COLLISIONSSYSTEM_HPP_
+#define COLLISIONSSYSTEM_HPP_
 
 #include "SparseArray.hpp"
 #include "ISystem.hpp"
@@ -14,7 +14,7 @@
 #include "Components/HitBox.hpp"
 #include "Components/Collision.hpp"
 
-/// @brief This system launches an event depending if an entity hitboxe hit
+/// @brief This system launches an event depending if an entity hitbox hit
 /// an other entity Hitbox
 namespace System {
 

@@ -12,6 +12,7 @@
 #include <utility>
 
 #include "Serializable.hpp"
+#include "Entity.hpp"
 
 namespace Component {
 
@@ -32,29 +33,15 @@ struct Collision : Serializable<Collision> {
      * @param width The width of the Collision.
      * @param height The height of the Collision.
      */
-    Collision(float x, float y, float width, float height, int damage)
-        : _x(x)
-        , _y(y)
-        , _width(width)
+    Collision(float width, float height, engine::Entity colidingEntity)
+        : _width(width)
         , _height(height)
-        , _damage(damage) {};
+        , _colidingEntity(colidingEntity) {}
 
     /**
      * @brief Default constructor for the Collision structure.
      */
     Collision() = default;
-
-    /**
-     * @brief The x-coordinate of the top-left corner of the Collision.
-     * Is a relative position to the entity's position.
-     */
-    float _x = 0;
-
-    /**
-     * @brief The y-coordinate of the top-left corner of the Collision.
-     * Is a relative position to the entity's position.
-     */
-    float _y = 0;
 
     /**
      * @brief The width of the Collision.
@@ -69,7 +56,8 @@ struct Collision : Serializable<Collision> {
     /**
      * @brief The damage of the Collision.
      */
-    int _damage = 0;
+    bool _damage = false;
+    engine::Entity _colidingEntity;
 };
 
 }
