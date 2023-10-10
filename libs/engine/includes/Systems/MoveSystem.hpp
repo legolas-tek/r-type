@@ -16,6 +16,7 @@
 
 namespace System {
 struct MoveSystem : public ISystem {
+    public:
     MoveSystem(
         SparseArray<Component::Position> &positions,
         SparseArray<Component::Velocity> &velocities
@@ -23,6 +24,7 @@ struct MoveSystem : public ISystem {
 
     void operator()() override;
 
+    private:
     SparseArray<Component::Position> &_positions;
     SparseArray<Component::Velocity> &_velocities;
 };
