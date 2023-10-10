@@ -11,7 +11,7 @@
 #include "Rendering.hpp"
 
 rendering::system::Rendering::Rendering(engine::Registry &registry)
-: _registry(registry)
+    : _registry(registry)
 {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "raylib background scrolling");
 }

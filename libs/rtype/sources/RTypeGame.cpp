@@ -5,15 +5,15 @@
 ** Game
 */
 
-#include "IGame.hpp"
-#include "Registry.hpp"
-#include "Components/Position.hpp"
-#include "Components/Velocity.hpp"
+#include "Components/Controllable.hpp"
 #include "Components/Drawable.hpp"
 #include "Components/HitBox.hpp"
 #include "Components/HurtBox.hpp"
 #include "Components/Life.hpp"
-#include "Components/Controllable.hpp"
+#include "Components/Position.hpp"
+#include "Components/Velocity.hpp"
+#include "IGame.hpp"
+#include "Registry.hpp"
 
 class RTypeGame : public engine::IGame {
 public:

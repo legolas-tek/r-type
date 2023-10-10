@@ -8,7 +8,7 @@
 #include "Key.hpp"
 
 rendering::system::Key::Key(engine::Registry &registry)
-    :_registry(registry)
+    : _registry(registry)
 {
 }
 

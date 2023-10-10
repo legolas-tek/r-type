@@ -21,7 +21,8 @@ void System::MoveSystem::operator()()
     auto pos_it = _positions.begin();
     auto vel_it = _velocities.begin();
 
-    for (; pos_it != _positions.end() && vel_it != _velocities.end(); ++pos_it, ++vel_it) {
+    for (; pos_it != _positions.end() && vel_it != _velocities.end();
+         ++pos_it, ++vel_it) {
         auto &vel = _velocities[pos_it.get_entity()];
 
         if (vel.has_value()) {

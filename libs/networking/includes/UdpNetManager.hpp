@@ -36,7 +36,6 @@ public:
 
     void send(Udp::Buffer &cmd);
 
-
     class Client {
 
     public:
@@ -56,7 +55,8 @@ public:
         asio::ip::udp::endpoint _endpoint;
     };
 
-    std::vector<std::pair<net::manager::Udp::Buffer, net::manager::Udp::Client>> receive() noexcept;
+    std::vector<std::pair<net::manager::Udp::Buffer, net::manager::Udp::Client>>
+    receive() noexcept;
     std::vector<Udp::Client> &getOthers();
 
     class UdpNetManagerError : public std::exception {

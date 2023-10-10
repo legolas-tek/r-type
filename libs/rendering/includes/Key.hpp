@@ -8,80 +8,82 @@
 #ifndef KEY_HPP_
 #define KEY_HPP_
 
-#include "Components/Velocity.hpp"
 #include "Components/Controllable.hpp"
-#include "Registry.hpp"
+#include "Components/Velocity.hpp"
 #include "ISystem.hpp"
+#include "Registry.hpp"
 #include <raylib.h>
 
-
-namespace rendering::system
-{
+namespace rendering::system {
 /*!
  * \class Key
- * \brief The Key class is a system handling user input to affect entities' velocities.
+ * \brief The Key class is a system handling user input to affect entities'
+ * velocities.
  *
  * This class fetches all entities with a Velocity component and adjusts their
  * velocity based on user keyboard input if they have a Controllable component.
  */
 class Key : public ISystem {
-    public:
-        /*!
-         * \brief Construct a Key system.
-         *
-         * Construct the Key system by initializing its entity registry.
-         *
-         * \param registry Reference to the engine's registry to access entity components.
-         */
-        Key(engine::Registry &registry);
+public:
+    /*!
+     * \brief Construct a Key system.
+     *
+     * Construct the Key system by initializing its entity registry.
+     *
+     * \param registry Reference to the engine's registry to access entity
+     * components.
+     */
+    Key(engine::Registry &registry);
 
-        /*!
-         * \brief Destroy the Key system.
-         *
-         * Handles any necessary cleanup for the Key system upon its deletion.
-         */
-        ~Key();
+    /*!
+     * \brief Destroy the Key system.
+     *
+     * Handles any necessary cleanup for the Key system upon its deletion.
+     */
+    ~Key();
 
-        /*!
-         * \brief Operator function to update entity velocities.
-         *
-         * Loops through all entities, and if they have both Velocity and Controllable
-         * components, checks for user keyboard input (W/A/S/D) and adjusts the
-         * entities' velocities accordingly.
-         */
-        void operator()()
-        {
-            auto &velocity_list = _registry.get_components<Component::Velocity>();
-            auto &controlable_list = _registry.get_components<Component::Controllable>();
+    /*!
+     * \brief Operator function to update entity velocities.
+     *
+     * Loops through all entities, and if they have both Velocity and
+     * Controllable components, checks for user keyboard input (W/A/S/D) and
+     * adjusts the entities' velocities accordingly.
+     */
+    void operator()()
+    {
+        auto &velocity_list = _registry.get_components<Component::Velocity>();
+        auto &controlable_list
+            = _registry.get_components<Component::Controllable>();
 
-            for (auto it = velocity_list.begin(); it != velocity_list.end(); ++it) {
-                bool isControllable = controlable_list[it.get_entity()].has_value();
+        for (auto it = velocity_list.begin(); it != velocity_list.end(); ++it) {
+            bool isControllable = controlable_list[it.get_entity()].has_value();
 
-                if (isControllable) {
-                    velocity_list[it.get_entity()]->_vx = 0.0f;
-                    velocity_list[it.get_entity()]->_vy = 0.0f;
-                    if (IsKeyDown(KEY_W) || IsKeyDown(KEY_Z)) {
-                        velocity_list[it.get_entity()]->_vx += 0.0f;
-                        velocity_list[it.get_entity()]->_vy += -0.1f;
-                    }
-                    if (IsKeyDown(KEY_A) || IsKeyDown(KEY_Q)) {
-                        velocity_list[it.get_entity()]->_vx += -0.1f;
-                        velocity_list[it.get_entity()]->_vy += 0.0f;
-                    }
-                    if (IsKeyDown(KEY_S)) {
-                        velocity_list[it.get_entity()]->_vx += 0.0f;
-                        velocity_list[it.get_entity()]->_vy += 0.1f;
-                    }
-                    if (IsKeyDown(KEY_D)) {
-                        velocity_list[it.get_entity()]->_vx += 0.1f;
-                        velocity_list[it.get_entity()]->_vy += 0.0f;
-                    }
+            if (isControllable) {
+                velocity_list[it.get_entity()]->_vx = 0.0f;
+                velocity_list[it.get_entity()]->_vy = 0.0f;
+                if (IsKeyDown(KEY_W) || IsKeyDown(KEY_Z)) {
+                    velocity_list[it.get_entity()]->_vx += 0.0f;
+                    velocity_list[it.get_entity()]->_vy += -0.1f;
+                }
+                if (IsKeyDown(KEY_A) || IsKeyDown(KEY_Q)) {
+                    velocity_list[it.get_entity()]->_vx += -0.1f;
+                    velocity_list[it.get_entity()]->_vy += 0.0f;
+                }
+                if (IsKeyDown(KEY_S)) {
+                    velocity_list[it.get_entity()]->_vx += 0.0f;
+                    velocity_list[it.get_entity()]->_vy += 0.1f;
+                }
+                if (IsKeyDown(KEY_D)) {
+                    velocity_list[it.get_entity()]->_vx += 0.1f;
+                    velocity_list[it.get_entity()]->_vy += 0.0f;
                 }
             }
         }
-    private:
-        engine::Registry &_registry; /*!< Reference to the entity-component system's registry to manipulate entity data. */
+    }
 
+private:
+    engine::Registry &_registry; /*!< Reference to the entity-component system's
+                                    registry to manipulate entity data. */
 };
 }
 #endif /* !KEY_HPP_ */
