@@ -10,9 +10,8 @@
 CollisionsSystem::CollisionsSystem(
     SparseArray<Component::Position> &positions,
     SparseArray<Component::HitBox> &hitboxes,
-    SparseArray<Component::Collision> &collisions,
-    SparseArray<Component::Life> &lifes
-) : _positions(positions), _hitboxes(hitboxes), _collisions(collisions), _lifes(lifes)
+    SparseArray<Component::Collision> &collisions
+) : _positions(positions), _hitboxes(hitboxes), _collisions(collisions)
 {
 }
 

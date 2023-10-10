@@ -20,8 +20,7 @@ struct CollisionsSystem : public ISystem {
     CollisionsSystem(
         SparseArray<Component::Position> &positions,
         SparseArray<Component::HitBox> &hitboxes,
-        SparseArray<Component::Collision> &collisions,
-        SparseArray<Component::Life> &lifes
+        SparseArray<Component::Collision> &collisions
     );
 
     void operator()() override;
@@ -32,7 +31,6 @@ private:
     SparseArray<Component::Position> &_positions;
     SparseArray<Component::HitBox> &_hitboxes;
     SparseArray<Component::Collision> &_collisions;
-    SparseArray<Component::Life> &_lifes;
 };
 
 #endif // R_TYPE_COLLISIONSSYSTEM_HPP
