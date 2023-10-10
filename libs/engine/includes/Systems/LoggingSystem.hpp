@@ -18,7 +18,6 @@
 /// @brief This system is juste a log system made for debug, it prints
 //the positions and velocities values
 namespace System {
-
 class Logging : public ISystem {
 public:
     Logging(

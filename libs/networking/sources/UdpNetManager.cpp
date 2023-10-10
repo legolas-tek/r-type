@@ -52,10 +52,12 @@ void net::manager::Udp::send(net::manager::Udp::Buffer &cmd)
     }
 }
 
-std::vector<std::pair<net::manager::Udp::Buffer, net::manager::Udp::Client>> net::manager::Udp::receive() noexcept
+std::vector<std::pair<net::manager::Udp::Buffer, net::manager::Udp::Client>>
+net::manager::Udp::receive() noexcept
 {
     asio::ip::udp::endpoint client_endpoint;
-    std::vector<std::pair<net::manager::Udp::Buffer, net::manager::Udp::Client>> packets;
+    std::vector<std::pair<net::manager::Udp::Buffer, net::manager::Udp::Client>>
+        packets;
 
     do {
         Udp::Buffer buff(USHRT_MAX);
@@ -66,13 +68,9 @@ std::vector<std::pair<net::manager::Udp::Buffer, net::manager::Udp::Client>> net
             break;
         }
 
-        auto it = find_if(
-                _others.begin(), _others.end(),
-                [&](Udp::Client &i) {
-                    return i.getEndpoint() == client_endpoint;
-                }
-        );
-
+        auto it = find_if(_others.begin(), _others.end(), [&](Udp::Client &i) {
+            return i.getEndpoint() == client_endpoint;
+        });
 
         if (it != _others.end()) {
             packets.emplace_back(buff, *it);

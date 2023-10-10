@@ -9,10 +9,11 @@
 #define MOVE_SYSTEM_HPP_
 
 #include "ISystem.hpp"
-#include "Registry.hpp"
-
+#include "SparseArray.hpp"
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
+
+namespace System {
 
 class MoveSystem : public ISystem {
 public:
@@ -27,5 +28,6 @@ private:
     SparseArray<Component::Position> &_positions;
     SparseArray<Component::Velocity> const &_velocities;
 };
+}
 
 #endif /* !MOVE_SYSTEM_HPP_ */
