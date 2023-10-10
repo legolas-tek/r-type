@@ -33,8 +33,6 @@ public:
     Udp(net::ClientNetManager, std::string addr, std::size_t port);
     ~Udp();
 
-    void send(net::Buffer &cmd);
-
     class Client {
 
     public:
@@ -54,6 +52,7 @@ public:
         asio::ip::udp::endpoint _endpoint;
     };
 
+    void send(net::Buffer &cmd, net::manager::Udp::Client const &client);
     std::vector<std::pair<net::Buffer, net::manager::Udp::Client>> receive() noexcept;
     std::vector<Udp::Client> &getOthers();
 

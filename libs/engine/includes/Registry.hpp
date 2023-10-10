@@ -127,8 +127,12 @@ public:
             (*system)();
     }
 
-    std::vector<std::string> _assets_paths;
+    std::size_t getTick() const
+    {
+        return _tick;
+    }
 
+    std::vector<std::string> _assets_paths;
 private:
     /**
      * Map of component type to component id
@@ -157,6 +161,8 @@ private:
      * List of systems
      */
     std::vector<std::unique_ptr<ISystem>> _systems;
+
+    std::size_t _tick;
 };
 } // namespace engine
 

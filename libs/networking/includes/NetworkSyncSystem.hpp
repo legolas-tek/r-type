@@ -33,15 +33,22 @@ private:
     process_packet_t processReceivedPacket;
     process_packet_t processAckPacket;
 
+    void updateSnapshotHistory(std::vector<std::byte> &componentData);
+
     Registry &_registry;
     net::manager::Udp _nmu;
 
     struct SnapshotHistory {
+        bool used = false;
+
         net::Snapshot snapshot;
         std::vector<std::size_t> ack_users;
     };
 
+    std::vector<SnapshotHistory>::iterator find_last_ack(net::manager::Udp::Client const &client);
+
     std::vector<SnapshotHistory> _snapshots;
+    std::size_t _rd_index;
 };
 
 }
