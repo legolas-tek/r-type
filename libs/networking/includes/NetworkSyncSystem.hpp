@@ -24,7 +24,7 @@ public:
     using process_packet_t = void (std::pair<net::Buffer, net::manager::Udp::Client> const &);
 
 public:
-    NetworkServerSync(Registry &registry, int port);
+    NetworkServerSync(engine::Registry &registry, int port);
     ~NetworkServerSync();
 
     void operator()();
@@ -35,7 +35,7 @@ private:
 
     void updateSnapshotHistory(std::vector<std::byte> &componentData);
 
-    Registry &_registry;
+    engine::Registry &_registry;
     net::manager::Udp _nmu;
 
     struct SnapshotHistory {

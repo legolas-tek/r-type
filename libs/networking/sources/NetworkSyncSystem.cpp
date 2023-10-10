@@ -7,7 +7,7 @@
 
 #include "NetworkSyncSystem.hpp"
 
-net::system::NetworkServerSync::NetworkServerSync(Registry &registry, int port)
+net::system::NetworkServerSync::NetworkServerSync(engine::Registry &registry, int port)
     : _registry(registry), _nmu(net::server_netmanager, "0.0.0.0", port), _snapshots(32, SnapshotHistory()), _rd_index(0)
 {
 }
@@ -22,7 +22,7 @@ void net::system::NetworkServerSync::processReceivedPacket(std::pair<net::Buffer
         uint32_t entity_nbr = 0; /// Variable declared to store temporarily the entity number
 
         std::memcpy(&entity_nbr, &(*it), sizeof(entity_nbr));
-        Entity entity(entity_nbr); /// Build an entity object from the entity number
+        engine::Entity entity(entity_nbr); /// Build an entity object from the entity number
         it += sizeof(entity_nbr); /// Update the offset by the size of the entity number readed
 
         uint8_t component_id = 0; ///Variable declared to store the component id

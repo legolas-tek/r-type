@@ -1,16 +1,16 @@
 #include "Registry.hpp"
 
-#include "Components/PositionComponent.hpp"
-#include "Components/VelocityComponent.hpp"
+#include "Components/Position.hpp"
+#include "Components/Velocity.hpp"
 #include "Systems/LoggingSystem.hpp"
 
 #include "NetworkSyncSystem.hpp"
 
 int main(int argc, char *argv[])
 {
-    Registry reg;
-    Entity player(1);
-    Entity target(2);
+    engine::Registry reg;
+    engine::Entity player(1);
+    engine::Entity target(2);
 
     reg.register_component<Component::Position>();
     reg.register_component<Component::Velocity>();
