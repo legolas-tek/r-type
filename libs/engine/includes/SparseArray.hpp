@@ -58,11 +58,6 @@ public:
             components_iterator tmp = *this;
 
             ++(*this);
-            ++_iterations;
-            while (_m_ptr != _end_ptr && !this->_m_ptr->has_value()) {
-                ++(*this);
-                ++_iterations;
-            }
             return tmp;
         }
 
