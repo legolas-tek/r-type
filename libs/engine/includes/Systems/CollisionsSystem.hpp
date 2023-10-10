@@ -11,16 +11,16 @@
 #include "ISystem.hpp"
 #include "Registry.hpp"
 
-#include "Components/Position.hpp"
+#include "Components/Collision.hpp"
 #include "Components/HitBox.hpp"
-#include "Components/HurtBox.hpp"
 #include "Components/Life.hpp"
+#include "Components/Position.hpp"
 
 struct CollisionsSystem : public ISystem {
     CollisionsSystem(
         SparseArray<Component::Position> &positions,
         SparseArray<Component::HitBox> &hitboxes,
-        SparseArray<Component::HurtBox> &hurtboxes,
+        SparseArray<Component::Collision> &collisions,
         SparseArray<Component::Life> &lifes
     );
 
@@ -31,7 +31,7 @@ private:
     void checkCollisions(size_t index);
     SparseArray<Component::Position> &_positions;
     SparseArray<Component::HitBox> &_hitboxes;
-    SparseArray<Component::HurtBox> &_hurtboxes;
+    SparseArray<Component::Collision> &_collisions;
     SparseArray<Component::Life> &_lifes;
 };
 

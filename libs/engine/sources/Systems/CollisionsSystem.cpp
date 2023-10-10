@@ -10,9 +10,9 @@
 CollisionsSystem::CollisionsSystem(
     SparseArray<Component::Position> &positions,
     SparseArray<Component::HitBox> &hitboxes,
-    SparseArray<Component::HurtBox> &hurtboxes,
+    SparseArray<Component::Collision> &collisions,
     SparseArray<Component::Life> &lifes
-) : _positions(positions), _hitboxes(hitboxes), _hurtboxes(hurtboxes), _lifes(lifes)
+) : _positions(positions), _hitboxes(hitboxes), _collisions(collisions), _lifes(lifes)
 {
 }
 
@@ -20,56 +20,65 @@ static bool isColliding(
     const Component::Position &pos,
     const Component::HitBox &hit,
     const Component::Position &hurtPos,
-    const Component::HurtBox &hurt
+    const Component::Collision &hurt
 )
 {
-    auto leftHitBox = pos._x - hit._width / 2;
-    auto rightHitBox = pos._x + hit._width / 2;
-    auto topHitBox = pos._y - hit._height / 2;
-    auto bottomHitBox = pos._y + hit._height / 2;
+    float leftHitBox = pos._x - hit._width / 2;
+    float rightHitBox = pos._x + hit._width / 2;
+    float topHitBox = pos._y - hit._height / 2;
+    float bottomHitBox = pos._y + hit._height / 2;
 
-    auto leftHurtBox = hurtPos._x - hurt._width / 2;
-    auto rightHurtBox = hurtPos._x + hurt._width / 2;
-    auto topHurtBox = hurtPos._y - hurt._height / 2;
-    auto bottomHurtBox = hurtPos._y + hurt._height / 2;
+    float leftCollision = hurtPos._x - hurt._width / 2;
+    float rightCollision = hurtPos._x + hurt._width / 2;
+    float topCollision = hurtPos._y - hurt._height / 2;
+    float bottomCollision = hurtPos._y + hurt._height / 2;
 
-    if (leftHitBox > rightHurtBox)
+    if (leftHitBox > rightCollision)
         return false;
-    if (rightHitBox < leftHurtBox)
+    if (rightHitBox < leftCollision)
         return false;
-    if (topHitBox < bottomHurtBox)
+    if (topHitBox < bottomCollision)
         return false;
-    if (bottomHitBox > topHurtBox)
+    if (bottomHitBox > topCollision)
         return false;
     return true;
 }
 
 void CollisionsSystem::checkCollisions(size_t index)
 {
-    for (size_t i = 0; i < _hurtboxes.size() && i < _positions.size(); i++) {
-        auto &hurt = _hurtboxes[i];
-        auto &hurtPos = _positions[i];
+    for (auto it = _hitboxes.begin(); it != _hitboxes.end(); it++) {
+        size_t i = it.get_entity();
 
-
-        if (!hurt || !hurtPos || i == index)
+        if (i == index)
             continue;
+
+        auto &pos = _positions[i];
+        auto &collision = _collisions[i];
+
+        if (!pos.has_value() || !collision.has_value())
+            continue;
+
         if (isColliding(_positions[index].value(),
                         _hitboxes[index].value(),
-                        hurtPos.value(),
-                        hurt.value())) {
-            _lifes[i].value()._life -= 1;
+                        pos.value(),
+                        collision.value())) {
+            collision.value()._isColliding = true;
+            collision.value()._collidingEntity = engine::Entity(index);
+            _collisions[index].value()._isColliding = true;
+            _collisions[index].value()._collidingEntity = engine::Entity(i);
         }
     }
 }
 
 void CollisionsSystem::operator()()
 {
-    for (size_t i = 0; i < _positions.size() && i < _hitboxes.size(); i++) {
-        auto &pos = _positions[i];
-        auto &hit = _hitboxes[i];
-        auto &life = _lifes[i];
+    for (auto it = _hitboxes.begin(); it != _hitboxes.end(); it++) {
+        size_t index = it.get_entity();
+        auto &pos = _positions[index];
+        auto &collision = _collisions[index];
 
-        if (pos && hit)
-            checkCollisions(i);//pos.value(), hit.value(), life.value());
+        if (pos.has_value() && collision.has_value()) {
+            checkCollisions(index);
+        }
     }
 }
