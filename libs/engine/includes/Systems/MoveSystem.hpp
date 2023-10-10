@@ -14,18 +14,19 @@
 #include "Components/Velocity.hpp"
 
 namespace System {
+
 class MoveSystem : public ISystem {
 public:
     MoveSystem(
         SparseArray<Component::Position> &positions,
-        SparseArray<Component::Velocity> &velocities
+        SparseArray<Component::Velocity> const &velocities
     );
 
     void operator()() override;
 
 private:
     SparseArray<Component::Position> &_positions;
-    SparseArray<Component::Velocity> &_velocities;
+    SparseArray<Component::Velocity> const &_velocities;
 };
 }
 
