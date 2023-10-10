@@ -22,7 +22,7 @@ class ColisionsSystem : public ISystem {
     public:
         ColisionsSystem(
             SparseArray<Component::HitBox> const &hitBoxes,
-            SparseArray<Component::Collision> const &collisions
+            SparseArray<Component::Collision> &collisions
             ) : _hitBoxes(hitBoxes), _collisions(collisions) {}
         ~ColisionsSystem();
         void operator()() {
@@ -30,7 +30,7 @@ class ColisionsSystem : public ISystem {
         }
     private:
         SparseArray<Component::HitBox> const &_hitBoxes;
-        SparseArray<Component::Collision> const &_collisions;
+        SparseArray<Component::Collision> &_collisions;
 };
 }
 
