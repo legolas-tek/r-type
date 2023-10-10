@@ -49,37 +49,7 @@ public:
      * Controllable components, checks for user keyboard input (W/A/S/D) and
      * adjusts the entities' velocities accordingly.
      */
-    void operator()()
-    {
-        auto &velocity_list = _registry.get_components<Component::Velocity>();
-        auto &controlable_list
-            = _registry.get_components<Component::Controllable>();
-
-        for (auto it = velocity_list.begin(); it != velocity_list.end(); ++it) {
-            bool isControllable = controlable_list[it.get_entity()].has_value();
-
-            if (isControllable) {
-                velocity_list[it.get_entity()]->_vx = 0.0f;
-                velocity_list[it.get_entity()]->_vy = 0.0f;
-                if (IsKeyDown(KEY_W) || IsKeyDown(KEY_Z)) {
-                    velocity_list[it.get_entity()]->_vx += 0.0f;
-                    velocity_list[it.get_entity()]->_vy += -0.1f;
-                }
-                if (IsKeyDown(KEY_A) || IsKeyDown(KEY_Q)) {
-                    velocity_list[it.get_entity()]->_vx += -0.1f;
-                    velocity_list[it.get_entity()]->_vy += 0.0f;
-                }
-                if (IsKeyDown(KEY_S)) {
-                    velocity_list[it.get_entity()]->_vx += 0.0f;
-                    velocity_list[it.get_entity()]->_vy += 0.1f;
-                }
-                if (IsKeyDown(KEY_D)) {
-                    velocity_list[it.get_entity()]->_vx += 0.1f;
-                    velocity_list[it.get_entity()]->_vy += 0.0f;
-                }
-            }
-        }
-    }
+    void operator()() override;
 
 private:
     engine::Registry &_registry; /*!< Reference to the entity-component system's
