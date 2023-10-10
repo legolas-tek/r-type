@@ -15,7 +15,7 @@
 #include "Components/Velocity.hpp"
 
 namespace System {
-struct MoveSystem : public ISystem {
+class MoveSystem : public ISystem {
     public:
     MoveSystem(
         SparseArray<Component::Position> &positions,
