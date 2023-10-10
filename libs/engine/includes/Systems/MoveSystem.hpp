@@ -14,16 +14,18 @@
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
 
-struct MoveSystem : public ISystem {
+class MoveSystem : public ISystem {
+public:
     MoveSystem(
         SparseArray<Component::Position> &positions,
-        SparseArray<Component::Velocity> &velocities
+        SparseArray<Component::Velocity> const &velocities
     );
 
     void operator()() override;
 
+private:
     SparseArray<Component::Position> &_positions;
-    SparseArray<Component::Velocity> &_velocities;
+    SparseArray<Component::Velocity> const &_velocities;
 };
 
 #endif /* !MOVE_SYSTEM_HPP_ */

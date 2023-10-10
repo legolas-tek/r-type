@@ -9,7 +9,7 @@
 
 MoveSystem::MoveSystem(
     SparseArray<Component::Position> &positions,
-    SparseArray<Component::Velocity> &velocities
+    SparseArray<Component::Velocity> const &velocities
 )
     : _positions(positions)
     , _velocities(velocities)
