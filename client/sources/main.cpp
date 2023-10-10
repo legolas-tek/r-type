@@ -1,11 +1,3 @@
-#include <iostream>
-
-#include <asio.hpp>
-#include <asio/ts/buffer.hpp>
-#include <asio/ts/internet.hpp>
-
-// #include "Components/PositionComponent.hpp"
-// #include "Components/VelocityComponent.hpp"
 #include "Entity.hpp"
 #include "Registry.hpp"
 
@@ -13,10 +5,7 @@
 #include "Key.hpp"
 #include "Rendering.hpp"
 
-#include "Systems/LoggingSystem.hpp"
 #include "Systems/MoveSystem.hpp"
-#include "UdpNetManager.hpp"
-#include <ciso646>
 
 int main(int argc, char *argv[])
 {

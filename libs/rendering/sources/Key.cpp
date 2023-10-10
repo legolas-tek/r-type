@@ -6,6 +6,7 @@
 */
 
 #include "Key.hpp"
+#include "raylib.h"
 
 rendering::system::Key::Key(engine::Registry &registry)
     : _registry(registry)

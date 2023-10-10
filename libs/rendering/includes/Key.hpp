@@ -12,7 +12,6 @@
 #include "Components/Velocity.hpp"
 #include "ISystem.hpp"
 #include "Registry.hpp"
-#include <raylib.h>
 
 namespace rendering::system {
 /*!
