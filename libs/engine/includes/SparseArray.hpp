@@ -121,7 +121,7 @@ public:
 
     iterator begin()
     {
-        iterator it(&_data[0], &_data[_data.size()]);
+        iterator it(&_data[0], &_data.data()[_data.size()]);
 
         if (it != end() && !it->has_value())
             it++;
@@ -138,7 +138,7 @@ public:
 
     iterator end()
     {
-        return iterator(&_data[_data.size()]);
+        return iterator(&_data.data()[_data.size()]);
     }
     const_iterator end() const
     {
