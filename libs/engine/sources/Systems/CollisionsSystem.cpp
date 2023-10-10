@@ -10,8 +10,9 @@
 CollisionsSystem::CollisionsSystem(
     SparseArray<Component::Position> &positions,
     SparseArray<Component::HitBox> &hitboxes,
-    SparseArray<Component::HurtBox> &hurtboxes
-) : _positions(positions), _hitboxes(hitboxes), _hurtboxes(hurtboxes)
+    SparseArray<Component::HurtBox> &hurtboxes,
+    SparseArray<Component::Life> &lifes
+) : _positions(positions), _hitboxes(hitboxes), _hurtboxes(hurtboxes), _lifes(lifes)
 {
 }
 
@@ -43,19 +44,22 @@ static bool isColliding(
     return true;
 }
 
-static void checkCollisions(
-        SparseArray<Component::HurtBox> &hurtboxes,
-        SparseArray<Component::Position> &positions,
-        Component::Position &pos,
-        Component::HitBox &hit)
+void CollisionsSystem::checkCollisions(size_t index)
 {
-    for (size_t i = 0; i < hurtboxes.size() && i < positions.size(); i++) {
-        auto &hurt = hurtboxes[i];
-        auto &hurtPos = positions[i];
+    for (size_t i = 0; i < _hurtboxes.size() && i < _positions.size(); i++) {
+        auto &hurt = _hurtboxes[i];
+        auto &hurtPos = _positions[i];
 
-        if (hurt && hurtPos && isColliding(pos, hit, hurtPos.value(), hurt.value()))
-            std::cout << "Collision detected" << std::endl;
+
+        if (!hurt || !hurtPos || i == index)
+            continue;
+        if (isColliding(_positions[index].value(),
+                        _hitboxes[index].value(),
+                        hurtPos.value(),
+                        hurt.value())) {
+            _lifes[i].value()._life -= 1;
         }
+    }
 }
 
 void CollisionsSystem::operator()()
@@ -63,8 +67,9 @@ void CollisionsSystem::operator()()
     for (size_t i = 0; i < _positions.size() && i < _hitboxes.size(); i++) {
         auto &pos = _positions[i];
         auto &hit = _hitboxes[i];
+        auto &life = _lifes[i];
 
         if (pos && hit)
-            checkCollisions(_hurtboxes, _positions, pos.value(), hit.value());
+            checkCollisions(i);//pos.value(), hit.value(), life.value());
     }
 }
