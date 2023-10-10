@@ -11,7 +11,7 @@
 #include "Components/Velocity.hpp"
 #include "Components/Drawable.hpp"
 #include "Components/HitBox.hpp"
-#include "Components/HurtBox.hpp"
+#include "Components/Collision.hpp"
 #include "Components/Life.hpp"
 #include "Components/Controllable.hpp"
 
@@ -24,7 +24,7 @@ public:
         reg.register_component<Velocity>();
         reg.register_component<Drawable>();
         reg.register_component<HitBox>();
-        reg.register_component<HurtBox>();
+        reg.register_component<Collision>();
         reg.register_component<Life>();
         reg.register_component<Controllable>();
     }
