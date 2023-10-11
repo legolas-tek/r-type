@@ -10,7 +10,7 @@
 
 #include "Registry.hpp"
 
-void GameLoop(engine::Registry &reg)
+void gameLoop(engine::Registry &reg)
 {
     auto previous_time = std::chrono::high_resolution_clock::now();
     float target_delta_time = 1.0f / 60.0f;

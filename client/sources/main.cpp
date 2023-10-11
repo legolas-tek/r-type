@@ -23,6 +23,6 @@ int main(int argc, char *argv[])
     game.registerAdditionalSystems(reg);
     game.registerAdditionalClientSystems(reg);
 
-    GameLoop(reg);
+    gameLoop(reg);
 
 }
