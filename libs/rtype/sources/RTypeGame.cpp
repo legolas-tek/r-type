@@ -8,14 +8,14 @@
 #include "IGame.hpp"
 #include "Registry.hpp"
 
+#include "Components/Controllable.hpp"
+#include "Components/Drawable.hpp"
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
-#include "Components/Drawable.hpp"
-#include "Components/Controllable.hpp"
 
-#include "Systems/MoveSystem.hpp"
-#include "Rendering.hpp"
 #include "Key.hpp"
+#include "Rendering.hpp"
+#include "Systems/MoveSystem.hpp"
 
 class RTypeGame : public engine::IGame {
 public:
@@ -82,7 +82,6 @@ public:
         reg.get_components<Component::Controllable>().insert_at(player, 1);
         reg.get_components<Component::Controllable>().insert_at(player2, 1);
     }
-
 };
 
 engine::IGame *createGame()
