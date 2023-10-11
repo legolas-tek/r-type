@@ -13,11 +13,13 @@ add_library (rtype SHARED)
 target_link_libraries (rtype
     PUBLIC
     engine
+    rendering
 )
 
 target_include_directories (rtype
     PUBLIC
     ./includes/
+    ./sources/
 )
 
 target_sources (rtype

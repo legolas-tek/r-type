@@ -19,5 +19,6 @@ target_include_directories (engine
 target_sources (engine
     PRIVATE
     ./sources/Entity.cpp
+    ./sources/GameLoop.cpp
     ./sources/Systems/MoveSystem.cpp
 )
