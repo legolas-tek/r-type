@@ -40,11 +40,11 @@ public:
     {
     }
 
-    virtual void InitScene(engine::Registry &reg)
+    virtual void initScene(engine::Registry &reg)
     {
     }
 
-    virtual void InitAssets(engine::Registry &reg)
+    virtual void initAssets(engine::Registry &reg)
     {
     }
 };

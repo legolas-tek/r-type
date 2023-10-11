@@ -29,16 +29,20 @@ public:
 
     void registerAdditionalClientSystems(engine::Registry &reg) override
     {
-        reg.add_system<System::MoveSystem>(
-            reg.get_components<Component::Position>(),
-            reg.get_components<Component::Velocity>()
-        );
 
         reg.add_system<rendering::system::Rendering>(reg);
         reg.add_system<rendering::system::Key>(reg);
     }
 
-    void InitAssets(engine::Registry &reg) override
+    void registerAdditionalSystems(engine::Registry &reg) override
+    {
+        reg.add_system<System::MoveSystem>(
+            reg.get_components<Component::Position>(),
+            reg.get_components<Component::Velocity>()
+        );
+    }
+
+    void initAssets(engine::Registry &reg) override
     {
         reg._assets_paths.push_back(
             "./client/assets/cyberpunk_street_background.png"
@@ -48,7 +52,7 @@ public:
         );
     }
 
-    void InitScene(engine::Registry &reg) override
+    void initScene(engine::Registry &reg) override
     {
         engine::Entity player(1);
         engine::Entity target(2);

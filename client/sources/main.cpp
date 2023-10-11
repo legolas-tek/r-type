@@ -19,8 +19,9 @@ int main(int argc, char *argv[])
     RTypeGame game;
 
     game.registerAllComponents(reg);
-    game.InitAssets(reg);
-    game.InitScene(reg);
+    game.initAssets(reg);
+    game.initScene(reg);
+    game.registerAdditionalSystems(reg);
     game.registerAdditionalClientSystems(reg);
 
     auto previous_time = std::chrono::high_resolution_clock::now();
@@ -35,7 +36,6 @@ int main(int argc, char *argv[])
         float delta_time = std::chrono::duration<float>(time_difference).count();
         elapsed_time += delta_time;
 
-        std::cout << elapsed_time << std::endl;
         if (elapsed_time >= target_delta_time) {
             reg.run_systems();
             elapsed_time = 0.0f;
