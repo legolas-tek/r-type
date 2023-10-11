@@ -34,10 +34,8 @@ struct HitBox : Serializable<HitBox> {
      * @param width The width of the hitbox.
      * @param height The height of the hitbox.
      */
-    HitBox(float x, float y, float width, float height)
-        : _x(x)
-        , _y(y)
-        , _width(width)
+    HitBox(float width, float height)
+        : _width(width)
         , _height(height)
     {
     }
@@ -46,18 +44,6 @@ struct HitBox : Serializable<HitBox> {
      * @brief Default constructor for the HitBox structure.
      */
     HitBox() = default;
-
-    /**
-     * @brief The x-coordinate of the top-left corner of the hitbox.
-     * Is a relative position to the entity's position.
-     */
-    float _x = 0;
-
-    /**
-     * @brief The y-coordinate of the top-left corner of the hitbox.
-     * Is a relative position to the entity's position.
-     */
-    float _y = 0;
 
     /**
      * @brief The width of the hitbox.
