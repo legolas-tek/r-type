@@ -7,7 +7,7 @@
 
 #include "Registry.hpp"
 #include "RTypeGame.cpp"
-#include "GameLoop.cpp"
+#include "GameLoop.hpp"
 
 #include "Components/Controllable.hpp"
 
@@ -24,5 +24,4 @@ int main(int argc, char *argv[])
     game.registerAdditionalClientSystems(reg);
 
     gameLoop(reg);
-
 }

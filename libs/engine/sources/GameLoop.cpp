@@ -8,7 +8,7 @@
 #include <iostream>
 #include <chrono>
 
-#include "Registry.hpp"
+#include "GameLoop.hpp"
 
 void gameLoop(engine::Registry &reg)
 {
