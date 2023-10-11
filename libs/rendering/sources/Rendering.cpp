@@ -21,7 +21,6 @@ rendering::system::Rendering::~Rendering()
 
 void rendering::system::Rendering::operator()()
 {
-    std::size_t index = 0;
     auto drawable_list = _registry.get_components<Component::Drawable>();
     auto &hitbox_list = _registry.get_components<Component::HitBox>();
 

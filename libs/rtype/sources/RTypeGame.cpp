@@ -6,7 +6,6 @@
 */
 
 #include "IGame.hpp"
-#include "Registry.hpp"
 
 #include "Components/Controllable.hpp"
 #include "Components/Drawable.hpp"
