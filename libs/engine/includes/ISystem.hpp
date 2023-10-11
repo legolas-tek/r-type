@@ -8,8 +8,6 @@
 #ifndef ISYSTEM_HPP_
 #define ISYSTEM_HPP_
 
-#include <functional>
-
 class ISystem {
 public:
     virtual ~ISystem() = default;
