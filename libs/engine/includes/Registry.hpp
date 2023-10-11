@@ -13,12 +13,12 @@
 #include "ISystem.hpp"
 #include "SparseArray.hpp"
 #include <any>
+#include <functional>
 #include <list>
 #include <memory>
 #include <typeindex>
 #include <unordered_map>
 #include <vector>
-#include <functional>
 
 namespace engine {
 class Registry {

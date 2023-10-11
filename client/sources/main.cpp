@@ -5,12 +5,11 @@
 ** main
 */
 
-#include "Registry.hpp"
-#include "RTypeGame.cpp"
 #include "GameLoop.hpp"
+#include "RTypeGame.cpp"
+#include "Registry.hpp"
 
 #include "Components/Controllable.hpp"
-
 
 int main(int argc, char *argv[])
 {

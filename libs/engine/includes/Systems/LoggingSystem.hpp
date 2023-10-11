@@ -16,7 +16,7 @@
 #include "Components/Velocity.hpp"
 
 /// @brief This system is juste a log system made for debug, it prints
-//the positions and velocities values
+// the positions and velocities values
 namespace System {
 class Logging : public ISystem {
 public:
@@ -25,7 +25,9 @@ public:
         SparseArray<Component::Velocity> const &velocities
     )
         : _positions(positions)
-        , _velocities(velocities) {}
+        , _velocities(velocities)
+    {
+    }
     Logging(System::Logging const &other) = delete;
 
     void operator()() override

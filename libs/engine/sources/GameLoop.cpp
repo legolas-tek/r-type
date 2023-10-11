@@ -5,8 +5,8 @@
 ** GameLoop
 */
 
-#include <iostream>
 #include <chrono>
+#include <iostream>
 
 #include "GameLoop.hpp"
 
@@ -21,7 +21,8 @@ void gameLoop(engine::Registry &reg)
         auto time_difference = current_time - previous_time;
         previous_time = current_time;
 
-        float delta_time = std::chrono::duration<float>(time_difference).count();
+        float delta_time
+            = std::chrono::duration<float>(time_difference).count();
         elapsed_time += delta_time;
 
         if (elapsed_time >= target_delta_time) {

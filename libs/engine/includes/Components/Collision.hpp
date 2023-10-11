@@ -11,8 +11,8 @@
 #include <cstddef>
 #include <utility>
 
-#include "Serializable.hpp"
 #include "Entity.hpp"
+#include "Serializable.hpp"
 
 namespace Component {
 
@@ -35,7 +35,9 @@ struct Collision : Serializable<Collision> {
      */
     Collision(float width, float height)
         : _width(width)
-        , _height(height) {}
+        , _height(height)
+    {
+    }
 
     /**
      * @brief Default constructor for the Collision structure.
