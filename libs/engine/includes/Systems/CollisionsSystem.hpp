@@ -19,24 +19,21 @@
 namespace System {
 
 class ColisionsSystem : public ISystem {
-public:
-    ColisionsSystem(
-        SparseArray<Component::HitBox> const &hitBoxes,
-        SparseArray<Component::Collision> &collisions
-    )
-        : _hitBoxes(hitBoxes)
-        , _collisions(collisions)
-    {
-    }
-    ~ColisionsSystem();
-    void operator()()
-    {
-        // func logic
-    }
+    public:
+        ColisionsSystem(
+            SparseArray<Component::HitBox> const &hitBoxes,
+            SparseArray<Component::Collision> &collisions
+            ) : _hitBoxes(hitBoxes), _collisions(collisions) {}
 
-private:
-    SparseArray<Component::HitBox> const &_hitBoxes;
-    SparseArray<Component::Collision> &_collisions;
+        ColisionsSystem(System::ColisionsSystem const &other) = delete;
+
+        ~ColisionsSystem() = default;
+        void operator()() {
+            // func logic
+        }
+    private:
+        SparseArray<Component::HitBox> const &_hitBoxes;
+        SparseArray<Component::Collision> &_collisions;
 };
 }
 

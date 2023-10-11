@@ -127,6 +127,10 @@ public:
             (*system)();
     }
 
+    size_t get_new_entity() {
+        return _entity_counter++;
+    }
+
     std::vector<std::string> _assets_paths;
 
 private:
@@ -157,6 +161,8 @@ private:
      * List of systems
      */
     std::vector<std::unique_ptr<ISystem>> _systems;
+
+    size_t _entity_counter = engine::Entity(0);
 };
 } // namespace engine
 
