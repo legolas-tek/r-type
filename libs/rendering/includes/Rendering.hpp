@@ -18,6 +18,7 @@
 #include "RenderEntity.hpp"
 
 #include "Components/Drawable.hpp"
+#include "Components/HitBox.hpp"
 
 namespace rendering::system {
 /*!
@@ -50,14 +51,14 @@ public:
      * \param registry Reference to the engine's registry to access entity
      * components.
      */
-    Rendering(engine::Registry &registry);
+    explicit Rendering(engine::Registry &registry);
 
     /*!
      * \brief Destroy the Rendering object.
      *
      * Handles any necessary cleanup for the Rendering system upon its deletion.
      */
-    ~Rendering();
+    ~Rendering() override;
 
     /*!
      * \brief Operator function to perform rendering of entities.

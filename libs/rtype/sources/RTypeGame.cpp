@@ -6,12 +6,12 @@
 */
 
 #include "IGame.hpp"
-#include "Registry.hpp"
 
 #include "Components/Controllable.hpp"
 #include "Components/Drawable.hpp"
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
+#include "Components/HitBox.hpp"
 
 #include "Key.hpp"
 #include "Rendering.hpp"
@@ -25,6 +25,7 @@ public:
         reg.register_component<Component::Velocity>();
         reg.register_component<Component::Drawable>();
         reg.register_component<Component::Controllable>();
+        reg.register_component<Component::HitBox>();
     }
 
     void registerAdditionalClientSystems(engine::Registry &reg) override
