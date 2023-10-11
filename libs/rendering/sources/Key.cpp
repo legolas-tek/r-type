@@ -31,18 +31,18 @@ void rendering::system::Key::operator()()
             velocity_list[it.get_entity()]->_vy = 0.0f;
             if (IsKeyDown(KEY_W) || IsKeyDown(KEY_Z)) {
                 velocity_list[it.get_entity()]->_vx += 0.0f;
-                velocity_list[it.get_entity()]->_vy += -0.1f;
+                velocity_list[it.get_entity()]->_vy += -5.0f;
             }
             if (IsKeyDown(KEY_A) || IsKeyDown(KEY_Q)) {
-                velocity_list[it.get_entity()]->_vx += -0.1f;
+                velocity_list[it.get_entity()]->_vx += -5.0f;
                 velocity_list[it.get_entity()]->_vy += 0.0f;
             }
             if (IsKeyDown(KEY_S)) {
                 velocity_list[it.get_entity()]->_vx += 0.0f;
-                velocity_list[it.get_entity()]->_vy += 0.1f;
+                velocity_list[it.get_entity()]->_vy += 5.0f;
             }
             if (IsKeyDown(KEY_D)) {
-                velocity_list[it.get_entity()]->_vx += 0.1f;
+                velocity_list[it.get_entity()]->_vx += 5.0f;
                 velocity_list[it.get_entity()]->_vy += 0.0f;
             }
         }
