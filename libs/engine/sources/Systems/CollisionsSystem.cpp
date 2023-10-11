@@ -62,8 +62,6 @@ void CollisionsSystem::checkCollisions(size_t index)
                         _collisions[i].value())) {
             it->value()._isColliding = true;
             it->value()._collidingEntity = engine::Entity(index);
-            _collisions[index].value()._isColliding = true;
-            _collisions[index].value()._collidingEntity = engine::Entity(i);
         }
     }
 }

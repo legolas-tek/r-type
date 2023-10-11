@@ -10,6 +10,7 @@
 
 #include <cstddef>
 #include <utility>
+#include <optional>
 
 #include "Serializable.hpp"
 #include "Entity.hpp"
@@ -52,15 +53,15 @@ struct Collision : Serializable<Collision> {
      */
     float _height = 0;
 
-        /**
-         * @brief If the entity is colliding with another entity.
-         */
+    /**
+     * @brief If the entity is colliding with another entity.
+     */
     bool _isColliding = false;
 
-        /**
-         * @brief The entity colliding with this collision.
-         */
-    engine::Entity _collidingEntity = engine::Entity(0);
+    /**
+     * @brief The entity colliding with this collision.
+     */
+    std::optional<engine::Entity> _collidingEntity = std::nullopt;
 };
 
 }
