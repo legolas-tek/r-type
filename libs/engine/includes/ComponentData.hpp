@@ -16,7 +16,7 @@ struct ComponentData {
     /**
      * The id of the entity
      */
-    Entity entity;
+    engine::Entity entity;
 
     /**
      * The id of the component

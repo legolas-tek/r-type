@@ -8,22 +8,26 @@
 #ifndef MOVE_SYSTEM_HPP_
 #define MOVE_SYSTEM_HPP_
 
-#include "ISystem.hpp"
-#include "Registry.hpp"
-
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
+#include "ISystem.hpp"
+#include "SparseArray.hpp"
 
-struct MoveSystem : public ISystem {
+namespace System {
+
+class MoveSystem : public ISystem {
+public:
     MoveSystem(
         SparseArray<Component::Position> &positions,
-        SparseArray<Component::Velocity> &velocities
+        SparseArray<Component::Velocity> const &velocities
     );
 
     void operator()() override;
 
+private:
     SparseArray<Component::Position> &_positions;
-    SparseArray<Component::Velocity> &_velocities;
+    SparseArray<Component::Velocity> const &_velocities;
 };
+}
 
 #endif /* !MOVE_SYSTEM_HPP_ */

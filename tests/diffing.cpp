@@ -10,7 +10,9 @@
 
 #include "Snapshot.hpp"
 
-std::byte operator ""_b(unsigned long long value)
+using namespace engine;
+
+std::byte operator""_b(unsigned long long value)
 {
     return std::byte(value);
 }
@@ -32,10 +34,12 @@ TEST(Diffing, Initial)
     current.tick = 3;
     current.data.push_back(ComponentData { .entity = Entity(0x01),
                                            .componentId = 0x02,
-                                           .data = { 0x03_b, 0x04_b, 0x05_b } });
+                                           .data = { 0x03_b, 0x04_b, 0x05_b } }
+    );
     current.data.push_back(ComponentData { .entity = Entity(0x02),
                                            .componentId = 0x02,
-                                           .data = { 0x04_b, 0x05_b, 0x06_b } });
+                                           .data = { 0x04_b, 0x05_b, 0x06_b } }
+    );
     std::vector<std::byte> diff = diffSnapshots(dummy, current);
     std::vector<std::byte> expected = {
         // First Component Data
@@ -59,8 +63,8 @@ TEST(Diffing, RemoveOnly)
     Snapshot empty;
 
     one.data.push_back(ComponentData { .entity = Entity(0x01),
-                                           .componentId = 0x02,
-                                           .data = { 0x03_b, 0x04_b, 0x05_b } });
+                                       .componentId = 0x02,
+                                       .data = { 0x03_b, 0x04_b, 0x05_b } });
     std::vector<std::byte> diff = diffSnapshots(one, empty);
     std::vector<std::byte> expected = {
         // Component Data
@@ -78,11 +82,13 @@ TEST(Diffing, SingleUpdate)
     Snapshot current;
 
     previous.data.push_back(ComponentData { .entity = Entity(0x01),
-                                           .componentId = 0x02,
-                                           .data = { 0x05_b, 0x04_b, 0x05_b } });
+                                            .componentId = 0x02,
+                                            .data = { 0x05_b, 0x04_b, 0x05_b } }
+    );
     current.data.push_back(ComponentData { .entity = Entity(0x01),
                                            .componentId = 0x02,
-                                           .data = { 0x03_b, 0x04_b, 0x05_b } });
+                                           .data = { 0x03_b, 0x04_b, 0x05_b } }
+    );
     std::vector<std::byte> diff = diffSnapshots(previous, current);
     std::vector<std::byte> expected = {
         // First Component Data
@@ -95,18 +101,17 @@ TEST(Diffing, SingleUpdate)
     ASSERT_EQ(diff, expected);
 }
 
-
 TEST(Diffing, RemoveAndAdd)
 {
     Snapshot previous;
     Snapshot current;
 
-    previous.data.push_back(ComponentData { .entity = Entity(0x01),
-                                           .componentId = 0x02,
-                                           .data = { 0x05_b } });
+    previous.data.push_back(ComponentData {
+        .entity = Entity(0x01), .componentId = 0x02, .data = { 0x05_b } });
     current.data.push_back(ComponentData { .entity = Entity(0x01),
                                            .componentId = 0x03,
-                                           .data = { 0x03_b, 0x04_b, 0x05_b } });
+                                           .data = { 0x03_b, 0x04_b, 0x05_b } }
+    );
     std::vector<std::byte> diff = diffSnapshots(previous, current);
     std::vector<std::byte> expected = {
         // Second Component Data
