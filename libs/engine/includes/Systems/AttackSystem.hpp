@@ -32,7 +32,7 @@ public:
 
     ~AttackSystem() = default;
 
-    void operator()();
+    void operator()() override;
 private:
     SparseArray<Component::Attack> &_attacks;
     engine::Registry &_register;
