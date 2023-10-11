@@ -22,6 +22,7 @@ rendering::system::Rendering::~Rendering()
 void rendering::system::Rendering::operator()()
 {
     auto drawable_list = _registry.get_components<Component::Drawable>();
+    auto &hitbox_list = _registry.get_components<Component::HitBox>();
 
     BeginDrawing();
     ClearBackground(RAYWHITE);
@@ -37,6 +38,9 @@ void rendering::system::Rendering::operator()()
             _cache.emplace(
                 it.get_entity(), _registry._assets_paths[(*it)->_index]
             );
+
+            hitbox_list[it.get_entity()]->_width = _cache.at(it.get_entity())._texture.width;
+            hitbox_list[it.get_entity()]->_height = _cache.at(it.get_entity())._texture.height;
 
             DrawTexture(
                 _cache.at(it.get_entity())._texture, pos->_x, pos->_y, WHITE
