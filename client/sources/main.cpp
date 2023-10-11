@@ -6,7 +6,7 @@
 */
 
 #include "Registry.hpp"
-#include "RTypeGame.cpp"
+#include "IGame.hpp"
 #include "GameLoop.hpp"
 
 #include "Components/Controllable.hpp"
@@ -15,7 +15,7 @@
 int main(int argc, char *argv[])
 {
     engine::Registry reg;
-    RTypeGame game;
+    engine::IGame &game = *createGame();
 
     game.registerAllComponents(reg);
     game.initAssets(reg);

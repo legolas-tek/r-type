@@ -50,4 +50,6 @@ public:
 };
 }
 
+engine::IGame *createGame();
+
 #endif /* !ENGINE_IGAME_H_ */

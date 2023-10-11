@@ -16,12 +16,6 @@ target_link_libraries (rtype
     rendering
 )
 
-target_include_directories (rtype
-    PUBLIC
-    ./includes/
-    ./sources/
-)
-
 target_sources (rtype
     PRIVATE
     ./sources/RTypeGame.cpp

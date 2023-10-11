@@ -84,3 +84,8 @@ public:
     }
 
 };
+
+engine::IGame *createGame()
+{
+    return new RTypeGame();
+}
