@@ -45,24 +45,23 @@ static bool isColliding(
 
 void CollisionsSystem::checkCollisions(size_t index)
 {
-    for (auto it = _hitboxes.begin(); it != _hitboxes.end(); it++) {
+    for (auto it = _collisions.begin(); it != _collisions.end(); it++) {
         size_t i = it.get_entity();
 
         if (i == index)
             continue;
 
         auto &pos = _positions[i];
-        auto &collision = _collisions[i];
 
-        if (!pos.has_value() || !collision.has_value())
+        if (!pos.has_value())
             continue;
 
         if (isColliding(_positions[index].value(),
                         _hitboxes[index].value(),
                         pos.value(),
-                        collision.value())) {
-            collision.value()._isColliding = true;
-            collision.value()._collidingEntity = engine::Entity(index);
+                        _collisions[i].value())) {
+            it->value()._isColliding = true;
+            it->value()._collidingEntity = engine::Entity(index);
             _collisions[index].value()._isColliding = true;
             _collisions[index].value()._collidingEntity = engine::Entity(i);
         }
@@ -74,9 +73,8 @@ void CollisionsSystem::operator()()
     for (auto it = _hitboxes.begin(); it != _hitboxes.end(); it++) {
         size_t index = it.get_entity();
         auto &pos = _positions[index];
-        auto &collision = _collisions[index];
 
-        if (pos.has_value() && collision.has_value()) {
+        if (pos.has_value()) {
             checkCollisions(index);
         }
     }
