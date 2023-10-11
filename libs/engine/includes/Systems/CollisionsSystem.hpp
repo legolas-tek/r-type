@@ -24,7 +24,10 @@ class ColisionsSystem : public ISystem {
             SparseArray<Component::HitBox> const &hitBoxes,
             SparseArray<Component::Collision> &collisions
             ) : _hitBoxes(hitBoxes), _collisions(collisions) {}
-        ~ColisionsSystem();
+
+        ColisionsSystem(System::ColisionsSystem const &other) = delete;
+
+        ~ColisionsSystem() = default;
         void operator()() {
             // func logic
         }
