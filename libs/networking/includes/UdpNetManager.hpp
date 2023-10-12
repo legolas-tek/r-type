@@ -81,6 +81,8 @@ private:
     asio::ip::udp::socket _socket;
 
     std::vector<Udp::Client> _others;
+
+    bool _isClient;
 };
 
 }

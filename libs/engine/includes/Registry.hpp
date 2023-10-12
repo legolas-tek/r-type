@@ -162,7 +162,7 @@ private:
      */
     std::vector<std::unique_ptr<ISystem>> _systems;
 
-    std::size_t _tick;
+    std::size_t _tick = 0;
 };
 } // namespace engine
 

@@ -56,10 +56,12 @@ std::vector<std::pair<net::Buffer, net::manager::Udp::Client>> net::manager::Udp
     std::vector<std::pair<net::Buffer, net::manager::Udp::Client>> packets;
 
     do {
-        net::Buffer buff(USHRT_MAX);
+        net::Buffer buff(USHRT_MAX, std::byte(0x00));
 
         try {
-            _socket.receive_from(asio::buffer(buff), client_endpoint);
+            std::size_t buffSize = 0;
+            buffSize = _socket.receive_from(asio::buffer(buff), client_endpoint);
+            buff.resize(buffSize);
         } catch (std::exception &e) {
             break;
         }

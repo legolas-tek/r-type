@@ -8,7 +8,7 @@
 #include "Sync.hpp"
 
 net::Sync::Sync(net::ClientNetManager, engine::Registry &registry, int port)
-    : _registry(registry), _nmu(net::client_netmanager, "0.0.0.0", port), _snapshots(32, SnapshotHistory()), _rd_index(0)
+    : _registry(registry), _nmu(net::client_netmanager, "127.0.0.1", port), _snapshots(32, SnapshotHistory()), _rd_index(0)
 {
 }
 
@@ -32,6 +32,10 @@ void net::Sync::processReceivedPacket(std::pair<net::Buffer, net::manager::Udp::
         uint32_t entity_nbr = 0; /// Variable declared to store temporarily the entity number
 
         std::memcpy(&entity_nbr, &(*it), sizeof(entity_nbr));
+        if (entity_nbr >= 500) {
+            return;
+        }
+
         engine::Entity entity(entity_nbr); /// Build an entity object from the entity number
         it += sizeof(entity_nbr); /// Update the offset by the size of the entity number readed
 
@@ -45,15 +49,18 @@ void net::Sync::processReceivedPacket(std::pair<net::Buffer, net::manager::Udp::
         memcpy(&updateType, &*(it), sizeof(updateType));
         it += sizeof(updateType); /// Update for the  update type
 
-        if (updateType)
+        if (updateType && canUpdate(entity, component_id, &*it))
             it += _registry.apply_data(entity, component_id, &*(it)); // apply the data update on the concerned entity if there's an update
         else
             _registry.erase_component(entity, component_id); /// else, erase the concerned component
     }
 
-    std::vector<std::byte> response(1, std::byte(0x02));
-    _nmu.send(response, packet.second);
+    uint32_t actualTick = _registry.getTick();
+    std::vector<std::byte> response(sizeof(std::byte) + sizeof(actualTick), std::byte(0x02));
 
+    response.at(0) = std::byte(0x02);
+    std::memcpy(&*(response.begin() + 1), &actualTick, sizeof(actualTick));
+    _nmu.send(response, packet.second);
 }
 
 void net::Sync::processAckPacket(std::pair<net::Buffer, net::manager::Udp::Client> const &packet)
@@ -77,8 +84,9 @@ void net::Sync::processAckPacket(std::pair<net::Buffer, net::manager::Udp::Clien
     });
     std::size_t index = other_it - others.begin();
 
-    if (std::find(snapshot_it->ack_users.begin(), snapshot_it->ack_users.end(), index) == snapshot_it->ack_users.end())
+    if (std::find(snapshot_it->ack_users.begin(), snapshot_it->ack_users.end(), index) == snapshot_it->ack_users.end()) {
         snapshot_it->ack_users.push_back(index);
+    }
 }
 
 std::optional<std::vector<net::Sync::SnapshotHistory>::iterator> net::Sync::find_last_ack(std::size_t client_index)
@@ -116,17 +124,27 @@ std::optional<std::vector<net::Sync::SnapshotHistory>::iterator> net::Sync::find
 static std::vector<std::byte> constructUpdatePacket(std::size_t actualTick, std::size_t previousTick, std::vector<std::byte> diff)
 {
     std::vector<std::byte> result(sizeof(std::byte) + (sizeof(uint32_t) * 2), std::byte(0x00));
+    auto it = result.begin();
 
-    result.at(0) = std::byte(0x01);
-    std::memcpy(&result, &actualTick, sizeof(uint32_t));
-    std::memcpy(&result, &previousTick, sizeof(uint32_t));
-    result.insert(result.end(), diff.begin(), diff.end());
+    std::byte packetId{0x01};
+
+    std::memcpy(&*it, &packetId, sizeof(std::byte));
+    it++;
+
+    std::memcpy(&*it, &actualTick, sizeof(uint32_t));
+    it += sizeof(uint32_t);
+
+
+    std::memcpy(&*it, &previousTick, sizeof(uint32_t));
+    it += sizeof(uint32_t);
+
+    result.insert(it,  diff.begin(), diff.end());
     return result;
 }
 
 void net::Sync::updateSnapshotHistory(net::Snapshot &current)
 {
-    if (_rd_index + 1 > _snapshots.size()) {
+    if (_rd_index + 1 >= _snapshots.size()) {
         SnapshotHistory &snap = _snapshots.at(0);
 
         snap.used = 1;
@@ -136,7 +154,7 @@ void net::Sync::updateSnapshotHistory(net::Snapshot &current)
         return;
     }
 
-    SnapshotHistory &snap = _snapshots.at(_rd_index + 1);
+    SnapshotHistory &snap = _snapshots.at(_rd_index);
 
     snap.used = 1;
     snap.snapshot = current;
@@ -148,38 +166,34 @@ void net::Sync::operator()()
 {
     auto _received_packets = _nmu.receive();
 
-    std::cout << "Helo" << std::endl;
     if (not _received_packets.empty()) {
-        std::cout << "received" <<std::endl;
         for (auto &packet: _received_packets) { /// Loop threw all the received packets
             if (*packet.first.begin() == std::byte(0x01)) // In case identifier = 0x01 then it's a state update
                 this->processReceivedPacket(packet);
-            if (*packet.first.begin() == std::byte(0x02)) // In case identifier = 0x02 then it's an ack packet
+            if (*packet.first.begin() == std::byte(0x02)) { // In case identifier = 0x02 then it's an ack packet
                 this->processAckPacket(packet);
+            }
         }
     }
 
     auto &clients = _nmu.getOthers();
 
     for (auto it = clients.begin(); it != clients.end(); it++) {
-        std::cout << "A client" << std::endl;
         auto snapshot_it = find_last_ack(it - clients.begin());
         Snapshot current(_registry.getTick(), _registry);
         std::vector<std::byte> actualDiff;
 
         if (not snapshot_it) {
-            std::cout << "whay" << std::endl;
             Snapshot dummy;
             actualDiff = net::diffSnapshots(dummy, current);
-            std::cout << "oulala" << std::endl;
-        } else
+        } else {
             actualDiff = net::diffSnapshots(snapshot_it.value()->snapshot, current);
-
+        }
 
         if (not actualDiff.empty()) {
+            std::cout << "UPDATE" << std::endl;
             updateSnapshotHistory(current);
             auto packet = constructUpdatePacket(_registry.getTick(), _snapshots.at(_rd_index).snapshot.tick, actualDiff);
-            std::cout << "whut" <<std::endl;
             _nmu.send(packet, *it);
         }
     }

@@ -20,7 +20,7 @@ else ()
     # additional warnings
     target_compile_options (networking
         PRIVATE
-        -Wall -Wextra -fsanitize=address
+        -g -Wall -Wextra -fsanitize=address
     )
     target_link_libraries (networking
         PRIVATE
