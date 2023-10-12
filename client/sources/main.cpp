@@ -7,7 +7,6 @@
 
 #include "GameLoop.hpp"
 #include "IGame.hpp"
-#include "RTypeGame.cpp"
 #include "Registry.hpp"
 
 #include "Components/Controllable.hpp"
