@@ -14,6 +14,7 @@ target_link_libraries (rtype
     PUBLIC
     engine
     rendering
+    networking
 )
 
 target_include_directories (rtype

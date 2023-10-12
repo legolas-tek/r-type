@@ -127,6 +127,11 @@ public:
             (*system)();
     }
 
+    void incrementTick()
+    {
+        _tick += 1;
+    }
+
     std::size_t getTick() const
     {
         return _tick;

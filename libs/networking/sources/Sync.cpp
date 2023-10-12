@@ -32,6 +32,7 @@ void net::Sync::processReceivedPacket(std::pair<net::Buffer, net::manager::Udp::
         uint32_t entity_nbr = 0; /// Variable declared to store temporarily the entity number
 
         std::memcpy(&entity_nbr, &(*it), sizeof(entity_nbr));
+        std::cout << entity_nbr << std::endl;
         if (entity_nbr >= 500) {
             return;
         }
@@ -55,16 +56,18 @@ void net::Sync::processReceivedPacket(std::pair<net::Buffer, net::manager::Udp::
             _registry.erase_component(entity, component_id); /// else, erase the concerned component
     }
 
-    uint32_t actualTick = _registry.getTick();
+    uint32_t actualTick = 0;
     std::vector<std::byte> response(sizeof(std::byte) + sizeof(actualTick), std::byte(0x02));
 
     response.at(0) = std::byte(0x02);
-    std::memcpy(&*(response.begin() + 1), &actualTick, sizeof(actualTick));
+    std::memcpy(&*(response.begin() + 1), &*(packet.first.begin() + 1), sizeof(actualTick));
     _nmu.send(response, packet.second);
+    std::cout << "ack sended" << std::endl;
 }
 
 void net::Sync::processAckPacket(std::pair<net::Buffer, net::manager::Udp::Client> const &packet)
 {
+    std::cout << "ack resceived" << std::endl;
     uint32_t tick_number = 0;
 
     std::memcpy(&tick_number, &*(packet.first.begin() + 1), sizeof(tick_number));
@@ -84,6 +87,7 @@ void net::Sync::processAckPacket(std::pair<net::Buffer, net::manager::Udp::Clien
     });
     std::size_t index = other_it - others.begin();
 
+    std::cout << "what we pushed " << index << std::endl;
     if (std::find(snapshot_it->ack_users.begin(), snapshot_it->ack_users.end(), index) == snapshot_it->ack_users.end()) {
         snapshot_it->ack_users.push_back(index);
     }
@@ -111,7 +115,7 @@ std::optional<std::vector<net::Sync::SnapshotHistory>::iterator> net::Sync::find
     auto last = _snapshots.rbegin() + (_snapshots.size() - _rd_index);
     auto result = std::find_if(_snapshots.rbegin(), last,
         [&] (SnapshotHistory &i) {
-            return i.used == 1 && (std::find(i.ack_users.begin(), i.ack_users.end(), client_index) != i.ack_users.end());
+            return (std::find(i.ack_users.begin(), i.ack_users.end(), client_index) != i.ack_users.end());
     });
 
     if (result != last) {
@@ -191,7 +195,6 @@ void net::Sync::operator()()
         }
 
         if (not actualDiff.empty()) {
-            std::cout << "UPDATE" << std::endl;
             updateSnapshotHistory(current);
             auto packet = constructUpdatePacket(_registry.getTick(), _snapshots.at(_rd_index).snapshot.tick, actualDiff);
             _nmu.send(packet, *it);

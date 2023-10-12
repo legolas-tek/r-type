@@ -17,6 +17,9 @@
 #include "Rendering.hpp"
 #include "Systems/MoveSystem.hpp"
 
+#include "NetworkServerSystem.hpp"
+#include "NetworkClientSystem.hpp"
+
 class RTypeGame : public engine::IGame {
 public:
     void registerAllComponents(engine::Registry &reg) override
@@ -28,11 +31,18 @@ public:
         reg.register_component<Component::Collision>();
     }
 
+    void registerAdditionalServerSystems(engine::Registry &reg) override
+    {
+        reg.add_system<net::system::NetworkServer>(reg, 4242);
+    }
+
+
     void registerAdditionalClientSystems(engine::Registry &reg) override
     {
 
         reg.add_system<rendering::system::Rendering>(reg);
         reg.add_system<rendering::system::Key>(reg);
+        reg.add_system<net::system::NetworkClient>(reg, 4242);
     }
 
     void registerAdditionalSystems(engine::Registry &reg) override
