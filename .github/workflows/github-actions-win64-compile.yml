@@ -14,9 +14,9 @@ jobs:
         with:
           fetch-depth: 0
       - name: "Configure the project using cmake"
-        run: "cmake -Bbuild -DCMAKE_CXX_COMPILER=cl -DCMAKE_C_COMPILER=cl -DCMAKE_BUILD_TYPE=Release -DCMAKE_WINDOWS_EXPORT_ALL_SYMBOLS=1 -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY=build/bin -DCMAKE_LIBRARY_OUTPUT_DIRECTORY=build/bin -DCMAKE_RUNTIME_OUTPUT_DIRECTORY=build/bin"
+        run: "cmake -Bbuild -DCMAKE_CXX_COMPILER=cl -DCMAKE_C_COMPILER=cl -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE='.\\cmake\\windows-base.cmake'"
       - name: "Compile the code"
         run: "cmake --build build --config=Release"
       - name: "Run unit tests"
         working-directory: build/tests
-        run: "ctest --build-config=Release"
+        run: "ctest -C Release"
