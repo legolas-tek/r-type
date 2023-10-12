@@ -56,18 +56,25 @@ void CollisionsSystem::checkCollisions(size_t index)
         if (!pos.has_value())
             continue;
 
-        if (isColliding(_positions[index].value(),
-                        _hitboxes[index].value(),
-                        pos.value(),
-                        _collisions[i].value())) {
-            it->value()._isColliding = true;
+        if (isColliding(
+                _positions[index].value(), _hitboxes[index].value(),
+                pos.value(), _collisions[i].value()
+            )) {
             it->value()._collidingEntity = engine::Entity(index);
         }
     }
 }
 
+static void resetCollisions(SparseArray<Component::Collision> &collisions)
+{
+    for (auto it = collisions.begin(); it != collisions.end(); it++) {
+        it->value()._collidingEntity = std::nullopt;
+    }
+}
+
 void CollisionsSystem::operator()()
 {
+    resetCollisions(_collisions);
     for (auto it = _hitboxes.begin(); it != _hitboxes.end(); it++) {
         size_t index = it.get_entity();
         auto &pos = _positions[index];

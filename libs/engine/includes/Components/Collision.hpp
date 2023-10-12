@@ -56,11 +56,6 @@ struct Collision : Serializable<Collision> {
     float _height = 0;
 
     /**
-     * @brief If the entity is colliding with another entity.
-     */
-    bool _isColliding = false;
-
-    /**
      * @brief The entity colliding with this collision.
      */
     std::optional<engine::Entity> _collidingEntity = std::nullopt;
