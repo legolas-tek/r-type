@@ -8,12 +8,7 @@
 #ifndef NETWORKCLIENTSYS_HPP_
 #define NETWORKCLIENTSYS_HPP_
 
-#include <unordered_map>
-
 #include "Registry.hpp"
-
-#include "UdpNetManager.hpp"
-#include "Snapshot.hpp"
 
 #include "Sync.hpp"
 

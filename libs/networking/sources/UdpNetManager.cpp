@@ -43,17 +43,20 @@ net::manager::Udp::~Udp()
     _socket.close();
 }
 
-void net::manager::Udp::send(net::Buffer &cmd, net::manager::Udp::Client const &client)
+void net::manager::Udp::send(
+    net::Buffer &cmd, net::manager::Client const &client
+)
 {
     _socket.send_to(
         asio::buffer(cmd.data(), cmd.size()), client.getEndpoint()
     );
 }
 
-std::vector<std::pair<net::Buffer, net::manager::Udp::Client>> net::manager::Udp::receive() noexcept
+std::vector<std::pair<net::Buffer, net::manager::Client>>
+net::manager::Udp::receive() noexcept
 {
     asio::ip::udp::endpoint client_endpoint;
-    std::vector<std::pair<net::Buffer, net::manager::Udp::Client>> packets;
+    std::vector<std::pair<net::Buffer, net::manager::Client>> packets;
 
     do {
         net::Buffer buff(USHRT_MAX, std::byte(0x00));
@@ -66,7 +69,7 @@ std::vector<std::pair<net::Buffer, net::manager::Udp::Client>> net::manager::Udp
             break;
         }
 
-        auto it = find_if(_others.begin(), _others.end(), [&](Udp::Client &i) {
+        auto it = find_if(_others.begin(), _others.end(), [&](Client &i) {
             return i.getEndpoint() == client_endpoint;
         });
 
@@ -82,7 +85,7 @@ std::vector<std::pair<net::Buffer, net::manager::Udp::Client>> net::manager::Udp
     return packets;
 }
 
-std::vector<net::manager::Udp::Client> &net::manager::Udp::getOthers()
+std::vector<net::manager::Client> &net::manager::Udp::getOthers()
 {
     return _others;
 }
