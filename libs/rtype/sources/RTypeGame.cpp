@@ -11,7 +11,7 @@
 #include "Components/Drawable.hpp"
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
-#include "Components/HitBox.hpp"
+#include "Components/Collision.hpp"
 
 #include "Key.hpp"
 #include "Rendering.hpp"
@@ -25,7 +25,7 @@ public:
         reg.register_component<Component::Velocity>();
         reg.register_component<Component::Drawable>();
         reg.register_component<Component::Controllable>();
-        reg.register_component<Component::HitBox>();
+        reg.register_component<Component::Collision>();
     }
 
     void registerAdditionalClientSystems(engine::Registry &reg) override
@@ -82,5 +82,9 @@ public:
         // set Controllable
         reg.get_components<Component::Controllable>().insert_at(player, 1);
         reg.get_components<Component::Controllable>().insert_at(player2, 1);
+
+        // set Collision
+        reg.get_components<Component::Collision>().insert_at(player, std::move(Component::Collision(512.0f, 192.0f)));
+        reg.get_components<Component::Collision>().insert_at(player2, std::move(Component::Collision(704.0f, 192.0f)));
     }
 };
