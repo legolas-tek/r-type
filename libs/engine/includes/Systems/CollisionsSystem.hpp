@@ -1,43 +1,36 @@
 /*
 ** EPITECH PROJECT, 2023
-** engine
+** R-Type
 ** File description:
-** ColisionsSystem
+** Collisions System
 */
 
-#ifndef COLLISIONSSYSTEM_HPP_
-#define COLLISIONSSYSTEM_HPP_
+#ifndef R_TYPE_COLLISIONSSYSTEM_HPP
+#define R_TYPE_COLLISIONSSYSTEM_HPP
 
 #include "ISystem.hpp"
-#include "SparseArray.hpp"
+#include "Registry.hpp"
 
 #include "Components/Collision.hpp"
 #include "Components/HitBox.hpp"
+#include "Components/Life.hpp"
+#include "Components/Position.hpp"
 
-/// @brief This system launches an event depending if an entity hitbox hit
-/// an other entity Hitbox
-namespace System {
-
-class ColisionsSystem : public ISystem {
-public:
-    ColisionsSystem(
-        SparseArray<Component::HitBox> const &hitBoxes,
+struct CollisionsSystem : public ISystem {
+    CollisionsSystem(
+        SparseArray<Component::Position> &positions,
+        SparseArray<Component::HitBox> &hitboxes,
         SparseArray<Component::Collision> &collisions
-    )
-        : _hitBoxes(hitBoxes)
-        , _collisions(collisions)
-    {
-    }
-    ~ColisionsSystem();
-    void operator()()
-    {
-        // func logic
-    }
+    );
+
+    void operator()() override;
+
 
 private:
-    SparseArray<Component::HitBox> const &_hitBoxes;
+    void checkCollisions(size_t index);
+    SparseArray<Component::Position> &_positions;
+    SparseArray<Component::HitBox> &_hitboxes;
     SparseArray<Component::Collision> &_collisions;
 };
-}
 
-#endif /* !COLISIONSSYSTEM_HPP_ */
+#endif // R_TYPE_COLLISIONSSYSTEM_HPP
