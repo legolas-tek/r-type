@@ -36,18 +36,39 @@ bool net::Sync::canUpdate(engine::Entity &entity, uint8_t component_id, std::byt
     return true;
 }
 
+void net::Sync::sendAckPacket(
+    uint32_t tickNumber, net::manager::Client const &client
+)
+{
+    std::vector<std::byte> response(
+        sizeof(std::byte) + sizeof(uint32_t), std::byte(0x02)
+    );
+
+#ifdef DEBUG_NETWORK
+    std::cout << "SyncSystem: ack packet sended" << std::endl;
+#endif
+
+    response.at(0) = std::byte(0x02);
+    std::memcpy(&*(response.begin() + 1), &tickNumber, sizeof(uint32_t));
+    _nmu->send(response, client);
+}
+
 void net::Sync::processUpdatePacket(
     std::pair<net::Buffer, net::manager::Client> const &packet
 )
 {
+#ifdef DEBUG_NETWORK
+    std::cout << "SyncSystem: update packet received, it will be processed"
+              << std::endl;
+#endif
+
     for (auto it = packet.first.begin() + 9; it != packet.first.end();) {
         uint32_t entity_nbr = 0; /// Variable declared to store temporarily the entity number
 
         std::memcpy(&entity_nbr, &(*it), sizeof(entity_nbr));
-        if (entity_nbr >= 500) {
-            std::cout << "ici" << std::endl;
+        if (entity_nbr >= 500) /// If the entity number isn't valid don;t
+                               /// process the packet
             return;
-        }
 
         engine::Entity entity(entity_nbr); /// Build an entity object from the entity number
         it += sizeof(entity_nbr); /// Update the offset by the size of the entity number readed
@@ -62,30 +83,33 @@ void net::Sync::processUpdatePacket(
         memcpy(&updateType, &*(it), sizeof(updateType));
         it += sizeof(updateType); /// Update for the  update type
 
-        if (not canUpdate(entity, component_id, &*it))
+        if (not canUpdate(
+                entity, component_id, &*it
+            )) /// If the server don't accept the update, don't update
             entity = engine::Entity(0);
 
         if (updateType)
             it += _registry.apply_data(entity, component_id, &*(it)); // apply the data update on the concerned entity if there's an update
 
-        if (not updateType or entity == 0)
-            _registry.erase_component(
-                entity, component_id
-            ); // apply the data update on the concerned entity if there's an
-               // update
+        if (not updateType or entity == 0) /// else, erase the component
+            _registry.erase_component(entity, component_id);
     }
 
-    std::vector<std::byte> response(sizeof(std::byte) + sizeof(uint32_t), std::byte(0x02));
+    uint32_t tickNumber;
 
-    response.at(0) = std::byte(0x02);
-    std::memcpy(&*(response.begin() + 1), &*(packet.first.begin() + 1), sizeof(uint32_t));
-    _nmu->send(response, packet.second);
+    std::memcpy(&tickNumber, &*(packet.first.begin() + 1), sizeof(tickNumber));
+    sendAckPacket(tickNumber, packet.second);
 }
 
 void net::Sync::processAckPacket(
     std::pair<net::Buffer, net::manager::Client> const &packet
 )
 {
+#ifdef DEBUG_NETWORK
+    std::cout << "SyncSystem: ack packet received, it will be processed"
+              << std::endl;
+#endif
+
     uint32_t tick_number = 0;
 
     std::memcpy(&tick_number, &*(packet.first.begin() + 1), sizeof(tick_number));
@@ -147,8 +171,7 @@ net::Sync::find_last_ack(std::size_t client_index)
 }
 
 static std::vector<std::byte> constructUpdatePacket(
-    std::size_t currentTick, std::size_t previousTick,
-    std::vector<std::byte> diff
+    uint32_t currentTick, uint32_t previousTick, std::vector<std::byte> diff
 )
 {
     std::vector<std::byte> result(sizeof(std::byte) + (sizeof(uint32_t) * 2), std::byte(0x00));
@@ -201,19 +224,26 @@ void net::Sync::operator()()
 
     for (auto it = clients.begin(); it != clients.end(); it++) {
         auto snapshot_it = find_last_ack(it - clients.begin());
+
         Snapshot current(_registry.getTick(), _registry);
+
         std::vector<std::byte> actualDiff;
 
         if (not snapshot_it) {
             Snapshot dummy;
             actualDiff = net::diffSnapshots(dummy, current);
-        } else {
-            actualDiff = net::diffSnapshots(snapshot_it.value()->snapshot, current);
-        }
+        } else
+            actualDiff
+                = net::diffSnapshots(snapshot_it.value()->snapshot, current);
 
         if (not actualDiff.empty()) {
             updateSnapshotHistory(current);
             auto packet = constructUpdatePacket(_registry.getTick(), _snapshots.at(_rd_index).snapshot.tick, actualDiff);
+
+#ifdef DEBUG_NETWORK
+            std::cout << "SyncSystem: update packet sended" << std::endl;
+#endif
+
             _nmu->send(packet, *it);
         }
     }

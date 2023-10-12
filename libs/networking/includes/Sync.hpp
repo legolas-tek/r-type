@@ -79,6 +79,11 @@ private:
     process_packet_t processAckPacket;
 
     /**
+     * @brief Function to send an ack packet
+     */
+    void sendAckPacket(uint32_t tickNumber, net::manager::Client const &client);
+
+    /**
      * @brief Update the current snapshot history with the newly
      * created snapshot.
      *
