@@ -14,7 +14,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: "Configure the project using cmake"
-        run: "cmake -Bbuild -DCMAKE_CXX_COMPILER=cl -DCMAKE_C_COMPILER=cl -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=./cmake/windows-base.cmake"
+        run: "cmake -Bbuild -DCMAKE_CXX_COMPILER=cl -DCMAKE_C_COMPILER=cl -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=./cmake/windows-base.cmake ."
       - name: "Compile the code"
         run: "cmake --build build --config=Release"
       - name: "Run unit tests"
