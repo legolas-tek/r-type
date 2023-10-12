@@ -32,8 +32,8 @@ void net::Sync::processReceivedPacket(std::pair<net::Buffer, net::manager::Udp::
         uint32_t entity_nbr = 0; /// Variable declared to store temporarily the entity number
 
         std::memcpy(&entity_nbr, &(*it), sizeof(entity_nbr));
-        std::cout << entity_nbr << std::endl;
         if (entity_nbr >= 500) {
+            std::cout << "ici" << std::endl;
             return;
         }
 
@@ -50,24 +50,23 @@ void net::Sync::processReceivedPacket(std::pair<net::Buffer, net::manager::Udp::
         memcpy(&updateType, &*(it), sizeof(updateType));
         it += sizeof(updateType); /// Update for the  update type
 
-        if (updateType && canUpdate(entity, component_id, &*it))
+        if (updateType && canUpdate(entity, component_id, &*it)) {
             it += _registry.apply_data(entity, component_id, &*(it)); // apply the data update on the concerned entity if there's an update
-        else
+            if (entity == 0)
+                _registry.erase_component(entity, component_id);
+        } else if (not updateType)
             _registry.erase_component(entity, component_id); /// else, erase the concerned component
     }
 
-    uint32_t actualTick = 0;
-    std::vector<std::byte> response(sizeof(std::byte) + sizeof(actualTick), std::byte(0x02));
+    std::vector<std::byte> response(sizeof(std::byte) + sizeof(uint32_t), std::byte(0x02));
 
     response.at(0) = std::byte(0x02);
-    std::memcpy(&*(response.begin() + 1), &*(packet.first.begin() + 1), sizeof(actualTick));
+    std::memcpy(&*(response.begin() + 1), &*(packet.first.begin() + 1), sizeof(uint32_t));
     _nmu.send(response, packet.second);
-    std::cout << "ack sended" << std::endl;
 }
 
 void net::Sync::processAckPacket(std::pair<net::Buffer, net::manager::Udp::Client> const &packet)
 {
-    std::cout << "ack resceived" << std::endl;
     uint32_t tick_number = 0;
 
     std::memcpy(&tick_number, &*(packet.first.begin() + 1), sizeof(tick_number));
@@ -87,7 +86,6 @@ void net::Sync::processAckPacket(std::pair<net::Buffer, net::manager::Udp::Clien
     });
     std::size_t index = other_it - others.begin();
 
-    std::cout << "what we pushed " << index << std::endl;
     if (std::find(snapshot_it->ack_users.begin(), snapshot_it->ack_users.end(), index) == snapshot_it->ack_users.end()) {
         snapshot_it->ack_users.push_back(index);
     }
