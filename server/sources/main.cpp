@@ -1,3 +1,4 @@
+#include <ciso646>
 #include <iostream>
 
 #include "UdpNetManager.hpp"
