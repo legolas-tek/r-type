@@ -82,5 +82,9 @@ public:
         // set Controllable
         reg.get_components<Component::Controllable>().insert_at(player, 1);
         reg.get_components<Component::Controllable>().insert_at(player2, 1);
+
+        // set hitBox
+        reg.get_components<Component::HitBox>().insert_at(player, std::move(Component::HitBox(512.0f, 192.0f)));
+        reg.get_components<Component::HitBox>().insert_at(player2, std::move(Component::HitBox(704.0f, 192.0f)));
     }
 };

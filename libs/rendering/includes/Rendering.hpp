@@ -18,7 +18,6 @@
 #include "RenderEntity.hpp"
 
 #include "Components/Drawable.hpp"
-#include "Components/HitBox.hpp"
 
 namespace rendering::system {
 /*!
