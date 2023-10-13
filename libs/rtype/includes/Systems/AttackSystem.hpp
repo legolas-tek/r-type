@@ -15,6 +15,10 @@
 
 #include "Components/Attack.hpp"
 
+/// @brief change this value to change the index in wich the drawable component
+/// will init the graphical object
+#define LASER_INDEX 2
+
 /// @brief This system checks wherever the entity is attacking with the attack
 /// component. If it does it launches an attack creating an entity and set back
 /// the attack component to true.
@@ -34,10 +38,18 @@ public:
 
     void operator()() override;
 private:
+
+    /// @brief private function that create a laser
+    /// @param attack_comp the attack component of the attacking entity
+    /// @param attacker_index the index of the attacking entity
+    void createLaserEntity(
+        Component::Attack &attack_comp,
+        engine::Entity const attacker_index
+        );
+
     SparseArray<Component::Attack> &_attacks;
     engine::Registry &_register;
 };
 }
 
 #endif /* !ATTACKSYSTEM_HPP_ */
-
