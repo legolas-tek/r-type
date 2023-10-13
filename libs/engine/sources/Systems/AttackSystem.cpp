@@ -5,38 +5,31 @@
 ** AttackSystem
 */
 
-#ifndef ATTACKSYSTEM_HPP_
-#define ATTACKSYSTEM_HPP_
+#include "Systems/AttackSystem.hpp"
+#include "Components/HitBox.hpp"
+#include "Components/Position.hpp"
+#include "Components/Velocity.hpp"
+#include "Components/Drawable.hpp"
 
-#include "SparseArray.hpp"
-#include "ISystem.hpp"
-#include "Entity.hpp"
-#include "Registry.hpp"
-
-#include "Components/Attack.hpp"
-
-/// @brief This system checks wherever the entity is attacking with the attack
-/// component. If it does it launches an attack creating an entity and set back
-/// the attack component to true.
-namespace System {
-
-class AttackSystem : public ISystem {
-public:
-    AttackSystem(
-        SparseArray<Component::Attack> &attacks,
-        engine::Registry &reg
-        );
-
-    /// @brief deleted copy constructor
-    AttackSystem(System::AttackSystem const &other) = delete;
-
-    ~AttackSystem() = default;
-
-    void operator()() override;
-private:
-    SparseArray<Component::Attack> &_attacks;
-    engine::Registry &_register;
-};
+System::AttackSystem::AttackSystem(
+    SparseArray<Component::Attack> &attacks,
+    engine::Registry &reg
+    ) : _attacks(attacks), _register(reg)
+{
 }
 
-#endif /* !ATTACKSYSTEM_HPP_ */
+void System::AttackSystem::operator()()
+{
+    for (auto it = _attacks.begin(); it != _attacks.end(); it++) {
+        if (it->value().is_attacking) {
+            engine::Entity attack_entity(_register.get_new_entity());
+            SparseArray<Component::Position> &positions = _register.get_components<Component::Position>();
+
+            positions.emplace_at(attack_entity, positions[it.get_entity()]);
+            _register.get_components<Component::Velocity>().insert_at(attack_entity, Component::Velocity(1, 0));
+            _register.get_components<Component::HitBox>().insert_at(attack_entity, Component::HitBox());
+            _register.get_components<Component::Drawable>().insert_at(attack_entity, Component::Drawable(attack_entity));
+            it->value().is_attacking = false;
+        }
+}
+}
