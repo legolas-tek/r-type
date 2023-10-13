@@ -29,8 +29,11 @@ struct Drawable : Serializable<Drawable> {
      * @param index The index to the resource associated with the drawable
      * entity.
      */
-    Drawable(size_t index)
+    Drawable(size_t index, float width, float height, float scale)
         : _index(index)
+        , _width(width)
+        , _height(height)
+        , _scale(scale)
     {
     }
 
@@ -44,6 +47,10 @@ struct Drawable : Serializable<Drawable> {
      * with the drawable entity.
      */
     size_t _index = 0;
+    float _width = 0.0f;
+    float _height = 0.0f;
+    float _scale = 1.0f;
+
 };
 
 }

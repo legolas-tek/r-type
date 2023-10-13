@@ -69,7 +69,7 @@ public:
             background_1, std::move(Component::Position(0, 0))
         );
         reg.get_components<Component::Position>().insert_at(
-            background_2, std::move(Component::Position(512, 0))
+            background_2, std::move(Component::Position(1024, 0))
         );
         // reg.get_components<Component::Position>().insert_at(
         //     target, std::move(Component::Position(1, 250))
@@ -87,16 +87,20 @@ public:
         );
 
         // set Drawable
-        reg.get_components<Component::Drawable>().insert_at(background_1, 0);
-        reg.get_components<Component::Drawable>().insert_at(background_2, 0);
+        reg.get_components<Component::Drawable>().insert_at(
+            background_1, std::move(Component::Drawable(0, 512.0f, 192.0f, 2.0f))
+        );
+        reg.get_components<Component::Drawable>().insert_at(
+            background_2, std::move(Component::Drawable(0, 512.0f, 192.0f, 2.0f))
+        );
         // reg.get_components<Component::Drawable>().insert_at(player2, 1);
 
         // set Parallax
         reg.get_components<Component::Parallax>().insert_at(
-            background_1, std::move(Component::Parallax(0.0f, 0.0f, 512, 192))
+            background_1, std::move(Component::Parallax(0.0f, 0.0f))
         );
         reg.get_components<Component::Parallax>().insert_at(
-            background_2, std::move(Component::Parallax(512.0f, 0.0f, 512, 192))
+            background_2, std::move(Component::Parallax(1024.0f, 0.0f))
         );
 
         // // set Controllable

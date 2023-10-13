@@ -29,19 +29,24 @@ void rendering::system::Rendering::operator()()
         auto pos
             = _registry.get_components<Component::Position>()[it.get_entity()];
 
-        if (_cache.find(it.get_entity()) != _cache.end()) {
-            DrawTexture(
-                _cache.at(it.get_entity())._texture, pos->_x, pos->_y, WHITE
-            );
-        } else {
+        if (_cache.find(it.get_entity()) == _cache.end()) {
             _cache.emplace(
                 it.get_entity(), _registry._assets_paths[(*it)->_index]
             );
-
-            DrawTexture(
-                _cache.at(it.get_entity())._texture, pos->_x, pos->_y, WHITE
-            );
         }
+        Texture2D texture = _cache.at(it.get_entity())._texture;
+        Rectangle sourceRec = { 0.0f, 0.0f, (*it)->_width, (*it)->_height }; // 가정: 각 프레임이 50x50 픽셀
+        float scale = (*it)->_scale;
+        Rectangle destRec = { pos->_x, pos->_y, sourceRec.width * scale, sourceRec.height * scale };
+        Vector2 origin = { 0, 0 };
+        float rotation = 0.0f;
+        Color tint = WHITE;
+
+        DrawTexturePro(texture, sourceRec, destRec, origin, rotation, tint);
+        // DrawTexture(
+        //     _cache.at(it.get_entity())._texture, pos->_x, pos->_y, WHITE
+
+        // );
     }
     EndDrawing();
 }
