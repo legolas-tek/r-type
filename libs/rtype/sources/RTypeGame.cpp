@@ -32,6 +32,14 @@ public:
         reg.register_component<Component::Attack>();
     }
 
+    void registerAdditionalServerSystems(engine::Registry &reg) override
+    {
+        reg.add_system<System::AttackSystem>(
+            reg.get_components<Component::Attack>(),
+            reg
+        );
+    }
+
     void registerAdditionalClientSystems(engine::Registry &reg) override
     {
 
@@ -44,10 +52,6 @@ public:
         reg.add_system<System::MoveSystem>(
             reg.get_components<Component::Position>(),
             reg.get_components<Component::Velocity>()
-        );
-        reg.add_system<System::AttackSystem>(
-            reg.get_components<Component::Attack>(),
-            reg
         );
     }
 
