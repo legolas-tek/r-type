@@ -105,34 +105,24 @@ private:
     void updateSnapshotHistory(net::Snapshot &current);
 
     /**
-     * @brief We will find the last update packet that this
-     * client acked
+     * @brief Find the last acked snapshot
      *
-     * @param client_index the client index
-     * @return std::optional<std::array<net::Sync::SnapshotHistory,
-     * 32>::iterator> maybe an iterator representing the SnapshotHistoru
+     * @param client_index the client index who acked the snapshot
+     * @return net::Snapshot& the find snapshot, or dummy if no one find
      */
     net::Snapshot &find_last_ack(std::size_t client_index);
 
 private:
-    engine::Registry &_registry; /// the engine registry
+    engine::Registry &_registry; ///< the engine registry
 
-    std::unique_ptr<net::manager::Udp> _nmu; /// the udp net manager
+    std::unique_ptr<net::manager::Udp> _nmu; ///< the udp net manager
 
-    /**
-     * @brief A vector of Snapshots
-     */
-    std::array<SnapshotHistory, NET_SNAPSHOT_NBR> _snapshots;
+    std::array<SnapshotHistory, NET_SNAPSHOT_NBR>
+        _snapshots; ///< A vector of Snapshots
 
-    /**
-     * @brief The actual index to read the _snapshots
-     */
-    std::size_t _rd_index;
+    std::size_t _rd_index; ///< The actual index to read the _snapshots
 
-    /**
-     * @brief The dummy packet to use in special case
-     */
-    net::Snapshot _dummy;
+    net::Snapshot _dummy; ///< The dummy packet to use in special case
 };
 
 }
