@@ -12,10 +12,12 @@
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
 #include "Components/Collision.hpp"
+#include "Components/Parallax.hpp"
 
 #include "Key.hpp"
 #include "Rendering.hpp"
 #include "Systems/MoveSystem.hpp"
+#include "Systems/ParallaxSystem.hpp"
 
 class RTypeGame : public engine::IGame {
 public:
@@ -26,6 +28,7 @@ public:
         reg.register_component<Component::Drawable>();
         reg.register_component<Component::Controllable>();
         reg.register_component<Component::Collision>();
+        reg.register_component<Component::Parallax>();
     }
 
     void registerAdditionalClientSystems(engine::Registry &reg) override
@@ -37,6 +40,7 @@ public:
 
     void registerAdditionalSystems(engine::Registry &reg) override
     {
+        reg.add_system<System::ParallaxSystem>(reg);
         reg.add_system<System::MoveSystem>(
             reg.get_components<Component::Position>(),
             reg.get_components<Component::Velocity>()
@@ -55,36 +59,41 @@ public:
 
     void initScene(engine::Registry &reg) override
     {
-        engine::Entity player(1);
-        engine::Entity target(2);
-        engine::Entity player2(5);
+        engine::Entity background_1(1);
+        // engine::Entity target(2);
+        // engine::Entity player2(5);
 
         // set positions
         reg.get_components<Component::Position>().insert_at(
-            player, std::move(Component::Position(1, 200))
+            background_1, std::move(Component::Position(0, 0))
         );
-        reg.get_components<Component::Position>().insert_at(
-            target, std::move(Component::Position(1, 250))
-        );
-        reg.get_components<Component::Position>().insert_at(
-            player2, std::move(Component::Position(1, 300))
-        );
+        // reg.get_components<Component::Position>().insert_at(
+        //     target, std::move(Component::Position(1, 250))
+        // );
+        // reg.get_components<Component::Position>().insert_at(
+        //     player2, std::move(Component::Position(1, 300))
+        // );
 
-        // set velocity
+        // // set velocity
         reg.get_components<Component::Velocity>().insert_at(
-            player, std::move(Component::Velocity(0, 0))
+            background_1, std::move(Component::Velocity(-1.0f, 0))
         );
 
         // set Drawable
-        reg.get_components<Component::Drawable>().insert_at(player, 0);
-        reg.get_components<Component::Drawable>().insert_at(player2, 1);
+        reg.get_components<Component::Drawable>().insert_at(background_1, 0);
+        // reg.get_components<Component::Drawable>().insert_at(player2, 1);
 
-        // set Controllable
-        reg.get_components<Component::Controllable>().insert_at(player, 1);
-        reg.get_components<Component::Controllable>().insert_at(player2, 1);
+        // set Parallax
+        reg.get_components<Component::Parallax>().insert_at(
+            background_1, std::move(Component::Parallax(0.0f, 0.0f))
+        );
 
-        // set Collision
-        reg.get_components<Component::Collision>().insert_at(player, std::move(Component::Collision(512.0f, 192.0f)));
-        reg.get_components<Component::Collision>().insert_at(player2, std::move(Component::Collision(704.0f, 192.0f)));
+        // // set Controllable
+        // reg.get_components<Component::Controllable>().insert_at(background_1, 1);
+        // reg.get_components<Component::Controllable>().insert_at(player2, 1);
+
+        // // set Collision
+        // reg.get_components<Component::Collision>().insert_at(player, std::move(Component::Collision(512.0f, 192.0f)));
+        // reg.get_components<Component::Collision>().insert_at(player2, std::move(Component::Collision(704.0f, 192.0f)));
     }
 };
