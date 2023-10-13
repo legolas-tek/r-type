@@ -40,7 +40,6 @@ public:
             auto scale = drawable_list[it.get_entity()]->_scale;
 
             if (current_pos <= start_pos_x - (width * scale)) {
-                std::cout << "reset" << std::endl;
                 position_list[it.get_entity()]->_x = start_pos_x;
             }
 
