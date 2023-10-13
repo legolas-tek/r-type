@@ -45,8 +45,10 @@ public:
      */
     Parallax() = default;
 
-    float _startPosX = 0.0f; ///< The starting X coordinate for the parallax effect.
-    float _startPosY = 0.0f; ///< The starting Y coordinate for the parallax effect.
+    float _startPosX
+        = 0.0f; ///< The starting X coordinate for the parallax effect.
+    float _startPosY
+        = 0.0f; ///< The starting Y coordinate for the parallax effect.
 };
 
 }

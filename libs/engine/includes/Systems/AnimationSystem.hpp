@@ -22,7 +22,7 @@ namespace System {
 class AnimationSystem : public ISystem {
 public:
     AnimationSystem(engine::Registry &registry)
-    : _registry(registry)
+        : _registry(registry)
     {
     }
     // ~AnimationSystem();
@@ -31,7 +31,8 @@ public:
         auto &animation_list = _registry.get_components<Component::Animation>();
         auto drawable_list = _registry.get_components<Component::Drawable>();
 
-        for (auto it = animation_list.begin(); it != animation_list.end(); ++it) {
+        for (auto it = animation_list.begin(); it != animation_list.end();
+             ++it) {
             auto &animationElement = animation_list[it.get_entity()].value();
             if (animationElement._current_index < animationElement._spriteNum) {
                 animationElement._current_index++;

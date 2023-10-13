@@ -31,7 +31,8 @@ public:
      * entity.
      * @param width The width of the drawable entity in pixels.
      * @param height The height of the drawable entity in pixels.
-     * @param scale The scale factor to apply to the drawable entity (default is 1.0).
+     * @param scale The scale factor to apply to the drawable entity (default
+     * is 1.0).
      */
     Drawable(size_t index, float width, float height, float scale = 1.0f)
         : _index(index)
@@ -46,7 +47,8 @@ public:
      */
     Drawable() = default;
 
-    size_t _index = 0; ///< The index to the associated resource in Registry::_assets_paths.
+    size_t _index = 0; ///< The index to the associated resource in
+                       ///< Registry::_assets_paths.
     float _width = 0.0f; ///< The width of the drawable entity in pixels.
     float _height = 0.0f; ///< The height of the drawable entity in pixels.
     float _scale = 1.0f; ///< The scale factor applied to the drawable entity.

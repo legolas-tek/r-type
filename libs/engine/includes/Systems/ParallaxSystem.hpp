@@ -13,9 +13,9 @@
 
 #include "Registry.hpp"
 
+#include "Components/Drawable.hpp"
 #include "Components/Parallax.hpp"
 #include "Components/Position.hpp"
-#include "Components/Drawable.hpp"
 
 /// @brief This system launches an event depending if an entity hitbox hit
 /// an other entity Hitbox
@@ -24,7 +24,7 @@ namespace System {
 class ParallaxSystem : public ISystem {
 public:
     ParallaxSystem(engine::Registry &registry)
-    : _registry(registry)
+        : _registry(registry)
     {
     }
     void operator()()
@@ -42,7 +42,6 @@ public:
             if (current_pos <= start_pos_x - (width * scale)) {
                 position_list[it.get_entity()]->_x = start_pos_x;
             }
-
         }
     }
 

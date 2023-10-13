@@ -38,10 +38,12 @@ void rendering::system::Rendering::operator()()
         Texture2D texture = _cache.at(it.get_entity())._texture;
         Rectangle sourceRec = { 0.0f, 0.0f, (*it)->_width, (*it)->_height };
         if (animation_list[it.get_entity()].has_value()) {
-            sourceRec.x = (*it)->_width * animation_list[it.get_entity()].value()._current_index;
+            sourceRec.x = (*it)->_width
+                * animation_list[it.get_entity()].value()._current_index;
         }
         float scale = (*it)->_scale;
-        Rectangle destRec = { pos->_x, pos->_y, sourceRec.width * scale, sourceRec.height * scale };
+        Rectangle destRec = { pos->_x, pos->_y, sourceRec.width * scale,
+                              sourceRec.height * scale };
         Vector2 origin = { 0, 0 };
         float rotation = 0.0f;
         Color tint = WHITE;

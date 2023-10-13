@@ -7,19 +7,19 @@
 
 #include "IGame.hpp"
 
+#include "Components/Animation.hpp"
+#include "Components/Collision.hpp"
 #include "Components/Controllable.hpp"
 #include "Components/Drawable.hpp"
+#include "Components/Parallax.hpp"
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
-#include "Components/Collision.hpp"
-#include "Components/Parallax.hpp"
-#include "Components/Animation.hpp"
 
 #include "Key.hpp"
 #include "Rendering.hpp"
+#include "Systems/AnimationSystem.hpp"
 #include "Systems/MoveSystem.hpp"
 #include "Systems/ParallaxSystem.hpp"
-#include "Systems/AnimationSystem.hpp"
 
 class RTypeGame : public engine::IGame {
 public:
@@ -62,9 +62,7 @@ public:
         reg._assets_paths.push_back(
             "./client/assets/cyberpunk_street_foreground.png"
         );
-        reg._assets_paths.push_back(
-            "./client/assets/scarfy.png"
-        );
+        reg._assets_paths.push_back("./client/assets/scarfy.png");
     }
 
     void initScene(engine::Registry &reg) override
@@ -130,10 +128,12 @@ public:
         // ==================== set Drawable ====================
         // background
         reg.get_components<Component::Drawable>().insert_at(
-            background_1, std::move(Component::Drawable(0, 512.0f, 192.0f, 2.0f))
+            background_1,
+            std::move(Component::Drawable(0, 512.0f, 192.0f, 2.0f))
         );
         reg.get_components<Component::Drawable>().insert_at(
-            background_2, std::move(Component::Drawable(0, 512.0f, 192.0f, 2.0f))
+            background_2,
+            std::move(Component::Drawable(0, 512.0f, 192.0f, 2.0f))
         );
         // midground
         reg.get_components<Component::Drawable>().insert_at(
@@ -144,10 +144,12 @@ public:
         );
         // foreground
         reg.get_components<Component::Drawable>().insert_at(
-            foreground_1, std::move(Component::Drawable(2, 512.0f, 192.0f, 2.0f))
+            foreground_1,
+            std::move(Component::Drawable(2, 512.0f, 192.0f, 2.0f))
         );
         reg.get_components<Component::Drawable>().insert_at(
-            foreground_2, std::move(Component::Drawable(2, 512.0f, 192.0f, 2.0f))
+            foreground_2,
+            std::move(Component::Drawable(2, 512.0f, 192.0f, 2.0f))
         );
         // player
         reg.get_components<Component::Drawable>().insert_at(
@@ -182,13 +184,14 @@ public:
             scarfy, std::move(Component::Animation(6))
         );
 
-
         // // ==================== set Controllable ====================
         reg.get_components<Component::Controllable>().insert_at(scarfy, 2);
         // reg.get_components<Component::Controllable>().insert_at(player2, 1);
 
         // // ==================== set Collision ====================
-        // reg.get_components<Component::Collision>().insert_at(player, std::move(Component::Collision(512.0f, 192.0f)));
-        // reg.get_components<Component::Collision>().insert_at(player2, std::move(Component::Collision(704.0f, 192.0f)));
+        // reg.get_components<Component::Collision>().insert_at(player,
+        // std::move(Component::Collision(512.0f, 192.0f)));
+        // reg.get_components<Component::Collision>().insert_at(player2,
+        // std::move(Component::Collision(704.0f, 192.0f)));
     }
 };

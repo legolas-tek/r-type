@@ -22,7 +22,8 @@ namespace Component {
 struct Animation : Serializable<Animation> {
 public:
     /**
-     * @brief Constructor to initialize the Animation component with the given sprite number.
+     * @brief Constructor to initialize the Animation component with the given
+     * sprite number.
      *
      * @param spriteNum The number of sprites in the animation.
      */

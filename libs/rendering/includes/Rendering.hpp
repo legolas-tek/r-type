@@ -16,9 +16,9 @@
 #include "Registry.hpp"
 #include "RenderEntity.hpp"
 
+#include "Components/Animation.hpp"
 #include "Components/Drawable.hpp"
 #include "Components/Position.hpp"
-#include "Components/Animation.hpp"
 
 namespace rendering::system {
 /*!
