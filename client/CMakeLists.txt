@@ -18,6 +18,11 @@ target_link_libraries (r-type_client
     rtype
 )
 
+target_include_directories (r-type_client
+    PUBLIC
+    ../libs/rtype/sources/
+)
+
 target_sources (r-type_client
     PRIVATE
         ./sources/main.cpp
