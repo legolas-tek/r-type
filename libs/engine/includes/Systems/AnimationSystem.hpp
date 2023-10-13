@@ -13,11 +13,6 @@
 
 #include "Registry.hpp"
 
-#include "Components/Animation.hpp"
-#include "Components/Drawable.hpp"
-#include "Components/Position.hpp"
-#include "Components/Velocity.hpp"
-
 /// @brief This system launches an event depending if an entity hitbox hit
 /// an other entity Hitbox
 namespace System {

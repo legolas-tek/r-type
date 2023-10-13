@@ -8,9 +8,6 @@
 #ifndef PARALLAX_HPP_
 #define PARALLAX_HPP_
 
-#include <cstddef>
-#include <utility>
-
 #include "Entity.hpp"
 #include "Serializable.hpp"
 

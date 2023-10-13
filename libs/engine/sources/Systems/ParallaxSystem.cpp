@@ -7,6 +7,10 @@
 
 #include "Systems/ParallaxSystem.hpp"
 
+#include "Components/Drawable.hpp"
+#include "Components/Parallax.hpp"
+#include "Components/Position.hpp"
+
 System::ParallaxSystem::ParallaxSystem(engine::Registry &registry)
     : _registry(registry)
 {
