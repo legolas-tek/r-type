@@ -12,6 +12,7 @@
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
 #include "Components/HitBox.hpp"
+#include "Components/Collision.hpp"
 
 #include "Key.hpp"
 #include "Rendering.hpp"
