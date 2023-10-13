@@ -5,7 +5,7 @@
 ** AttackSystem
 */
 
-#include "Systems/AttackSystem.hpp"
+#include "../../includes/Systems/AttackSystem.hpp"
 
 #include "Components/HitBox.hpp"
 #include "Components/Position.hpp"
@@ -35,8 +35,13 @@ void System::AttackSystem::createLaserEntity(
 {
     SparseArray<Component::Position> &positions = _register.get_components<Component::Position>();
     engine::Entity attack_entity(_register.get_new_entity());
+    Component::Position &attacker_pos = positions[attacker_index].value();
+    Component::Position attack_entity_pos(
+        attacker_pos._x + attack_comp.width + 1,
+        attacker_pos._y + (attack_comp.height / 2)
+        );
 
-    positions.emplace_at(attack_entity, positions[attacker_index]);
+    positions.emplace_at(attack_entity, std::move(attack_entity_pos));
     _register.get_components<Component::Velocity>().insert_at(attack_entity, Component::Velocity(1, 0));
     _register.get_components<Component::HitBox>().insert_at(attack_entity, Component::HitBox());
     _register.get_components<Component::Drawable>().insert_at(attack_entity, Component::Drawable(LASER_INDEX));

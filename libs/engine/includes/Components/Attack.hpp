@@ -18,6 +18,10 @@ struct Attack : Serializable<Attack> {
     Attack() = default;
     /// @brief A boolean that switch to true if and event triggers the attack
     bool is_attacking = false;
+    /// @brief the width of the entity
+    float width;
+    /// @brief the height of the entity
+    float height;
 };
 }
 
