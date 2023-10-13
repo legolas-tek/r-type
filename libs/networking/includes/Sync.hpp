@@ -63,6 +63,19 @@ public:
     void operator()();
 
 private:
+    /**
+     * @brief The snapshot history structure represanting
+     * a Snapshot and a list of ack users
+     */
+    struct SnapshotHistory {
+        bool used = false; /// is the SnapshotHistory used
+
+        net::Snapshot snapshot; /// the Snapshot
+        std::vector<std::size_t>
+            ack_users; /// a list of users who acked this Snapshot
+    };
+
+private:
     virtual bool canUpdate(
         engine::Entity &entity, uint8_t component_id, std::byte const *buffer
     );
@@ -91,21 +104,6 @@ private:
      */
     void updateSnapshotHistory(net::Snapshot &current);
 
-    engine::Registry &_registry; /// the engine registry
-    std::unique_ptr<net::manager::Udp> _nmu; /// the udp net manager
-
-    /**
-     * @brief The snapshot history structure represanting
-     * a Snapshot and a list of ack users
-     */
-    struct SnapshotHistory {
-        bool used = false; /// is the SnapshotHistory used
-
-        net::Snapshot snapshot; /// the Snapshot
-        std::vector<std::size_t>
-            ack_users; /// a list of users who acked this Snapshot
-    };
-
     /**
      * @brief We will find the last update packet that this
      * client acked
@@ -114,18 +112,27 @@ private:
      * @return std::optional<std::array<net::Sync::SnapshotHistory,
      * 32>::iterator> maybe an iterator representing the SnapshotHistoru
      */
-    std::optional<
-        std::array<net::Sync::SnapshotHistory, NET_SNAPSHOT_NBR>::iterator>
-    find_last_ack(std::size_t client_index);
+    net::Snapshot &find_last_ack(std::size_t client_index);
+
+private:
+    engine::Registry &_registry; /// the engine registry
+
+    std::unique_ptr<net::manager::Udp> _nmu; /// the udp net manager
 
     /**
      * @brief A vector of Snapshots
      */
     std::array<SnapshotHistory, NET_SNAPSHOT_NBR> _snapshots;
+
     /**
      * @brief The actual index to read the _snapshots
      */
     std::size_t _rd_index;
+
+    /**
+     * @brief The dummy packet to use in special case
+     */
+    net::Snapshot _dummy;
 };
 
 }

@@ -45,7 +45,7 @@ void net::Sync::sendAckPacket(
     );
 
 #ifdef DEBUG_NETWORK
-    std::cout << "SyncSystem: ack packet sended" << std::endl;
+    std::cout << "SyncSystem: ack packet sent" << std::endl;
 #endif
 
     response.at(0) = std::byte(0x02);
@@ -57,10 +57,6 @@ void net::Sync::processUpdatePacket(
     std::pair<net::Buffer, net::manager::Client> const &packet
 )
 {
-#ifdef DEBUG_NETWORK
-    std::cout << "SyncSystem: update packet received, it will be processed"
-              << std::endl;
-#endif
 
     for (auto it = packet.first.begin() + 9; it != packet.first.end();) {
         uint32_t entity_nbr = 0; /// Variable declared to store temporarily the entity number
@@ -98,6 +94,13 @@ void net::Sync::processUpdatePacket(
     uint32_t tickNumber;
 
     std::memcpy(&tickNumber, &*(packet.first.begin() + 1), sizeof(tickNumber));
+
+#ifdef DEBUG_NETWORK
+    std::cout << "SyncSystem: update packet received had been processed, with "
+                 "the tick "
+              << tickNumber << std::endl;
+#endif
+
     sendAckPacket(tickNumber, packet.second);
 }
 
@@ -105,14 +108,16 @@ void net::Sync::processAckPacket(
     std::pair<net::Buffer, net::manager::Client> const &packet
 )
 {
-#ifdef DEBUG_NETWORK
-    std::cout << "SyncSystem: ack packet received, it will be processed"
-              << std::endl;
-#endif
 
     uint32_t tick_number = 0;
 
     std::memcpy(&tick_number, &*(packet.first.begin() + 1), sizeof(tick_number));
+
+#ifdef DEBUG_NETWORK
+    std::cout << "SyncSystem: ack packet received, acknowledgement of a state "
+                 "update, with the tick "
+              << tick_number << std::endl;
+#endif
 
     auto snapshot_it = std::find_if(_snapshots.begin(), _snapshots.end(),
         [&](SnapshotHistory &i) {
@@ -136,38 +141,25 @@ void net::Sync::processAckPacket(
     }
 }
 
-std::optional<
-    std::array<net::Sync::SnapshotHistory, net::NET_SNAPSHOT_NBR>::iterator>
-net::Sync::find_last_ack(std::size_t client_index)
+net::Snapshot &net::Sync::find_last_ack(std::size_t client_index)
 {
-    auto it = _snapshots.begin() + _rd_index;
+    for (int i = 0; i != net::NET_SNAPSHOT_NBR; ++i) {
+        int index = (_rd_index - i) % net::NET_SNAPSHOT_NBR;
 
-    if (_rd_index == 0 && it->used == 0 && _snapshots.back().used == 0)
-        return std::nullopt;
+        if (index < 0)
+            index += net::NET_SNAPSHOT_NBR;
 
-    if (it != _snapshots.begin()) {
-        auto first = _snapshots.rbegin() + (_snapshots.size() - _rd_index);
-        auto result = std::find_if(first, _snapshots.rend(),
-            [&] (SnapshotHistory &i) {
-                return i.used == 1 && (std::find(i.ack_users.begin(), i.ack_users.end(), client_index) != i.ack_users.end());
-        });
+        auto &snapshot = _snapshots[index];
 
-        if (result != _snapshots.rend()) {
-            return _snapshots.begin() + std::distance(result, _snapshots.rend()) - 1;
-        }
+        if (std::find(
+                snapshot.ack_users.begin(), snapshot.ack_users.end(),
+                client_index
+            )
+            != snapshot.ack_users.end())
+            return snapshot.snapshot;
     }
 
-    auto last = _snapshots.rbegin() + (_snapshots.size() - _rd_index);
-    auto result = std::find_if(_snapshots.rbegin(), last,
-        [&] (SnapshotHistory &i) {
-            return (std::find(i.ack_users.begin(), i.ack_users.end(), client_index) != i.ack_users.end());
-    });
-
-    if (result != last) {
-        return _snapshots.begin() + std::distance(result, _snapshots.rend()) - 1;
-    }
-
-    return std::nullopt;
+    return _dummy;
 }
 
 static std::vector<std::byte> constructUpdatePacket(
@@ -189,7 +181,7 @@ static std::vector<std::byte> constructUpdatePacket(
     std::memcpy(&*it, &previousTick, sizeof(uint32_t));
     it += sizeof(uint32_t);
 
-    result.insert(it,  diff.begin(), diff.end());
+    result.insert(it, diff.begin(), diff.end());
     return result;
 }
 
@@ -200,10 +192,7 @@ void net::Sync::updateSnapshotHistory(net::Snapshot &current)
     snap.used = 1;
     snap.snapshot = current;
 
-    if (_rd_index % NET_SNAPSHOT_NBR == 0)
-        _rd_index = 0;
-    else
-        _rd_index++;
+    _rd_index = (_rd_index + 1) % NET_SNAPSHOT_NBR;
 }
 
 void net::Sync::operator()()
@@ -223,27 +212,20 @@ void net::Sync::operator()()
     auto &clients = _nmu->getOthers();
 
     for (auto it = clients.begin(); it != clients.end(); it++) {
-        auto snapshot_it = find_last_ack(it - clients.begin());
-
+        Snapshot &previous = find_last_ack(it - clients.begin());
         Snapshot current(_registry.getTick(), _registry);
 
-        std::vector<std::byte> actualDiff;
-
-        if (not snapshot_it) {
-            Snapshot dummy;
-            actualDiff = net::diffSnapshots(dummy, current);
-        } else
-            actualDiff
-                = net::diffSnapshots(snapshot_it.value()->snapshot, current);
+        std::vector<std::byte> actualDiff
+            = net::diffSnapshots(previous, current);
 
         if (not actualDiff.empty()) {
             updateSnapshotHistory(current);
             auto packet = constructUpdatePacket(_registry.getTick(), _snapshots.at(_rd_index).snapshot.tick, actualDiff);
 
 #ifdef DEBUG_NETWORK
-            std::cout << "SyncSystem: update packet sended" << std::endl;
+            std::cout << "SyncSystem: update packet sended of size "
+                      << packet.size() << " bytes" << std::endl;
 #endif
-
             _nmu->send(packet, *it);
         }
     }

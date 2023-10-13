@@ -17,17 +17,15 @@ target_link_libraries (networking
     engine
 )
 
-OPTION (DEBUG_NETWORK "Enable network debug" OFF)
+option (DEBUG_NETWORK "Enable network debug" OFF)
 
-IF (DEBUG_NETWORK)
-    ADD_DEFINITIONS (-DDEBUG_NETWORK)
-ENDIF (DEBUG_NETWORK)
+if (DEBUG_NETWORK)
+    add_definitions (-DDEBUG_NETWORK)
+endif (DEBUG_NETWORK)
 
 target_include_directories (networking
     PUBLIC
     ./includes/
-    PRIVATE
-    ./sources/
 )
 
 target_sources (networking
