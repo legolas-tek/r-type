@@ -21,4 +21,5 @@ target_sources (engine
     ./sources/Entity.cpp
     ./sources/GameLoop.cpp
     ./sources/Systems/MoveSystem.cpp
+    ./sources/Systems/AttackSystem.cpp
 )

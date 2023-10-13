@@ -44,7 +44,7 @@ public:
         );
     }
 
-    void initAssets(engine::Registry &reg) override
+    void initAssets(engine::Registry &reg)
     {
         reg._assets_paths.push_back(
             "./client/assets/cyberpunk_street_background.png"
@@ -54,7 +54,7 @@ public:
         );
     }
 
-    void initScene(engine::Registry &reg) override
+    void initScene(engine::Registry &reg)
     {
         engine::Entity player(1);
         engine::Entity target(2);
