@@ -16,17 +16,28 @@
 
 namespace Component {
 
+/**
+ * @brief The Animation struct represents an animation component for entities.
+ */
 struct Animation : Serializable<Animation> {
+public:
+    /**
+     * @brief Constructor to initialize the Animation component with the given sprite number.
+     *
+     * @param spriteNum The number of sprites in the animation.
+     */
     Animation(size_t spriteNum)
         : _spriteNum(spriteNum)
     {
     }
 
+    /**
+     * @brief Default constructor for the Animation component.
+     */
     Animation() = default;
 
-    size_t _spriteNum = 1;
-    size_t _current_index = 0;
-
+    size_t _spriteNum = 1; ///< The number of sprites in the animation.
+    size_t _current_index = 0; ///< The current index of the animation.
 };
 
 }
