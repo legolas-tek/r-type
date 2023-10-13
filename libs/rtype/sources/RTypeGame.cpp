@@ -12,10 +12,13 @@
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
 #include "Components/Collision.hpp"
+#include "Components/Attack.hpp"
+
+#include "Systems/MoveSystem.hpp"
+#include "Systems/AttackSystem.hpp"
 
 #include "Key.hpp"
 #include "Rendering.hpp"
-#include "Systems/MoveSystem.hpp"
 
 class RTypeGame : public engine::IGame {
 public:
@@ -26,6 +29,7 @@ public:
         reg.register_component<Component::Drawable>();
         reg.register_component<Component::Controllable>();
         reg.register_component<Component::Collision>();
+        reg.register_component<Component::Attack>();
     }
 
     void registerAdditionalClientSystems(engine::Registry &reg) override
@@ -40,6 +44,10 @@ public:
         reg.add_system<System::MoveSystem>(
             reg.get_components<Component::Position>(),
             reg.get_components<Component::Velocity>()
+        );
+        reg.add_system<System::AttackSystem>(
+            reg.get_components<Component::Attack>(),
+            reg
         );
     }
 
