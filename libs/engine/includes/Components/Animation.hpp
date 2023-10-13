@@ -9,16 +9,25 @@
 #define ANIMATION_HPP_
 
 #include <cstddef>
+#include <utility>
+
+#include "Entity.hpp"
+#include "Serializable.hpp"
 
 namespace Component {
 
-/**
- * @brief Structure representing an animation.
- *
- * This structure is used to store information related to an animation.
- * It can be used as a component in an animation management system.
- */
-struct Animation { };
+struct Animation : Serializable<Animation> {
+    Animation(size_t spriteNum)
+        : _spriteNum(spriteNum)
+    {
+    }
+
+    Animation() = default;
+
+    size_t _spriteNum = 1;
+    size_t _current_index = 0;
+
+};
 
 }
 

@@ -22,6 +22,7 @@ rendering::system::Rendering::~Rendering()
 void rendering::system::Rendering::operator()()
 {
     auto drawable_list = _registry.get_components<Component::Drawable>();
+    auto animation_list = _registry.get_components<Component::Animation>();
 
     BeginDrawing();
     ClearBackground(RAYWHITE);
@@ -35,7 +36,10 @@ void rendering::system::Rendering::operator()()
             );
         }
         Texture2D texture = _cache.at(it.get_entity())._texture;
-        Rectangle sourceRec = { 0.0f, 0.0f, (*it)->_width, (*it)->_height }; // 가정: 각 프레임이 50x50 픽셀
+        Rectangle sourceRec = { 0.0f, 0.0f, (*it)->_width, (*it)->_height };
+        if (animation_list[it.get_entity()].has_value()) {
+            sourceRec.x = (*it)->_width * animation_list[it.get_entity()].value()._current_index;
+        }
         float scale = (*it)->_scale;
         Rectangle destRec = { pos->_x, pos->_y, sourceRec.width * scale, sourceRec.height * scale };
         Vector2 origin = { 0, 0 };
@@ -43,10 +47,6 @@ void rendering::system::Rendering::operator()()
         Color tint = WHITE;
 
         DrawTexturePro(texture, sourceRec, destRec, origin, rotation, tint);
-        // DrawTexture(
-        //     _cache.at(it.get_entity())._texture, pos->_x, pos->_y, WHITE
-
-        // );
     }
     EndDrawing();
 }

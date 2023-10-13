@@ -11,8 +11,9 @@
 #include "ISystem.hpp"
 #include "SparseArray.hpp"
 
-#include "Components/Collision.hpp"
-#include "Components/HitBox.hpp"
+#include "Registry.hpp"
+
+#include "Components/Animation.hpp"
 
 /// @brief This system launches an event depending if an entity hitbox hit
 /// an other entity Hitbox
@@ -27,10 +28,17 @@ public:
     // ~AnimationSystem();
     void operator()()
     {
-        // DrawTextureRec(scarfy, frameRec, position, WHITE);  // Draw part of the texture
+        auto &animation_list = _registry.get_components<Component::Animation>();
+        auto drawable_list = _registry.get_components<Component::Drawable>();
 
-        std::cout << "Asd" << std::endl;
-        // func logic
+        for (auto it = animation_list.begin(); it != animation_list.end(); ++it) {
+            auto &animationElement = animation_list[it.get_entity()].value();
+            if (animationElement._current_index < animationElement._spriteNum) {
+                animationElement._current_index++;
+            } else {
+                animationElement._current_index = 0;
+            }
+        }
     }
 
 private:
