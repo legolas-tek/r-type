@@ -60,12 +60,16 @@ public:
     void initScene(engine::Registry &reg) override
     {
         engine::Entity background_1(1);
+        engine::Entity background_2(2);
         // engine::Entity target(2);
         // engine::Entity player2(5);
 
         // set positions
         reg.get_components<Component::Position>().insert_at(
             background_1, std::move(Component::Position(0, 0))
+        );
+        reg.get_components<Component::Position>().insert_at(
+            background_2, std::move(Component::Position(512, 0))
         );
         // reg.get_components<Component::Position>().insert_at(
         //     target, std::move(Component::Position(1, 250))
@@ -78,14 +82,21 @@ public:
         reg.get_components<Component::Velocity>().insert_at(
             background_1, std::move(Component::Velocity(-1.0f, 0))
         );
+        reg.get_components<Component::Velocity>().insert_at(
+            background_2, std::move(Component::Velocity(-1.0f, 0))
+        );
 
         // set Drawable
         reg.get_components<Component::Drawable>().insert_at(background_1, 0);
+        reg.get_components<Component::Drawable>().insert_at(background_2, 0);
         // reg.get_components<Component::Drawable>().insert_at(player2, 1);
 
         // set Parallax
         reg.get_components<Component::Parallax>().insert_at(
-            background_1, std::move(Component::Parallax(0.0f, 0.0f))
+            background_1, std::move(Component::Parallax(0.0f, 0.0f, 512, 192))
+        );
+        reg.get_components<Component::Parallax>().insert_at(
+            background_2, std::move(Component::Parallax(512.0f, 0.0f, 512, 192))
         );
 
         // // set Controllable
