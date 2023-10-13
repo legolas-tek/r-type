@@ -162,7 +162,7 @@ private:
      */
     std::vector<std::unique_ptr<ISystem>> _systems;
 
-    size_t _entity_counter = 0;
+    size_t _entity_counter = 1;
 };
 } // namespace engine
 

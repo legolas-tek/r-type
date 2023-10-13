@@ -25,4 +25,5 @@ target_include_directories (rtype
 target_sources (rtype
     PRIVATE
     ./sources/RTypeGame.cpp
+    ./sources/Systems/AttackSystem.cpp
 )
