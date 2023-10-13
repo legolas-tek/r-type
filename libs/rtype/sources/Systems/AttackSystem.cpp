@@ -5,7 +5,7 @@
 ** AttackSystem
 */
 
-#include "../../includes/Systems/AttackSystem.hpp"
+#include "Systems/AttackSystem.hpp"
 
 #include "Components/HitBox.hpp"
 #include "Components/Position.hpp"
