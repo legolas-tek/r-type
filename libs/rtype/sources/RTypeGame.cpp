@@ -135,6 +135,9 @@ public:
             foreground_2, std::move(Component::Velocity(-5.0f, 0))
         );
 
+        reg.get_components<Component::Velocity>().insert_at(
+            scarfy, std::move(Component::Velocity())
+        );
         // ==================== set Drawable ====================
         // background
         reg.get_components<Component::Drawable>().insert_at(
