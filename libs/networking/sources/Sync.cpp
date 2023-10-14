@@ -31,7 +31,9 @@ net::Sync::~Sync()
 {
 }
 
-bool net::Sync::canUpdate(engine::Entity &entity, uint8_t component_id, std::byte const *buffer)
+bool net::Sync::canUpdate(
+    engine::Entity entity, uint8_t component_id, std::byte const *buffer
+)
 {
     return true;
 }
@@ -45,7 +47,8 @@ void net::Sync::sendAckPacket(
     );
 
 #ifdef DEBUG_NETWORK
-    std::cout << "SyncSystem: ack packet sent" << std::endl;
+    std::cout << "SyncSystem: sent ack packet for tick " << tickNumber
+              << std::endl;
 #endif
 
     response.at(0) = std::byte(0x02);
@@ -96,9 +99,8 @@ void net::Sync::processUpdatePacket(
     std::memcpy(&tickNumber, &*(packet.first.begin() + 1), sizeof(tickNumber));
 
 #ifdef DEBUG_NETWORK
-    std::cout << "SyncSystem: update packet received had been processed, with "
-                 "the tick "
-              << tickNumber << std::endl;
+    std::cout << "SyncSystem: received " << packet.first.size()
+              << " byte update packet for tick " << tickNumber << std::endl;
 #endif
 
     sendAckPacket(tickNumber, packet.second);
@@ -114,9 +116,8 @@ void net::Sync::processAckPacket(
     std::memcpy(&tick_number, &*(packet.first.begin() + 1), sizeof(tick_number));
 
 #ifdef DEBUG_NETWORK
-    std::cout << "SyncSystem: ack packet received, acknowledgement of a state "
-                 "update, with the tick "
-              << tick_number << std::endl;
+    std::cout << "SyncSystem: received ack of tick " << tick_number
+              << std::endl;
 #endif
 
     auto snapshot_it = std::find_if(_snapshots.begin(), _snapshots.end(),
@@ -144,10 +145,7 @@ void net::Sync::processAckPacket(
 net::Snapshot &net::Sync::find_last_ack(std::size_t client_index)
 {
     for (int i = 0; i != net::NET_SNAPSHOT_NBR; ++i) {
-        int index = (_rd_index - i) % net::NET_SNAPSHOT_NBR;
-
-        if (index < 0)
-            index += net::NET_SNAPSHOT_NBR;
+        unsigned int index = (_rd_index - i) % net::NET_SNAPSHOT_NBR;
 
         auto &snapshot = _snapshots[index];
 
@@ -215,16 +213,19 @@ void net::Sync::operator()()
         Snapshot &previous = find_last_ack(it - clients.begin());
         Snapshot current(_registry.getTick(), _registry);
 
-        std::vector<std::byte> actualDiff
-            = net::diffSnapshots(previous, current);
+        std::vector<std::byte> diff = net::diffSnapshots(previous, current);
 
-        if (not actualDiff.empty()) {
+        if (not diff.empty()) {
             updateSnapshotHistory(current);
-            auto packet = constructUpdatePacket(_registry.getTick(), _snapshots.at(_rd_index).snapshot.tick, actualDiff);
+            auto packet = constructUpdatePacket(
+                _registry.getTick(), _snapshots.at(_rd_index).snapshot.tick,
+                diff
+            );
 
 #ifdef DEBUG_NETWORK
-            std::cout << "SyncSystem: update packet sended of size "
-                      << packet.size() << " bytes" << std::endl;
+            std::cout << "SyncSystem: sent " << packet.size()
+                      << " byte update packet for tick " << _registry.getTick()
+                      << std::endl;
 #endif
             _nmu->send(packet, *it);
         }

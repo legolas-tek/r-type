@@ -19,7 +19,9 @@ public:
     ~NetworkServer();
 
 private:
-    bool canUpdate(engine::Entity &entity, uint8_t component_id, std::byte const *buffer) override;
+    bool canUpdate(
+        engine::Entity entity, uint8_t component_id, std::byte const *buffer
+    ) override;
 };
 
 }

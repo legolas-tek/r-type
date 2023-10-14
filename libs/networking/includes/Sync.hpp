@@ -77,7 +77,7 @@ private:
 
 private:
     virtual bool canUpdate(
-        engine::Entity &entity, uint8_t component_id, std::byte const *buffer
+        engine::Entity entity, uint8_t component_id, std::byte const *buffer
     );
 
     /**
