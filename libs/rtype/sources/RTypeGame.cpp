@@ -208,3 +208,8 @@ public:
         // std::move(Component::Collision(704.0f, 192.0f)));
     }
 };
+
+engine::IGame *createGame()
+{
+    return new RTypeGame();
+}
