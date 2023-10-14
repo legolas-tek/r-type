@@ -13,7 +13,7 @@
 
 namespace net::manager {
 
-struct TcpServerImpl;
+class TcpServerImpl;
 class Tcp;
 
 class TcpServer {

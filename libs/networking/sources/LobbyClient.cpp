@@ -17,7 +17,7 @@ net::LobbyClient::LobbyClient(std::string addr, std::size_t port)
 
 void net::LobbyClient::sendJoinRequest(std::string const &playerName)
 {
-    size_t playerNameSize = std::min(playerName.size(), 0xffUL);
+    size_t playerNameSize = std::min(playerName.size(), (size_t) 0xff);
     std::vector<std::byte> data(2 + playerNameSize, std::byte(0));
 
     data[0] = std::byte(0x01);
