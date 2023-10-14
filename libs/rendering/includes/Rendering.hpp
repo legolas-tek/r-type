@@ -11,13 +11,14 @@
 #include <iostream>
 #include <unordered_map>
 
-#include "Components/Position.hpp"
 #include "Entity.hpp"
 #include "ISystem.hpp"
 #include "Registry.hpp"
 #include "RenderEntity.hpp"
 
+#include "Components/Animation.hpp"
 #include "Components/Drawable.hpp"
+#include "Components/Position.hpp"
 
 namespace rendering::system {
 /*!

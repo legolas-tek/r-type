@@ -27,7 +27,7 @@ struct HitBox : Serializable<HitBox> {
      * @brief Constructor for the HitBox structure.
      *
      * Initializes an instance of the HitBox structure with the specified
-     * position and dimensions.
+     * dimensions.
      *
      * @param width The width of the hitbox.
      * @param height The height of the hitbox.
