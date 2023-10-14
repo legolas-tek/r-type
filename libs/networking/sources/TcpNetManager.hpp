@@ -15,6 +15,7 @@
 #include <thread>
 
 #include "CircularBuffer.hpp"
+#include "asio/io_context.hpp"
 
 #define BUFF_SIZE 1024 * 6
 
@@ -24,6 +25,7 @@ class Tcp {
 
 public:
     Tcp(std::string addr, std::size_t port);
+    Tcp(asio::io_context &context, asio::ip::tcp::socket &&socket);
     ~Tcp();
 
     CircularBuffer &getBuffer();
@@ -54,9 +56,8 @@ private:
 
     net::CircularBuffer _buffer;
 
-    asio::io_context _io_ctxt;
-
-    asio::ip::tcp::endpoint _endpoint;
+    asio::io_context _io_ctx_storage;
+    asio::io_context &_io_ctx;
 
     asio::ip::tcp::socket _socket;
 
