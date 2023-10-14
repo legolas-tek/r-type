@@ -21,6 +21,5 @@ bool net::system::NetworkServer::canUpdate(
     [[maybe_unused]] std::byte const *buffer
 )
 {
-    entity = engine::Entity(0);
-    return true;
+    return false;
 }
