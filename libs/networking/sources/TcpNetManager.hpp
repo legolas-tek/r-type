@@ -30,7 +30,7 @@ public:
 
     std::string getLastResponse();
 
-    void write(std::string cmd);
+    void write(std::vector<std::byte> const &data);
 
     class TcpNetManagerError : public std::exception {
 

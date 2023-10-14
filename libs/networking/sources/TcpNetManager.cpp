@@ -51,10 +51,10 @@ std::string net::manager::Tcp::getLastResponse()
     return std::string(res.begin(), res.end());
 }
 
-void net::manager::Tcp::write(std::string cmd)
+void net::manager::Tcp::write(std::vector<std::byte> const &data)
 {
     _socket.async_write_some(
-        asio::buffer(cmd),
+        asio::buffer(data),
         [this](std::error_code ec, std::size_t writed [[maybe_unused]]) {
             if (ec)
                 throw TcpNetManagerError(ec.message());
