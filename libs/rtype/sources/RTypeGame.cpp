@@ -21,8 +21,8 @@
 #include "Systems/MoveSystem.hpp"
 #include "Systems/ParallaxSystem.hpp"
 
-#include "NetworkServerSystem.hpp"
 #include "NetworkClientSystem.hpp"
+#include "NetworkSystem.hpp"
 
 class RTypeGame : public engine::IGame {
 public:
@@ -39,9 +39,8 @@ public:
 
     void registerAdditionalServerSystems(engine::Registry &reg) override
     {
-        reg.add_system<net::system::NetworkServer>(reg, 4242);
+        reg.add_system<rtype::NetworkServerSystem>(reg, 4242);
     }
-
 
     void registerAdditionalClientSystems(engine::Registry &reg) override
     {

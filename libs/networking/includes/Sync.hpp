@@ -112,9 +112,10 @@ private:
      */
     net::Snapshot &find_last_ack(std::size_t client_index);
 
-private:
+protected:
     engine::Registry &_registry; ///< the engine registry
 
+private:
     std::unique_ptr<net::manager::Udp> _nmu; ///< the udp net manager
 
     std::array<SnapshotHistory, NET_SNAPSHOT_NBR>
