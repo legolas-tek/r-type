@@ -20,4 +20,5 @@ target_link_libraries (rtype
 target_sources (rtype
     PRIVATE
     ./sources/RTypeGame.cpp
+    ./sources/NetworkSystem.cpp
 )

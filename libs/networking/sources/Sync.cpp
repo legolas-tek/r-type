@@ -62,36 +62,41 @@ void net::Sync::processUpdatePacket(
 {
 
     for (auto it = packet.first.begin() + 9; it != packet.first.end();) {
-        uint32_t entity_nbr = 0; /// Variable declared to store temporarily the entity number
+        uint32_t entity_nbr = 0;
 
         std::memcpy(&entity_nbr, &(*it), sizeof(entity_nbr));
-        if (entity_nbr >= 500) /// If the entity number isn't valid don;t
-                               /// process the packet
+
+        if (entity_nbr >= 500)
+            // invalid entity number
             return;
 
-        engine::Entity entity(entity_nbr); /// Build an entity object from the entity number
-        it += sizeof(entity_nbr); /// Update the offset by the size of the entity number readed
+        engine::Entity entity(entity_nbr);
+        it += sizeof(entity_nbr);
 
-        uint8_t component_id = 0; ///Variable declared to store the component id
+        uint8_t component_id = 0;
 
         std::memcpy(&component_id, &*(it), sizeof(component_id));
-        it += sizeof(component_id); /// Same, update the offsetbby the size of the component id readed
+        it += sizeof(component_id);
 
         bool updateType = 0;
 
         memcpy(&updateType, &*(it), sizeof(updateType));
-        it += sizeof(updateType); /// Update for the  update type
+        it += sizeof(updateType);
 
-        if (not canUpdate(
-                entity, component_id, &*it
-            )) /// If the server don't accept the update, don't update
+        if (not canUpdate(entity, component_id, &*it)) {
+            // update disallowed, use the trash entity
             entity = engine::Entity(0);
+        }
 
-        if (updateType)
-            it += _registry.apply_data(entity, component_id, &*(it)); // apply the data update on the concerned entity if there's an update
+        if (updateType) {
+            // apply the update
+            it += _registry.apply_data(entity, component_id, &*(it));
+        }
 
-        if (not updateType or entity == 0) /// else, erase the component
+        if (not updateType or entity == 0) {
+            // erase the component, or the trash entity
             _registry.erase_component(entity, component_id);
+        }
     }
 
     uint32_t tickNumber;
@@ -113,17 +118,19 @@ void net::Sync::processAckPacket(
 
     uint32_t tick_number = 0;
 
-    std::memcpy(&tick_number, &*(packet.first.begin() + 1), sizeof(tick_number));
+    std::memcpy(
+        &tick_number, &*(packet.first.begin() + 1), sizeof(tick_number)
+    );
 
 #ifdef DEBUG_NETWORK
     std::cout << "SyncSystem: received ack of tick " << tick_number
               << std::endl;
 #endif
 
-    auto snapshot_it = std::find_if(_snapshots.begin(), _snapshots.end(),
-        [&](SnapshotHistory &i) {
-            return i.snapshot.tick == tick_number;
-    });
+    auto snapshot_it = std::find_if(
+        _snapshots.begin(), _snapshots.end(),
+        [&](SnapshotHistory &i) { return i.snapshot.tick == tick_number; }
+    );
 
     if (snapshot_it == _snapshots.end())
         return;
@@ -137,9 +144,8 @@ void net::Sync::processAckPacket(
     );
     std::size_t index = other_it - others.begin();
 
-    if (std::find(snapshot_it->ack_users.begin(), snapshot_it->ack_users.end(), index) == snapshot_it->ack_users.end()) {
-        snapshot_it->ack_users.push_back(index);
-    }
+    // mark the snapshot as acked by the client number by its index
+    snapshot_it->ack_mask |= (1 << index);
 }
 
 net::Snapshot &net::Sync::find_last_ack(std::size_t client_index)
@@ -149,12 +155,15 @@ net::Snapshot &net::Sync::find_last_ack(std::size_t client_index)
 
         auto &snapshot = _snapshots[index];
 
-        if (std::find(
-                snapshot.ack_users.begin(), snapshot.ack_users.end(),
-                client_index
-            )
-            != snapshot.ack_users.end())
+        if (snapshot.snapshot.wasAck) {
+            // use the dummy snapshot, which is always acked
             return snapshot.snapshot;
+        }
+
+        if (snapshot.ack_mask & (1 << client_index)) {
+            // the snapshot was acked by the client
+            return snapshot.snapshot;
+        }
     }
 
     return _dummy;
@@ -164,17 +173,18 @@ static std::vector<std::byte> constructUpdatePacket(
     uint32_t currentTick, uint32_t previousTick, std::vector<std::byte> diff
 )
 {
-    std::vector<std::byte> result(sizeof(std::byte) + (sizeof(uint32_t) * 2), std::byte(0x00));
+    std::vector<std::byte> result(
+        sizeof(std::byte) + (sizeof(uint32_t) * 2), std::byte(0x00)
+    );
     auto it = result.begin();
 
-    std::byte packetId{0x01};
+    std::byte packetId { 0x01 };
 
     std::memcpy(&*it, &packetId, sizeof(std::byte));
     it++;
 
     std::memcpy(&*it, &currentTick, sizeof(uint32_t));
     it += sizeof(uint32_t);
-
 
     std::memcpy(&*it, &previousTick, sizeof(uint32_t));
     it += sizeof(uint32_t);
@@ -183,13 +193,12 @@ static std::vector<std::byte> constructUpdatePacket(
     return result;
 }
 
-void net::Sync::updateSnapshotHistory(net::Snapshot &current)
+void net::Sync::updateSnapshotHistory(net::Snapshot &&current)
 {
     SnapshotHistory &snap = _snapshots[_rd_index % NET_SNAPSHOT_NBR];
 
-    snap.used = 1;
-    snap.snapshot = current;
-
+    snap.snapshot = std::move(current);
+    snap.ack_mask = 0;
     _rd_index = (_rd_index + 1) % NET_SNAPSHOT_NBR;
 }
 
@@ -197,13 +206,14 @@ void net::Sync::operator()()
 {
     auto _received_packets = _nmu->receive();
 
-    if (not _received_packets.empty()) {
-        for (auto &packet: _received_packets) { /// Loop threw all the received packets
-            if (*packet.first.begin() == std::byte(0x01)) // In case identifier = 0x01 then it's a state update
-                this->processUpdatePacket(packet);
-            if (*packet.first.begin() == std::byte(0x02)) { // In case identifier = 0x02 then it's an ack packet
-                this->processAckPacket(packet);
-            }
+    for (auto &packet : _received_packets) {
+        if (*packet.first.begin() == std::byte(0x01)) {
+            // In case identifier = 0x01 then it's a state update
+            this->processUpdatePacket(packet);
+        }
+        if (*packet.first.begin() == std::byte(0x02)) {
+            // In case identifier = 0x02 then it's an ack packet
+            this->processAckPacket(packet);
         }
     }
 
@@ -216,7 +226,7 @@ void net::Sync::operator()()
         std::vector<std::byte> diff = net::diffSnapshots(previous, current);
 
         if (not diff.empty()) {
-            updateSnapshotHistory(current);
+            updateSnapshotHistory(std::move(current));
             auto packet = constructUpdatePacket(
                 _registry.getTick(), _snapshots.at(_rd_index).snapshot.tick,
                 diff

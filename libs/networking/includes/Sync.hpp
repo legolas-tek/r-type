@@ -68,11 +68,8 @@ private:
      * a Snapshot and a list of ack users
      */
     struct SnapshotHistory {
-        bool used = false; /// is the SnapshotHistory used
-
-        net::Snapshot snapshot; /// the Snapshot
-        std::vector<std::size_t>
-            ack_users; /// a list of users who acked this Snapshot
+        net::Snapshot snapshot; ///< the snapshot
+        std::size_t ack_mask; ///< a bit mask of the users who acked it
     };
 
 private:
@@ -102,7 +99,7 @@ private:
      *
      * @param current the current snapshot to store
      */
-    void updateSnapshotHistory(net::Snapshot &current);
+    void updateSnapshotHistory(net::Snapshot &&current);
 
     /**
      * @brief Find the last acked snapshot
@@ -112,9 +109,10 @@ private:
      */
     net::Snapshot &find_last_ack(std::size_t client_index);
 
-private:
+protected:
     engine::Registry &_registry; ///< the engine registry
 
+private:
     std::unique_ptr<net::manager::Udp> _nmu; ///< the udp net manager
 
     std::array<SnapshotHistory, NET_SNAPSHOT_NBR>
