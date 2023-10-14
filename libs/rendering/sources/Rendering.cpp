@@ -21,26 +21,34 @@ rendering::system::Rendering::~Rendering()
 
 void rendering::system::Rendering::operator()()
 {
-    std::size_t index = 0;
     auto drawable_list = _registry.get_components<Component::Drawable>();
+    auto animation_list = _registry.get_components<Component::Animation>();
+
     BeginDrawing();
     ClearBackground(RAYWHITE);
     for (auto it = drawable_list.begin(); it != drawable_list.end(); ++it) {
         auto pos
             = _registry.get_components<Component::Position>()[it.get_entity()];
 
-        if (_cache.find(it.get_entity()) != _cache.end()) {
-            DrawTexture(
-                _cache.at(it.get_entity())._texture, pos->_x, pos->_y, WHITE
-            );
-        } else {
+        if (_cache.find(it.get_entity()) == _cache.end()) {
             _cache.emplace(
                 it.get_entity(), _registry._assets_paths[(*it)->_index]
             );
-            DrawTexture(
-                _cache.at(it.get_entity())._texture, pos->_x, pos->_y, WHITE
-            );
         }
+        Texture2D texture = _cache.at(it.get_entity())._texture;
+        Rectangle sourceRec = { 0.0f, 0.0f, (*it)->_width, (*it)->_height };
+        if (animation_list[it.get_entity()].has_value()) {
+            sourceRec.x = (*it)->_width
+                * animation_list[it.get_entity()].value()._current_index;
+        }
+        float scale = (*it)->_scale;
+        Rectangle destRec = { pos->_x, pos->_y, sourceRec.width * scale,
+                              sourceRec.height * scale };
+        Vector2 origin = { 0, 0 };
+        float rotation = 0.0f;
+        Color tint = WHITE;
+
+        DrawTexturePro(texture, sourceRec, destRec, origin, rotation, tint);
     }
     EndDrawing();
 }

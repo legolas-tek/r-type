@@ -13,6 +13,8 @@
 #include <cstddef>
 #include <vector>
 
+namespace net {
+
 struct Snapshot {
     /**
      * The tick the snapshot was taken
@@ -37,5 +39,7 @@ struct Snapshot {
 
 std::vector<std::byte>
 diffSnapshots(Snapshot const &previous, Snapshot const &current);
+
+}
 
 #endif /* !NETWORKING_SNAPSHOT_HPP_ */

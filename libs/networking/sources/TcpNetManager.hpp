@@ -54,7 +54,7 @@ private:
 
     asio::error_code _ec;
 
-    rtype::CircularBuffer _buffer;
+    net::CircularBuffer _buffer;
 
     asio::io_context _io_ctxt;
 

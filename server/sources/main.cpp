@@ -1,21 +1,25 @@
-#include <iostream>
+/*
+** EPITECH PROJECT, 2023
+** r-type
+** File description:
+** main
+*/
 
-#include "UdpNetManager.hpp"
+#include "Registry.hpp"
+#include "RTypeGame.cpp"
+#include "GameLoop.hpp"
 
 int main(int argc, char *argv[])
 {
-    net::manager::Udp ntm(net::server_netmanager, "127.0.0.1", 4242);
-    std::vector<std::pair<net::manager::Udp::Buffer, net::manager::Udp::Client>>
-        res;
+    engine::Registry reg;
+    RTypeGame game;
 
-    while (1) {
-        if (not(res = ntm.receive()).empty()) {
-            std::cout << res.size() << "packets received" << std::endl;
-            net::manager::Udp::Buffer buff(0x01);
-            ntm.send(buff);
-            res.clear();
-            break;
-        }
-    }
-    return 0;
+    game.registerAllComponents(reg);
+    game.initAssets(reg);
+    game.initScene(reg);
+    game.registerAdditionalSystems(reg);
+    game.registerAdditionalServerSystems(reg);
+
+    gameLoop(reg);
 }
+

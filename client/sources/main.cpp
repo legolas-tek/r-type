@@ -9,8 +9,6 @@
 #include "IGame.hpp"
 #include "Registry.hpp"
 
-#include "Components/Controllable.hpp"
-
 int main(int argc, char *argv[])
 {
     engine::Registry reg;
