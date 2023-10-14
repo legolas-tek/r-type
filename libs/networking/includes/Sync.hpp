@@ -68,9 +68,8 @@ private:
      * a Snapshot and a list of ack users
      */
     struct SnapshotHistory {
-        net::Snapshot snapshot; /// the Snapshot
-        std::vector<std::size_t>
-            ack_users; /// a list of users who acked this Snapshot
+        net::Snapshot snapshot; ///< the snapshot
+        std::size_t ack_mask; ///< a bit mask of the users who acked it
     };
 
 private:

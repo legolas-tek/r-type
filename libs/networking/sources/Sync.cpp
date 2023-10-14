@@ -144,12 +144,8 @@ void net::Sync::processAckPacket(
     );
     std::size_t index = other_it - others.begin();
 
-    if (std::find(
-            snapshot_it->ack_users.begin(), snapshot_it->ack_users.end(), index
-        )
-        == snapshot_it->ack_users.end()) {
-        snapshot_it->ack_users.push_back(index);
-    }
+    // mark the snapshot as acked by the client number by its index
+    snapshot_it->ack_mask |= (1 << index);
 }
 
 net::Snapshot &net::Sync::find_last_ack(std::size_t client_index)
@@ -159,12 +155,15 @@ net::Snapshot &net::Sync::find_last_ack(std::size_t client_index)
 
         auto &snapshot = _snapshots[index];
 
-        if (std::find(
-                snapshot.ack_users.begin(), snapshot.ack_users.end(),
-                client_index
-            )
-            != snapshot.ack_users.end())
+        if (snapshot.snapshot.wasAck) {
+            // use the dummy snapshot, which is always acked
             return snapshot.snapshot;
+        }
+
+        if (snapshot.ack_mask & (1 << client_index)) {
+            // the snapshot was acked by the client
+            return snapshot.snapshot;
+        }
     }
 
     return _dummy;
@@ -199,6 +198,7 @@ void net::Sync::updateSnapshotHistory(net::Snapshot &&current)
     SnapshotHistory &snap = _snapshots[_rd_index % NET_SNAPSHOT_NBR];
 
     snap.snapshot = std::move(current);
+    snap.ack_mask = 0;
     _rd_index = (_rd_index + 1) % NET_SNAPSHOT_NBR;
 }
 
