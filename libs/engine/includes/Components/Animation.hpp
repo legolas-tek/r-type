@@ -40,7 +40,6 @@ public:
     size_t _spriteNum = 1; ///< The number of sprites in the animation.
     size_t _current_index = 0; ///< The current index of the animation.
 };
-
 }
 
 #endif /* !ANIMATION_HPP_ */

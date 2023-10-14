@@ -21,6 +21,9 @@
 #include "Systems/MoveSystem.hpp"
 #include "Systems/ParallaxSystem.hpp"
 
+#include "NetworkServerSystem.hpp"
+#include "NetworkClientSystem.hpp"
+
 class RTypeGame : public engine::IGame {
 public:
     void registerAllComponents(engine::Registry &reg) override
@@ -34,6 +37,12 @@ public:
         reg.register_component<Component::Animation>();
     }
 
+    void registerAdditionalServerSystems(engine::Registry &reg) override
+    {
+        reg.add_system<net::system::NetworkServer>(reg, 4242);
+    }
+
+
     void registerAdditionalClientSystems(engine::Registry &reg) override
     {
 
@@ -41,6 +50,7 @@ public:
         reg.add_system<System::AnimationSystem>(reg);
         reg.add_system<rendering::system::Rendering>(reg);
         reg.add_system<rendering::system::Key>(reg);
+        reg.add_system<net::system::NetworkClient>(reg, 4242);
     }
 
     void registerAdditionalSystems(engine::Registry &reg) override
@@ -125,6 +135,9 @@ public:
             foreground_2, std::move(Component::Velocity(-5.0f, 0))
         );
 
+        reg.get_components<Component::Velocity>().insert_at(
+            scarfy, std::move(Component::Velocity())
+        );
         // ==================== set Drawable ====================
         // background
         reg.get_components<Component::Drawable>().insert_at(

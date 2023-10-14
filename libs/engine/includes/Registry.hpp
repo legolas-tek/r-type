@@ -116,9 +116,9 @@ public:
         return data;
     }
 
-    void apply_data(Entity entity, size_t componentId, std::byte const *buffer)
+    std::size_t apply_data(Entity entity, size_t componentId, std::byte const *buffer)
     {
-        _deserialize_component_funcs[componentId](*this, entity, buffer);
+        return _deserialize_component_funcs[componentId](*this, entity, buffer);
     }
 
     void run_systems()
@@ -127,8 +127,17 @@ public:
             (*system)();
     }
 
-    std::vector<std::string> _assets_paths;
+    void incrementTick()
+    {
+        _tick += 1;
+    }
 
+    std::size_t getTick() const
+    {
+        return _tick;
+    }
+
+    std::vector<std::string> _assets_paths;
 private:
     /**
      * Map of component type to component id
@@ -157,6 +166,8 @@ private:
      * List of systems
      */
     std::vector<std::unique_ptr<ISystem>> _systems;
+
+    std::size_t _tick = 1;
 };
 } // namespace engine
 

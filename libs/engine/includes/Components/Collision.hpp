@@ -9,8 +9,8 @@
 #define COLLISION_HPP_
 
 #include <cstddef>
-#include <utility>
 #include <optional>
+#include <utility>
 
 #include "Entity.hpp"
 #include "Serializable.hpp"

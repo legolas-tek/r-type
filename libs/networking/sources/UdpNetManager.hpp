@@ -15,49 +15,24 @@
 
 #include <climits>
 
-namespace net {
+#include "Client.hpp"
+#include "Net.hpp"
 
-constexpr struct ServerNetManager {
-} server_netmanager;
-constexpr struct ClientNetManager {
-} client_netmanager;
+namespace net {
 
 namespace manager {
 
 class Udp {
 
 public:
-    using Buffer = std::vector<std::byte>;
-
-public:
     Udp(net::ServerNetManager, std::string addr, std::size_t port);
     Udp(net::ClientNetManager, std::string addr, std::size_t port);
     ~Udp();
 
-    void send(Udp::Buffer &cmd);
-
-    class Client {
-
-    public:
-        Client(asio::ip::udp::endpoint const &endpoint)
-            : _endpoint(endpoint)
-        {
-        }
-
-        ~Client() = default;
-
-        asio::ip::udp::endpoint &getEndpoint()
-        {
-            return _endpoint;
-        }
-
-    private:
-        asio::ip::udp::endpoint _endpoint;
-    };
-
-    std::vector<std::pair<net::manager::Udp::Buffer, net::manager::Udp::Client>>
+    void send(net::Buffer &cmd, net::manager::Client const &client);
+    std::vector<std::pair<net::Buffer, net::manager::Client>>
     receive() noexcept;
-    std::vector<Udp::Client> &getOthers();
+    std::vector<Client> &getOthers();
 
     class UdpNetManagerError : public std::exception {
 
@@ -83,7 +58,9 @@ private:
 
     asio::ip::udp::socket _socket;
 
-    std::vector<Udp::Client> _others;
+    std::vector<Client> _others;
+
+    bool _isClient;
 };
 
 }

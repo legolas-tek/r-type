@@ -19,17 +19,17 @@ std::byte operator""_b(unsigned long long value)
 
 TEST(Diffing, Empty)
 {
-    Snapshot dummy;
-    Snapshot empty;
+    net::Snapshot dummy;
+    net::Snapshot empty;
 
-    auto diff = diffSnapshots(dummy, empty);
+    auto diff = net::diffSnapshots(dummy, empty);
     ASSERT_EQ(diff.size(), 0);
 }
 
 TEST(Diffing, Initial)
 {
-    Snapshot dummy;
-    Snapshot current;
+    net::Snapshot dummy;
+    net::Snapshot current;
 
     current.tick = 3;
     current.data.push_back(ComponentData { .entity = Entity(0x01),
@@ -59,8 +59,8 @@ TEST(Diffing, Initial)
 
 TEST(Diffing, RemoveOnly)
 {
-    Snapshot one;
-    Snapshot empty;
+    net::Snapshot one;
+    net::Snapshot empty;
 
     one.data.push_back(ComponentData { .entity = Entity(0x01),
                                        .componentId = 0x02,
@@ -78,8 +78,8 @@ TEST(Diffing, RemoveOnly)
 
 TEST(Diffing, SingleUpdate)
 {
-    Snapshot previous;
-    Snapshot current;
+    net::Snapshot previous;
+    net::Snapshot current;
 
     previous.data.push_back(ComponentData { .entity = Entity(0x01),
                                             .componentId = 0x02,
@@ -103,8 +103,8 @@ TEST(Diffing, SingleUpdate)
 
 TEST(Diffing, RemoveAndAdd)
 {
-    Snapshot previous;
-    Snapshot current;
+    net::Snapshot previous;
+    net::Snapshot current;
 
     previous.data.push_back(ComponentData {
         .entity = Entity(0x01), .componentId = 0x02, .data = { 0x05_b } });
