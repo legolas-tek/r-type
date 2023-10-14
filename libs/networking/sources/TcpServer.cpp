@@ -29,7 +29,10 @@ public:
     std::unique_ptr<Tcp> acceptNewClient()
     {
         asio::ip::tcp::socket socket(_io_ctx);
-        _acceptor.accept(socket);
+        asio::error_code ec;
+        _acceptor.accept(socket, ec);
+        if (ec)
+            return nullptr;
         return std::unique_ptr<Tcp>(new Tcp(_io_ctx, std::move(socket)));
     }
 
