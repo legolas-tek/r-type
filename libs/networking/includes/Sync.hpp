@@ -68,8 +68,6 @@ private:
      * a Snapshot and a list of ack users
      */
     struct SnapshotHistory {
-        bool used = false; /// is the SnapshotHistory used
-
         net::Snapshot snapshot; /// the Snapshot
         std::vector<std::size_t>
             ack_users; /// a list of users who acked this Snapshot
@@ -102,7 +100,7 @@ private:
      *
      * @param current the current snapshot to store
      */
-    void updateSnapshotHistory(net::Snapshot &current);
+    void updateSnapshotHistory(net::Snapshot &&current);
 
     /**
      * @brief Find the last acked snapshot

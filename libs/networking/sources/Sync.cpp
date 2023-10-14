@@ -183,13 +183,11 @@ static std::vector<std::byte> constructUpdatePacket(
     return result;
 }
 
-void net::Sync::updateSnapshotHistory(net::Snapshot &current)
+void net::Sync::updateSnapshotHistory(net::Snapshot &&current)
 {
     SnapshotHistory &snap = _snapshots[_rd_index % NET_SNAPSHOT_NBR];
 
-    snap.used = 1;
-    snap.snapshot = current;
-
+    snap.snapshot = std::move(current);
     _rd_index = (_rd_index + 1) % NET_SNAPSHOT_NBR;
 }
 
@@ -216,7 +214,7 @@ void net::Sync::operator()()
         std::vector<std::byte> diff = net::diffSnapshots(previous, current);
 
         if (not diff.empty()) {
-            updateSnapshotHistory(current);
+            updateSnapshotHistory(std::move(current));
             auto packet = constructUpdatePacket(
                 _registry.getTick(), _snapshots.at(_rd_index).snapshot.tick,
                 diff
