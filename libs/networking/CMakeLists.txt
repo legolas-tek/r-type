@@ -37,4 +37,5 @@ target_sources (networking
     ./sources/Sync.cpp
     ./sources/NetworkServerSystem.cpp
     ./sources/NetworkClientSystem.cpp
+    ./sources/LobbyClient.cpp
 )

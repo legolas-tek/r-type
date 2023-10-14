@@ -32,13 +32,23 @@ public:
     bool isAvailableData(char delim) const;
     bool isAvailableData() const;
 
+    bool canRead(size_t size) const;
+    void readInto(void *dest, size_t size);
+    std::size_t getReadIndex() const;
+    void resetReadIndex(std::size_t index);
+
     char *data();
+
+public:
+    class CannotReadException : public std::exception {
+    public:
+        char const *what() const noexcept override;
+    };
 
 private:
     std::vector<char> _buffer;
 
     std::atomic_size_t _reader;
-
     std::atomic_size_t _writer;
 };
 

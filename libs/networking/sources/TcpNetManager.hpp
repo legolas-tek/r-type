@@ -26,9 +26,7 @@ public:
     Tcp(std::string addr, std::size_t port);
     ~Tcp();
 
-    bool canRead();
-
-    std::string getLastResponse();
+    CircularBuffer &getBuffer();
 
     void write(std::vector<std::byte> const &data);
 

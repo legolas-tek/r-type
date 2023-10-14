@@ -39,18 +39,6 @@ net::manager::Tcp::~Tcp()
     _t.join();
 }
 
-bool net::manager::Tcp::canRead()
-{
-    return _buffer.isAvailableData('\n');
-}
-
-std::string net::manager::Tcp::getLastResponse()
-{
-    std::vector<char> res = _buffer.readUntil('\n');
-
-    return std::string(res.begin(), res.end());
-}
-
 void net::manager::Tcp::write(std::vector<std::byte> const &data)
 {
     _socket.async_write_some(
@@ -78,4 +66,9 @@ void net::manager::Tcp::reader()
                 _socket.close();
         }
     );
+}
+
+net::CircularBuffer &net::manager::Tcp::getBuffer()
+{
+    return _buffer;
 }
