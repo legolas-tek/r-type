@@ -5,13 +5,13 @@
 ** Lobby client
 */
 
-#include "LobbyManager.hpp"
+#include "LobbyClient.hpp"
 #include "TcpNetManager.hpp"
 
 #include <algorithm>
 
 net::LobbyClient::LobbyClient(std::string addr, std::size_t port)
-    : _network(addr, port)
+    : _network(new manager::Tcp(addr, port))
 {
 }
 
@@ -24,19 +24,19 @@ void net::LobbyClient::sendJoinRequest(std::string const &playerName)
     data[1] = std::byte(playerNameSize);
     std::memcpy(&data[2], playerName.data(), playerNameSize);
 
-    _network.write(data);
+    _network->write(data);
 }
 
 void net::LobbyClient::sendStartRequest()
 {
     std::vector<std::byte> data(1, std::byte(0x08));
 
-    _network.write(data);
+    _network->write(data);
 }
 
 void net::LobbyClient::operator()()
 {
-    CircularBuffer &buffer = _network.getBuffer();
+    CircularBuffer &buffer = _network->getBuffer();
     std::size_t initialIndex;
 
     try {
@@ -52,7 +52,7 @@ void net::LobbyClient::operator()()
 
 void net::LobbyClient::parsePacket()
 {
-    CircularBuffer &buffer = _network.getBuffer();
+    CircularBuffer &buffer = _network->getBuffer();
     std::byte id;
 
     buffer.readInto(&id, sizeof(id));

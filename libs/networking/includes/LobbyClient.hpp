@@ -5,14 +5,20 @@
 ** Lobby protocol
 */
 
-#ifndef RTYPE_NETWORKING_LOBBYPROTOCOL_HPP
-#define RTYPE_NETWORKING_LOBBYPROTOCOL_HPP
+#ifndef RTYPE_NETWORKING_LOBBY_CLIENT_HPP
+#define RTYPE_NETWORKING_LOBBY_CLIENT_HPP
 
 #include "ISystem.hpp"
-#include "TcpNetManager.hpp"
+
 #include <cstdint>
+#include <memory>
+#include <string>
 
 namespace net {
+
+namespace manager {
+class Tcp;
+}
 
 class LobbyClient : public ISystem {
 public:
@@ -40,8 +46,8 @@ private:
     virtual void onError(std::string &&errorMessage) = 0;
 
 private:
-    net::manager::Tcp _network;
+    std::unique_ptr<net::manager::Tcp> _network;
 };
 }
 
-#endif /* !RTYPE_NETWORKING_LOBBYPROTOCOL_HPP */
+#endif /* !RTYPE_NETWORKING_LOBBY_CLIENT_HPP */
