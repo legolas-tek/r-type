@@ -24,10 +24,7 @@ class Tcp;
 
 class LobbyRemoteClient : public ISystem {
 public:
-    LobbyRemoteClient(std::unique_ptr<manager::Tcp> &&network)
-        : _network(std::move(network))
-    {
-    }
+    LobbyRemoteClient(std::unique_ptr<manager::Tcp> &&network);
 
     void sendJoinSuccess(std::uint8_t playerNumber, std::uint64_t playerHash);
     void

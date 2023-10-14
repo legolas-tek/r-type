@@ -39,4 +39,5 @@ target_sources (networking
     ./sources/NetworkClientSystem.cpp
     ./sources/LobbyClient.cpp
     ./sources/TcpServer.cpp
+    ./sources/LobbyRemoteClient.cpp
 )
