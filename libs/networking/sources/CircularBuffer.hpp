@@ -8,10 +8,8 @@
 #ifndef CIRCULARBUFFER_HPP_
 #define CIRCULARBUFFER_HPP_
 
-#include <algorithm>
 #include <atomic>
-#include <cstring>
-#include <iostream>
+#include <exception>
 #include <vector>
 
 namespace net {

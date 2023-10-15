@@ -16,13 +16,11 @@
 
 #include "CircularBuffer.hpp"
 #include "TcpServer.hpp"
-#include "asio/io_context.hpp"
-
-#define BUFF_SIZE 1024 * 6
 
 namespace net::manager {
 
 class Tcp {
+    static inline constexpr std::size_t BUFFER_SIZE = 1024 * 6;
 
 public:
     Tcp(std::string addr, std::size_t port);

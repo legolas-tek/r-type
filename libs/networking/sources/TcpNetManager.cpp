@@ -16,7 +16,7 @@
 #include <vector>
 
 net::manager::Tcp::Tcp(std::string addr, std::size_t port)
-    : _buffer(BUFF_SIZE)
+    : _buffer(BUFFER_SIZE)
     , _socket(_io_ctx)
 {
     asio::ip::tcp::endpoint endpoint(
@@ -38,7 +38,7 @@ net::manager::Tcp::Tcp(std::string addr, std::size_t port)
 }
 
 net::manager::Tcp::Tcp(asio::ip::tcp::acceptor &acceptor, asio::error_code &ec)
-    : _buffer(BUFF_SIZE)
+    : _buffer(BUFFER_SIZE)
     , _socket(_io_ctx)
 {
     acceptor.accept(_socket, ec);

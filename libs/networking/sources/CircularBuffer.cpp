@@ -6,7 +6,8 @@
 */
 
 #include "CircularBuffer.hpp"
-#include <ciso646>
+
+#include <cstring>
 
 net::CircularBuffer::CircularBuffer(std::size_t size)
     : _buffer(size)
@@ -41,7 +42,7 @@ bool net::CircularBuffer::canRead(size_t size) const
 void net::CircularBuffer::readInto(void *dest, size_t size)
 {
     if (not canRead(size))
-        throw std::runtime_error("Not enough data to read");
+        throw CannotReadException();
     // Do it in two steps if we need to wrap around
     if (_reader + size > _buffer.size()) {
         std::size_t first_part = _buffer.size() - _reader;
