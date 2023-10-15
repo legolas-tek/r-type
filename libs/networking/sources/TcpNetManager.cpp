@@ -6,15 +6,17 @@
 */
 
 #include "TcpNetManager.hpp"
+#include "TcpConnection.hpp"
+#include "TcpServer.hpp"
 
 #include <asio/ip/tcp.hpp>
 #include <asio/read_until.hpp>
 #include <iostream>
+#include <memory>
 #include <vector>
 
 net::manager::Tcp::Tcp(std::string addr, std::size_t port)
     : _buffer(BUFF_SIZE)
-    , _io_ctx(_io_ctx_storage)
     , _socket(_io_ctx)
 {
     asio::ip::tcp::endpoint endpoint(
@@ -35,14 +37,13 @@ net::manager::Tcp::Tcp(std::string addr, std::size_t port)
     _t = std::thread([&]() { return _io_ctx.run(); });
 }
 
-net::manager::Tcp::Tcp(
-    asio::io_context &context, asio::ip::tcp::socket &&socket
-)
+net::manager::Tcp::Tcp(asio::ip::tcp::acceptor &acceptor, asio::error_code &ec)
     : _buffer(BUFF_SIZE)
-    , _io_ctx(context)
-    , _socket(std::move(socket))
+    , _socket(_io_ctx)
 {
-    // thread unused, io ctx storage too
+    acceptor.accept(_socket, ec);
+    reader();
+    _t = std::thread([&]() { return _io_ctx.run(); });
 }
 
 net::manager::Tcp::~Tcp()
@@ -85,4 +86,26 @@ void net::manager::Tcp::reader()
 net::CircularBuffer &net::manager::Tcp::getBuffer()
 {
     return _buffer;
+}
+
+net::manager::TcpConnection::TcpConnection(std::unique_ptr<Tcp> &&impl)
+    : _impl(std::move(impl))
+{
+}
+
+net::manager::TcpConnection::~TcpConnection() = default;
+net::manager::TcpConnection::TcpConnection(net::manager::TcpConnection &&)
+    = default;
+net::manager::TcpConnection &
+net::manager::TcpConnection::operator=(net::manager::TcpConnection &&)
+    = default;
+
+net::manager::TcpConnection::operator bool() const
+{
+    return _impl != nullptr;
+}
+
+net::manager::Tcp *net::manager::TcpConnection::operator->()
+{
+    return _impl.get();
 }

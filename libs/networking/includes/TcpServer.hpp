@@ -8,6 +8,7 @@
 #ifndef R_TYPE_NETWORKING_TCP_SERVER_HPP
 #define R_TYPE_NETWORKING_TCP_SERVER_HPP
 
+#include "TcpConnection.hpp"
 #include <cstddef>
 #include <memory>
 
@@ -21,12 +22,14 @@ class Tcp;
  */
 class TcpServer {
 public:
-    /// Creates a new TCP Server, listening on the gven port
+    /// Creates a new TCP Server, listening on the given port
     TcpServer(std::size_t port);
+    /// Destroys the TCP server
+    ~TcpServer();
 
     /// Accepts a new client if there is one, and returns a tcp connection to
     /// it, or nullptr if there is no pending connections
-    std::unique_ptr<Tcp> acceptNewClient();
+    TcpConnection acceptNewClient();
 
 private:
     /// The PIMPL to hide implementation details of the tcp server

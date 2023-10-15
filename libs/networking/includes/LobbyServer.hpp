@@ -9,6 +9,7 @@
 #define RTYPE_NETWORKING_LOBBY_SERVER_HPP
 
 #include "ISystem.hpp"
+#include "TcpConnection.hpp"
 #include "TcpServer.hpp"
 
 #include <cstdint>
@@ -40,7 +41,7 @@ public:
      *
      * @param network The network connection to use
      */
-    LobbyRemoteClient(std::unique_ptr<manager::Tcp> &&network);
+    LobbyRemoteClient(manager::TcpConnection &&network);
 
     /// Send a join success packet to the client
     void sendJoinSuccess(std::uint8_t playerNumber, std::uint64_t playerHash);
@@ -67,7 +68,7 @@ private:
 
 private:
     /// The underlying tcp connection
-    std::unique_ptr<net::manager::Tcp> _network;
+    manager::TcpConnection _network;
 };
 
 /**

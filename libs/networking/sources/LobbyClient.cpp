@@ -11,7 +11,7 @@
 #include <algorithm>
 
 net::LobbyClient::LobbyClient(std::string addr, std::size_t port)
-    : _network(new manager::Tcp(addr, port))
+    : _network(std::make_unique<manager::Tcp>(addr, port))
 {
 }
 

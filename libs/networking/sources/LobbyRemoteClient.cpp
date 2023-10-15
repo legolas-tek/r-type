@@ -6,14 +6,13 @@
 */
 
 #include "LobbyServer.hpp"
+#include "TcpConnection.hpp"
 #include "TcpNetManager.hpp"
 
 #include <algorithm>
 #include <memory>
 
-net::LobbyRemoteClient::LobbyRemoteClient(
-    std::unique_ptr<manager::Tcp> &&network
-)
+net::LobbyRemoteClient::LobbyRemoteClient(net::manager::TcpConnection &&network)
     : _network(std::move(network))
 {
 }

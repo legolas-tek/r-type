@@ -6,6 +6,7 @@
 */
 
 #include "TcpServer.hpp"
+#include "TcpConnection.hpp"
 #include "TcpNetManager.hpp"
 #include "asio/error_code.hpp"
 #include "asio/io_context.hpp"
@@ -15,6 +16,7 @@
 
 #include <cstddef>
 #include <memory>
+#include <thread>
 
 namespace net::manager {
 
@@ -26,14 +28,18 @@ public:
         _acceptor.non_blocking(true);
     }
 
+    ~TcpServerImpl()
+    {
+        _acceptor.close();
+    }
+
     std::unique_ptr<Tcp> acceptNewClient()
     {
-        asio::ip::tcp::socket socket(_io_ctx);
         asio::error_code ec;
-        _acceptor.accept(socket, ec);
+        std::unique_ptr<Tcp> tcp = std::make_unique<Tcp>(_acceptor, ec);
         if (ec)
             return nullptr;
-        return std::unique_ptr<Tcp>(new Tcp(_io_ctx, std::move(socket)));
+        return tcp;
     }
 
 private:
@@ -42,11 +48,13 @@ private:
 };
 
 TcpServer::TcpServer(std::size_t port)
-    : _impl(new TcpServerImpl(port))
+    : _impl(std::make_unique<TcpServerImpl>(port))
 {
 }
 
-std::unique_ptr<Tcp> TcpServer::acceptNewClient()
+TcpServer::~TcpServer() = default;
+
+TcpConnection TcpServer::acceptNewClient()
 {
     return _impl->acceptNewClient();
 }
