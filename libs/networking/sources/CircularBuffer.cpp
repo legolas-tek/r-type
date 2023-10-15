@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2023
-** zappy gui
+** R-Type Networking
 ** File description:
-** CircularBuffer
+** Circular Buffer
 */
 
 #include "CircularBuffer.hpp"

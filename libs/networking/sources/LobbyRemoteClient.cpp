@@ -70,7 +70,7 @@ void net::LobbyRemoteClient::operator()()
             initialIndex = buffer.getReadIndex();
             parsePacket();
         }
-    } catch (CircularBuffer::CannotReadException const &e) {
+    } catch (CircularBuffer::CannotReadException const &) {
         // Try again later
         buffer.resetReadIndex(initialIndex);
     }

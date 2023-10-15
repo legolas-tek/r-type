@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** R-Type
 ** File description:
-** TcpTcpNetManager
+** Tcp Net Manager
 */
 
 #ifndef TCPNETMANAGER_HPP_

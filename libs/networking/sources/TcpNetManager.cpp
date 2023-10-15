@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2023
-** zappy gui
+** R-Type Networking
 ** File description:
 ** TcpNetManager
 */
