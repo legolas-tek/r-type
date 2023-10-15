@@ -21,16 +21,9 @@ class CircularBuffer {
 public:
     CircularBuffer(std::size_t size);
 
-    void updateWriteIndexAfterWrite(std::size_t writtenLength);
-
-    std::vector<char> readUntil(char delim);
-    std::vector<char> readAvailableData();
-
     char *getWritePtr();
     std::size_t getAvailableCapacityUntilWrappingAround() const;
-
-    bool isAvailableData(char delim) const;
-    bool isAvailableData() const;
+    void updateWriteIndexAfterWrite(std::size_t writtenLength);
 
     bool canRead(size_t size) const;
     void readInto(void *dest, size_t size);

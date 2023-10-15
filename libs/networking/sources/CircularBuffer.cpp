@@ -21,52 +21,6 @@ void net::CircularBuffer::updateWriteIndexAfterWrite(std::size_t writedLength)
     _writer = (_writer + writedLength) % _buffer.size();
 }
 
-std::vector<char> net::CircularBuffer::readUntil(char delim)
-{
-    bool is_circular = _writer < _reader;
-    std::vector<char>::iterator begin = _buffer.begin() + _reader;
-    std::vector<char>::iterator end;
-
-    if (is_circular)
-        end = _buffer.end();
-    else
-        end = std::find(
-            _buffer.begin() + _reader, _buffer.begin() + _writer, delim
-        );
-
-    std::vector<char> res(begin, end);
-
-    if (is_circular)
-        res.insert(
-            res.end(), _buffer.begin(),
-            std::find(_buffer.begin(), _buffer.begin() + _writer, delim)
-        );
-
-    _reader = (_reader + res.size()) % _buffer.size() + 1;
-    return res;
-}
-
-std::vector<char> net::CircularBuffer::readAvailableData()
-{
-    bool is_circular = _writer < _reader;
-    std::vector<char>::iterator begin = _buffer.begin() + _reader;
-    std::vector<char>::iterator end = _buffer.begin() + _writer;
-
-    if (not isAvailableData())
-        return std::vector<char>();
-
-    if (is_circular)
-        end = _buffer.end();
-
-    std::vector<char> res(begin, end);
-
-    if (is_circular)
-        res.insert(res.end(), _buffer.begin(), _buffer.begin() + _writer);
-
-    _reader = _writer.load();
-    return res;
-}
-
 char *net::CircularBuffer::getWritePtr()
 {
     return _buffer.data() + _writer;
@@ -75,40 +29,6 @@ char *net::CircularBuffer::getWritePtr()
 std::size_t net::CircularBuffer::getAvailableCapacityUntilWrappingAround() const
 {
     return _buffer.size() - _writer;
-}
-
-bool net::CircularBuffer::isAvailableData(char delim) const
-{
-    std::vector<char>::const_iterator it;
-
-    if (_writer == _reader)
-
-        return false;
-    if (_writer < _reader) {
-        it = std::find(_buffer.begin() + _reader, _buffer.end(), delim);
-
-        if (it != _buffer.end())
-            return true;
-
-        it = std::find(_buffer.begin(), _buffer.begin() + _writer, delim);
-    } else
-        it = std::find(
-            _buffer.begin() + _reader, _buffer.begin() + _writer, delim
-        );
-
-    if (it == _buffer.begin() + _writer)
-        return false;
-    return true;
-}
-
-bool net::CircularBuffer::isAvailableData() const
-{
-    return _writer != _reader;
-}
-
-char *net::CircularBuffer::data()
-{
-    return _buffer.data();
 }
 
 bool net::CircularBuffer::canRead(size_t size) const
