@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** R-Type
 ** File description:
-** TcpTcpNetManager
+** Tcp Net Manager
 */
 
 #ifndef TCPNETMANAGER_HPP_
@@ -15,22 +15,21 @@
 #include <thread>
 
 #include "CircularBuffer.hpp"
-
-#define BUFF_SIZE 1024 * 6
+#include "TcpServer.hpp"
 
 namespace net::manager {
 
 class Tcp {
+    static inline constexpr std::size_t BUFFER_SIZE = 1024 * 6;
 
 public:
     Tcp(std::string addr, std::size_t port);
+    Tcp(asio::ip::tcp::acceptor &acceptor, asio::error_code &ec);
     ~Tcp();
 
-    bool canRead();
+    CircularBuffer &getBuffer();
 
-    std::string getLastResponse();
-
-    void write(std::string cmd);
+    void write(std::vector<std::byte> const &data);
 
     class TcpNetManagerError : public std::exception {
 
@@ -56,9 +55,7 @@ private:
 
     net::CircularBuffer _buffer;
 
-    asio::io_context _io_ctxt;
-
-    asio::ip::tcp::endpoint _endpoint;
+    asio::io_context _io_ctx;
 
     asio::ip::tcp::socket _socket;
 
