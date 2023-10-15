@@ -34,6 +34,7 @@ void System::AttackSystem::createLaserEntity(
     engine::Entity const attacker_index
     )
 {
+    size_t laser_index =  2;
     Component::Velocity velocity(1, 0);
     SparseArray<Component::Position> &positions = _register.get_components<Component::Position>();
     engine::Entity attack_entity(_register.get_new_entity());
@@ -50,6 +51,6 @@ void System::AttackSystem::createLaserEntity(
     positions.emplace_at(attack_entity, std::move(attack_entity_pos));
     _register.get_components<Component::Velocity>().insert_at(attack_entity, std::move(velocity));
     _register.get_components<Component::HitBox>().insert_at(attack_entity, Component::HitBox());
-    _register.get_components<Component::Drawable>().insert_at(attack_entity, Component::Drawable(LASER_INDEX));
+    _register.get_components<Component::Drawable>().insert_at(attack_entity, Component::Drawable(laser_index));
     attack_comp.is_attacking = false;
 }

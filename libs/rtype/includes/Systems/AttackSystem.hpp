@@ -17,7 +17,6 @@
 
 /// @brief change this value to change the index in wich the drawable component
 /// will init the graphical object
-#define LASER_INDEX 2
 
 /// @brief This system checks wherever the entity is attacking with the attack
 /// component. If it does it launches an attack creating an entity and set back
