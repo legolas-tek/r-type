@@ -67,5 +67,4 @@ void System::AttackSystem::createLaserEntity(
         attack_entity, Component::Drawable(laser_index, 32, 2)
     );
     attack_comp.is_attacking = false;
-    std::cout << "pos.x = " << attack_entity_pos._x << " pos.y = " << attack_entity_pos._y << std::endl;
 }
