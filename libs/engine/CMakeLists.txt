@@ -22,5 +22,4 @@ target_sources (engine
     ./sources/GameLoop.cpp
     ./sources/Systems/MoveSystem.cpp
     ./sources/Systems/AnimationSystem.cpp
-    ./sources/Systems/ParallaxSystem.cpp
 )

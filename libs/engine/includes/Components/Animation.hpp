@@ -25,10 +25,17 @@ public:
      * @brief Constructor to initialize the Animation component with the given
      * sprite number.
      *
-     * @param spriteNum The number of sprites in the animation.
+     * @param offset The number of sprites in the animation.
      */
-    Animation(size_t spriteNum)
-        : _spriteNum(spriteNum)
+    Animation(
+        size_t texture_width, size_t texture_height, size_t entity_width,
+        size_t entity_height, size_t offset
+    )
+        : _texture_width(texture_width)
+        , _texture_height(texture_height)
+        , _entity_width(entity_width)
+        , _entity_height(entity_height)
+        , _offset(offset)
     {
     }
 
@@ -37,8 +44,12 @@ public:
      */
     Animation() = default;
 
-    size_t _spriteNum = 1; ///< The number of sprites in the animation.
-    size_t _current_index = 0; ///< The current index of the animation.
+    size_t _texture_width = 0;
+    size_t _texture_height = 0;
+    size_t _entity_width = 0;
+    size_t _entity_height = 0;
+    size_t _offset = 1; ///< The number of sprites in the animation.
+    size_t _current_offset = 0; ///< The current index of the animation.
 };
 }
 
