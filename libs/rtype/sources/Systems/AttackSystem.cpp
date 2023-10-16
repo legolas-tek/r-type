@@ -5,6 +5,8 @@
 ** AttackSystem
 */
 
+#include <iostream>
+
 #include "Systems/AttackSystem.hpp"
 
 #include "Components/Collision.hpp"
@@ -36,7 +38,7 @@ void System::AttackSystem::createLaserEntity(
 )
 {
     size_t laser_index = 2;
-    Component::Velocity velocity(1, 0);
+    Component::Velocity velocity(15, 0);
     SparseArray<Component::Position> &positions
         = _register.get_components<Component::Position>();
     engine::Entity attack_entity(_register.get_new_entity());
@@ -49,7 +51,7 @@ void System::AttackSystem::createLaserEntity(
         attack_entity_pos._x += (attacker_collision->_width / 2) + 1;
     }
     if (!_register.get_components<Component::Controllable>()[attacker_index] && attacker_collision) {
-        velocity._vx = -1;
+        velocity._vx = -15;
         attack_entity_pos._x = attacker_pos._x - (attacker_collision->_width / 2) - 1;
     }
     positions.emplace_at(attack_entity, std::move(attack_entity_pos));
@@ -57,7 +59,7 @@ void System::AttackSystem::createLaserEntity(
         attack_entity, std::move(velocity)
     );
     _register.get_components<Component::HitBox>().insert_at(
-        attack_entity, Component::HitBox(1, 1)
+        attack_entity, Component::HitBox(32, 2)
     );
     _register.get_components<Component::Drawable>().insert_at(
         attack_entity, Component::Drawable(laser_index)

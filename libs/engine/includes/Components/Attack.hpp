@@ -10,10 +10,10 @@
 
 #include "Serializable.hpp"
 
-/// @brief This struct is the component that represents the ability to attack
-/// of an entity
 namespace Component {
 
+/// @brief This struct is the component that represents the ability to attack
+/// of an entity
 struct Attack : Serializable<Attack> {
     Attack() = default;
     /// @brief A boolean that switch to true if and event triggers the attack
