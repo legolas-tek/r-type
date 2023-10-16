@@ -125,16 +125,19 @@ public:
 
         // ==================== set Animation ====================
         reg.get_components<Component::Animation>().insert_at(
-            background, std::move(Component::Animation(1024, 192, 512, 192, 1))
+            background,
+            std::move(Component::Animation(1024, 192, 512, 192, 1, 1))
         );
         reg.get_components<Component::Animation>().insert_at(
-            midground, std::move(Component::Animation(1024, 192, 512, 192, 3))
+            midground,
+            std::move(Component::Animation(1024, 192, 512, 192, 3, 1))
         );
         reg.get_components<Component::Animation>().insert_at(
-            foreground, std::move(Component::Animation(1408, 192, 704, 192, 5))
+            foreground,
+            std::move(Component::Animation(1408, 192, 704, 192, 5, 1))
         );
         reg.get_components<Component::Animation>().insert_at(
-            scarfy, std::move(Component::Animation(768, 128, 128, 128, 128))
+            scarfy, std::move(Component::Animation(768, 128, 128, 128, 128, 10))
         );
 
         // // ==================== set Controllable ====================
