@@ -8,10 +8,10 @@
 #ifndef ATTACKSYSTEM_HPP_
 #define ATTACKSYSTEM_HPP_
 
-#include "SparseArray.hpp"
-#include "ISystem.hpp"
 #include "Entity.hpp"
+#include "ISystem.hpp"
 #include "Registry.hpp"
+#include "SparseArray.hpp"
 
 #include "Components/Attack.hpp"
 
@@ -26,9 +26,8 @@ namespace System {
 class AttackSystem : public ISystem {
 public:
     AttackSystem(
-        SparseArray<Component::Attack> &attacks,
-        engine::Registry &reg
-        );
+        SparseArray<Component::Attack> &attacks, engine::Registry &reg
+    );
 
     /// @brief deleted copy constructor
     AttackSystem(System::AttackSystem const &other) = delete;
@@ -36,15 +35,14 @@ public:
     ~AttackSystem() = default;
 
     void operator()() override;
-private:
 
+private:
     /// @brief private function that create a laser
     /// @param attack_comp the attack component of the attacking entity
     /// @param attacker_index the index of the attacking entity
     void createLaserEntity(
-        Component::Attack &attack_comp,
-        engine::Entity const attacker_index
-        );
+        Component::Attack &attack_comp, engine::Entity const attacker_index
+    );
 
     SparseArray<Component::Attack> &_attacks;
     engine::Registry &_register;

@@ -7,15 +7,15 @@
 
 #include "IGame.hpp"
 
+#include "Components/Attack.hpp"
+#include "Components/Collision.hpp"
 #include "Components/Controllable.hpp"
 #include "Components/Drawable.hpp"
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
-#include "Components/Collision.hpp"
-#include "Components/Attack.hpp"
 
-#include "Systems/MoveSystem.hpp"
 #include "Systems/AttackSystem.hpp"
+#include "Systems/MoveSystem.hpp"
 
 #include "Key.hpp"
 #include "Rendering.hpp"
@@ -35,8 +35,7 @@ public:
     void registerAdditionalServerSystems(engine::Registry &reg) override
     {
         reg.add_system<System::AttackSystem>(
-            reg.get_components<Component::Attack>(),
-            reg
+            reg.get_components<Component::Attack>(), reg
         );
     }
 
@@ -96,7 +95,11 @@ public:
         reg.get_components<Component::Controllable>().insert_at(player2, 1);
 
         // set Collision
-        reg.get_components<Component::Collision>().insert_at(player, std::move(Component::Collision(512.0f, 192.0f)));
-        reg.get_components<Component::Collision>().insert_at(player2, std::move(Component::Collision(704.0f, 192.0f)));
+        reg.get_components<Component::Collision>().insert_at(
+            player, std::move(Component::Collision(512.0f, 192.0f))
+        );
+        reg.get_components<Component::Collision>().insert_at(
+            player2, std::move(Component::Collision(704.0f, 192.0f))
+        );
     }
 };
