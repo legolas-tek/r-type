@@ -127,7 +127,8 @@ public:
             (*system)();
     }
 
-    size_t get_new_entity() {
+    size_t get_new_entity()
+    {
         return _entity_counter++;
     }
 

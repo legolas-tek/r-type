@@ -25,7 +25,6 @@ struct CollisionsSystem : public ISystem {
 
     void operator()() override;
 
-
 private:
     void checkCollisions(size_t index);
     SparseArray<Component::Position> &_positions;

@@ -11,15 +11,16 @@ CollisionsSystem::CollisionsSystem(
     SparseArray<Component::Position> &positions,
     SparseArray<Component::HitBox> &hitboxes,
     SparseArray<Component::Collision> &collisions
-) : _positions(positions), _hitboxes(hitboxes), _collisions(collisions)
+)
+    : _positions(positions)
+    , _hitboxes(hitboxes)
+    , _collisions(collisions)
 {
 }
 
 static bool isColliding(
-    const Component::Position &pos,
-    const Component::HitBox &hit,
-    const Component::Position &hurtPos,
-    const Component::Collision &hurt
+    Component::Position const &pos, Component::HitBox const &hit,
+    Component::Position const &hurtPos, Component::Collision const &hurt
 )
 {
     float leftHitBox = pos._x - hit._width / 2;
