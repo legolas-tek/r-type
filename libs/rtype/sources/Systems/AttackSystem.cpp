@@ -11,6 +11,8 @@
 #include "Components/HitBox.hpp"
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
+#include "Components/Drawable.hpp"
+#include "Components/Controllable.hpp"
 
 System::AttackSystem::AttackSystem(
     SparseArray<Component::Attack> &attacks, engine::Registry &reg
