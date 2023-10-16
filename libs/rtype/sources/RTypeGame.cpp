@@ -125,7 +125,7 @@ public:
             midground, std::move(Component::Animation(1024, 192, 512, 192, 3))
         );
         reg.get_components<Component::Animation>().insert_at(
-            foreground, std::move(Component::Animation(1024, 192, 512, 192, 5))
+            foreground, std::move(Component::Animation(1408, 192, 704, 192, 5))
         );
         reg.get_components<Component::Animation>().insert_at(
             scarfy, std::move(Component::Animation(768, 128, 128, 128, 128))
