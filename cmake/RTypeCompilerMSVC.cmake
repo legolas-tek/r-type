@@ -6,6 +6,5 @@
 # free to make use of it in any way you like.
 #-------------------------------------------------------------------
 
-set (CMAKE_CXX_FLAGS_COMMON "/W4")
-set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${CMAKE_CXX_FLAGS_COMMON} /O1")
+set (CMAKE_CXX_FLAGS_COMMON "")
 set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS_COMMON} /O2")
