@@ -5,24 +5,40 @@
 ** Text Component
 */
 
-#ifndef TEXT_HPP_
-#define TEXT_HPP_
+#ifndef TEXT_COMPONENT_HPP_
+#define TEXT_COMPONENT_HPP_
 
 #include "Serializable.hpp"
+#include <stddef.h>
 #include <string>
-#include <utility>
 
 namespace Component {
 
+/**
+ * @brief Structure representing text data.
+ *
+ * This structure is used to store text data for various purposes in a component-based system.
+ */
 struct Text : Serializable<Text> {
-    std::string _text;
-
+    /**
+     * @brief Default constructor for the Text structure.
+     */
     Text() = default;
 
-    explicit Text(std::string text)
+    /**
+     * @brief Constructor for the Text structure with a specified text.
+     *
+     * @param text The text to be stored in this structure.
+     */
+    explicit Text(std::string &&text)
         : _text(std::move(text))
     {
     }
+
+    /**
+     * The text data stored in this structure.
+     */
+    std::string _text;
 };
 
 }
