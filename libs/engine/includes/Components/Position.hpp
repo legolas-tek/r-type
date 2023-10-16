@@ -36,6 +36,11 @@ struct Position : Serializable<Position> {
     float _y = 0;
 
     /**
+     * @brief The z-coordinate of the position.
+     */
+    int _z = 0;
+
+    /**
      * @brief Default constructor for the Position structure.
      *
      * Initializes an instance of the Position structure with default values (0,
@@ -51,10 +56,12 @@ struct Position : Serializable<Position> {
      *
      * @param x The x-coordinate of the position.
      * @param y The y-coordinate of the position.
+     * @param z The z-coordinate of the position.
      */
-    Position(float x, float y)
+    Position(float x, float y, int z)
         : _x(x)
         , _y(y)
+        , _z(z)
     {
     }
 };
