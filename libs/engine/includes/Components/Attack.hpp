@@ -20,8 +20,6 @@ struct Attack : Serializable<Attack> {
     bool is_attacking = false;
     /// @brief the width of the entity
     float width;
-    /// @brief the height of the entity
-    float height;
 };
 }
 
