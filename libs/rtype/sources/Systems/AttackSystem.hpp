@@ -15,13 +15,10 @@
 
 #include "Components/Attack.hpp"
 
-/// @brief change this value to change the index in wich the drawable component
-/// will init the graphical object
-
+namespace System {
 /// @brief This system checks wherever the entity is attacking with the attack
 /// component. If it does it launches an attack creating an entity and set back
 /// the attack component to true.
-namespace System {
 
 class AttackSystem : public ISystem {
 public:

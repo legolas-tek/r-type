@@ -43,14 +43,14 @@ void System::AttackSystem::createLaserEntity(
     Component::Position &attacker_pos = positions[attacker_index].value();
     std::optional<Component::Collision> attacker_collision =
         _register.get_components<Component::Collision>()[attacker_index];
-    Component::Position attack_entity_pos(attacker_pos._x, attacker_pos._y);
+    Component::Position attack_entity_pos(attacker_pos);
 
     if (attacker_collision) {
-        attack_entity_pos._x += attacker_collision->_width + 1;
+        attack_entity_pos._x += (attacker_collision->_width / 2) + 1;
     }
     if (!_register.get_components<Component::Controllable>()[attacker_index] && attacker_collision) {
         velocity._vx = -1;
-        attack_entity_pos._x = attacker_pos._x - attacker_collision->_width - 1;
+        attack_entity_pos._x = attacker_pos._x - (attacker_collision->_width / 2) - 1;
     }
     positions.emplace_at(attack_entity, std::move(attack_entity_pos));
     _register.get_components<Component::Velocity>().emplace_at(
