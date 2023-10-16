@@ -29,13 +29,14 @@ public:
      */
     Animation(
         size_t texture_width, size_t texture_height, size_t entity_width,
-        size_t entity_height, size_t offset
+        size_t entity_height, size_t offset, size_t duration
     )
         : _texture_width(texture_width)
         , _texture_height(texture_height)
         , _entity_width(entity_width)
         , _entity_height(entity_height)
         , _offset(offset)
+        , _duration(duration)
     {
     }
 
@@ -50,6 +51,7 @@ public:
     size_t _entity_height = 0;
     size_t _offset = 1; ///< The number of sprites in the animation.
     size_t _current_offset = 0; ///< The current index of the animation.
+    size_t _duration = 0;
 };
 }
 

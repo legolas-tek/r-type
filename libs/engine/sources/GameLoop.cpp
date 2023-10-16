@@ -28,7 +28,7 @@ void gameLoop(engine::Registry &reg)
         if (elapsed_time >= target_delta_time) {
             reg.run_systems();
             elapsed_time = 0.0f;
+            reg.incrementTick();
         }
-        reg.incrementTick();
     }
 }

@@ -29,6 +29,9 @@ void System::AnimationSystem::operator()()
             animationElement._current_offset = 0;
             continue;
         }
-        animationElement._current_offset += animationElement._offset;
+
+        if (_registry.getTick() % animationElement._duration == 0) {
+            animationElement._current_offset += animationElement._offset;
+        }
     }
 }
