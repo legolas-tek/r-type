@@ -62,7 +62,7 @@ void System::AttackSystem::createLaserEntity(
         attack_entity, Component::HitBox(32, 2)
     );
     _register.get_components<Component::Drawable>().insert_at(
-        attack_entity, Component::Drawable(laser_index)
+        attack_entity, Component::Drawable(laser_index, 32, 2)
     );
     attack_comp.is_attacking = false;
 }

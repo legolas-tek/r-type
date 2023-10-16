@@ -13,6 +13,8 @@
 #include <cstddef>
 #include <vector>
 
+namespace net {
+
 struct Snapshot {
     /**
      * The tick the snapshot was taken
@@ -33,9 +35,19 @@ struct Snapshot {
     Snapshot();
     /** Snapshot the current state of a registry */
     Snapshot(size_t tick, engine::Registry const &registry);
+
+    // Delete copy as they are expensive
+    Snapshot &operator=(Snapshot const &other) = delete;
+    Snapshot(Snapshot const &other) = delete;
+
+    // But allow move
+    Snapshot &operator=(Snapshot &&other) = default;
+    Snapshot(Snapshot &&other) = default;
 };
 
 std::vector<std::byte>
 diffSnapshots(Snapshot const &previous, Snapshot const &current);
+
+}
 
 #endif /* !NETWORKING_SNAPSHOT_HPP_ */

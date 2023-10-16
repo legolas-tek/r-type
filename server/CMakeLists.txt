@@ -12,8 +12,8 @@ add_executable (r-type_server)
 
 target_link_libraries (r-type_server
     PRIVATE
-    asio
     networking
+    rtype
 )
 
 target_include_directories (r-type_server

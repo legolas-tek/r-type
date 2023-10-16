@@ -6,21 +6,19 @@
 */
 
 #include "GameLoop.hpp"
-#include "RTypeGame.cpp"
+#include "IGame.hpp"
 #include "Registry.hpp"
-
-#include "Components/Controllable.hpp"
 
 int main(int argc, char *argv[])
 {
     engine::Registry reg;
-    RTypeGame game;
+    std::unique_ptr<engine::IGame> game(createGame());
 
-    game.registerAllComponents(reg);
-    game.initAssets(reg);
-    game.initScene(reg);
-    game.registerAdditionalSystems(reg);
-    game.registerAdditionalClientSystems(reg);
+    game->registerAllComponents(reg);
+    game->initAssets(reg);
+    game->initScene(reg);
+    game->registerAdditionalSystems(reg);
+    game->registerAdditionalClientSystems(reg);
 
     gameLoop(reg);
 }

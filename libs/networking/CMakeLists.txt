@@ -11,10 +11,17 @@ cmake_minimum_required (VERSION 3.8)
 add_library (networking SHARED)
 
 target_link_libraries (networking
-    PUBLIC
+    PRIVATE
     asio
+    PUBLIC
     engine
 )
+
+option (DEBUG_NETWORK "Enable network debug" OFF)
+
+if (DEBUG_NETWORK)
+    add_definitions (-DDEBUG_NETWORK)
+endif (DEBUG_NETWORK)
 
 target_include_directories (networking
     PUBLIC
@@ -27,4 +34,10 @@ target_sources (networking
     ./sources/UdpNetManager.cpp
     ./sources/CircularBuffer.cpp
     ./sources/Snapshot.cpp
+    ./sources/Sync.cpp
+    ./sources/NetworkServerSystem.cpp
+    ./sources/NetworkClientSystem.cpp
+    ./sources/LobbyClient.cpp
+    ./sources/TcpServer.cpp
+    ./sources/LobbyRemoteClient.cpp
 )

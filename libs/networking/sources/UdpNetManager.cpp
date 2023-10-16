@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2023
-** zappy gui
+** R-Type Networking
 ** File description:
 ** UdpNetManager
 */
@@ -43,32 +43,33 @@ net::manager::Udp::~Udp()
     _socket.close();
 }
 
-void net::manager::Udp::send(net::manager::Udp::Buffer &cmd)
+void net::manager::Udp::send(
+    net::Buffer &cmd, net::manager::Client const &client
+)
 {
-    for (auto &client : _others) {
-        _socket.send_to(
-            asio::buffer(cmd.data(), cmd.size()), client.getEndpoint()
-        );
-    }
+    _socket.send_to(
+        asio::buffer(cmd.data(), cmd.size()), client.getEndpoint()
+    );
 }
 
-std::vector<std::pair<net::manager::Udp::Buffer, net::manager::Udp::Client>>
+std::vector<std::pair<net::Buffer, net::manager::Client>>
 net::manager::Udp::receive() noexcept
 {
     asio::ip::udp::endpoint client_endpoint;
-    std::vector<std::pair<net::manager::Udp::Buffer, net::manager::Udp::Client>>
-        packets;
+    std::vector<std::pair<net::Buffer, net::manager::Client>> packets;
 
     do {
-        Udp::Buffer buff(USHRT_MAX);
+        net::Buffer buff(USHRT_MAX, std::byte(0x00));
 
         try {
-            _socket.receive_from(asio::buffer(buff), client_endpoint);
+            std::size_t buffSize = 0;
+            buffSize = _socket.receive_from(asio::buffer(buff), client_endpoint);
+            buff.resize(buffSize);
         } catch (std::exception &e) {
             break;
         }
 
-        auto it = find_if(_others.begin(), _others.end(), [&](Udp::Client &i) {
+        auto it = find_if(_others.begin(), _others.end(), [&](Client &i) {
             return i.getEndpoint() == client_endpoint;
         });
 
@@ -84,7 +85,7 @@ net::manager::Udp::receive() noexcept
     return packets;
 }
 
-std::vector<net::manager::Udp::Client> &net::manager::Udp::getOthers()
+std::vector<net::manager::Client> &net::manager::Udp::getOthers()
 {
     return _others;
 }
