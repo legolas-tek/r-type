@@ -61,9 +61,6 @@ public:
             reg.get_components<Component::Position>(),
             reg.get_components<Component::Velocity>()
         );
-        reg.add_system<System::AttackSystem>(
-            reg.get_components<Component::Attack>(), reg
-        );
     }
 
     void initAssets(engine::Registry &reg) override
