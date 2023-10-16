@@ -17,8 +17,14 @@ target_link_libraries (rtype
     networking
 )
 
+target_include_directories (rtype
+    PRIVATE
+    ./sources/
+)
+
 target_sources (rtype
     PRIVATE
     ./sources/RTypeGame.cpp
+    ./sources/Systems/AttackSystem.cpp
     ./sources/NetworkSystem.cpp
 )

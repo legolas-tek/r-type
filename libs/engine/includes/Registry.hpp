@@ -127,6 +127,11 @@ public:
             (*system)();
     }
 
+    size_t get_new_entity()
+    {
+        return _entity_counter++;
+    }
+
     void incrementTick()
     {
         _tick += 1;
@@ -166,6 +171,8 @@ private:
      * List of systems
      */
     std::vector<std::unique_ptr<ISystem>> _systems;
+
+    size_t _entity_counter = 1;
 
     std::size_t _tick = 1;
 };
