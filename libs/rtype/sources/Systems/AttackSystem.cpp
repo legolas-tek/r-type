@@ -7,6 +7,7 @@
 
 #include "Systems/AttackSystem.hpp"
 
+#include "Components/Collision.hpp"
 #include "Components/HitBox.hpp"
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
@@ -39,14 +40,15 @@ void System::AttackSystem::createLaserEntity(
     SparseArray<Component::Position> &positions = _register.get_components<Component::Position>();
     engine::Entity attack_entity(_register.get_new_entity());
     Component::Position &attacker_pos = positions[attacker_index].value();
-    Component::Position attack_entity_pos(
-        attacker_pos._x + attack_comp.width + 1,
-        attacker_pos._y
-        );
+    std::optional<Component::Collision> attacker_collision = _register.get_components<Component::Collision>()[attacker_index];
+    Component::Position attack_entity_pos(attacker_pos._x, attacker_pos._y);
 
-    if (!_register.get_components<Component::Controllable>()[attacker_index]) {
+    if (attacker_collision) {
+        attack_entity_pos._x += attacker_collision->_width + 1;
+    }
+    if (!_register.get_components<Component::Controllable>()[attacker_index] && attacker_collision) {
         velocity._vx = -1;
-        attack_entity_pos._x = attacker_pos._x - attack_comp.width - 1;
+        attack_entity_pos._x = attacker_pos._x - attacker_collision->_width - 1;
     }
     positions.emplace_at(attack_entity, std::move(attack_entity_pos));
     _register.get_components<Component::Velocity>().emplace_at(attack_entity, std::move(velocity));
