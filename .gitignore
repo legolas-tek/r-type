@@ -33,6 +33,8 @@
 
 # Cmake cache
 build/
+Debug/
+Release/
 libs/deps
 CMakeCache.txt
 CMakeFiles/
