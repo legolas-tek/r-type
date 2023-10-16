@@ -50,6 +50,8 @@ void rendering::system::Rendering::operator()()
         Color tint = WHITE;
 
         DrawTexturePro(texture, sourceRec, destRec, origin, rotation, tint);
+        // std::cout << "entity index = " << it.get_entity() << "destrec.x = " <<
+        // destRec.x << ".y = " << destRec.y << ".width = " << destRec.width << ".height = " << destRec.height << "scale = " << scale << std::endl;
     }
     EndDrawing();
 }

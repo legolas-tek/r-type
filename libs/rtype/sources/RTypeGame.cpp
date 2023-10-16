@@ -14,6 +14,7 @@
 #include "Components/Drawable.hpp"
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
+#include "Components/HitBox.hpp"
 
 #include "Systems/AnimationSystem.hpp"
 #include "Systems/AttackSystem.hpp"
@@ -35,6 +36,7 @@ public:
         reg.register_component<Component::Collision>();
         reg.register_component<Component::Attack>();
         reg.register_component<Component::Animation>();
+        reg.register_component<Component::HitBox>();
     }
 
     void registerAdditionalServerSystems(engine::Registry &reg) override
@@ -59,6 +61,9 @@ public:
             reg.get_components<Component::Position>(),
             reg.get_components<Component::Velocity>()
         );
+        reg.add_system<System::AttackSystem>(
+            reg.get_components<Component::Attack>(), reg
+        );
     }
 
     void initAssets(engine::Registry &reg) override
@@ -73,14 +78,15 @@ public:
             "./client/assets/cyberpunk_street_foreground.png"
         );
         reg._assets_paths.push_back("./client/assets/scarfy.png");
+        reg._assets_paths.push_back("./client/assets/Plasma_Beam.png");
     }
 
     void initScene(engine::Registry &reg) override
     {
-        engine::Entity background(1);
-        engine::Entity midground(3);
-        engine::Entity foreground(6);
-        engine::Entity scarfy(7);
+        engine::Entity background(reg.get_new_entity());
+        engine::Entity midground(reg.get_new_entity());
+        engine::Entity foreground(reg.get_new_entity());
+        engine::Entity scarfy(reg.get_new_entity());
 
         // ==================== set positions ====================
         // background
@@ -139,13 +145,15 @@ public:
 
         // // ==================== set Controllable ====================
         reg.get_components<Component::Controllable>().insert_at(scarfy, 2);
-        // reg.get_components<Component::Controllable>().insert_at(player2, 1);
 
-        // // ==================== set Collision ====================
-        // reg.get_components<Component::Collision>().insert_at(player,
-        // std::move(Component::Collision(512.0f, 192.0f)));
-        // reg.get_components<Component::Collision>().insert_at(player2,
-        // std::move(Component::Collision(704.0f, 192.0f)));
+        // ==================== set Collision ====================
+        reg.get_components<Component::Collision>().insert_at(scarfy,
+            std::move(Component::Collision(128, 128))
+        );
+        // ==================== set Attacks ====================
+        reg.get_components<Component::Attack>().insert_at(scarfy,
+            std::move(Component::Attack())
+        );
     }
 };
 
