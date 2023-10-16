@@ -7,12 +7,7 @@
 
 #include "Systems/AttackSystem.hpp"
 
-<<<<<<< HEAD
 #include "Components/Collision.hpp"
-=======
-#include "Components/Controllable.hpp"
-#include "Components/Drawable.hpp"
->>>>>>> fdd8d1e2110242238bd0fc9bf7fc9e97a4ed56a2
 #include "Components/HitBox.hpp"
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
