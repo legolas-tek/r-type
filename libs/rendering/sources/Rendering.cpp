@@ -38,8 +38,6 @@ void rendering::system::Rendering::operator()()
         Texture2D texture = _cache.at(it.get_entity())._texture;
         Rectangle sourceRec = { 0.0f, 0.0f, (*it)->_width, (*it)->_height };
         if (animation_list[it.get_entity()].has_value()) {
-            std::cout << animation_list[it.get_entity()].value()._current_offset
-                      << std::endl;
             auto rect_x
                 = animation_list[it.get_entity()].value()._current_offset;
             sourceRec.x = rect_x;
