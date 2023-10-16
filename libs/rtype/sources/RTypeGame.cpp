@@ -14,13 +14,15 @@
 #include "Components/Parallax.hpp"
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
+#include "Components/Attack.hpp"
 
-#include "Key.hpp"
-#include "Rendering.hpp"
 #include "Systems/AnimationSystem.hpp"
 #include "Systems/MoveSystem.hpp"
 #include "Systems/ParallaxSystem.hpp"
+#include "Systems/AttackSystem.hpp"
 
+#include "Key.hpp"
+#include "Rendering.hpp"
 #include "NetworkClientSystem.hpp"
 #include "NetworkSystem.hpp"
 
@@ -33,12 +35,16 @@ public:
         reg.register_component<Component::Drawable>();
         reg.register_component<Component::Controllable>();
         reg.register_component<Component::Collision>();
+        reg.register_component<Component::Attack>();
         reg.register_component<Component::Parallax>();
         reg.register_component<Component::Animation>();
     }
 
     void registerAdditionalServerSystems(engine::Registry &reg) override
     {
+        reg.add_system<System::AttackSystem>(
+            reg.get_components<Component::Attack>(), reg
+        );
         reg.add_system<rtype::NetworkServerSystem>(reg, 4242);
     }
 
