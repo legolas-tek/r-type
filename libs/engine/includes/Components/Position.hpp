@@ -58,7 +58,7 @@ struct Position : Serializable<Position> {
      * @param y The y-coordinate of the position.
      * @param z The z-coordinate of the position.
      */
-    Position(float x, float y, int z)
+    Position(float x, float y, int z = 0)
         : _x(x)
         , _y(y)
         , _z(z)

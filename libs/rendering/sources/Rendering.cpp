@@ -21,9 +21,9 @@ rendering::system::Rendering::~Rendering()
 
 void rendering::system::Rendering::operator()()
 {
-    auto drawable_list = _registry.get_components<Component::Drawable>();
-    auto animation_list = _registry.get_components<Component::Animation>();
-    auto position_list = _registry.get_components<Component::Position>();
+    auto &drawable_list = _registry.get_components<Component::Drawable>();
+    auto &animation_list = _registry.get_components<Component::Animation>();
+    auto &position_list = _registry.get_components<Component::Position>();
     std::vector<size_t> entity_list;
 
     for (auto it = drawable_list.begin(); it != drawable_list.end(); ++it) {
@@ -56,7 +56,8 @@ void rendering::system::Rendering::operator()()
         float scale = drawable_list[entity]->_scale;
         Rectangle destRec = { pos->_x, pos->_y, sourceRec.width * scale,
                               sourceRec.height * scale };
-        Vector2 origin = { 0, 0 };
+        Vector2 origin = { drawable_list[entity]->_width / 2,
+                           drawable_list[entity]->_height / 2 };
         float rotation = 0.0f;
         Color tint = WHITE;
 
