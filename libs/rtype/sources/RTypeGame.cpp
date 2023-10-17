@@ -8,7 +8,6 @@
 #include "IGame.hpp"
 
 #include "Components/Animation.hpp"
-#include "Components/Attack.hpp"
 #include "Components/Collision.hpp"
 #include "Components/Controllable.hpp"
 #include "Components/Drawable.hpp"
@@ -19,10 +18,10 @@
 #include "Systems/AnimationSystem.hpp"
 #include "Systems/AttackSystem.hpp"
 #include "Systems/MoveSystem.hpp"
+#include "Systems/NetworkSystem.hpp"
 
 #include "Key.hpp"
 #include "NetworkClientSystem.hpp"
-#include "NetworkSystem.hpp"
 #include "Rendering.hpp"
 
 class RTypeGame : public engine::IGame {
@@ -34,15 +33,15 @@ public:
         reg.register_component<Component::Drawable>();
         reg.register_component<Component::Controllable>();
         reg.register_component<Component::Collision>();
-        reg.register_component<Component::Attack>();
         reg.register_component<Component::Animation>();
         reg.register_component<Component::HitBox>();
+        reg.register_component<Component::FireRate>();
     }
 
     void registerAdditionalServerSystems(engine::Registry &reg) override
     {
         reg.add_system<System::AttackSystem>(
-            reg.get_components<Component::Attack>(), reg
+            reg.get_components<Component::FireRate>(), reg
         );
         reg.add_system<rtype::NetworkServerSystem>(reg, 4242);
     }
@@ -147,9 +146,10 @@ public:
         reg.get_components<Component::Collision>().insert_at(scarfy,
             std::move(Component::Collision(128, 128))
         );
-        // ==================== set Attacks ====================
-        reg.get_components<Component::Attack>().insert_at(scarfy,
-            std::move(Component::Attack())
+
+        // ==================== set FireRate ====================
+        reg.get_components<Component::FireRate>().insert_at(scarfy,
+            Component::FireRate(50)
         );
     }
 };

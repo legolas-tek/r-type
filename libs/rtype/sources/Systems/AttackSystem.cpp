@@ -5,8 +5,6 @@
 ** AttackSystem
 */
 
-#include <iostream>
-
 #include "Systems/AttackSystem.hpp"
 
 #include "Components/Collision.hpp"
@@ -17,24 +15,24 @@
 #include "Components/Velocity.hpp"
 
 System::AttackSystem::AttackSystem(
-    SparseArray<Component::Attack> &attacks, engine::Registry &reg
+    SparseArray<Component::FireRate> &fireRates, engine::Registry &reg
 )
-    : _attacks(attacks)
+    : _fireRates(fireRates)
     , _register(reg)
 {
 }
 
 void System::AttackSystem::operator()()
 {
-    for (auto it = _attacks.begin(); it != _attacks.end(); it++) {
-        if (it->value().is_attacking) {
-            createLaserEntity(it->value(), engine::Entity(it.get_entity()));
+    for (auto it = _fireRates.begin(); it != _fireRates.end(); it++) {
+        if (isAbleToAttack(it->value())) {
+            createLaserEntity(engine::Entity(it.get_entity()));
         }
     }
 }
 
 void System::AttackSystem::createLaserEntity(
-    Component::Attack &attack_comp, engine::Entity const attacker_index
+    engine::Entity const attacker_index
 )
 {
     size_t laser_index = 4;
@@ -66,5 +64,9 @@ void System::AttackSystem::createLaserEntity(
     _register.get_components<Component::Drawable>().insert_at(
         attack_entity, Component::Drawable(laser_index, 32, 2)
     );
-    attack_comp.is_attacking = false;
+}
+
+bool System::AttackSystem::isAbleToAttack(Component::FireRate &fire_rate)
+{
+    return (_register.getTick() % fire_rate._reload_ticks == 0);
 }

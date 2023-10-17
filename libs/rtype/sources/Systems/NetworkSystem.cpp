@@ -8,7 +8,6 @@
 
 #include "Components/Controllable.hpp"
 #include "Components/Velocity.hpp"
-#include "Components/Attack.hpp"
 
 #include "NetworkSystem.hpp"
 #include "NetworkServerSystem.hpp"
@@ -26,7 +25,5 @@ bool rtype::NetworkServerSystem::canUpdate(
     if (component_id == _registry.get_component_id<Component::Velocity>())
         return true;
     // TODO: attack etc
-    if (component_id == _registry.get_component_id<Component::Attack>())
-        return true;
     return false;
 }
