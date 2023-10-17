@@ -97,10 +97,11 @@ public:
     }
 
     template <typename System, class... Params>
-    void add_system(Params &&...args)
+    ISystem &add_system(Params &&...args)
     {
-        _systems.emplace_back(std::make_unique<System>(std::forward<Params>(args
-        )...));
+        return *_systems.emplace_back(
+            std::make_unique<System>(std::forward<Params>(args)...)
+        );
     }
 
     std::vector<ComponentData> collect_data() const
@@ -116,7 +117,8 @@ public:
         return data;
     }
 
-    std::size_t apply_data(Entity entity, size_t componentId, std::byte const *buffer)
+    std::size_t
+    apply_data(Entity entity, size_t componentId, std::byte const *buffer)
     {
         return _deserialize_component_funcs[componentId](*this, entity, buffer);
     }
@@ -143,6 +145,7 @@ public:
     }
 
     std::vector<std::string> _assets_paths;
+
 private:
     /**
      * Map of component type to component id

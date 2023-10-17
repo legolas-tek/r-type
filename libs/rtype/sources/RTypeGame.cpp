@@ -145,6 +145,11 @@ void RTypeGame::initScene(engine::Registry &reg)
     // std::move(Component::Collision(704.0f, 192.0f)));
 }
 
+std::unique_ptr<engine::IGame> RTypeGame::createLobby()
+{
+    return std::make_unique<RTypeLobby>();
+}
+
 engine::IGame *createGame()
 {
     return new RTypeGame();
