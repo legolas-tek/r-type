@@ -30,8 +30,10 @@ struct Text : Serializable<Text> {
      *
      * @param text The text to be stored in this structure.
      */
-    explicit Text(std::string &&text)
+    explicit Text(std::string &&text, std::string &&font, size_t size)
         : _text(std::move(text))
+        , _font(std::move(font))
+        , _size(size)
     {
     }
 
@@ -39,6 +41,16 @@ struct Text : Serializable<Text> {
      * The text data stored in this structure.
      */
     std::string _text;
+
+    /**
+     * The font used to render the text.
+     */
+    std::string _font;
+
+    /**
+     * The size of the text.
+     */
+    float _size;
 };
 
 }
