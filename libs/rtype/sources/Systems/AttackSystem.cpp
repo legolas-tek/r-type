@@ -68,5 +68,5 @@ void System::AttackSystem::createLaserEntity(
 
 bool System::AttackSystem::isAbleToAttack(Component::FireRate &fire_rate)
 {
-    return (_register.getTick() % fire_rate._reload_ticks == 0);
+    return (_register.getTick() % fire_rate.reload_ticks == 0);
 }

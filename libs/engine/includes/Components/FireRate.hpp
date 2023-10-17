@@ -18,7 +18,7 @@ struct FireRate : Serializable<FireRate> {
     /// @brief construct an instance of a Firerate component
     /// @param reload_ticks The ticks required for the entity to shoot again
     FireRate(int reload_ticks)
-        : _reload_ticks(reload_ticks)
+        : reload_ticks(reload_ticks)
     {
     }
 
@@ -26,7 +26,7 @@ struct FireRate : Serializable<FireRate> {
     FireRate() = default;
 
     /// @brief The ticks required for the entity to shoot again
-    int _reload_ticks;
+    int reload_ticks = 0;
 };
 
 }
