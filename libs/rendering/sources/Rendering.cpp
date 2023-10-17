@@ -24,7 +24,7 @@ void rendering::system::Rendering::operator()()
     auto &drawable_list = _registry.get_components<Component::Drawable>();
     auto &animation_list = _registry.get_components<Component::Animation>();
     auto &position_list = _registry.get_components<Component::Position>();
-    std::vector<size_t> entity_list;
+    std::vector<engine::Entity> entity_list;
 
     for (auto it = drawable_list.begin(); it != drawable_list.end(); ++it) {
         entity_list.push_back(it.get_entity());
