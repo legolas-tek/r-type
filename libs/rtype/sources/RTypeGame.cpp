@@ -85,19 +85,19 @@ public:
         // ==================== set positions ====================
         // background
         reg.get_components<Component::Position>().insert_at(
-            background, std::move(Component::Position(0, 0))
+            background, std::move(Component::Position(256, 96, 0))
         );
         // midground
         reg.get_components<Component::Position>().insert_at(
-            midground, std::move(Component::Position(0, 0))
+            midground, std::move(Component::Position(256, 96, 0))
         );
         // foreground
         reg.get_components<Component::Position>().insert_at(
-            foreground, std::move(Component::Position(0, 0))
+            foreground, std::move(Component::Position(256, 96, 0))
         );
         // player
         reg.get_components<Component::Position>().insert_at(
-            scarfy, std::move(Component::Position(100, 100))
+            scarfy, std::move(Component::Position(150, 150, 1))
         );
 
         // ==================== set velocity ====================
