@@ -49,8 +49,3 @@ void net::lobby::Lobby::emplaceClient(manager::TcpConnection &&connection)
 {
     _clients.emplace_back(std::move(connection), *this);
 }
-
-char const *net::lobby::RemoteClient::StartGameException::what() const noexcept
-{
-    return "Game is starting, lobby has finished.";
-}

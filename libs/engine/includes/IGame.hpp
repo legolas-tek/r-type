@@ -15,38 +15,68 @@ namespace engine {
 class IGame {
 public:
     /**
-     * Register all needed components into the registry.
+     * Register all of the game's components into the registry.
      */
     virtual void registerAllComponents(engine::Registry &reg) = 0;
 
     /**
-     * Register extra systems for the client
+     * Register extra systems only needed for the client
      */
     virtual void registerAdditionalClientSystems(engine::Registry &reg)
     {
     }
 
     /**
-     * Register extra systems for the server
+     * Register extra systems only needed for the server
      */
     virtual void registerAdditionalServerSystems(engine::Registry &reg)
     {
     }
 
     /**
-     * Register extra systems for both client and server
+     * Register systems needed for both the client and the server
      */
     virtual void registerAdditionalSystems(engine::Registry &reg)
     {
     }
 
+    /**
+     * Initialize the initial entities of the game
+     */
     virtual void initScene(engine::Registry &reg)
     {
     }
 
+    /**
+     * Initialize the assets of the game, into the `Registry::_assets_paths`
+     * vector
+     */
     virtual void initAssets(engine::Registry &reg)
     {
     }
+
+    /**
+     * Create the lobby game. It will be run before this game starts, if not
+     * null.
+     */
+    virtual std::unique_ptr<engine::IGame> createLobby()
+    {
+        return nullptr;
+    }
+
+    /**
+     * @brief The exception thrown when the game should start after the lobby
+     *
+     * This exception is thrown when the game should start, and is caught by
+     * the main, which then starts the real game.
+     */
+    class StartGameException : public std::exception {
+    public:
+        char const *what() const noexcept override
+        {
+            return "Game is starting, lobby has finished.";
+        }
+    };
 };
 }
 

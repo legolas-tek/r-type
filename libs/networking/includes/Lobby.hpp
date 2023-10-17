@@ -35,18 +35,6 @@ public:
      */
     RemoteClient(manager::TcpConnection &&network, Lobby &parent);
 
-public:
-    /**
-     * @brief The exception thrown when the game should start
-     *
-     * This exception is thrown when the game should start, and is caught by
-     * the main, which then starts the real game.
-     */
-    class StartGameException : public std::exception {
-    public:
-        char const *what() const noexcept override;
-    };
-
 private:
     /// Called when the client sends a join request
     void onJoinRequest(std::string &&playerName) override;
