@@ -6,6 +6,8 @@
 ** Rendering
 */
 
+#include <algorithm>
+
 #include "Rendering.hpp"
 
 rendering::system::Rendering::Rendering(engine::Registry &registry)
