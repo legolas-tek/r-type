@@ -16,10 +16,14 @@
 #include "Components/FireRate.hpp"
 
 namespace System {
+/// @brief The width of the laser sprite
+inline constexpr int LASER_WIDTH = 32;
+/// @brief The height of the laser component
+inline constexpr int LASER_HEIGHT = 2;
+
 /// @brief This system checks wherever the entity is attacking with the attack
 /// component. If it does it launches an attack creating an entity and set back
 /// the attack component to true.
-
 class AttackSystem : public ISystem {
 public:
     AttackSystem(

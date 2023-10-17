@@ -59,10 +59,14 @@ void System::AttackSystem::createLaserEntity(
         attack_entity, std::move(velocity)
     );
     _register.get_components<Component::HitBox>().insert_at(
-        attack_entity, Component::HitBox(32, 2)
+        attack_entity, Component::HitBox(LASER_WIDTH, LASER_HEIGHT)
     );
     _register.get_components<Component::Drawable>().insert_at(
-        attack_entity, Component::Drawable(laser_index, 32, 2)
+        attack_entity, Component::Drawable(
+            laser_index,
+            LASER_WIDTH,
+            LASER_HEIGH
+        )
     );
 }
 
