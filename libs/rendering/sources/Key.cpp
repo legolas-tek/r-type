@@ -49,6 +49,7 @@ void rendering::system::Key::operator()()
                 velocity_list[it.get_entity()]->_vy += 0.0f;
             }
             if (IsKeyPressed(KEY_SPACE) && attack_list[it.get_entity()]) {
+                std::cout << "space " << it.get_entity() << std::endl;
                 attack_list[it.get_entity()]->is_attacking = true;
             }
         }

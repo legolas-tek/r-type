@@ -12,6 +12,7 @@
 #include "Components/Collision.hpp"
 #include "Components/Controllable.hpp"
 #include "Components/Drawable.hpp"
+#include "Components/HitBox.hpp"
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
 
@@ -35,13 +36,11 @@ public:
         reg.register_component<Component::Collision>();
         reg.register_component<Component::Attack>();
         reg.register_component<Component::Animation>();
+        reg.register_component<Component::HitBox>();
     }
 
     void registerAdditionalServerSystems(engine::Registry &reg) override
     {
-        reg.add_system<System::AttackSystem>(
-            reg.get_components<Component::Attack>(), reg
-        );
         reg.add_system<rtype::NetworkServerSystem>(reg, 4242);
     }
 
@@ -55,6 +54,9 @@ public:
 
     void registerAdditionalSystems(engine::Registry &reg) override
     {
+        reg.add_system<System::AttackSystem>(
+            reg.get_components<Component::Attack>(), reg
+        );
         reg.add_system<System::MoveSystem>(
             reg.get_components<Component::Position>(),
             reg.get_components<Component::Velocity>()
@@ -73,14 +75,17 @@ public:
             "./client/assets/cyberpunk_street_foreground.png"
         );
         reg._assets_paths.push_back("./client/assets/scarfy.png");
+        reg._assets_paths.push_back("./client/assets/Plasma_Beam.png");
+        reg._assets_paths.push_back("./client/assets/enemy.png");
     }
 
     void initScene(engine::Registry &reg) override
     {
-        engine::Entity background(1);
-        engine::Entity midground(3);
-        engine::Entity foreground(6);
-        engine::Entity scarfy(7);
+        engine::Entity background(reg.get_new_entity());
+        engine::Entity midground(reg.get_new_entity());
+        engine::Entity foreground(reg.get_new_entity());
+        engine::Entity scarfy(reg.get_new_entity());
+        engine::Entity enemy(reg.get_new_entity());
 
         // ==================== set positions ====================
         // background
@@ -98,6 +103,10 @@ public:
         // player
         reg.get_components<Component::Position>().insert_at(
             scarfy, std::move(Component::Position(100, 100))
+        );
+        // enemy
+        reg.get_components<Component::Position>().insert_at(
+            enemy, std::move(Component::Position(300, 100))
         );
 
         // ==================== set velocity ====================
@@ -117,10 +126,13 @@ public:
         reg.get_components<Component::Drawable>().insert_at(
             foreground, std::move(Component::Drawable(2, 512.0f, 192.0f, 2.0f))
         );
-
         // player
         reg.get_components<Component::Drawable>().insert_at(
             scarfy, std::move(Component::Drawable(3, 128.0f, 128.0f, 1.0f))
+        );
+        // enemy
+        reg.get_components<Component::Drawable>().insert_at(
+            enemy, std::move(Component::Drawable(5, 64.0f, 72.0f, 2.0f))
         );
 
         // ==================== set Animation ====================
@@ -139,11 +151,22 @@ public:
         reg.get_components<Component::Animation>().insert_at(
             scarfy, std::move(Component::Animation(768, 128, 128, 128, 128, 10))
         );
+        reg.get_components<Component::Animation>().insert_at(
+            enemy, std::move(Component::Animation(320, 72, 64, 72, 64, 10))
+        );
 
         // // ==================== set Controllable ====================
         reg.get_components<Component::Controllable>().insert_at(scarfy, 2);
         // reg.get_components<Component::Controllable>().insert_at(player2, 1);
 
+        // // ==================== set Attack ====================
+        reg.get_components<Component::Attack>().insert_at(
+            scarfy, std::move(Component::Attack())
+        );
+
+        // ==================== set Hitbox ====================
+        // reg.get_components<Component::H
+        //
         // // ==================== set Collision ====================
         // reg.get_components<Component::Collision>().insert_at(player,
         // std::move(Component::Collision(512.0f, 192.0f)));

@@ -37,7 +37,7 @@ void System::AttackSystem::createLaserEntity(
     Component::Attack &attack_comp, engine::Entity const attacker_index
 )
 {
-    size_t laser_index = 2;
+    size_t laser_index = 4;
     Component::Velocity velocity(15, 0);
     SparseArray<Component::Position> &positions
         = _register.get_components<Component::Position>();
