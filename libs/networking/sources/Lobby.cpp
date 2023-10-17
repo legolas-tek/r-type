@@ -6,6 +6,7 @@
 */
 
 #include "Lobby.hpp"
+#include "IGame.hpp"
 #include <string>
 
 net::lobby::RemoteClient::RemoteClient(
@@ -19,24 +20,29 @@ net::lobby::RemoteClient::RemoteClient(
 void net::lobby::RemoteClient::onJoinRequest(std::string &&playerName)
 {
     _playerName = std::move(playerName);
-    if (_parent._maxPlayers == _parent._players.size()) {
+    std::size_t playerCount = _parent.getCurrentPlayerCount();
+    if (_parent._maxPlayers == playerCount) {
         sendError("Lobby is full!");
         return;
     }
-    _parent._players.push_back(this);
-    _playerNumber = _parent._players.size();
+    _playerNumber = playerCount + 1;
     _playerHash = _parent._dist(_parent._random);
     sendJoinSuccess(_playerNumber, _playerHash);
-    for (auto &player : _parent._players) {
-        player->sendNewPlayer(_playerNumber, _playerName);
+    for (auto &player : _parent._clients) {
+        if (player._playerNumber) {
+            player.sendNewPlayer(_playerNumber, _playerName);
+        }
     }
 }
 
 void net::lobby::RemoteClient::onStartRequest()
 {
-    for (auto &player : _parent._players) {
-        player->sendGameStart();
+    for (auto &player : _parent._clients) {
+        if (player._playerNumber) {
+            player.sendGameStart();
+        }
     }
+    throw engine::IGame::StartGameException();
 }
 
 net::lobby::Lobby::Lobby(std::size_t port, std::size_t maxPlayers)
@@ -48,4 +54,16 @@ net::lobby::Lobby::Lobby(std::size_t port, std::size_t maxPlayers)
 void net::lobby::Lobby::emplaceClient(manager::TcpConnection &&connection)
 {
     _clients.emplace_back(std::move(connection), *this);
+}
+
+std::size_t net::lobby::Lobby::getCurrentPlayerCount() const
+{
+    std::size_t count = 0;
+
+    for (auto &player : _clients) {
+        if (player._playerNumber) {
+            count++;
+        }
+    }
+    return count;
 }

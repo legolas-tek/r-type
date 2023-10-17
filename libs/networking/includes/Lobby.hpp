@@ -44,10 +44,12 @@ private:
 private:
     /// The name of the player
     std::string _playerName;
-    size_t _playerNumber;
+    size_t _playerNumber = 0;
     size_t _playerHash;
     /// The parent lobby server
     Lobby &_parent;
+
+    friend class Lobby;
 };
 
 /**
@@ -66,12 +68,11 @@ public:
     Lobby(std::size_t port, std::size_t maxPlayers);
 
     void emplaceClient(manager::TcpConnection &&connection) override;
+    std::size_t getCurrentPlayerCount() const;
 
     friend class RemoteClient;
 
 private:
-    /// The vector of players that have joined the lobby
-    std::vector<RemoteClient *> _players;
     /// The maximum number of players that can join the lobby
     std::size_t _maxPlayers;
     /// The random device used to generate player hashes
