@@ -42,7 +42,6 @@ public:
 
     void registerAdditionalServerSystems(engine::Registry &reg) override
     {
-        reg.add_system<rtype::NetworkServerSystem>(reg, 4242);
         reg.add_system<System::AttackSystem>(
             reg.get_components<Component::FireRate>(), reg
         );
@@ -50,6 +49,7 @@ public:
             reg.get_components<Component::LifeTime>(),
             reg
         );
+        reg.add_system<rtype::NetworkServerSystem>(reg, 4242);
     }
 
     void registerAdditionalClientSystems(engine::Registry &reg) override
