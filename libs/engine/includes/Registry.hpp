@@ -104,10 +104,11 @@ public:
     }
 
     template <typename System, class... Params>
-    void add_system(Params &&...args)
+    ISystem &add_system(Params &&...args)
     {
-        _systems.emplace_back(std::make_unique<System>(std::forward<Params>(args
-        )...));
+        return *_systems.emplace_back(
+            std::make_unique<System>(std::forward<Params>(args)...)
+        );
     }
 
     std::vector<ComponentData> collect_data() const
