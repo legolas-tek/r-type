@@ -27,5 +27,5 @@ target_sources (rtype
     ./sources/RTypeGame.cpp
     ./sources/LobbyGame.cpp
     ./sources/Systems/AttackSystem.cpp
-    ./sources/NetworkSystem.cpp
+    ./sources/Systems/NetworkSystem.cpp
 )

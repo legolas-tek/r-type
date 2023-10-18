@@ -19,7 +19,6 @@ class NetworkClient : public Sync {
 public:
     NetworkClient(engine::Registry &registry, int port);
     ~NetworkClient();
-
 };
 
 }

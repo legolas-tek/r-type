@@ -96,6 +96,13 @@ public:
         _erase_component_funcs[component_id](*this, entity);
     }
 
+    void erase_entity(engine::Entity const entity)
+    {
+        for (auto it : _component_ids) {
+            erase_component(entity, it.second);
+        }
+    }
+
     template <typename System, class... Params>
     ISystem &add_system(Params &&...args)
     {
