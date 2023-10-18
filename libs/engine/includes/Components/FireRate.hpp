@@ -26,7 +26,7 @@ struct FireRate : Serializable<FireRate> {
     FireRate() = default;
 
     /// @brief The ticks required for the entity to shoot again
-    int reload_ticks = 0;
+    int reload_ticks = 1;
 };
 
 }
