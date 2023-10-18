@@ -65,7 +65,7 @@ void System::AttackSystem::createLaserEntity(
         attack_entity, Component::Drawable(
             laser_index,
             LASER_WIDTH,
-            LASER_HEIGH
+            LASER_HEIGHT
         )
     );
 }
