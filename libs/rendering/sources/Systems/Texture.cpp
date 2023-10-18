@@ -38,8 +38,6 @@ void rendering::system::Texture::operator()()
         auto pos = pos_list[id];
         auto anim = _animations[id];
 
-        std::cout << "pos[" << id << "]: " << pos->_x << ", " << pos->_y
-                  << std::endl;
         if (not TextureIsLoaded(id))
             _cache[id]
                 = LoadTexture(_registry._assets_paths[(*it)->_index].c_str());
