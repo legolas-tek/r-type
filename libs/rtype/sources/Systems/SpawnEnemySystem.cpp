@@ -19,7 +19,7 @@ static float tickToSecond(size_t tick)
 
 static void addEnemy1(engine::Registry &reg)
 {
-    engine::Entity enemy(10);
+    engine::Entity enemy(reg.get_new_entity());
 
     // set position
     reg.get_components<Component::Position>().insert_at(
@@ -37,7 +37,7 @@ static void addEnemy1(engine::Registry &reg)
 
 static void addEnemy2(engine::Registry &reg)
 {
-    engine::Entity enemy(11);
+    engine::Entity enemy(reg.get_new_entity());
 
     // set position
     reg.get_components<Component::Position>().insert_at(
