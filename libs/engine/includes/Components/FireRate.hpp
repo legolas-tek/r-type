@@ -13,7 +13,7 @@
 namespace Component {
 
 /// @brief This component allows our entity to have a firerate and specifies
-/// that when they attack they shoot lasers
+/// when they attack to shoot lasers
 struct FireRate : Serializable<FireRate> {
     /// @brief construct an instance of a Firerate component
     /// @param reload_ticks The ticks required for the entity to shoot again
