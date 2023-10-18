@@ -8,8 +8,6 @@
 #include "Key.hpp"
 #include "raylib.h"
 
-#include "Components/Attack.hpp"
-
 rendering::system::Key::Key(engine::Registry &registry)
     : _registry(registry)
 {
@@ -24,7 +22,6 @@ void rendering::system::Key::operator()()
     auto &velocity_list = _registry.get_components<Component::Velocity>();
     auto &controllable_list
         = _registry.get_components<Component::Controllable>();
-    auto &attack_list = _registry.get_components<Component::Attack>();
 
     for (auto it = velocity_list.begin(); it != velocity_list.end(); ++it) {
         bool isControllable = controllable_list[it.get_entity()].has_value();
@@ -47,9 +44,6 @@ void rendering::system::Key::operator()()
             if (IsKeyDown(KEY_D)) {
                 velocity_list[it.get_entity()]->_vx += 5.0f;
                 velocity_list[it.get_entity()]->_vy += 0.0f;
-            }
-            if (IsKeyPressed(KEY_SPACE) && attack_list[it.get_entity()]) {
-                attack_list[it.get_entity()]->is_attacking = true;
             }
         }
     }

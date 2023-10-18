@@ -16,7 +16,8 @@
 #include "Components/Life.hpp"
 #include "Components/Position.hpp"
 
-struct CollisionsSystem : public ISystem {
+class CollisionsSystem : public ISystem {
+public:
     CollisionsSystem(
         SparseArray<Component::Position> &positions,
         SparseArray<Component::HitBox> &hitboxes,

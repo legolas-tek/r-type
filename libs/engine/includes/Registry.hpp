@@ -96,11 +96,19 @@ public:
         _erase_component_funcs[component_id](*this, entity);
     }
 
-    template <typename System, class... Params>
-    void add_system(Params &&...args)
+    void erase_entity(engine::Entity const entity)
     {
-        _systems.emplace_back(std::make_unique<System>(std::forward<Params>(args
-        )...));
+        for (auto it : _component_ids) {
+            erase_component(entity, it.second);
+        }
+    }
+
+    template <typename System, class... Params>
+    ISystem &add_system(Params &&...args)
+    {
+        return *_systems.emplace_back(
+            std::make_unique<System>(std::forward<Params>(args)...)
+        );
     }
 
     std::vector<ComponentData> collect_data() const
@@ -116,7 +124,8 @@ public:
         return data;
     }
 
-    std::size_t apply_data(Entity entity, size_t componentId, std::byte const *buffer)
+    std::size_t
+    apply_data(Entity entity, size_t componentId, std::byte const *buffer)
     {
         return _deserialize_component_funcs[componentId](*this, entity, buffer);
     }
@@ -143,6 +152,7 @@ public:
     }
 
     std::vector<std::string> _assets_paths;
+
 private:
     /**
      * Map of component type to component id

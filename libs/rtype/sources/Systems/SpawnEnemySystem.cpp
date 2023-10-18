@@ -27,7 +27,7 @@ static void addEnemy1(engine::Registry &reg)
     );
     // set Drawable
     reg.get_components<Component::Drawable>().insert_at(
-        enemy, std::move(Component::Drawable(5, 31.0f, 27.0f, 2.0f))
+        enemy, std::move(Component::Drawable(6, 31.0f, 27.0f, 2.0f))
     );
     // set Animation
     reg.get_components<Component::Animation>().insert_at(
@@ -45,7 +45,7 @@ static void addEnemy2(engine::Registry &reg)
     );
     // set Drawable
     reg.get_components<Component::Drawable>().insert_at(
-        enemy, std::move(Component::Drawable(4, 64.0f, 72.0f, 2.0f))
+        enemy, std::move(Component::Drawable(5, 64.0f, 72.0f, 2.0f))
     );
     // set Animation
     reg.get_components<Component::Animation>().insert_at(

@@ -25,7 +25,8 @@ target_include_directories (rtype
 target_sources (rtype
     PRIVATE
     ./sources/RTypeGame.cpp
+    ./sources/LobbyGame.cpp
     ./sources/Systems/AttackSystem.cpp
-    ./sources/NetworkSystem.cpp
     ./sources/Systems/SpawnEnemySystem.cpp
+    ./sources/Systems/NetworkSystem.cpp
 )
