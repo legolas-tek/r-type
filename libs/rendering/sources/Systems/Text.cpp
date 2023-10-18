@@ -7,7 +7,7 @@
 
 #include "Systems/Text.hpp"
 
-rendering::Text::Text(
+rendering::system::Text::Text(
     SparseArray<Component::Text> &texts,
     SparseArray<Component::Position> &positions
 )
@@ -16,12 +16,12 @@ rendering::Text::Text(
 {
 }
 
-bool rendering::Text::FontIsLoaded(std::string const &path)
+bool rendering::system::Text::FontIsLoaded(std::string const &path)
 {
     return _cache.find(path) != _cache.end();
 }
 
-void rendering::Text::operator()()
+void rendering::system::Text::operator()()
 {
     for (auto it = _texts.begin(); it != _texts.end(); ++it) {
         size_t index = it.get_entity();

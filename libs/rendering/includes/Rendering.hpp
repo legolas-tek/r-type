@@ -69,12 +69,21 @@ public:
      */
     void operator()() override;
 
+    template <typename System, class... Params> void AddSystem(Params &&...args)
+    {
+        _subSystems.emplace_back(
+            std::make_unique<System>(std::forward<Params>(args)...)
+        );
+    }
+
 private:
     std::unordered_map<size_t, rendering::Entity>
         _cache; /*!< A cache mapping entity identifiers to Entity objects, for
                    efficient rendering.*/
     engine::Registry &_registry; /*!< Reference to the entity-component system's
                                     registry to manipulate entity data. */
+
+    std::vector<std::unique_ptr<ISystem>> _subSystems;
 };
 } // namespace rendering
 

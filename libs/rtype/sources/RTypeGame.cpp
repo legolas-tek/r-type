@@ -13,6 +13,7 @@
 #include "Components/Controllable.hpp"
 #include "Components/Drawable.hpp"
 #include "Components/Position.hpp"
+#include "Components/Text.hpp"
 #include "Components/Velocity.hpp"
 
 #include "Systems/AnimationSystem.hpp"
@@ -35,6 +36,7 @@ public:
         reg.register_component<Component::Collision>();
         reg.register_component<Component::Attack>();
         reg.register_component<Component::Animation>();
+        reg.register_component<Component::Text>();
     }
 
     void registerAdditionalServerSystems(engine::Registry &reg) override

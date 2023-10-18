@@ -15,14 +15,14 @@
 #include "SparseArray.hpp"
 #include "raylib.h"
 
-namespace rendering {
+namespace rendering::system {
 
 struct Text : public ISystem {
     Text(
         SparseArray<Component::Text> &texts,
         SparseArray<Component::Position> &positions
     );
-    override ~Text() = default;
+    ~Text() = default;
     void operator()() override;
 
 private:

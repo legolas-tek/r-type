@@ -27,4 +27,5 @@ target_sources (rendering
     ./sources/Rendering.cpp
     ./sources/RenderEntity.cpp
     ./sources/Key.cpp
+    ./sources/Systems/Text.cpp
 )
