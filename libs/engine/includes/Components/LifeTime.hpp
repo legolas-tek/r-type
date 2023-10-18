@@ -20,7 +20,7 @@ struct LifeTime : Serializable<LifeTime> {
     /// @param life_time The number of ticks the entity should live
     /// @param actual_tick The actual tick in the registry
     LifeTime(int life_time, size_t actual_tick)
-    : death_tick(actual_tick + life_time)
+        : death_tick(actual_tick + life_time)
     {
     }
 

@@ -8,8 +8,7 @@
 #include "Systems/LifeTimeSystem.hpp"
 
 System::LifeTimeSystem::LifeTimeSystem(
-    SparseArray<Component::LifeTime> &life_times,
-    engine::Registry &registry
+    SparseArray<Component::LifeTime> &life_times, engine::Registry &registry
 )
     : _life_times(life_times)
     , _registry(registry)

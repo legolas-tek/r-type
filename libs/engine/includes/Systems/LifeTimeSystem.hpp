@@ -9,8 +9,8 @@
 #define LIFETIMESYSTEM_HPP_
 
 #include "ISystem.hpp"
-#include "SparseArray.hpp"
 #include "Registry.hpp"
+#include "SparseArray.hpp"
 
 #include "Components/LifeTime.hpp"
 
@@ -24,8 +24,7 @@ public:
     /// @param life_times_ref A const ref to a LifeTime components SparseArray
     /// @param registry A reference to the registry
     LifeTimeSystem(
-        SparseArray<Component::LifeTime> &life_times,
-        engine::Registry &registry
+        SparseArray<Component::LifeTime> &life_times, engine::Registry &registry
     );
 
     /// @brief an overload of the operator() wich apply the LifeTimeSystem logic

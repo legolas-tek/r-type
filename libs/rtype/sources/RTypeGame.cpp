@@ -17,9 +17,9 @@
 
 #include "Systems/AnimationSystem.hpp"
 #include "Systems/AttackSystem.hpp"
+#include "Systems/LifeTimeSystem.hpp"
 #include "Systems/MoveSystem.hpp"
 #include "Systems/NetworkSystem.hpp"
-#include "Systems/LifeTimeSystem.hpp"
 
 #include "Key.hpp"
 #include "NetworkClientSystem.hpp"
@@ -46,8 +46,7 @@ public:
             reg.get_components<Component::FireRate>(), reg
         );
         reg.add_system<System::LifeTimeSystem>(
-            reg.get_components<Component::LifeTime>(),
-            reg
+            reg.get_components<Component::LifeTime>(), reg
         );
         reg.add_system<rtype::NetworkServerSystem>(reg, 4242);
     }
