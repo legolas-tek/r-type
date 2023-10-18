@@ -18,6 +18,7 @@
 #include "Systems/AnimationSystem.hpp"
 #include "Systems/AttackSystem.hpp"
 #include "Systems/MoveSystem.hpp"
+#include "Systems/SpawnEnemySystem.hpp"
 
 #include "Key.hpp"
 #include "NetworkClientSystem.hpp"
@@ -48,6 +49,7 @@ public:
     void registerAdditionalClientSystems(engine::Registry &reg) override
     {
         reg.add_system<System::AnimationSystem>(reg);
+        reg.add_system<System::SpawnEnemySystem>(reg);
         reg.add_system<rendering::system::Rendering>(reg);
         reg.add_system<rendering::system::Key>(reg);
         reg.add_system<net::system::NetworkClient>(reg, 4242);
@@ -63,16 +65,24 @@ public:
 
     void initAssets(engine::Registry &reg) override
     {
+        // 0
         reg._assets_paths.push_back(
             "./client/assets/cyberpunk_street_background.png"
         );
+        // 1
         reg._assets_paths.push_back(
             "./client/assets/cyberpunk_street_midground.png"
         );
+        // 2
         reg._assets_paths.push_back(
             "./client/assets/cyberpunk_street_foreground.png"
         );
+        // 3
         reg._assets_paths.push_back("./client/assets/scarfy.png");
+        // 4
+        reg._assets_paths.push_back("./client/assets/enemy1.png");
+        // 5
+        reg._assets_paths.push_back("./client/assets/enemy2.png");
     }
 
     void initScene(engine::Registry &reg) override

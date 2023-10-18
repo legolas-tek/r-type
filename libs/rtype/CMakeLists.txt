@@ -27,4 +27,5 @@ target_sources (rtype
     ./sources/RTypeGame.cpp
     ./sources/Systems/AttackSystem.cpp
     ./sources/NetworkSystem.cpp
+    ./sources/Systems/SpawnEnemySystem.cpp
 )
