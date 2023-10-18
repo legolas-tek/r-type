@@ -7,14 +7,13 @@
 
 #include "IGame.hpp"
 
-#include "Components/HitBox.hpp"
-
 #include "Systems/AnimationSystem.hpp"
 #include "Systems/AttackSystem.hpp"
 #include "Systems/LifeTimeSystem.hpp"
 #include "Systems/MoveSystem.hpp"
 #include "Systems/NetworkSystem.hpp"
 #include "Systems/DamageSystem.hpp"
+#include "Systems/CollisionsSystem.hpp"
 
 #include "Key.hpp"
 #include "NetworkClientSystem.hpp"
@@ -50,6 +49,11 @@ public:
             reg.get_components<Component::Life>(),
             reg.get_components<Component::Collision>(),
             reg
+        );
+        reg.add_system<System::CollisionsSystem>(
+            reg.get_components<Component::Position>(),
+            reg.get_components<Component::HitBox>(),
+            reg.get_components<Component::Collision>()
         );
         reg.add_system<rtype::NetworkServerSystem>(reg, 4242);
     }

@@ -25,10 +25,8 @@ System::DamageSystem::DamageSystem(
 void System::DamageSystem::operator()()
 {
     for (auto it = _collisions.begin(); it != _collisions.end(); it++) {
-        std::cout << "test = " << (*it)->_collidingEntity.has_value() << std::endl;
         if ((*it)->_collidingEntity && is_damage_collision(it.get_entity())) {
             damage_entity(it.get_entity());
-            std::cout << "damage dealt to entity: " << it.get_entity() << std::endl;
         }
     }
 }
@@ -49,6 +47,7 @@ void System::DamageSystem::damage_entity(engine::Entity const collided_entity)
         _collisions[collided_entity]->_collidingEntity.value();
 
     _lifes[collided_entity]->life -= _damages[colliding_entity]->damages;
+    _registry.erase_entity(colliding_entity);
     if (_lifes[collided_entity]->life <= 0)
-        _registry.erase_entity(colliding_entity);
+        _registry.erase_entity(collided_entity);
 }

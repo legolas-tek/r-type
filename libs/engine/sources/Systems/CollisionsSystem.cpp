@@ -7,7 +7,7 @@
 
 #include "Systems/CollisionsSystem.hpp"
 
-CollisionsSystem::CollisionsSystem(
+System::CollisionsSystem::CollisionsSystem(
     SparseArray<Component::Position> &positions,
     SparseArray<Component::HitBox> &hitboxes,
     SparseArray<Component::Collision> &collisions
@@ -37,14 +37,14 @@ static bool isColliding(
         return false;
     if (rightHitBox < leftCollision)
         return false;
-    if (topHitBox < bottomCollision)
+    if (topHitBox > bottomCollision)
         return false;
-    if (bottomHitBox > topCollision)
+    if (bottomHitBox < topCollision)
         return false;
     return true;
 }
 
-void CollisionsSystem::checkCollisions(size_t index)
+void System::CollisionsSystem::checkCollisions(size_t index)
 {
     for (auto it = _collisions.begin(); it != _collisions.end(); it++) {
         size_t i = it.get_entity();
@@ -73,7 +73,7 @@ static void resetCollisions(SparseArray<Component::Collision> &collisions)
     }
 }
 
-void CollisionsSystem::operator()()
+void System::CollisionsSystem::operator()()
 {
     resetCollisions(_collisions);
     for (auto it = _hitboxes.begin(); it != _hitboxes.end(); it++) {
