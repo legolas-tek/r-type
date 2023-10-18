@@ -66,15 +66,15 @@ public:
     void initAssets(engine::Registry &reg) override
     {
         reg._assets_paths.push_back(
-            "./client/assets/cyberpunk_street_background.png"
+            "./client/assets/images/cyberpunk_street_background.png"
         );
         reg._assets_paths.push_back(
-            "./client/assets/cyberpunk_street_midground.png"
+            "./client/assets/images/cyberpunk_street_midground.png"
         );
         reg._assets_paths.push_back(
-            "./client/assets/cyberpunk_street_foreground.png"
+            "./client/assets/images/cyberpunk_street_foreground.png"
         );
-        reg._assets_paths.push_back("./client/assets/scarfy.png");
+        reg._assets_paths.push_back("./client/assets/images/scarfy.png");
     }
 
     void initScene(engine::Registry &reg) override
@@ -83,6 +83,7 @@ public:
         engine::Entity midground(3);
         engine::Entity foreground(6);
         engine::Entity scarfy(7);
+        engine::Entity Title(2);
 
         // ==================== set positions ====================
         // background
@@ -100,6 +101,10 @@ public:
         // player
         reg.get_components<Component::Position>().insert_at(
             scarfy, std::move(Component::Position(100, 100))
+        );
+        // title
+        reg.get_components<Component::Position>().insert_at(
+            Title, std::move(Component::Position(50, 50))
         );
 
         // ==================== set velocity ====================
@@ -151,6 +156,14 @@ public:
         // std::move(Component::Collision(512.0f, 192.0f)));
         // reg.get_components<Component::Collision>().insert_at(player2,
         // std::move(Component::Collision(704.0f, 192.0f)));
+
+        // ==================== set Text ====================
+        reg.get_components<Component::Text>().insert_at(
+            Title,
+            std::move(Component::Text(
+                "R-Type", "./client/assets/fonts/Over_There.ttf", 50, 10
+            ))
+        );
     }
 };
 
