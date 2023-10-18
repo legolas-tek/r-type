@@ -47,9 +47,7 @@ void net::manager::Udp::send(
     net::Buffer &cmd, net::manager::Client const &client
 )
 {
-    _socket.send_to(
-        asio::buffer(cmd.data(), cmd.size()), client.getEndpoint()
-    );
+    _socket.send_to(asio::buffer(cmd.data(), cmd.size()), client.getEndpoint());
 }
 
 std::vector<std::pair<net::Buffer, net::manager::Client>>
@@ -63,7 +61,8 @@ net::manager::Udp::receive() noexcept
 
         try {
             std::size_t buffSize = 0;
-            buffSize = _socket.receive_from(asio::buffer(buff), client_endpoint);
+            buffSize
+                = _socket.receive_from(asio::buffer(buff), client_endpoint);
             buff.resize(buffSize);
         } catch (std::exception &e) {
             break;

@@ -11,6 +11,7 @@
 #include "Components/Controllable.hpp"
 #include "Components/Drawable.hpp"
 #include "Components/HitBox.hpp"
+#include "Components/LifeTime.hpp"
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
 
@@ -63,6 +64,9 @@ void System::AttackSystem::createLaserEntity(engine::Entity const attacker_index
     _register.get_components<Component::Drawable>().insert_at(
         attack_entity,
         Component::Drawable(laser_index, LASER_WIDTH, LASER_HEIGHT)
+    );
+    _register.get_components<Component::LifeTime>().insert_at(
+        attack_entity, Component::LifeTime(200, _register.getTick())
     );
 }
 

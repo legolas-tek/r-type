@@ -17,6 +17,7 @@
 
 #include "Systems/AnimationSystem.hpp"
 #include "Systems/AttackSystem.hpp"
+#include "Systems/LifeTimeSystem.hpp"
 #include "Systems/MoveSystem.hpp"
 #include "Systems/NetworkSystem.hpp"
 
@@ -36,12 +37,16 @@ public:
         reg.register_component<Component::Animation>();
         reg.register_component<Component::HitBox>();
         reg.register_component<Component::FireRate>();
+        reg.register_component<Component::LifeTime>();
     }
 
     void registerAdditionalServerSystems(engine::Registry &reg) override
     {
         reg.add_system<System::AttackSystem>(
             reg.get_components<Component::FireRate>(), reg
+        );
+        reg.add_system<System::LifeTimeSystem>(
+            reg.get_components<Component::LifeTime>(), reg
         );
         reg.add_system<rtype::NetworkServerSystem>(reg, 4242);
     }
@@ -154,6 +159,9 @@ public:
         reg.get_components<Component::FireRate>().insert_at(
             scarfy, Component::FireRate(50)
         );
+
+        // ==================== set LifeTime ====================
+        // register you're LifeTime components
     }
 };
 
