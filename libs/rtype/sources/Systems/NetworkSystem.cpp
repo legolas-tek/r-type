@@ -5,12 +5,11 @@
 ** Game-specific network system
 */
 
-
 #include "Components/Controllable.hpp"
 #include "Components/Velocity.hpp"
 
-#include "NetworkSystem.hpp"
 #include "NetworkServerSystem.hpp"
+#include "NetworkSystem.hpp"
 
 bool rtype::NetworkServerSystem::canUpdate(
     engine::Entity entity, uint8_t component_id,

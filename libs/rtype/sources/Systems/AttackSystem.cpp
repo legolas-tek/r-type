@@ -31,8 +31,7 @@ void System::AttackSystem::operator()()
     }
 }
 
-void System::AttackSystem::createLaserEntity(
-    engine::Entity const attacker_index
+void System::AttackSystem::createLaserEntity(engine::Entity const attacker_index
 )
 {
     size_t laser_index = 4;
@@ -62,11 +61,8 @@ void System::AttackSystem::createLaserEntity(
         attack_entity, Component::HitBox(LASER_WIDTH, LASER_HEIGHT)
     );
     _register.get_components<Component::Drawable>().insert_at(
-        attack_entity, Component::Drawable(
-            laser_index,
-            LASER_WIDTH,
-            LASER_HEIGHT
-        )
+        attack_entity,
+        Component::Drawable(laser_index, LASER_WIDTH, LASER_HEIGHT)
     );
 }
 

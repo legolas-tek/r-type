@@ -11,9 +11,9 @@
 #include "Components/Collision.hpp"
 #include "Components/Controllable.hpp"
 #include "Components/Drawable.hpp"
+#include "Components/HitBox.hpp"
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
-#include "Components/HitBox.hpp"
 
 #include "Systems/AnimationSystem.hpp"
 #include "Systems/AttackSystem.hpp"
@@ -143,13 +143,13 @@ public:
         reg.get_components<Component::Controllable>().insert_at(scarfy, 2);
 
         // ==================== set Collision ====================
-        reg.get_components<Component::Collision>().insert_at(scarfy,
-            std::move(Component::Collision(128, 128))
+        reg.get_components<Component::Collision>().insert_at(
+            scarfy, std::move(Component::Collision(128, 128))
         );
 
         // ==================== set FireRate ====================
-        reg.get_components<Component::FireRate>().insert_at(scarfy,
-            Component::FireRate(50)
+        reg.get_components<Component::FireRate>().insert_at(
+            scarfy, Component::FireRate(50)
         );
     }
 };
