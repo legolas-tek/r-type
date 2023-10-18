@@ -22,7 +22,7 @@ struct Text : public ISystem {
         SparseArray<Component::Text> &texts,
         SparseArray<Component::Position> &positions
     );
-    ~Text() = default;
+    ~Text();
     void operator()() override;
 
 private:

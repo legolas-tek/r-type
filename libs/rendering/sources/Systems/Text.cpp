@@ -16,6 +16,12 @@ rendering::system::Text::Text(
 {
 }
 
+rendering::system::Text::~Text()
+{
+    for (auto &font : _cache)
+        UnloadFont(font.second);
+}
+
 bool rendering::system::Text::FontIsLoaded(std::string const &path)
 {
     return _cache.find(path) != _cache.end();
@@ -37,7 +43,7 @@ void rendering::system::Text::operator()()
 
         DrawTextEx(
             font, (*it)->_text.c_str(), Vector2 { pos->_x, pos->_y },
-            (*it)->_size, 0, BLACK
+            (*it)->_size, (*it)->_spacing, BLACK
         );
     }
 }
