@@ -26,5 +26,5 @@ target_sources (rtype
     PRIVATE
     ./sources/RTypeGame.cpp
     ./sources/Systems/AttackSystem.cpp
-    ./sources/NetworkSystem.cpp
+    ./sources/Systems/NetworkSystem.cpp
 )

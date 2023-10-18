@@ -116,7 +116,8 @@ public:
         return data;
     }
 
-    std::size_t apply_data(Entity entity, size_t componentId, std::byte const *buffer)
+    std::size_t
+    apply_data(Entity entity, size_t componentId, std::byte const *buffer)
     {
         return _deserialize_component_funcs[componentId](*this, entity, buffer);
     }
@@ -143,6 +144,7 @@ public:
     }
 
     std::vector<std::string> _assets_paths;
+
 private:
     /**
      * Map of component type to component id

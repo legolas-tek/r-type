@@ -8,20 +8,20 @@
 #include "IGame.hpp"
 
 #include "Components/Animation.hpp"
-#include "Components/Attack.hpp"
 #include "Components/Collision.hpp"
 #include "Components/Controllable.hpp"
 #include "Components/Drawable.hpp"
+#include "Components/HitBox.hpp"
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
 
 #include "Systems/AnimationSystem.hpp"
 #include "Systems/AttackSystem.hpp"
 #include "Systems/MoveSystem.hpp"
+#include "Systems/NetworkSystem.hpp"
 
 #include "Key.hpp"
 #include "NetworkClientSystem.hpp"
-#include "NetworkSystem.hpp"
 #include "Rendering.hpp"
 
 class RTypeGame : public engine::IGame {
@@ -33,14 +33,15 @@ public:
         reg.register_component<Component::Drawable>();
         reg.register_component<Component::Controllable>();
         reg.register_component<Component::Collision>();
-        reg.register_component<Component::Attack>();
         reg.register_component<Component::Animation>();
+        reg.register_component<Component::HitBox>();
+        reg.register_component<Component::FireRate>();
     }
 
     void registerAdditionalServerSystems(engine::Registry &reg) override
     {
         reg.add_system<System::AttackSystem>(
-            reg.get_components<Component::Attack>(), reg
+            reg.get_components<Component::FireRate>(), reg
         );
         reg.add_system<rtype::NetworkServerSystem>(reg, 4242);
     }
@@ -73,14 +74,15 @@ public:
             "./client/assets/cyberpunk_street_foreground.png"
         );
         reg._assets_paths.push_back("./client/assets/scarfy.png");
+        reg._assets_paths.push_back("./client/assets/Plasma_Beam.png");
     }
 
     void initScene(engine::Registry &reg) override
     {
-        engine::Entity background(1);
-        engine::Entity midground(3);
-        engine::Entity foreground(6);
-        engine::Entity scarfy(7);
+        engine::Entity background(reg.get_new_entity());
+        engine::Entity midground(reg.get_new_entity());
+        engine::Entity foreground(reg.get_new_entity());
+        engine::Entity scarfy(reg.get_new_entity());
 
         // ==================== set positions ====================
         // background
@@ -142,13 +144,16 @@ public:
 
         // // ==================== set Controllable ====================
         reg.get_components<Component::Controllable>().insert_at(scarfy, 2);
-        // reg.get_components<Component::Controllable>().insert_at(player2, 1);
 
-        // // ==================== set Collision ====================
-        // reg.get_components<Component::Collision>().insert_at(player,
-        // std::move(Component::Collision(512.0f, 192.0f)));
-        // reg.get_components<Component::Collision>().insert_at(player2,
-        // std::move(Component::Collision(704.0f, 192.0f)));
+        // ==================== set Collision ====================
+        reg.get_components<Component::Collision>().insert_at(
+            scarfy, std::move(Component::Collision(128, 128))
+        );
+
+        // ==================== set FireRate ====================
+        reg.get_components<Component::FireRate>().insert_at(
+            scarfy, Component::FireRate(50)
+        );
     }
 };
 
