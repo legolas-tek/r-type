@@ -34,6 +34,5 @@ int main(int argc, char *argv[])
     } catch (engine::IGame::StartGameException const &e) {
         // run the game:
     }
-    std::cout << "Starting game" << std::endl;
     runGame(*game);
 }
