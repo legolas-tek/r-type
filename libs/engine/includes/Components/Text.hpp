@@ -30,10 +30,13 @@ struct Text {
      *
      * @param text The text to be stored in this structure.
      */
-    explicit Text(std::string &&text, std::string &&font, float size, float spacing)
+    explicit Text(
+        std::string &&text, std::string &&font, float size, float spacing
+    )
         : _text(std::move(text))
         , _font(std::move(font))
         , _size(size)
+        , _spacing(spacing)
     {
     }
 
