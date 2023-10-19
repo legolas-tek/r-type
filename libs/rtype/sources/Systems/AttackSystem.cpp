@@ -37,7 +37,6 @@ void System::AttackSystem::operator()()
 void System::AttackSystem::createLaserEntity(engine::Entity const attacker_index
 )
 {
-    size_t laser_index = 4;
     Component::Velocity velocity(15, 0);
     SparseArray<Component::Position> &positions
         = _register.get_components<Component::Position>();
@@ -65,12 +64,13 @@ void System::AttackSystem::createLaserEntity(engine::Entity const attacker_index
     );
     _register.get_components<Component::Animation>().insert_at(
         attack_entity, Component::Animation(
-            398, 4, LASER_WIDTH, LASER_HEIGHT, LASER_WIDTH, 10
+            LASER_WIDTH * LASER_FRAMES, LASER_HEIGHT,
+            LASER_WIDTH, LASER_HEIGHT, LASER_WIDTH, 10
             )
     );
     _register.get_components<Component::Drawable>().insert_at(
         attack_entity,
-        Component::Drawable(laser_index, LASER_WIDTH, LASER_HEIGHT)
+        Component::Drawable(LASER_INDEX, LASER_WIDTH, LASER_HEIGHT)
     );
     _register.get_components<Component::LifeTime>().insert_at(
         attack_entity, Component::LifeTime(200, _register.getTick())

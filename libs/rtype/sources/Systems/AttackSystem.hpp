@@ -20,6 +20,10 @@ namespace System {
 inline constexpr int LASER_WIDTH = 50;
 /// @brief The height of the laser component
 inline constexpr int LASER_HEIGHT = 4;
+/// @brief The number of frames for the laser animation
+inline constexpr int LASER_FRAMES = 4;
+/// @brief The index to find the laser sprite
+inline constexpr int LASER_INDEX = 4;
 
 /// @brief This system checks wherever the entity is attacking with the attack
 /// component. If it does it launches an attack creating an entity and set back
