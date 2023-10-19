@@ -20,12 +20,12 @@ namespace engine {
 template <typename T> struct Serializable {
     void serialize(Serializer &ser) const
     {
-        ser.serializeTrivial(*this);
+        ser.serializeTrivial<T>(reinterpret_cast<T const &>(*this));
     }
 
     void deserialize(Deserializer &deser)
     {
-        deser.deserializeTrivial(*this);
+        deser.deserializeTrivial<T>(reinterpret_cast<T &>(*this));
     }
 };
 
