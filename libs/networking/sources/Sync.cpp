@@ -7,9 +7,11 @@
 
 #include "Serialization/Deserializer.hpp"
 #include "Serialization/Serializer.hpp"
+#include "Snapshot.hpp"
 #include "UdpNetManager.hpp"
 
 #include "Sync.hpp"
+#include <cstdint>
 
 net::Sync::Sync(net::ClientNetManager, engine::Registry &registry, int port)
     : _registry(registry)
@@ -169,17 +171,20 @@ net::Snapshot &net::Sync::find_last_ack(std::size_t client_index)
 }
 
 static std::vector<std::byte> constructUpdatePacket(
-    uint32_t currentTick, uint32_t previousTick, std::vector<std::byte> &&diff
+    net::Snapshot const &previous, net::Snapshot const &current
 )
 {
     engine::Serializer serializer;
 
-    std::byte packetId { 0x01 };
-    serializer.serializeTrivial(packetId);
-    serializer.serializeTrivial(currentTick);
-    serializer.serializeTrivial(previousTick);
+    serializer.serializeTrivial(std::byte(0x01));
+    serializer.serializeTrivial(std::uint32_t(current.tick));
+    serializer.serializeTrivial(std::uint32_t(previous.tick));
 
-    serializer.insert(diff);
+    size_t size = serializer.getSize();
+    net::diffSnapshots(serializer, previous, current);
+    if (serializer.getSize() == size) {
+        return {}; // no update
+    }
     return serializer.finish();
 }
 
@@ -213,21 +218,17 @@ void net::Sync::operator()()
         Snapshot &previous = find_last_ack(it - clients.begin());
         Snapshot current(_registry.getTick(), _registry);
 
-        std::vector<std::byte> diff = net::diffSnapshots(previous, current);
+        auto packet = constructUpdatePacket(previous, current);
 
-        if (not diff.empty()) {
-            updateSnapshotHistory(std::move(current));
-            auto packet = constructUpdatePacket(
-                _registry.getTick(), _snapshots.at(_rd_index).snapshot.tick,
-                std::move(diff)
-            );
+        if (packet.empty())
+            continue;
+        updateSnapshotHistory(std::move(current));
 
 #ifdef DEBUG_NETWORK
-            std::cout << "SyncSystem: sent " << packet.size()
-                      << " byte update packet for tick " << _registry.getTick()
-                      << std::endl;
+        std::cout << "SyncSystem: sent " << packet.size()
+                  << " byte update packet for tick " << _registry.getTick()
+                  << std::endl;
 #endif
-            _nmu->send(packet, *it);
-        }
+        _nmu->send(packet, *it);
     }
 }
