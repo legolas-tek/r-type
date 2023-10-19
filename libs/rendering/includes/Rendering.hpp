@@ -20,7 +20,6 @@
 #include "Components/Drawable.hpp"
 #include "Components/Position.hpp"
 
-namespace rendering::system {
 /*!
  * \brief Constant integer value representing the screen width.
  */
@@ -29,7 +28,9 @@ int const SCREEN_WIDTH = 800;
 /*!
  * \brief Constant integer value representing the screen height.
  */
-int const SCREEN_HEIGHT = 450;
+int const SCREEN_HEIGHT = 384;
+
+namespace rendering::system {
 
 /*!
  * \class Rendering

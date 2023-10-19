@@ -107,6 +107,8 @@ void RTypeGame::initAssets(engine::Registry &reg)
     reg._assets_paths.push_back("./client/assets/Plasma_Beam.png");
     reg._assets_paths.push_back("./client/assets/impact_explosion.png");
     reg._assets_paths.push_back("./client/assets/basic_ennemy.png");
+    reg._assets_paths.push_back("./client/assets/first_level_bottom_borders.png");
+    reg._assets_paths.push_back("./client/assets/first_level_top_borders.png");
 }
 
 void RTypeGame::initScene(engine::Registry &reg)
@@ -114,8 +116,10 @@ void RTypeGame::initScene(engine::Registry &reg)
     engine::Entity background(reg.get_new_entity());
     engine::Entity midground(reg.get_new_entity());
     engine::Entity foreground(reg.get_new_entity());
-    engine::Entity scarfy(reg.get_new_entity());
+    engine::Entity player(reg.get_new_entity());
     engine::Entity dummy(reg.get_new_entity());
+    engine::Entity topBorder(reg.get_new_entity());
+    engine::Entity bottomBorder(reg.get_new_entity());
 
     // ==================== set positions ====================
     // background
@@ -132,17 +136,26 @@ void RTypeGame::initScene(engine::Registry &reg)
     );
     // player
     reg.get_components<Component::Position>().insert_at(
-        scarfy, std::move(Component::Position(150, 150, 1))
+        player, std::move(Component::Position(150, 150, 1))
     );
     // test dummy
     reg.get_components<Component::Position>().insert_at(
         dummy, Component::Position(500, 150, 1)
     );
+    // topBorder
+        reg.get_components<Component::Position>().insert_at(
+        topBorder, Component::Position(0, 0, 1)
+    );
+    // bottomBorder
+        reg.get_components<Component::Position>().insert_at(
+        bottomBorder, Component::Position(0, SCREEN_HEIGHT - 16, 1)
+    );
 
     // ==================== set velocity ====================
     reg.get_components<Component::Velocity>().insert_at(
-        scarfy, std::move(Component::Velocity())
+        player, std::move(Component::Velocity())
     );
+
     // ==================== set Drawable ====================
     // background
     reg.get_components<Component::Drawable>().insert_at(
@@ -158,11 +171,19 @@ void RTypeGame::initScene(engine::Registry &reg)
     );
     // player
     reg.get_components<Component::Drawable>().insert_at(
-        scarfy, std::move(Component::Drawable(3, 33, 14, 3))
+        player, std::move(Component::Drawable(3, 33, 14, 3))
     );
     // test dummy
     reg.get_components<Component::Drawable>().insert_at(
         dummy, Component::Drawable(6, 32, 32, 1.5)
+    );
+    // topBorder
+    reg.get_components<Component::Drawable>().insert_at(
+        topBorder, Component::Drawable(8, 418, 8, 3)
+    );
+    // bottomBorder
+    reg.get_components<Component::Drawable>().insert_at(
+        bottomBorder, Component::Drawable(7, 418, 8, 3)
     );
 
     // ==================== set Animation ====================
@@ -176,18 +197,24 @@ void RTypeGame::initScene(engine::Registry &reg)
         foreground, std::move(Component::Animation(1408, 192, 704, 192, 5, 1))
     );
     reg.get_components<Component::Animation>().insert_at(
-        scarfy, std::move(Component::Animation(131, 14, 33, 14, 33, 50))
+        player, std::move(Component::Animation(131, 14, 33, 14, 33, 50))
     );
     reg.get_components<Component::Animation>().insert_at(
         dummy, Component::Animation(160, 32, 32, 32, 32, 50)
     );
+    reg.get_components<Component::Animation>().insert_at(
+        topBorder, Component::Animation(836, 8, 418, 8, 1, 1)
+    );
+    reg.get_components<Component::Animation>().insert_at(
+        bottomBorder, Component::Animation(836, 8, 418, 8, 1, 1)
+    );
 
     // // ==================== set Controllable ====================
-    reg.get_components<Component::Controllable>().insert_at(scarfy, 2);
+    reg.get_components<Component::Controllable>().insert_at(player, 2);
 
     // ==================== set Collision ====================
     reg.get_components<Component::Collision>().insert_at(
-        scarfy, std::move(Component::Collision(128, 128))
+        player, std::move(Component::Collision(128, 128))
     );
     reg.get_components<Component::Collision>().insert_at(
         dummy, Component::Collision(48, 48)
@@ -195,7 +222,7 @@ void RTypeGame::initScene(engine::Registry &reg)
 
     // ==================== set FireRate ====================
     reg.get_components<Component::FireRate>().insert_at(
-        scarfy, Component::FireRate(50)
+        player, Component::FireRate(50)
     );
 
     // ==================== set LifeTime ====================
