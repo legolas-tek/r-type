@@ -9,12 +9,12 @@
 
 #include "Components/Collision.hpp"
 #include "Components/Controllable.hpp"
+#include "Components/Damage.hpp"
 #include "Components/Drawable.hpp"
 #include "Components/HitBox.hpp"
 #include "Components/LifeTime.hpp"
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
-#include "Components/Damage.hpp"
 
 System::AttackSystem::AttackSystem(
     SparseArray<Component::FireRate> &fireRates, engine::Registry &reg

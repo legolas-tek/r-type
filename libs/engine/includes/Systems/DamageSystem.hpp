@@ -9,12 +9,12 @@
 #define DAMAGESYSTEM_HPP_
 
 #include "ISystem.hpp"
-#include "SparseArray.hpp"
 #include "Registry.hpp"
+#include "SparseArray.hpp"
 
-#include "Components/Life.hpp"
 #include "Components/Collision.hpp"
 #include "Components/Damage.hpp"
+#include "Components/Life.hpp"
 
 namespace System {
 

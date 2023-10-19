@@ -17,7 +17,8 @@ namespace Component {
 struct Damage : Serializable<Damage> {
     /// @brief Constructs an instance of a Damage component and sets it's damage
     /// @param damages The damages that the entity will deal on collision
-    Damage(int damages) : damages(damages) {};
+    Damage(int damages)
+        : damages(damages) {};
 
     /// @brief Default constructor
     Damage() = default;

@@ -9,11 +9,11 @@
 
 #include "Systems/AnimationSystem.hpp"
 #include "Systems/AttackSystem.hpp"
+#include "Systems/CollisionsSystem.hpp"
+#include "Systems/DamageSystem.hpp"
 #include "Systems/LifeTimeSystem.hpp"
 #include "Systems/MoveSystem.hpp"
 #include "Systems/NetworkSystem.hpp"
-#include "Systems/DamageSystem.hpp"
-#include "Systems/CollisionsSystem.hpp"
 
 #include "Key.hpp"
 #include "NetworkClientSystem.hpp"
@@ -45,8 +45,7 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
     reg.add_system<System::DamageSystem>(
         reg.get_components<Component::Damage>(),
         reg.get_components<Component::Life>(),
-        reg.get_components<Component::Collision>(),
-        reg
+        reg.get_components<Component::Collision>(), reg
     );
     reg.add_system<System::CollisionsSystem>(
         reg.get_components<Component::Position>(),
@@ -144,16 +143,13 @@ void RTypeGame::initScene(engine::Registry &reg)
 
     // ==================== set Animation ====================
     reg.get_components<Component::Animation>().insert_at(
-        background,
-        std::move(Component::Animation(1024, 192, 512, 192, 1, 1))
+        background, std::move(Component::Animation(1024, 192, 512, 192, 1, 1))
     );
     reg.get_components<Component::Animation>().insert_at(
-        midground,
-        std::move(Component::Animation(1024, 192, 512, 192, 3, 1))
+        midground, std::move(Component::Animation(1024, 192, 512, 192, 3, 1))
     );
     reg.get_components<Component::Animation>().insert_at(
-        foreground,
-        std::move(Component::Animation(1408, 192, 704, 192, 5, 1))
+        foreground, std::move(Component::Animation(1408, 192, 704, 192, 5, 1))
     );
     reg.get_components<Component::Animation>().insert_at(
         scarfy, std::move(Component::Animation(768, 128, 128, 128, 128, 10))
@@ -179,10 +175,7 @@ void RTypeGame::initScene(engine::Registry &reg)
     // register you're LifeTime components
 
     // ==================== set Life ========================
-    reg.get_components<Component::Life>().insert_at(
-        dummy, Component::Life(10)
-    );
-
+    reg.get_components<Component::Life>().insert_at(dummy, Component::Life(10));
 }
 
 std::unique_ptr<engine::IGame> RTypeGame::createLobby()
