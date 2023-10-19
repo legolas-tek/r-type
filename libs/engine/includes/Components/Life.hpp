@@ -32,7 +32,7 @@ struct Life : engine::Serializable<Life> {
      * @param life The life value of the entity.
      */
     Life(int life)
-        : _life(life)
+        : life(life)
     {
     }
 
@@ -44,7 +44,7 @@ struct Life : engine::Serializable<Life> {
     /**
      * @brief The life value of the entity.
      */
-    int _life = 0;
+    int life = 0;
 };
 }
 
