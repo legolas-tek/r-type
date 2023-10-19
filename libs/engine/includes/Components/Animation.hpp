@@ -12,14 +12,14 @@
 #include <utility>
 
 #include "Entity.hpp"
-#include "Serializable.hpp"
+#include "Serialization/Serializable.hpp"
 
 namespace Component {
 
 /**
  * @brief The Animation struct represents an animation component for entities.
  */
-struct Animation : Serializable<Animation> {
+struct Animation : engine::Serializable<Animation> {
 public:
     /**
      * @brief Constructor to initialize the Animation component with the given

@@ -14,7 +14,7 @@
 
 #include <cstddef>
 
-#include "Serializable.hpp"
+#include "Serialization/Serializable.hpp"
 
 namespace Component {
 
@@ -24,7 +24,7 @@ namespace Component {
  * This structure is used to represent a 2D position with x and y coordinates.
  * It can be used as a component to store the position of an entity.
  */
-struct Position : Serializable<Position> {
+struct Position : engine::Serializable<Position> {
     /**
      * @brief The x-coordinate of the position.
      */
@@ -65,7 +65,6 @@ struct Position : Serializable<Position> {
     {
     }
 };
-
 }
 
 #endif /* !POSITION_HPP_ */

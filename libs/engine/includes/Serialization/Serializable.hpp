@@ -12,6 +12,8 @@
 #include <cstring>
 #include <vector>
 
+namespace engine {
+
 template <typename T> struct Serializable {
     std::vector<std::byte> serialize() const
     {
@@ -26,5 +28,7 @@ template <typename T> struct Serializable {
         return sizeof(T);
     }
 };
+
+}
 
 #endif // R_TYPE_SERIALIZABLE_HPP

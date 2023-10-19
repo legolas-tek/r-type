@@ -8,13 +8,13 @@
 #ifndef TEXT_HPP_
 #define TEXT_HPP_
 
-#include "Serializable.hpp"
+#include "Serialization/Serializable.hpp"
 #include <string>
 #include <utility>
 
 namespace Component {
 
-struct Text : Serializable<Text> {
+struct Text : engine::Serializable<Text> {
     std::string _text;
 
     Text() = default;
@@ -24,7 +24,6 @@ struct Text : Serializable<Text> {
     {
     }
 };
-
 }
 
 #endif
