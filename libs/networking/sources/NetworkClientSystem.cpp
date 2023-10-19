@@ -15,5 +15,3 @@ net::system::NetworkClient::NetworkClient(engine::Registry &registry, int port)
 net::system::NetworkClient::~NetworkClient()
 {
 }
-
-

@@ -13,17 +13,21 @@
 #include "Registry.hpp"
 #include "SparseArray.hpp"
 
-#include "Components/Attack.hpp"
+#include "Components/FireRate.hpp"
 
 namespace System {
+/// @brief The width of the laser sprite
+inline constexpr int LASER_WIDTH = 32;
+/// @brief The height of the laser component
+inline constexpr int LASER_HEIGHT = 2;
+
 /// @brief This system checks wherever the entity is attacking with the attack
 /// component. If it does it launches an attack creating an entity and set back
 /// the attack component to true.
-
 class AttackSystem : public ISystem {
 public:
     AttackSystem(
-        SparseArray<Component::Attack> &attacks, engine::Registry &reg
+        SparseArray<Component::FireRate> &fireRates, engine::Registry &reg
     );
 
     /// @brief deleted copy constructor
@@ -37,11 +41,16 @@ private:
     /// @brief private function that create a laser
     /// @param attack_comp the attack component of the attacking entity
     /// @param attacker_index the index of the attacking entity
-    void createLaserEntity(
-        Component::Attack &attack_comp, engine::Entity const attacker_index
-    );
+    void createLaserEntity(engine::Entity const attacker_index);
 
-    SparseArray<Component::Attack> &_attacks;
+    /// @brief private function that allows the attack system to know when he
+    /// can create a laser entity
+    /// @param fire_rates optional fire rate component of the attacking entity
+    /// @return returns true if the entity can shoot or false if it has to
+    /// wait more
+    bool isAbleToAttack(Component::FireRate &fire_rate);
+
+    SparseArray<Component::FireRate> &_fireRates;
     engine::Registry &_register;
 };
 }

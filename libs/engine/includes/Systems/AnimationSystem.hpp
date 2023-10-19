@@ -13,10 +13,10 @@
 
 #include "Registry.hpp"
 
-/// @brief This system launches an event depending if an entity hitbox hit
-/// an other entity Hitbox
 namespace System {
 
+/// @brief This system launches an event depending if an entity hitbox hit
+/// an other entity Hitbox
 class AnimationSystem : public ISystem {
 public:
     AnimationSystem(engine::Registry &registry);

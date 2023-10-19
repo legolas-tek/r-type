@@ -6,6 +6,7 @@
 */
 
 #include "Systems/Texture.hpp"
+#include <algorithm>
 
 rendering::system::Texture::Texture(
     engine::Registry &registry, SparseArray<Component::Drawable> &drawables,
@@ -32,24 +33,34 @@ bool rendering::system::Texture::TextureIsLoaded(size_t id)
 
 void rendering::system::Texture::operator()()
 {
-    auto &pos_list = _registry.get_components<Component::Position>();
-    for (auto it = _drawables.begin(); it != _drawables.end(); ++it) {
-        auto id = it.get_entity();
-        auto pos = pos_list[id];
-        auto anim = _animations[id];
+    std::vector<engine::Entity> entityList;
 
-        if (not TextureIsLoaded(id))
-            _cache[id]
-                = LoadTexture(_registry._assets_paths[(*it)->_index].c_str());
+    for (auto it = _drawables.begin(); it != _drawables.end(); ++it)
+        entityList.push_back(it.get_entity());
 
-        Texture2D texture = _cache[id];
-        Rectangle sourceRec = { 0.0f, 0.0f, (*it)->_width, (*it)->_height };
+    std::sort(
+        entityList.begin(), entityList.end(),
+        [this](size_t a, size_t b) {
+            return _positions[a]->_z < _positions[b]->_z;
+        }
+    );
+
+    for (auto &entity: entityList) {
+        auto pos = _positions[entity];
+        auto anim = _animations[entity];
+
+        if (not TextureIsLoaded(entity))
+            _cache[entity]
+                = LoadTexture(_registry._assets_paths[_drawables[entity]->_index].c_str());
+
+        Texture2D texture = _cache[entity];
+        Rectangle sourceRec = { 0.0f, 0.0f, _drawables[entity]->_width, _drawables[entity]->_height };
 
         if (anim.has_value())
             sourceRec.x = (float) anim.value()._current_offset;
 
-        Rectangle destRec = { pos->_x, pos->_y, sourceRec.width * (*it)->_scale,
-                              sourceRec.height * (*it)->_scale };
+        Rectangle destRec = { pos->_x, pos->_y, sourceRec.width * _drawables[entity]->_scale,
+                              sourceRec.height * _drawables[entity]->_scale };
 
         DrawTexturePro(texture, sourceRec, destRec, { 0, 0 }, 0.0f, WHITE);
     }

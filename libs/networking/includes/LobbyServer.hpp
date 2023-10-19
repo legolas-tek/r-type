@@ -120,14 +120,22 @@ public:
     {
         auto client = _server.acceptNewClient();
         if (client) {
-            _clients.emplace_back(std::move(client));
+            emplaceClient(std::move(client));
         }
         for (auto &client : _clients) {
             client();
         }
     }
 
-private:
+    /// Emplaces a new client
+    /// @param connection The connection to use
+    /// The basic implementation is:
+    /// @code
+    /// _clients.emplace_back(std::move(connection));
+    /// @endcode
+    virtual void emplaceClient(manager::TcpConnection &&connection) = 0;
+
+protected:
     /// The list of connected clients
     std::vector<RemoteClient> _clients;
     /// The underlying tcp server

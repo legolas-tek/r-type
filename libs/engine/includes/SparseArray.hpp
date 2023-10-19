@@ -12,6 +12,8 @@
 #include <optional>
 #include <vector>
 
+#include "Entity.hpp"
+
 template <typename Component> class SparseArray {
 
 public:
@@ -61,9 +63,9 @@ public:
             return tmp;
         }
 
-        size_t get_entity()
+        engine::Entity get_entity()
         {
-            return _iterations;
+            return engine::Entity(_iterations);
         }
 
         friend bool

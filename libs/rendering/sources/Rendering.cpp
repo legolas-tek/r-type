@@ -6,6 +6,8 @@
 ** Rendering
 */
 
+#include <algorithm>
+
 #include "Rendering.hpp"
 
 #include "Systems/Text.hpp"

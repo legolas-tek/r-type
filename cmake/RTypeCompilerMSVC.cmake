@@ -6,21 +6,5 @@
 # free to make use of it in any way you like.
 #-------------------------------------------------------------------
 
-cmake_minimum_required (VERSION 3.8)
-
-add_library (engine SHARED)
-
-target_include_directories (engine
-    PUBLIC
-    ./includes/
-    ./sources/
-)
-
-target_sources (engine
-    PRIVATE
-    ./sources/Entity.cpp
-    ./sources/GameLoop.cpp
-    ./sources/Systems/MoveSystem.cpp
-    ./sources/Systems/AnimationSystem.cpp
-    ./sources/Systems/LifeTimeSystem.cpp
-)
+set (CMAKE_CXX_FLAGS_COMMON "")
+set (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${CMAKE_CXX_FLAGS_COMMON} /O2")
