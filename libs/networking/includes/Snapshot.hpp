@@ -10,6 +10,7 @@
 
 #include "Entity.hpp"
 #include "Registry.hpp"
+#include "Serialization/Serializer.hpp"
 #include <cstddef>
 #include <vector>
 
@@ -48,6 +49,9 @@ struct Snapshot {
 std::vector<std::byte>
 diffSnapshots(Snapshot const &previous, Snapshot const &current);
 
+void diffSnapshots(
+    engine::Serializer &diff, Snapshot const &previous, Snapshot const &current
+);
 }
 
 #endif /* !NETWORKING_SNAPSHOT_HPP_ */
