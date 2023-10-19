@@ -7,6 +7,8 @@
 
 #include "SpawnEnemySystem.hpp"
 
+#include "Rendering.hpp"
+
 System::SpawnEnemySystem::SpawnEnemySystem(engine::Registry &reg)
     : _register(reg)
 {
@@ -20,10 +22,13 @@ static float tickToSecond(size_t tick)
 static void addEnemy1(engine::Registry &reg)
 {
     engine::Entity enemy(reg.get_new_entity());
+    float entityHeight = 27.0f;
+    int randomY = std::rand()
+        % static_cast<int>(rendering::system::SCREEN_HEIGHT - entityHeight);
 
     // set position
     reg.get_components<Component::Position>().insert_at(
-        enemy, std::move(Component::Position(300, 100, 0))
+        enemy, std::move(Component::Position(700, randomY, 0))
     );
     // set Drawable
     reg.get_components<Component::Drawable>().insert_at(
@@ -38,10 +43,12 @@ static void addEnemy1(engine::Registry &reg)
 static void addEnemy2(engine::Registry &reg)
 {
     engine::Entity enemy(reg.get_new_entity());
-
+    float entityHeight = 72.0f;
+    int randomY = std::rand()
+        % static_cast<int>(rendering::system::SCREEN_HEIGHT - entityHeight);
     // set position
     reg.get_components<Component::Position>().insert_at(
-        enemy, std::move(Component::Position(400, 100, 0))
+        enemy, std::move(Component::Position(700, randomY, 0))
     );
     // set Drawable
     reg.get_components<Component::Drawable>().insert_at(
@@ -90,7 +97,8 @@ void System::SpawnEnemySystem::operator()()
         bool isInPercent = random < WAVE_ENEMY_NUM[_waveNum];
 
         if (isInPercent) {
-            std::cout << "created in wave " << _waveNum << std::endl;
+            std::cout << "created in wave " << _waveNum << " tick " << tick
+                      << std::endl;
             addEnemy(_register);
             _createdNum++;
         }
