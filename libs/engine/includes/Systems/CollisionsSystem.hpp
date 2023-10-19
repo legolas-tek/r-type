@@ -16,6 +16,8 @@
 #include "Components/Life.hpp"
 #include "Components/Position.hpp"
 
+namespace System {
+
 class CollisionsSystem : public ISystem {
 public:
     CollisionsSystem(
@@ -33,4 +35,5 @@ private:
     SparseArray<Component::Collision> &_collisions;
 };
 
+}
 #endif // R_TYPE_COLLISIONSSYSTEM_HPP

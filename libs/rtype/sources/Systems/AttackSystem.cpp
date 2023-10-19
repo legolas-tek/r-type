@@ -9,6 +9,7 @@
 
 #include "Components/Collision.hpp"
 #include "Components/Controllable.hpp"
+#include "Components/Damage.hpp"
 #include "Components/Drawable.hpp"
 #include "Components/HitBox.hpp"
 #include "Components/LifeTime.hpp"
@@ -67,6 +68,9 @@ void System::AttackSystem::createLaserEntity(engine::Entity const attacker_index
     );
     _register.get_components<Component::LifeTime>().insert_at(
         attack_entity, Component::LifeTime(200, _register.getTick())
+    );
+    _register.get_components<Component::Damage>().insert_at(
+        attack_entity, Component::Damage(1)
     );
 }
 

@@ -15,7 +15,7 @@ namespace Component {
 /// @brief This component allows our entity to have a life time and will be use
 /// by the lifeTime system to kill our entity whenever it has too
 struct LifeTime : Serializable<LifeTime> {
-    /// @brief Constructor an instance of a LifeTime component and sets the
+    /// @brief Constructs an instance of a LifeTime component and sets the
     /// tick at wich the entity should die
     /// @param life_time The number of ticks the entity should live
     /// @param actual_tick The actual tick in the registry
