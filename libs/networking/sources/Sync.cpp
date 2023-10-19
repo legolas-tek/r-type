@@ -52,7 +52,7 @@ void net::Sync::sendAckPacket(
 
     serializer.serializeTrivial(std::byte(0x02));
     serializer.serializeTrivial(tickNumber);
-    _nmu->send(serializer.finish(), client);
+    _nmu->send(serializer.finalize(), client);
 
 #ifdef DEBUG_NETWORK
     std::cout << "SyncSystem: sent ack packet for tick " << tickNumber
@@ -185,7 +185,7 @@ static std::vector<std::byte> constructUpdatePacket(
     if (serializer.getSize() == size) {
         return {}; // no update
     }
-    return serializer.finish();
+    return serializer.finalize();
 }
 
 void net::Sync::updateSnapshotHistory(net::Snapshot &&current)

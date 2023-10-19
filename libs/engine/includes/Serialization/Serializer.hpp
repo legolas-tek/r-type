@@ -55,11 +55,6 @@ public:
         return _data;
     }
 
-    std::vector<std::byte> finish() const
-    {
-        return std::move(_data);
-    }
-
     std::vector<std::byte> finalize() const
     {
         return std::move(_data);

@@ -51,7 +51,7 @@ public:
                 array[i]->serialize(ser);
                 data.push_back(ComponentData {
                     entity, registry.get_component_id<Component>(),
-                    ser.finish() });
+                    ser.finalize() });
             }
             return data;
         });
