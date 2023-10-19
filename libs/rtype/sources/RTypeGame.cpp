@@ -57,6 +57,22 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
 
 void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
 {
+    reg.add_system<System::AttackSystem>(
+        reg.get_components<Component::FireRate>(), reg
+    );
+    reg.add_system<System::LifeTimeSystem>(
+        reg.get_components<Component::LifeTime>(), reg
+    );
+    reg.add_system<System::DamageSystem>(
+        reg.get_components<Component::Damage>(),
+        reg.get_components<Component::Life>(),
+        reg.get_components<Component::Collision>(), reg
+    );
+    reg.add_system<System::CollisionsSystem>(
+        reg.get_components<Component::Position>(),
+        reg.get_components<Component::HitBox>(),
+        reg.get_components<Component::Collision>()
+    );
     reg.add_system<System::AnimationSystem>(reg);
     reg.add_system<rendering::system::Rendering>(reg);
     reg.add_system<rendering::system::Key>(reg);
@@ -71,6 +87,12 @@ void RTypeGame::registerAdditionalSystems(engine::Registry &reg)
     );
 }
 
+// ship = 32 14
+// laser = 48 4
+// explosion = 15 14
+// basic ennemy = 32 32
+// shooting ennemy = 62 47
+
 void RTypeGame::initAssets(engine::Registry &reg)
 {
     reg._assets_paths.push_back(
@@ -81,8 +103,10 @@ void RTypeGame::initAssets(engine::Registry &reg)
     reg._assets_paths.push_back(
         "./client/assets/cyberpunk_street_foreground.png"
     );
-    reg._assets_paths.push_back("./client/assets/scarfy.png");
+    reg._assets_paths.push_back("./client/assets/space_ships.png");
     reg._assets_paths.push_back("./client/assets/Plasma_Beam.png");
+    reg._assets_paths.push_back("./client/assets/impact_explosion.png");
+    reg._assets_paths.push_back("./client/assets/basic_ennemy.png");
 }
 
 void RTypeGame::initScene(engine::Registry &reg)
@@ -134,11 +158,11 @@ void RTypeGame::initScene(engine::Registry &reg)
     );
     // player
     reg.get_components<Component::Drawable>().insert_at(
-        scarfy, std::move(Component::Drawable(3, 128.0f, 128.0f, 1.0f))
+        scarfy, std::move(Component::Drawable(3, 33, 14, 3))
     );
     // test dummy
     reg.get_components<Component::Drawable>().insert_at(
-        dummy, Component::Drawable(3, 128.0f, 128.0f, 1.0f)
+        dummy, Component::Drawable(6, 32, 32, 1.5)
     );
 
     // ==================== set Animation ====================
@@ -152,7 +176,10 @@ void RTypeGame::initScene(engine::Registry &reg)
         foreground, std::move(Component::Animation(1408, 192, 704, 192, 5, 1))
     );
     reg.get_components<Component::Animation>().insert_at(
-        scarfy, std::move(Component::Animation(768, 128, 128, 128, 128, 10))
+        scarfy, std::move(Component::Animation(131, 14, 33, 14, 33, 50))
+    );
+    reg.get_components<Component::Animation>().insert_at(
+        dummy, Component::Animation(160, 32, 32, 32, 32, 50)
     );
 
     // // ==================== set Controllable ====================
@@ -163,7 +190,7 @@ void RTypeGame::initScene(engine::Registry &reg)
         scarfy, std::move(Component::Collision(128, 128))
     );
     reg.get_components<Component::Collision>().insert_at(
-        dummy, Component::Collision(128, 128)
+        dummy, Component::Collision(48, 48)
     );
 
     // ==================== set FireRate ====================

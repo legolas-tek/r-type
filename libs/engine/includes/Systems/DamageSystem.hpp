@@ -15,6 +15,16 @@
 #include "Components/Collision.hpp"
 #include "Components/Damage.hpp"
 #include "Components/Life.hpp"
+#include "Components/Position.hpp"
+
+/// @brief The width of the explosion sprite
+inline constexpr int EXPLOSION_WIDTH = 15;
+/// @brief The height of the explosion sprite
+inline constexpr int EXPLOSION_HEIGHT = 14;
+/// @brief The index to find the explosion sprite
+inline constexpr int EXPLOSION_INDEX = 5;
+/// @brief The number of frames for the explosion animation
+inline constexpr int EXPLOSION_FRAMES = 6;
 
 namespace System {
 
@@ -45,6 +55,9 @@ private:
     /// with the colliding entity damages component
     /// @param collidedEntity the entity wich receives the damages
     void damageEntity(engine::Entity const collidedEntity);
+
+    /// @brief creates an explosion entity that represents the impact
+    void createExplosion(Component::Position pos);
 
     /// @brief A ref to a Damage components SparseArray
     SparseArray<Component::Damage> &_damages;

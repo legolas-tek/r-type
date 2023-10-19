@@ -9,6 +9,10 @@
 
 #include "Systems/DamageSystem.hpp"
 
+#include "Components/Animation.hpp"
+#include "Components/Drawable.hpp"
+#include "Components/LifeTime.hpp"
+
 System::DamageSystem::DamageSystem(
     SparseArray<Component::Damage> &damages,
     SparseArray<Component::Life> &lifes,
@@ -45,7 +49,37 @@ void System::DamageSystem::damageEntity(engine::Entity const collidedEntity)
         = _collisions[collidedEntity]->_collidingEntity.value();
 
     _lifes[collidedEntity]->life -= _damages[collidingEntity]->damages;
+    createExplosion(
+        _registry.get_components<Component::Position>()[collidingEntity].value()
+    );
     _registry.erase_entity(collidingEntity);
-    if (_lifes[collidedEntity]->life <= 0)
+    if (_lifes[collidedEntity]->life <= 0) {
+        createExplosion(
+            _registry.get_components<Component::Position>()[collidedEntity].value()
+        );
         _registry.erase_entity(collidedEntity);
+    }
+}
+
+void System::DamageSystem::createExplosion(Component::Position pos)
+{
+    engine::Entity explosion(_registry.get_new_entity());
+
+    _registry.get_components<Component::Position>().insert_at(
+        explosion, pos
+    );
+    _registry.get_components<Component::Drawable>().insert_at(
+        explosion, Component::Drawable(
+            EXPLOSION_INDEX ,EXPLOSION_WIDTH, EXPLOSION_HEIGHT, 2
+            )
+    );
+    _registry.get_components<Component::Animation>().insert_at(
+        explosion, Component::Animation(
+            EXPLOSION_WIDTH * EXPLOSION_FRAMES, EXPLOSION_HEIGHT,
+            EXPLOSION_WIDTH, EXPLOSION_HEIGHT, EXPLOSION_WIDTH, 10
+        )
+    );
+    _registry.get_components<Component::LifeTime>().insert_at(
+        explosion, Component::LifeTime(30, _registry.getTick())
+    );
 }
