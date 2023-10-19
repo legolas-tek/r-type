@@ -14,7 +14,6 @@
 #include "Entity.hpp"
 #include "ISystem.hpp"
 #include "Registry.hpp"
-#include "RenderEntity.hpp"
 
 #include "Components/Animation.hpp"
 #include "Components/Drawable.hpp"
@@ -77,14 +76,17 @@ public:
     }
 
 private:
-    std::unordered_map<size_t, rendering::Entity>
-        _cache; /*!< A cache mapping entity identifiers to Entity objects, for
-                   efficient rendering.*/
-    engine::Registry &_registry; /*!< Reference to the entity-component system's
-                                    registry to manipulate entity data. */
+    /*!
+     * \brief Reference to the registry to access entity components.
+     */
+    engine::Registry &_registry;
 
+    /*!
+     * \brief Vector of unique pointers to the sub systems.
+     */
     std::vector<std::unique_ptr<ISystem>> _subSystems;
 };
+
 } // namespace rendering
 
 #endif // RENDERING_HPP

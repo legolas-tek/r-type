@@ -25,7 +25,6 @@ target_include_directories (rendering
 target_sources (rendering
     PRIVATE
     ./sources/Rendering.cpp
-    ./sources/RenderEntity.cpp
     ./sources/Key.cpp
     ./sources/Systems/Text.cpp
     ./sources/Systems/Texture.cpp
