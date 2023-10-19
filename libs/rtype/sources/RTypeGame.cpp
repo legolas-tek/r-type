@@ -175,7 +175,7 @@ void RTypeGame::initScene(engine::Registry &reg)
 
 std::unique_ptr<engine::IGame> RTypeGame::createLobby()
 {
-    return std::make_unique<RTypeLobby>();
+    return nullptr;
 }
 
 engine::IGame *createGame()
