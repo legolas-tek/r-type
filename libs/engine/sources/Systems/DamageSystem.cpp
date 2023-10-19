@@ -25,29 +25,29 @@ System::DamageSystem::DamageSystem(
 void System::DamageSystem::operator()()
 {
     for (auto it = _collisions.begin(); it != _collisions.end(); it++) {
-        if ((*it)->_collidingEntity && is_damage_collision(it.get_entity())) {
-            damage_entity(it.get_entity());
+        if ((*it)->_collidingEntity && isDamageCollision(it.get_entity())) {
+            damageEntity(it.get_entity());
         }
     }
 }
 
-bool System::DamageSystem::is_damage_collision(
-    engine::Entity const collided_entity
+bool System::DamageSystem::isDamageCollision(
+    engine::Entity const collidedEntity
 )
 {
-    engine::Entity const colliding_entity =
-        _collisions[collided_entity]->_collidingEntity.value();
+    engine::Entity const collidingEntity =
+        _collisions[collidedEntity]->_collidingEntity.value();
 
-    return (_lifes[collided_entity] && _damages[colliding_entity]);
+    return (_lifes[collidedEntity] && _damages[collidingEntity]);
 }
 
-void System::DamageSystem::damage_entity(engine::Entity const collided_entity)
+void System::DamageSystem::damageEntity(engine::Entity const collidedEntity)
 {
-    engine::Entity const colliding_entity =
-        _collisions[collided_entity]->_collidingEntity.value();
+    engine::Entity const collidingEntity =
+        _collisions[collidedEntity]->_collidingEntity.value();
 
-    _lifes[collided_entity]->life -= _damages[colliding_entity]->damages;
-    _registry.erase_entity(colliding_entity);
-    if (_lifes[collided_entity]->life <= 0)
-        _registry.erase_entity(collided_entity);
+    _lifes[collidedEntity]->life -= _damages[collidingEntity]->damages;
+    _registry.erase_entity(collidingEntity);
+    if (_lifes[collidedEntity]->life <= 0)
+        _registry.erase_entity(collidedEntity);
 }
