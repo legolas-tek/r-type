@@ -9,8 +9,7 @@
 #define TEXT_COMPONENT_HPP_
 
 #include "Serializable.hpp"
-#include <iostream>
-#include <stddef.h>
+#include <cstddef>
 #include <string>
 
 namespace Component {

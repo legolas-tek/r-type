@@ -22,7 +22,7 @@ rendering::system::Text::~Text()
         UnloadFont(font.second);
 }
 
-bool rendering::system::Text::FontIsLoaded(std::string const &path)
+bool rendering::system::Text::fontIsLoaded(std::string const &path)
 {
     return _cache.find(path) != _cache.end();
 }
@@ -35,7 +35,7 @@ void rendering::system::Text::operator()()
         if (not _positions[index].has_value())
             continue;
 
-        if (not FontIsLoaded((*it)->_font))
+        if (not fontIsLoaded((*it)->_font))
             _cache[(*it)->_font] = LoadFont((*it)->_font.c_str());
 
         auto &font = _cache[(*it)->_font];

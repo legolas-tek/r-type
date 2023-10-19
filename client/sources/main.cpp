@@ -7,7 +7,6 @@
 
 #include "GameLoop.hpp"
 #include "IGame.hpp"
-#include "Registry.hpp"
 #include <memory>
 
 void runGame(engine::IGame &game)
@@ -27,12 +26,12 @@ int main(int argc, char *argv[])
 {
     std::unique_ptr<engine::IGame> game(createGame());
 
-    /*try {
+    try {
         std::unique_ptr<engine::IGame> lobby(game->createLobby());
         if (lobby)
             runGame(*lobby);
     } catch (engine::IGame::StartGameException const &e) {
         // run the game:
-    }*/
+    }
     runGame(*game);
 }

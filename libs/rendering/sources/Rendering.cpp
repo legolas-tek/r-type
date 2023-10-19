@@ -6,8 +6,6 @@
 ** Rendering
 */
 
-#include <algorithm>
-
 #include "Rendering.hpp"
 
 #include "Systems/Text.hpp"
@@ -18,12 +16,12 @@ rendering::system::Rendering::Rendering(engine::Registry &registry)
 {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "raylib background scrolling");
 
-    AddSystem<rendering::system::Texture>(
+    addSystem<rendering::system::Texture>(
         registry, _registry.get_components<Component::Drawable>(),
         _registry.get_components<Component::Animation>(),
         _registry.get_components<Component::Position>()
     );
-    AddSystem<rendering::system::Text>(
+    addSystem<rendering::system::Text>(
         _registry.get_components<Component::Text>(),
         _registry.get_components<Component::Position>()
     );

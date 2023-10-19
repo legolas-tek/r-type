@@ -26,7 +26,7 @@ rendering::system::Texture::~Texture()
         UnloadTexture(texture.second);
 }
 
-bool rendering::system::Texture::TextureIsLoaded(size_t id)
+bool rendering::system::Texture::textureIsLoaded(size_t id)
 {
     return _cache.find(id) != _cache.end();
 }
@@ -49,7 +49,7 @@ void rendering::system::Texture::operator()()
         auto pos = _positions[entity];
         auto anim = _animations[entity];
 
-        if (not TextureIsLoaded(entity))
+        if (not textureIsLoaded(entity))
             _cache[entity]
                 = LoadTexture(_registry._assets_paths[_drawables[entity]->_index].c_str());
 

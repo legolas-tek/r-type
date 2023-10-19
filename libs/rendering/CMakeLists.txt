@@ -8,9 +8,7 @@
 
 cmake_minimum_required (VERSION 3.8)
 
-add_library (rendering SHARED
-        includes/Systems/Texture.hpp
-        sources/Systems/Texture.cpp)
+add_library (rendering SHARED)
 
 target_link_libraries (rendering
     PUBLIC
@@ -30,4 +28,5 @@ target_sources (rendering
     ./sources/RenderEntity.cpp
     ./sources/Key.cpp
     ./sources/Systems/Text.cpp
+    ./sources/Systems/Texture.cpp
 )

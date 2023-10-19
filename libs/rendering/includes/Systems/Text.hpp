@@ -26,7 +26,7 @@ struct Text : public ISystem {
     void operator()() override;
 
 private:
-    bool FontIsLoaded(std::string const &path);
+    bool fontIsLoaded(std::string const &path);
     SparseArray<Component::Text> &_texts;
     SparseArray<Component::Position> &_positions;
     std::unordered_map<std::string, Font> _cache;

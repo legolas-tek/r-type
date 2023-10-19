@@ -69,7 +69,7 @@ public:
      */
     void operator()() override;
 
-    template <typename System, class... Params> void AddSystem(Params &&...args)
+    template <typename System, class... Params> void addSystem(Params &&...args)
     {
         _subSystems.emplace_back(
             std::make_unique<System>(std::forward<Params>(args)...)

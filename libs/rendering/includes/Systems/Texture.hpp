@@ -30,7 +30,7 @@ struct Texture : public ISystem {
     void operator()() override;
 
 private:
-    bool TextureIsLoaded(size_t id);
+    bool textureIsLoaded(size_t id);
     engine::Registry &_registry;
     SparseArray<Component::Drawable> &_drawables;
     SparseArray<Component::Animation> &_animations;
