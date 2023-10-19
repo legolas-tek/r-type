@@ -7,7 +7,6 @@
 
 #include "GameLoop.hpp"
 #include "IGame.hpp"
-#include "Registry.hpp"
 #include <memory>
 
 void runGame(engine::IGame &game)
