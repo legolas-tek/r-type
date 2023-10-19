@@ -11,7 +11,6 @@
 #include "UdpNetManager.hpp"
 
 #include "Sync.hpp"
-#include <cstdint>
 
 net::Sync::Sync(net::ClientNetManager, engine::Registry &registry, int port)
     : _registry(registry)

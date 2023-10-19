@@ -6,7 +6,6 @@
 */
 
 #include "NetworkServerSystem.hpp"
-#include "Serialization/Deserializer.hpp"
 
 net::system::NetworkServer::NetworkServer(engine::Registry &registry, int port)
     : Sync(net::server_netmanager, registry, port)

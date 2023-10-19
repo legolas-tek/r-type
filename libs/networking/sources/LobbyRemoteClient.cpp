@@ -7,7 +7,6 @@
 
 #include "LobbyServer.hpp"
 #include "Serialization/Serializer.hpp"
-#include "TcpConnection.hpp"
 #include "TcpNetManager.hpp"
 
 #include <algorithm>

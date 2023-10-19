@@ -19,6 +19,7 @@ namespace engine {
 class Serializer {
 public:
     Serializer() = default;
+    ~Serializer() = default;
 
     Serializer(Serializer const &) = delete;
     Serializer(Serializer &&) = default;
@@ -50,17 +51,12 @@ public:
         _offset += data.size();
     }
 
-    std::vector<std::byte> const &getData() const
-    {
-        return _data;
-    }
-
-    std::vector<std::byte> finalize() const
+    [[nodiscard]] std::vector<std::byte> finalize()
     {
         return std::move(_data);
     }
 
-    std::size_t getSize() const
+    [[nodiscard]] std::size_t getSize() const
     {
         return _offset;
     }

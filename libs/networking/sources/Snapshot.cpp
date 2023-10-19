@@ -7,7 +7,6 @@
 
 #include "Snapshot.hpp"
 #include "Serialization/Serializer.hpp"
-#include <cstddef>
 #include <cstring>
 #include <vector>
 

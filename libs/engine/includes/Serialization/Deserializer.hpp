@@ -48,7 +48,7 @@ public:
         _offset += size;
     }
 
-    std::size_t getOffset() const
+    [[nodiscard]] std::size_t getOffset() const
     {
         return _offset;
     }
@@ -60,7 +60,7 @@ public:
         _offset += size;
     }
 
-    bool isFinished() const
+    [[nodiscard]] bool isFinished() const
     {
         return _offset == _data.size();
     }
