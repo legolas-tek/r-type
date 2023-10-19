@@ -79,8 +79,8 @@ void RTypeGame::initAssets(engine::Registry &reg)
     );
     reg._assets_paths.push_back("./client/assets/scarfy.png");
     reg._assets_paths.push_back("./client/assets/Plasma_Beam.png");
-    reg._assets_paths.push_back("./client/assets/enemy1.png");
-    reg._assets_paths.push_back("./client/assets/enemy2.png");
+    reg._assets_paths.push_back("./client/assets/mutalisk.png");
+    reg._assets_paths.push_back("./client/assets/scourge.png");
 }
 
 void RTypeGame::initScene(engine::Registry &reg)

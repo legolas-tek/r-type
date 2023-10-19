@@ -18,6 +18,8 @@
 #include "Components/Drawable.hpp"
 #include "Components/Position.hpp"
 
+#include "EntityInfo.hpp"
+
 namespace System {
 
 static inline constexpr size_t seconds_to_tick(float sec)
@@ -51,10 +53,13 @@ public:
 
     void operator()() override;
 
+    void addEnemy();
+
 private:
     engine::Registry &_register;
     size_t _waveNum = 0;
     size_t _createdNum = 0;
+    std::vector<EntityInfo> _entityList;
 };
 }
 

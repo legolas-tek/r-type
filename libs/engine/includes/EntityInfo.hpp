@@ -8,7 +8,7 @@
 #ifndef ENTITYINFO_HPP_
 #define ENTITYINFO_HPP_
 
-struct entityInfo {
+struct EntityInfo {
     int textureIndex;
     int textureWidth;
     int textureHeight;

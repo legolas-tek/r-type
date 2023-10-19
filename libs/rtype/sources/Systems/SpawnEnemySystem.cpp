@@ -6,72 +6,92 @@
 */
 
 #include "SpawnEnemySystem.hpp"
-#include "EntityInfo.hpp"
 
 #include "Rendering.hpp"
 
 System::SpawnEnemySystem::SpawnEnemySystem(engine::Registry &reg)
     : _register(reg)
 {
-    entityInfo mutalisk = { 5, 320, 72, 64, 72, 64, 10, 0, 0, 2.0f };
-    entityInfo scourge = { 6, 155, 27, 31, 27, 31, 10, 0, 0, 2.0f };
+    EntityInfo mutalisk = { 5, 320, 72, 64, 72, 64, 10, 0, 0, 2.0f };
+    EntityInfo scourge = { 6, 155, 27, 31, 27, 31, 10, 0, 0, 2.0f };
+
+    _entityList.push_back(mutalisk);
+    _entityList.push_back(scourge);
 }
 
-static float tickToSecond(size_t tick)
-{
-    return tick * 0.016;
-}
+// static void addEnemy1(engine::Registry &reg)
+// {
+//     engine::Entity enemy(reg.get_new_entity());
+//     float entityHeight = 27.0f;
+//     int randomY = std::rand()
+//         % static_cast<int>(rendering::system::SCREEN_HEIGHT - entityHeight);
 
-static void addEnemy1(engine::Registry &reg)
+//     // set position
+//     reg.get_components<Component::Position>().insert_at(
+//         enemy, std::move(Component::Position(700, randomY, 0))
+//     );
+//     // set Drawable
+//     reg.get_components<Component::Drawable>().insert_at(
+//         enemy, std::move(Component::Drawable(6, 31.0f, 27.0f, 2.0f))
+//     );
+//     // set Animation
+//     reg.get_components<Component::Animation>().insert_at(
+//         enemy, std::move(Component::Animation(155, 27, 31, 27, 31, 10))
+//     );
+// }
+
+static void addEntity(engine::Registry &reg, EntityInfo entityInfo)
 {
+    std::cout << "111" << std::endl;
     engine::Entity enemy(reg.get_new_entity());
-    float entityHeight = 27.0f;
+    std::cout << "222" << std::endl;
     int randomY = std::rand()
-        % static_cast<int>(rendering::system::SCREEN_HEIGHT - entityHeight);
+        % static_cast<int>(
+                      rendering::system::SCREEN_HEIGHT - entityInfo.entityHeight
+        );
 
+    std::cout << "333" << std::endl;
     // set position
     reg.get_components<Component::Position>().insert_at(
         enemy, std::move(Component::Position(700, randomY, 0))
     );
+    std::cout << "444" << std::endl;
     // set Drawable
     reg.get_components<Component::Drawable>().insert_at(
-        enemy, std::move(Component::Drawable(6, 31.0f, 27.0f, 2.0f))
+        enemy,
+        std::move(Component::Drawable(
+            entityInfo.textureIndex, entityInfo.entityWidth,
+            entityInfo.entityHeight, entityInfo.scale
+        ))
     );
+    std::cout << "555" << std::endl;
     // set Animation
     reg.get_components<Component::Animation>().insert_at(
-        enemy, std::move(Component::Animation(155, 27, 31, 27, 31, 10))
+        enemy,
+        std::move(Component::Animation(
+            entityInfo.textureWidth, entityInfo.textureHeight,
+            entityInfo.entityWidth, entityInfo.entityHeight, entityInfo.offset,
+            entityInfo.frameDuration
+        ))
     );
+    std::cout << "666" << std::endl;
 }
 
-static void addEnemy2(engine::Registry &reg)
+void System::SpawnEnemySystem::addEnemy()
 {
-    engine::Entity enemy(reg.get_new_entity());
-    float entityHeight = 72.0f;
-    int randomY = std::rand()
-        % static_cast<int>(rendering::system::SCREEN_HEIGHT - entityHeight);
-    // set position
-    reg.get_components<Component::Position>().insert_at(
-        enemy, std::move(Component::Position(700, randomY, 0))
-    );
-    // set Drawable
-    reg.get_components<Component::Drawable>().insert_at(
-        enemy, std::move(Component::Drawable(5, 64.0f, 72.0f, 2.0f))
-    );
-    // set Animation
-    reg.get_components<Component::Animation>().insert_at(
-        enemy, std::move(Component::Animation(320, 72, 64, 72, 64, 10))
-    );
-}
+    std::cout << "aaa" << std::endl;
+    int randomValue = (std::rand() % 2);
+    std::cout << "bbb " << randomValue << std::endl;
 
-static void addEnemy(engine::Registry &reg)
-{
-    int randomValue = std::rand() % 2;
-
-    if (randomValue == 1) {
-        addEnemy1(reg);
-    } else {
-        addEnemy2(reg);
-    }
+    addEntity(_register, _entityList[randomValue]);
+    // addEntity(reg, _entityList.);
+    // if (randomValue == 1) {
+    //     addEnemy1(reg);
+    // } else {
+    //     addEnemy2(reg);
+    // }
+    // for (auto &system : _subSystems)
+    //     (*system)();
 }
 
 void System::SpawnEnemySystem::operator()()
@@ -102,7 +122,7 @@ void System::SpawnEnemySystem::operator()()
         if (isInPercent) {
             std::cout << "created in wave " << _waveNum << " tick " << tick
                       << std::endl;
-            addEnemy(_register);
+            addEnemy();
             _createdNum++;
         }
     }
