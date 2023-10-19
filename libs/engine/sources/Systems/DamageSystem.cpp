@@ -80,6 +80,6 @@ void System::DamageSystem::createExplosion(Component::Position pos)
         )
     );
     _registry.get_components<Component::LifeTime>().insert_at(
-        explosion, Component::LifeTime(30, _registry.getTick())
+        explosion, Component::LifeTime(40, _registry.getTick())
     );
 }
