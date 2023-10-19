@@ -6,6 +6,7 @@
 */
 
 #include "LobbyServer.hpp"
+#include "Serialization/Serializer.hpp"
 #include "TcpConnection.hpp"
 #include "TcpNetManager.hpp"
 
@@ -21,42 +22,41 @@ void net::LobbyRemoteClient::sendJoinSuccess(
     std::uint8_t playerNumber, std::uint64_t playerHash
 )
 {
-    std::vector<std::byte> data(2 + sizeof(playerHash));
+    engine::Serializer serializer;
 
-    data[0] = std::byte(0x01);
-    data[1] = std::byte(playerNumber);
-    std::memcpy(&data[2], &playerHash, sizeof(playerHash));
-    _network->write(data);
+    serializer.serializeTrivial(std::byte(0x01));
+    serializer.serializeTrivial(playerNumber);
+    serializer.serializeTrivial(playerHash);
+    _network->write(serializer.finalize());
 }
 
 void net::LobbyRemoteClient::sendNewPlayer(
     std::uint8_t playerNumber, std::string const &playerName
 )
 {
-    std::vector<std::byte> data(3 + playerName.size());
+    engine::Serializer serializer;
 
-    data[0] = std::byte(0x02);
-    data[1] = std::byte(playerNumber);
-    data[2] = std::byte(playerName.size());
-    std::memcpy(&data[3], playerName.data(), playerName.size());
-    _network->write(data);
+    serializer.serializeTrivial(std::byte(0x02));
+    serializer.serializeTrivial(playerNumber);
+    serializer.serializePascalString<std::uint8_t>(playerName);
+    _network->write(serializer.finalize());
 }
 
 void net::LobbyRemoteClient::sendGameStart()
 {
-    std::vector<std::byte> data(1, std::byte(0x08));
+    engine::Serializer serializer;
 
-    _network->write(data);
+    serializer.serializeTrivial(std::byte(0x08));
+    _network->write(serializer.finalize());
 }
 
 void net::LobbyRemoteClient::sendError(std::string const &error)
 {
-    std::vector<std::byte> data(2 + error.size());
+    engine::Serializer serializer;
 
-    data[0] = std::byte(0xFE);
-    data[1] = std::byte(error.size());
-    std::memcpy(&data[2], error.data(), error.size());
-    _network->write(data);
+    serializer.serializeTrivial(std::byte(0xFE));
+    serializer.serializePascalString<std::uint8_t>(error);
+    _network->write(serializer.finalize());
 }
 
 void net::LobbyRemoteClient::operator()()

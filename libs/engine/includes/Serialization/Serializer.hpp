@@ -60,6 +60,11 @@ public:
         return std::move(_data);
     }
 
+    std::vector<std::byte> finalize() const
+    {
+        return std::move(_data);
+    }
+
     std::size_t getSize() const
     {
         return _offset;
