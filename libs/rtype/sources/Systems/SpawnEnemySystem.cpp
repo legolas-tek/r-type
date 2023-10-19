@@ -6,12 +6,15 @@
 */
 
 #include "SpawnEnemySystem.hpp"
+#include "EntityInfo.hpp"
 
 #include "Rendering.hpp"
 
 System::SpawnEnemySystem::SpawnEnemySystem(engine::Registry &reg)
     : _register(reg)
 {
+    entityInfo mutalisk = { 5, 320, 72, 64, 72, 64, 10, 0, 0, 2.0f };
+    entityInfo scourge = { 6, 155, 27, 31, 27, 31, 10, 0, 0, 2.0f };
 }
 
 static float tickToSecond(size_t tick)
