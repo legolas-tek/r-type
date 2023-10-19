@@ -35,7 +35,7 @@ public:
      * @brief Using for the functions that process received packets.
      */
     using process_packet_t
-        = void(std::pair<net::Buffer, net::manager::Client> const &);
+        = void(engine::Deserializer &, net::manager::Client const &);
 
 public:
     /**

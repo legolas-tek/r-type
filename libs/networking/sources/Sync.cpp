@@ -61,12 +61,9 @@ void net::Sync::sendAckPacket(
 }
 
 void net::Sync::processUpdatePacket(
-    std::pair<net::Buffer, net::manager::Client> const &packet
+    engine::Deserializer &deserializer, net::manager::Client const &client
 )
 {
-    engine::Deserializer deserializer(packet.first);
-    deserializer.skip(1); // skip the packet id
-
     uint32_t tickNumber;
     deserializer.deserializeTrivial(tickNumber);
 
@@ -105,21 +102,17 @@ void net::Sync::processUpdatePacket(
     }
 
 #ifdef DEBUG_NETWORK
-    std::cout << "SyncSystem: received " << packet.first.size()
+    std::cout << "SyncSystem: received " << deserializer.getOffset()
               << " byte update packet for tick " << tickNumber << std::endl;
 #endif
 
-    sendAckPacket(tickNumber, packet.second);
+    sendAckPacket(tickNumber, client);
 }
 
 void net::Sync::processAckPacket(
-    std::pair<net::Buffer, net::manager::Client> const &packet
+    engine::Deserializer &deserializer, net::manager::Client const &client
 )
 {
-    engine::Deserializer deserializer(packet.first);
-
-    deserializer.skip(1); // skip the packet id
-
     uint32_t tick_number = 0;
     deserializer.deserializeTrivial(tick_number);
 
@@ -140,7 +133,7 @@ void net::Sync::processAckPacket(
     auto other_it = std::find_if(
         others.begin(), others.end(),
         [&](net::manager::Client &i) {
-            return i.getEndpoint() == packet.second.getEndpoint();
+            return i.getEndpoint() == client.getEndpoint();
         }
     );
     std::size_t index = other_it - others.begin();
@@ -201,14 +194,17 @@ void net::Sync::operator()()
 {
     auto _received_packets = _nmu->receive();
 
-    for (auto &packet : _received_packets) {
-        if (*packet.first.begin() == std::byte(0x01)) {
-            // In case identifier = 0x01 then it's a state update
-            this->processUpdatePacket(packet);
-        }
-        if (*packet.first.begin() == std::byte(0x02)) {
-            // In case identifier = 0x02 then it's an ack packet
-            this->processAckPacket(packet);
+    for (auto &[buffer, client] : _received_packets) {
+        engine::Deserializer deserializer(buffer);
+        std::uint8_t packet_id = 0;
+        deserializer.deserializeTrivial(packet_id);
+        switch (packet_id) {
+        case 0x01:
+            processUpdatePacket(deserializer, client);
+            break;
+        case 0x02:
+            processAckPacket(deserializer, client);
+            break;
         }
     }
 
