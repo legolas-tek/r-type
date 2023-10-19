@@ -34,7 +34,9 @@ net::Sync::~Sync()
 }
 
 bool net::Sync::canUpdate(
-    engine::Entity entity, uint8_t component_id, engine::Deserializer deser
+    [[maybe_unused]] engine::Entity entity,
+    [[maybe_unused]] uint8_t component_id,
+    [[maybe_unused]] engine::Deserializer deser
 )
 {
     return true;
@@ -44,18 +46,16 @@ void net::Sync::sendAckPacket(
     uint32_t tickNumber, net::manager::Client const &client
 )
 {
-    std::vector<std::byte> response(
-        sizeof(std::byte) + sizeof(uint32_t), std::byte(0x02)
-    );
+    engine::Serializer serializer;
+
+    serializer.serializeTrivial(std::byte(0x02));
+    serializer.serializeTrivial(tickNumber);
+    _nmu->send(serializer.finish(), client);
 
 #ifdef DEBUG_NETWORK
     std::cout << "SyncSystem: sent ack packet for tick " << tickNumber
               << std::endl;
 #endif
-
-    response.at(0) = std::byte(0x02);
-    std::memcpy(&*(response.begin() + 1), &tickNumber, sizeof(uint32_t));
-    _nmu->send(response, client);
 }
 
 void net::Sync::processUpdatePacket(
