@@ -15,6 +15,7 @@
 #include "Registry.hpp"
 
 #include "Net.hpp"
+#include "Serialization/Deserializer.hpp"
 #include "Snapshot.hpp"
 
 namespace net {
@@ -74,7 +75,7 @@ private:
 
 private:
     virtual bool canUpdate(
-        engine::Entity entity, uint8_t component_id, std::byte const *buffer
+        engine::Entity entity, uint8_t component_id, engine::Deserializer deser
     );
 
     /**

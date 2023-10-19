@@ -5,6 +5,8 @@
 ** Network Sync abstract class
 */
 
+#include "Serialization/Deserializer.hpp"
+#include "Serialization/Serializer.hpp"
 #include "UdpNetManager.hpp"
 
 #include "Sync.hpp"
@@ -32,7 +34,7 @@ net::Sync::~Sync()
 }
 
 bool net::Sync::canUpdate(
-    engine::Entity entity, uint8_t component_id, std::byte const *buffer
+    engine::Entity entity, uint8_t component_id, engine::Deserializer deser
 )
 {
     return true;
@@ -60,37 +62,38 @@ void net::Sync::processUpdatePacket(
     std::pair<net::Buffer, net::manager::Client> const &packet
 )
 {
+    engine::Deserializer deserializer(packet.first);
+    deserializer.skip(1); // skip the packet id
 
-    for (auto it = packet.first.begin() + 9; it != packet.first.end();) {
+    uint32_t tickNumber;
+    deserializer.deserializeTrivial(tickNumber);
+
+    deserializer.skip(sizeof(uint32_t)); // skip the previous tick number
+
+    while (not deserializer.isFinished()) {
         uint32_t entity_nbr = 0;
-
-        std::memcpy(&entity_nbr, &(*it), sizeof(entity_nbr));
+        deserializer.deserializeTrivial(entity_nbr);
 
         if (entity_nbr >= 500)
             // invalid entity number
             return;
 
         engine::Entity entity(entity_nbr);
-        it += sizeof(entity_nbr);
 
         uint8_t component_id = 0;
-
-        std::memcpy(&component_id, &*(it), sizeof(component_id));
-        it += sizeof(component_id);
+        deserializer.deserializeTrivial(component_id);
 
         bool updateType = 0;
+        deserializer.deserializeTrivial(updateType);
 
-        memcpy(&updateType, &*(it), sizeof(updateType));
-        it += sizeof(updateType);
-
-        if (not canUpdate(entity, component_id, &*it)) {
+        if (not canUpdate(entity, component_id, deserializer)) {
             // update disallowed, use the trash entity
             entity = engine::Entity(0);
         }
 
         if (updateType) {
             // apply the update
-            it += _registry.apply_data(entity, component_id, &*(it));
+            _registry.apply_data(entity, component_id, deserializer);
         }
 
         if (not updateType or entity == 0) {
@@ -98,10 +101,6 @@ void net::Sync::processUpdatePacket(
             _registry.erase_component(entity, component_id);
         }
     }
-
-    uint32_t tickNumber;
-
-    std::memcpy(&tickNumber, &*(packet.first.begin() + 1), sizeof(tickNumber));
 
 #ifdef DEBUG_NETWORK
     std::cout << "SyncSystem: received " << packet.first.size()
@@ -115,12 +114,12 @@ void net::Sync::processAckPacket(
     std::pair<net::Buffer, net::manager::Client> const &packet
 )
 {
+    engine::Deserializer deserializer(packet.first);
+
+    deserializer.skip(1); // skip the packet id
 
     uint32_t tick_number = 0;
-
-    std::memcpy(
-        &tick_number, &*(packet.first.begin() + 1), sizeof(tick_number)
-    );
+    deserializer.deserializeTrivial(tick_number);
 
 #ifdef DEBUG_NETWORK
     std::cout << "SyncSystem: received ack of tick " << tick_number
@@ -170,27 +169,18 @@ net::Snapshot &net::Sync::find_last_ack(std::size_t client_index)
 }
 
 static std::vector<std::byte> constructUpdatePacket(
-    uint32_t currentTick, uint32_t previousTick, std::vector<std::byte> diff
+    uint32_t currentTick, uint32_t previousTick, std::vector<std::byte> &&diff
 )
 {
-    std::vector<std::byte> result(
-        sizeof(std::byte) + (sizeof(uint32_t) * 2), std::byte(0x00)
-    );
-    auto it = result.begin();
+    engine::Serializer serializer;
 
     std::byte packetId { 0x01 };
+    serializer.serializeTrivial(packetId);
+    serializer.serializeTrivial(currentTick);
+    serializer.serializeTrivial(previousTick);
 
-    std::memcpy(&*it, &packetId, sizeof(std::byte));
-    it++;
-
-    std::memcpy(&*it, &currentTick, sizeof(uint32_t));
-    it += sizeof(uint32_t);
-
-    std::memcpy(&*it, &previousTick, sizeof(uint32_t));
-    it += sizeof(uint32_t);
-
-    result.insert(it, diff.begin(), diff.end());
-    return result;
+    serializer.insert(diff);
+    return serializer.finish();
 }
 
 void net::Sync::updateSnapshotHistory(net::Snapshot &&current)
@@ -229,7 +219,7 @@ void net::Sync::operator()()
             updateSnapshotHistory(std::move(current));
             auto packet = constructUpdatePacket(
                 _registry.getTick(), _snapshots.at(_rd_index).snapshot.tick,
-                diff
+                std::move(diff)
             );
 
 #ifdef DEBUG_NETWORK

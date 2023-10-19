@@ -11,6 +11,8 @@
 #include "ComponentData.hpp"
 #include "Entity.hpp"
 #include "ISystem.hpp"
+#include "Serialization/Deserializer.hpp"
+#include "Serialization/Serializer.hpp"
 #include "SparseArray.hpp"
 #include <any>
 #include <functional>
@@ -44,20 +46,22 @@ public:
             for (size_t i = 0; i < array.size(); i++) {
                 if (!array[i])
                     continue;
+                Serializer ser;
                 Entity entity(i);
+                array[i]->serialize(ser);
                 data.push_back(ComponentData {
                     entity, registry.get_component_id<Component>(),
-                    array[i]->serialize() });
+                    ser.finish() });
             }
             return data;
         });
         _deserialize_component_funcs.emplace_back(
-            [](Registry &registry, Entity entity, std::byte const *buffer) {
+            [](Registry &registry, Entity entity, Deserializer &deser) {
                 SparseArray<Component> &array
                     = registry.get_components<Component>();
                 if (!array[entity])
                     array[entity] = Component();
-                return array[entity]->deserialize(buffer);
+                array[entity]->deserialize(deser);
             }
         );
         return std::any_cast<SparseArray<Component> &>(
@@ -124,10 +128,9 @@ public:
         return data;
     }
 
-    std::size_t
-    apply_data(Entity entity, size_t componentId, std::byte const *buffer)
+    void apply_data(Entity entity, size_t componentId, Deserializer &buffer)
     {
-        return _deserialize_component_funcs[componentId](*this, entity, buffer);
+        _deserialize_component_funcs[componentId](*this, entity, buffer);
     }
 
     void run_systems()
@@ -175,7 +178,7 @@ private:
     /**
      * 'Map' of component id to deserialization function
      */
-    std::vector<std::function<size_t(Registry &, Entity, std::byte const *)>>
+    std::vector<std::function<void(Registry &, Entity, Deserializer &)>>
         _deserialize_component_funcs;
     /**
      * List of systems

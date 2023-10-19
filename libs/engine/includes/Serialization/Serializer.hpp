@@ -44,9 +44,20 @@ public:
         _offset += str.size();
     }
 
+    void insert(std::vector<std::byte> const &data)
+    {
+        _data.insert(_data.end(), data.begin(), data.end());
+        _offset += data.size();
+    }
+
     std::vector<std::byte> const &getData() const
     {
         return _data;
+    }
+
+    std::vector<std::byte> finish() const
+    {
+        return std::move(_data);
     }
 
     std::size_t getSize() const

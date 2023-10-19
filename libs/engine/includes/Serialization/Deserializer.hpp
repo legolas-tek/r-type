@@ -18,17 +18,17 @@ namespace engine {
 
 class Deserializer {
 public:
-    explicit Deserializer(std::vector<std::byte> &&data)
-        : _data(std::move(data))
+    explicit Deserializer(std::vector<std::byte> const &data)
+        : _data(data)
     {
     }
 
-    Deserializer(Deserializer const &) = delete;
-    Deserializer(Deserializer &&) = default;
+    Deserializer(Deserializer const &) = default;
+    Deserializer(Deserializer &&) = delete;
     Deserializer &operator=(Deserializer const &) = delete;
-    Deserializer &operator=(Deserializer &&) = default;
+    Deserializer &operator=(Deserializer &&) = delete;
 
-    template <typename T> void deserializeTrivial(T const &value)
+    template <typename T> void deserializeTrivial(T &value)
     {
         if (_offset + sizeof(T) > _data.size())
             throw std::runtime_error("Not enough data");
@@ -36,8 +36,7 @@ public:
         _offset += sizeof(T);
     }
 
-    template <typename SizeType>
-    void deserializePascalString(std::string const &str)
+    template <typename SizeType> void deserializePascalString(std::string &str)
     {
         SizeType size = 0;
         deserializeTrivial(size);
@@ -49,8 +48,25 @@ public:
         _offset += size;
     }
 
+    std::size_t getOffset() const
+    {
+        return _offset;
+    }
+
+    void skip(std::size_t size)
+    {
+        if (_offset + size > _data.size())
+            throw std::runtime_error("Not enough data");
+        _offset += size;
+    }
+
+    bool isFinished() const
+    {
+        return _offset == _data.size();
+    }
+
 private:
-    std::vector<std::byte> _data;
+    std::vector<std::byte> const &_data;
     std::size_t _offset = 0;
 };
 
