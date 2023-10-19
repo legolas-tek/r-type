@@ -26,11 +26,11 @@ struct Texture : public ISystem {
         SparseArray<Component::Animation> &animations,
         SparseArray<Component::Position> &positions
     );
-    ~Texture();
+    ~Texture() override;
     void operator()() override;
 
 private:
-    bool textureIsLoaded(size_t id);
+    bool isTextureLoaded(size_t id);
     engine::Registry &_registry;
     SparseArray<Component::Drawable> &_drawables;
     SparseArray<Component::Animation> &_animations;

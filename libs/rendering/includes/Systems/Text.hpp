@@ -22,11 +22,11 @@ struct Text : public ISystem {
         SparseArray<Component::Text> &texts,
         SparseArray<Component::Position> &positions
     );
-    ~Text();
+    ~Text() override;
     void operator()() override;
 
 private:
-    bool fontIsLoaded(std::string const &path);
+    bool isFontLoaded(std::string const &path);
     SparseArray<Component::Text> &_texts;
     SparseArray<Component::Position> &_positions;
     std::unordered_map<std::string, Font> _cache;
