@@ -57,22 +57,6 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
 
 void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
 {
-    reg.add_system<System::AttackSystem>(
-        reg.get_components<Component::FireRate>(), reg
-    );
-    reg.add_system<System::LifeTimeSystem>(
-        reg.get_components<Component::LifeTime>(), reg
-    );
-    reg.add_system<System::DamageSystem>(
-        reg.get_components<Component::Damage>(),
-        reg.get_components<Component::Life>(),
-        reg.get_components<Component::Collision>(), reg
-    );
-    reg.add_system<System::CollisionsSystem>(
-        reg.get_components<Component::Position>(),
-        reg.get_components<Component::HitBox>(),
-        reg.get_components<Component::Collision>()
-    );
     reg.add_system<System::AnimationSystem>(reg);
     reg.add_system<rendering::system::Rendering>(reg);
     reg.add_system<rendering::system::Key>(reg);
@@ -86,12 +70,6 @@ void RTypeGame::registerAdditionalSystems(engine::Registry &reg)
         reg.get_components<Component::Velocity>()
     );
 }
-
-// ship = 32 14
-// laser = 48 4
-// explosion = 15 14
-// basic ennemy = 32 32
-// shooting ennemy = 62 47
 
 void RTypeGame::initAssets(engine::Registry &reg)
 {
@@ -107,6 +85,7 @@ void RTypeGame::initAssets(engine::Registry &reg)
     reg._assets_paths.push_back("./client/assets/Plasma_Beam.png");
     reg._assets_paths.push_back("./client/assets/impact_explosion.png");
     reg._assets_paths.push_back("./client/assets/basic_ennemy.png");
+    reg._assets_paths.push_back("./client/assets/shooting_ennemy.png");
     reg._assets_paths.push_back("./client/assets/first_level_bottom_borders.png");
     reg._assets_paths.push_back("./client/assets/first_level_top_borders.png");
 }
@@ -171,19 +150,22 @@ void RTypeGame::initScene(engine::Registry &reg)
     );
     // player
     reg.get_components<Component::Drawable>().insert_at(
-        player, std::move(Component::Drawable(3, 33, 14, 3))
+        player, std::move(Component::Drawable(SHIP_I, SHIP_W, SHIP_H, 3))
     );
     // test dummy
     reg.get_components<Component::Drawable>().insert_at(
-        dummy, Component::Drawable(6, 32, 32, 1.5)
+        dummy, Component::Drawable(
+            BASIC_ENNEMY_I, BASIC_ENNEMY_W,
+            BASIC_ENNEMY_H, 1.5
+        )
     );
     // topBorder
     reg.get_components<Component::Drawable>().insert_at(
-        topBorder, Component::Drawable(8, 418, 8, 3)
+        topBorder, Component::Drawable(TOP_BORDER_I, BORDERS_W, BORDERS_H, 3)
     );
     // bottomBorder
     reg.get_components<Component::Drawable>().insert_at(
-        bottomBorder, Component::Drawable(7, 418, 8, 3)
+        bottomBorder, Component::Drawable(BOT_BORDER_I, BORDERS_W, BORDERS_H, 3)
     );
 
     // ==================== set Animation ====================
@@ -197,16 +179,25 @@ void RTypeGame::initScene(engine::Registry &reg)
         foreground, std::move(Component::Animation(1408, 192, 704, 192, 5, 1))
     );
     reg.get_components<Component::Animation>().insert_at(
-        player, std::move(Component::Animation(131, 14, 33, 14, 33, 50))
+        player, Component::Animation(
+            SHIP_W * SHIP_F, SHIP_H, SHIP_W, SHIP_H, SHIP_W, 50
+        )
     );
     reg.get_components<Component::Animation>().insert_at(
-        dummy, Component::Animation(160, 32, 32, 32, 32, 50)
+        dummy, Component::Animation(
+            BASIC_ENNEMY_W * BASIC_ENNEMY_F, BASIC_ENNEMY_H,
+            BASIC_ENNEMY_W, BASIC_ENNEMY_H, BASIC_ENNEMY_W, 50
+        )
     );
     reg.get_components<Component::Animation>().insert_at(
-        topBorder, Component::Animation(836, 8, 418, 8, 1, 1)
+        topBorder, Component::Animation(
+            BORDERS_F * BORDERS_W, BORDERS_H, BORDERS_W, BORDERS_H, 1, 1
+        )
     );
     reg.get_components<Component::Animation>().insert_at(
-        bottomBorder, Component::Animation(836, 8, 418, 8, 1, 1)
+        bottomBorder, Component::Animation(
+            BORDERS_F * BORDERS_W, BORDERS_H, BORDERS_W, BORDERS_H, 1, 1
+        )
     );
 
     // // ==================== set Controllable ====================
