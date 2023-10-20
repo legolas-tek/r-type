@@ -9,6 +9,7 @@
 #define CLIENT_HPP_
 
 #include <asio.hpp>
+#include <optional>
 
 #include "Net.hpp"
 

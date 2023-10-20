@@ -7,11 +7,7 @@
 
 #include "UdpNetManager.hpp"
 #include "Net.hpp"
-#include "asio/ip/detail/endpoint.hpp"
 
-#include <asio/ip/tcp.hpp>
-#include <asio/read_until.hpp>
-#include <iostream>
 #include <vector>
 
 net::manager::Udp::Udp(
