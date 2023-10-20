@@ -59,7 +59,7 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
     );
     reg.add_system<System::DeathAnimationManager>(
         reg.get_components<Component::Life>(),
-        reg.get_components<Component::HitBox>(),
+        reg.get_components<Component::Collision>(),
         reg
     );
     reg.add_system<System::DeathSystem>(
@@ -233,10 +233,18 @@ void RTypeGame::initScene(engine::Registry &reg)
 
     // ==================== set Collision ====================
     reg.get_components<Component::Collision>().insert_at(
-        player, Component::Collision(128, 128)
+        player, Component::Collision(SHIP_W, SHIP_H)
     );
     reg.get_components<Component::Collision>().insert_at(
-        dummy, Component::Collision(48, 48)
+        dummy, Component::Collision(BASIC_ENNEMY_W, BASIC_ENNEMY_H)
+    );
+
+    // ==================== set Hitbox ====================
+    reg.get_components<Component::HitBox>().insert_at(
+        player, Component::HitBox(SHIP_W, SHIP_H)
+    );
+    reg.get_components<Component::HitBox>().insert_at(
+        dummy, Component::HitBox(BASIC_ENNEMY_W, BASIC_ENNEMY_H)
     );
 
     // ==================== set FireRate ====================

@@ -62,6 +62,9 @@ void System::AttackSystem::createLaserEntity(engine::Entity const attacker_index
     _register.get_components<Component::HitBox>().insert_at(
         attack_entity, Component::HitBox(LASER_WIDTH, LASER_HEIGHT)
     );
+    _register.get_components<Component::Collision>().insert_at(
+        attack_entity, Component::Collision(LASER_WIDTH, LASER_HEIGHT)
+    );
     _register.get_components<Component::Animation>().insert_at(
         attack_entity,
         Component::Animation(

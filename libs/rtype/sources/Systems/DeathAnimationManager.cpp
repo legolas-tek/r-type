@@ -13,12 +13,12 @@
 
 System::DeathAnimationManager::DeathAnimationManager(
     SparseArray<Component::Life> &lifes,
-    SparseArray<Component::HitBox> &hitboxes,
+    SparseArray<Component::Collision> &collisions,
     engine::Registry &reg
 )
     : _lifes(lifes)
     , _registry(reg)
-    , _hitboxes(hitboxes)
+    , _collisions(collisions)
 {
 }
 
@@ -31,8 +31,8 @@ void System::DeathAnimationManager::operator()()
             [it.get_entity()].value()
             );
     }
-    for (auto it = _hitboxes.begin(); it != _hitboxes.end(); it++) {
-        if ((*it)->isColliding) {
+    for (auto it = _collisions.begin(); it != _collisions.end(); it++) {
+        if ((*it)->_collidingEntity && !_lifes[it.get_entity()]) {
             createExplosion(_registry.get_components<Component::Position>()
             [it.get_entity()].value());
             _registry.erase_entity(it.get_entity());
@@ -40,7 +40,9 @@ void System::DeathAnimationManager::operator()()
     }
 }
 
-void System::DeathAnimationManager::createExplosion(Component::Position pos)
+void System::DeathAnimationManager::createExplosion(
+    Component::Position const &pos
+)
 {
     engine::Entity explosion(_registry.get_new_entity());
 

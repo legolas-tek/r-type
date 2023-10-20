@@ -14,7 +14,7 @@
 
 #include "Components/Life.hpp"
 #include "Components/Position.hpp"
-#include "Components/HitBox.hpp"
+#include "Components/Collision.hpp"
 
 namespace System {
 
@@ -46,7 +46,7 @@ public:
     /// @param reg A ref to the registry
     DeathAnimationManager(
         SparseArray<Component::Life> &lifes,
-        SparseArray<Component::HitBox> &_hitboxes,
+        SparseArray<Component::Collision> &collisions,
         engine::Registry &reg
     );
 
@@ -56,7 +56,7 @@ private:
     /// @brief creates an explosion entity that represents the impact
     /// of the laser
     /// @param pos The position of the explosion
-    void createExplosion(Component::Position pos);
+    void createExplosion(Component::Position const &pos);
 
     /// @brief creates an explosion entity that represents another entity
     /// exploding
@@ -66,7 +66,7 @@ private:
     /// @brief A ref to a Life components SparseArray
     SparseArray<Component::Life> &_lifes;
     /// @brief A ref to a Hitbox components SparseArray
-    SparseArray<Component::HitBox> &_hitboxes;
+    SparseArray<Component::Collision> &_collisions;
     /// @brief A ref to the registry
     engine::Registry &_registry;
 };
