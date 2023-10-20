@@ -26,7 +26,7 @@ class SpawnEnemySystem : public ISystem {
 public:
     SpawnEnemySystem(
         engine::Registry &reg, EntityInfo entityInfo, size_t startTick,
-        size_t cycle
+        size_t cycle, int minX, int maxX, int minY, int maxY
     );
     ~SpawnEnemySystem() = default;
 
@@ -39,9 +39,10 @@ private:
     EntityInfo _entityInfo;
     size_t _startTick;
     size_t _cycle;
-    // size_t _waveNum = 0;
-    // size_t _createdNum = 0;
-    // std::vector<EntityInfo> _entityList;
+    int _minX;
+    int _maxX;
+    int _minY;
+    int _maxY;
 };
 }
 

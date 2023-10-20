@@ -33,7 +33,8 @@ void System::WaveManagerSystem::operator()()
         _waveNum++;
         if (_waveNum == 1) {
             add_system<System::SpawnEnemySystem>(
-                _register, _entityList[0], tick, seconds_to_tick(1)
+                _register, _entityList[0], tick, seconds_to_tick(1), 700, 700,
+                0, 450 - _entityList[0].entityHeight
             );
 
             std::cout << "Wave 1" << std::endl;
