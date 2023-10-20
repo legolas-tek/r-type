@@ -16,7 +16,6 @@
 #include "Components/Damage.hpp"
 #include "Components/Life.hpp"
 
-
 namespace System {
 
 /// @brief This system allows entity with the component damage to deal damage

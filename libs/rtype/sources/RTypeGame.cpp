@@ -71,31 +71,6 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
 
 void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
 {
-        reg.add_system<System::CollisionsSystem>(
-        reg.get_components<Component::Position>(),
-        reg.get_components<Component::HitBox>(),
-        reg.get_components<Component::Collision>()
-    );
-    reg.add_system<System::AttackSystem>(
-        reg.get_components<Component::FireRate>(), reg
-    );
-    reg.add_system<System::LifeTimeSystem>(
-        reg.get_components<Component::LifeTime>(), reg
-    );
-    reg.add_system<System::DamageSystem>(
-        reg.get_components<Component::Damage>(),
-        reg.get_components<Component::Life>(),
-        reg.get_components<Component::Collision>(), reg
-    );
-    reg.add_system<System::DeathAnimationManager>(
-        reg.get_components<Component::Life>(),
-        reg.get_components<Component::HitBox>(),
-        reg
-    );
-    reg.add_system<System::DeathSystem>(
-        reg.get_components<Component::Life>(),
-        reg
-    );
     reg.add_system<System::AnimationSystem>(reg);
     reg.add_system<rendering::system::Rendering>(reg);
     reg.add_system<rendering::system::Key>(reg);
@@ -126,8 +101,12 @@ void RTypeGame::initAssets(engine::Registry &reg)
     reg._assets_paths.push_back("./client/assets/images/impact_explosion.png");
     reg._assets_paths.push_back("./client/assets/images/basic_ennemy.png");
     reg._assets_paths.push_back("./client/assets/images/shooting_ennemy.png");
-    reg._assets_paths.push_back("./client/assets/images/first_level_bottom_borders.png");
-    reg._assets_paths.push_back("./client/assets/images/first_level_top_borders.png");
+    reg._assets_paths.push_back(
+        "./client/assets/images/first_level_bottom_borders.png"
+    );
+    reg._assets_paths.push_back(
+        "./client/assets/images/first_level_top_borders.png"
+    );
     reg._assets_paths.push_back("./client/assets/images/big_explosion.png");
 }
 
@@ -164,14 +143,13 @@ void RTypeGame::initScene(engine::Registry &reg)
         dummy, Component::Position(500, 150, 1)
     );
     // topBorder
-        reg.get_components<Component::Position>().insert_at(
+    reg.get_components<Component::Position>().insert_at(
         topBorder, Component::Position(0, 0, 1)
     );
     // bottomBorder
     reg.get_components<Component::Position>().insert_at(
-    bottomBorder, Component::Position(
-        0, rendering::system::SCREEN_HEIGHT - 16, 1
-        )
+        bottomBorder,
+        Component::Position(0, rendering::system::SCREEN_HEIGHT - 16, 1)
     );
     // title
     reg.get_components<Component::Position>().insert_at(
@@ -202,10 +180,8 @@ void RTypeGame::initScene(engine::Registry &reg)
     );
     // test dummy
     reg.get_components<Component::Drawable>().insert_at(
-        dummy, Component::Drawable(
-            BASIC_ENNEMY_I, BASIC_ENNEMY_W,
-            BASIC_ENNEMY_H, 1.5
-        )
+        dummy,
+        Component::Drawable(BASIC_ENNEMY_I, BASIC_ENNEMY_W, BASIC_ENNEMY_H, 1.5)
     );
     // topBorder
     reg.get_components<Component::Drawable>().insert_at(
@@ -227,23 +203,27 @@ void RTypeGame::initScene(engine::Registry &reg)
         foreground, Component::Animation(1408, 192, 704, 192, 5, 1)
     );
     reg.get_components<Component::Animation>().insert_at(
-        player, Component::Animation(
+        player,
+        Component::Animation(
             SHIP_W * SHIP_F, SHIP_H, SHIP_W, SHIP_H, SHIP_W, 50
         )
     );
     reg.get_components<Component::Animation>().insert_at(
-        dummy, Component::Animation(
-            BASIC_ENNEMY_W * BASIC_ENNEMY_F, BASIC_ENNEMY_H,
-            BASIC_ENNEMY_W, BASIC_ENNEMY_H, BASIC_ENNEMY_W, 50
+        dummy,
+        Component::Animation(
+            BASIC_ENNEMY_W * BASIC_ENNEMY_F, BASIC_ENNEMY_H, BASIC_ENNEMY_W,
+            BASIC_ENNEMY_H, BASIC_ENNEMY_W, 50
         )
     );
     reg.get_components<Component::Animation>().insert_at(
-        topBorder, Component::Animation(
+        topBorder,
+        Component::Animation(
             BORDERS_F * BORDERS_W, BORDERS_H, BORDERS_W, BORDERS_H, 1, 1
         )
     );
     reg.get_components<Component::Animation>().insert_at(
-        bottomBorder, Component::Animation(
+        bottomBorder,
+        Component::Animation(
             BORDERS_F * BORDERS_W, BORDERS_H, BORDERS_W, BORDERS_H, 1, 1
         )
     );
