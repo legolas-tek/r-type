@@ -12,7 +12,6 @@
 
 #include "ISystem.hpp"
 
-#include <iostream>
 #include <random>
 
 #include "Components/Animation.hpp"
