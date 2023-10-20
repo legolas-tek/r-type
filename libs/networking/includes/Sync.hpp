@@ -83,7 +83,8 @@ private:
 
 private:
     virtual bool canUpdate(
-        engine::Entity entity, uint8_t component_id, engine::Deserializer deser
+        net::manager::Client const &client, engine::Entity entity,
+        uint8_t component_id, engine::Deserializer deser
     );
 
     /**

@@ -13,6 +13,10 @@
 #include "Sync.hpp"
 #include <optional>
 
+#ifdef DEBUG_NETWORK
+    #include <iostream>
+#endif
+
 net::Sync::Sync(
     net::ClientNetManager, engine::Registry &registry, int port,
     size_t playerNumber, size_t playerHash
@@ -50,6 +54,7 @@ net::Sync::Sync(
 net::Sync::~Sync() = default;
 
 bool net::Sync::canUpdate(
+    [[maybe_unused]] manager::Client const &client,
     [[maybe_unused]] engine::Entity entity,
     [[maybe_unused]] uint8_t component_id,
     [[maybe_unused]] engine::Deserializer deser
@@ -100,7 +105,7 @@ void net::Sync::processUpdatePacket(
         bool updateType = 0;
         deserializer.deserializeTrivial(updateType);
 
-        if (not canUpdate(entity, component_id, deserializer)) {
+        if (not canUpdate(client, entity, component_id, deserializer)) {
             // update disallowed, use the trash entity
             entity = engine::Entity(0);
         }

@@ -12,8 +12,8 @@
 #include "NetworkSystem.hpp"
 
 bool rtype::NetworkServerSystem::canUpdate(
-    engine::Entity entity, uint8_t component_id,
-    [[maybe_unused]] engine::Deserializer deserializer
+    net::manager::Client const &client, engine::Entity entity,
+    uint8_t component_id, [[maybe_unused]] engine::Deserializer deserializer
 )
 {
     auto &controllable
