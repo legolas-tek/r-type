@@ -9,7 +9,6 @@
 
 #include <asio/ip/tcp.hpp>
 #include <asio/read_until.hpp>
-#include <iostream>
 #include <vector>
 
 net::manager::Udp::Udp(
