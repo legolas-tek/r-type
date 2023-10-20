@@ -8,6 +8,8 @@
 #ifndef ENTITYINFO_HPP_
 #define ENTITYINFO_HPP_
 
+#include <optional>
+
 struct EntityInfo {
     int textureIndex;
     int textureWidth;
@@ -19,5 +21,8 @@ struct EntityInfo {
     int posX;
     int posY;
     float scale;
+    std::optional<int> damage;
+    std::optional<size_t> lifeTime;
+    std::optional<int> fireRate;
 };
 #endif /* !ENTITYINFO_HPP_ */
