@@ -51,7 +51,7 @@ private:
     std::vector<EntityInfo> _entityList;
 
     // better to have a multiple of 4 sec (4 % 0.016 = 0)
-    static inline constexpr std::array<size_t, 3> WAVE_START_SEC_TABLE = {
+    static inline constexpr std::array<size_t, 3> WAVE_START_TICK_TABLE = {
         seconds_to_tick(0), // wave 1 start sec
         seconds_to_tick(4), // wave 1 start sec
         seconds_to_tick(8) // wave 1 start sec

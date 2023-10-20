@@ -11,8 +11,22 @@
 System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
     : _register(reg)
 {
-    EntityInfo mutalisk = { 5, 320, 72, 64, 72, 64, 10, 2.0f };
-    EntityInfo scourge = { 6, 155, 27, 31, 27, 31, 10, 2.0f };
+    EntityInfo mutalisk = { .textureIndex = 5,
+                            .textureWidth = 320,
+                            .textureHeight = 72,
+                            .entityWidth = 64,
+                            .entityHeight = 72,
+                            .offset = 64,
+                            .frameDuration = 10,
+                            .scale = 2.0f };
+    EntityInfo scourge = { .textureIndex = 6,
+                           .textureWidth = 155,
+                           .textureHeight = 27,
+                           .entityWidth = 31,
+                           .entityHeight = 27,
+                           .offset = 31,
+                           .frameDuration = 10,
+                           .scale = 2.0f };
 
     _entityList.push_back(mutalisk);
     _entityList.push_back(scourge);
@@ -21,13 +35,13 @@ System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
 void System::WaveManagerSystem::operator()()
 {
     size_t tick = _register.getTick();
-    size_t maxWave = WAVE_START_SEC_TABLE.size();
+    size_t maxWave = WAVE_START_TICK_TABLE.size();
 
     if (_waveNum == maxWave) {
         std::cout << "end wave" << std::endl;
         return;
     }
-    if (tick == WAVE_START_SEC_TABLE[_waveNum]) {
+    if (tick == WAVE_START_TICK_TABLE[_waveNum]) {
         std::cout << "wave " << _waveNum << " to " << _waveNum + 1 << std::endl;
         _waveNum++;
         if (_waveNum == 1) {

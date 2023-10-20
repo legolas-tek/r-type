@@ -40,7 +40,7 @@ void System::SpawnEnemySystem::operator()()
 
     // set position
     _register.get_components<Component::Position>().insert_at(
-        enemy, std::move(Component::Position(700, randomY, 0))
+        enemy, std::move(Component::Position(randomX, randomY, 0))
     );
     // set Drawable
     _register.get_components<Component::Drawable>().insert_at(
