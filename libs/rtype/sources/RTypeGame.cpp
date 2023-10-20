@@ -27,6 +27,8 @@
 #include "Systems/LifeTimeSystem.hpp"
 #include "Systems/MoveSystem.hpp"
 #include "Systems/NetworkSystem.hpp"
+#include "Systems/SpawnEnemySystem.hpp"
+#include "Systems/WaveManagerSystem.hpp"
 
 #include "Key.hpp"
 #include "NetworkClientSystem.hpp"
@@ -72,6 +74,7 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
 void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
 {
     reg.add_system<System::AnimationSystem>(reg);
+    reg.add_system<System::WaveManagerSystem>(reg);
     reg.add_system<rendering::system::Rendering>(reg);
     reg.add_system<rendering::system::Key>(reg);
     reg.add_system<net::system::NetworkClient>(
@@ -90,16 +93,18 @@ void RTypeGame::registerAdditionalSystems(engine::Registry &reg)
 void RTypeGame::initAssets(engine::Registry &reg)
 {
     reg._assets_paths.emplace_back(
-        "./client/assets/images/cyberpunk_street_background.png"
+        "./assets/images/cyberpunk_street_background.png"
     );
     reg._assets_paths.emplace_back(
-        "./client/assets/images/cyberpunk_street_midground.png"
+        "./assets/images/cyberpunk_street_midground.png"
     );
     reg._assets_paths.emplace_back(
-        "./client/assets/images/cyberpunk_street_foreground.png"
+        "./assets/images/cyberpunk_street_foreground.png"
     );
-    reg._assets_paths.emplace_back("./client/assets/images/scarfy.png");
-    reg._assets_paths.emplace_back("./client/assets/images/Plasma_Beam.png");
+    reg._assets_paths.push_back("./assets/scarfy.png");
+    reg._assets_paths.push_back("./assets/Plasma_Beam.png");
+    reg._assets_paths.push_back("./assets/mutalisk.png");
+    reg._assets_paths.push_back("./assets/scourge.png");
 }
 
 void RTypeGame::initScene(engine::Registry &reg)
