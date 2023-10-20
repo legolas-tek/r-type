@@ -88,6 +88,7 @@ void RTypeGame::initAssets(engine::Registry &reg)
     reg._assets_paths.push_back("./client/assets/shooting_ennemy.png");
     reg._assets_paths.push_back("./client/assets/first_level_bottom_borders.png");
     reg._assets_paths.push_back("./client/assets/first_level_top_borders.png");
+    reg._assets_paths.push_back("./client/assets/big_explosion.png");
 }
 
 void RTypeGame::initScene(engine::Registry &reg)
