@@ -8,6 +8,8 @@
 #ifndef WAVEMANAGERSYSTEM_HPP_
 #define WAVEMANAGERSYSTEM_HPP_
 
+#include <array>
+
 #include "ISystem.hpp"
 #include "Registry.hpp"
 
