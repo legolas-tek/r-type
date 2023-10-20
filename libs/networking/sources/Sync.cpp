@@ -259,3 +259,8 @@ net::manager::Client *net::Sync::getClientWithHash(std::size_t hash)
     }
     return nullptr;
 }
+
+std::size_t net::Sync::getPlayerNumber(manager::Client const &client) const
+{
+    return client._playerNumber;
+}

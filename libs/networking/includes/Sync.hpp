@@ -71,6 +71,8 @@ public:
      */
     void operator()();
 
+    std::size_t getPlayerNumber(manager::Client const &client) const;
+
 private:
     /**
      * @brief The snapshot history structure represanting

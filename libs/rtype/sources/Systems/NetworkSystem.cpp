@@ -20,7 +20,8 @@ bool rtype::NetworkServerSystem::canUpdate(
         = _registry.get_components<Component::Controllable>()[entity];
     if (!controllable)
         return false;
-    // TODO: check player ID
+    if (getPlayerNumber(client) != controllable->_id)
+        return false;
     if (component_id == _registry.get_component_id<Component::Velocity>())
         return true;
     // TODO: attack etc
