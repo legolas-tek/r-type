@@ -27,6 +27,8 @@ target_sources (rtype
     ./sources/RTypeGame.cpp
     ./sources/LobbyGame.cpp
     ./sources/Systems/AttackSystem.cpp
+    ./sources/Systems/SpawnEnemySystem.cpp
+    ./sources/Systems/WaveManagerSystem.cpp
     ./sources/Systems/NetworkSystem.cpp
     ./sources/Systems/DeathAnimationManager.cpp
 )

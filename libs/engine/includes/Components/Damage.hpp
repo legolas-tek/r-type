@@ -26,6 +26,5 @@ struct Damage : engine::Serializable<Damage> {
     /// @brief The damages the entity is dealing
     int damages = 1;
 };
-
 }
 #endif /* !DAMAGE_HPP_ */

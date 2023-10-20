@@ -18,6 +18,8 @@
 #include "Systems/LifeTimeSystem.hpp"
 #include "Systems/MoveSystem.hpp"
 #include "Systems/NetworkSystem.hpp"
+#include "Systems/SpawnEnemySystem.hpp"
+#include "Systems/WaveManagerSystem.hpp"
 
 #include "Key.hpp"
 #include "NetworkClientSystem.hpp"
@@ -41,6 +43,7 @@ void RTypeGame::registerAllComponents(engine::Registry &reg)
 
 void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
 {
+    reg.add_system<System::WaveManagerSystem>(reg);
     reg.add_system<System::CollisionsSystem>(
         reg.get_components<Component::Position>(),
         reg.get_components<Component::HitBox>(),
@@ -88,26 +91,26 @@ void RTypeGame::registerAdditionalSystems(engine::Registry &reg)
 void RTypeGame::initAssets(engine::Registry &reg)
 {
     reg._assets_paths.emplace_back(
-        "./client/assets/images/cyberpunk_street_background.png"
+        "./assets/images/cyberpunk_street_background.png"
     );
     reg._assets_paths.emplace_back(
-        "./client/assets/images/cyberpunk_street_midground.png"
+        "./assets/images/cyberpunk_street_midground.png"
     );
     reg._assets_paths.emplace_back(
-        "./client/assets/images/cyberpunk_street_foreground.png"
+        "./assets/images/cyberpunk_street_foreground.png"
     );
-    reg._assets_paths.push_back("./client/assets/images/space_ships.png");
-    reg._assets_paths.push_back("./client/assets/images/Plasma_Beam.png");
-    reg._assets_paths.push_back("./client/assets/images/impact_explosion.png");
-    reg._assets_paths.push_back("./client/assets/images/basic_ennemy.png");
-    reg._assets_paths.push_back("./client/assets/images/shooting_ennemy.png");
+    reg._assets_paths.push_back("./assets/images/space_ships.png");
+    reg._assets_paths.push_back("./assets/images/Plasma_Beam.png");
+    reg._assets_paths.push_back("./assets/images/impact_explosion.png");
+    reg._assets_paths.push_back("./assets/images/basic_ennemy.png");
+    reg._assets_paths.push_back("./assets/images/shooting_ennemy.png");
     reg._assets_paths.push_back(
-        "./client/assets/images/first_level_bottom_borders.png"
+        "./assets/images/first_level_bottom_borders.png"
     );
     reg._assets_paths.push_back(
-        "./client/assets/images/first_level_top_borders.png"
+        "./assets/images/first_level_top_borders.png"
     );
-    reg._assets_paths.push_back("./client/assets/images/big_explosion.png");
+    reg._assets_paths.push_back("./assets/images/big_explosion.png");
 }
 
 void RTypeGame::initScene(engine::Registry &reg)

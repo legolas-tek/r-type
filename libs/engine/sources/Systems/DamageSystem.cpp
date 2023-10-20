@@ -5,8 +5,6 @@
 ** DamageSystem
 */
 
-#include <iostream>
-
 #include "Systems/DamageSystem.hpp"
 
 System::DamageSystem::DamageSystem(
