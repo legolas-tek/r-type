@@ -6,6 +6,7 @@
 */
 
 #include "Snapshot.hpp"
+#include "Serialization/Serializer.hpp"
 #include <cstring>
 #include <vector>
 
@@ -28,45 +29,31 @@ using ComponentId = uint8_t;
 using UpdateType = bool;
 
 static void diffAdd(
-    std::vector<std::byte> &diff,
+    engine::Serializer &diff,
     std::vector<ComponentData>::const_iterator const &it
 )
 {
-    size_t offset = diff.size();
-    diff.resize(
-        offset + sizeof(EntityNumber) + sizeof(ComponentId) + sizeof(UpdateType)
-            + it->data.size(),
-        std::byte(0)
-    );
-    std::memcpy(&diff[offset], &it->entity, sizeof(EntityNumber));
-    offset += sizeof(EntityNumber);
-    std::memcpy(&diff[offset], &it->componentId, sizeof(ComponentId));
-    offset += sizeof(ComponentId);
-    diff[offset] = std::byte(0x01);
-    offset += sizeof(UpdateType);
-    std::memcpy(&diff[offset], it->data.data(), it->data.size());
+    diff.serializeTrivial(EntityNumber(it->entity));
+    diff.serializeTrivial(ComponentId(it->componentId));
+    diff.serializeTrivial(UpdateType(0x01));
+    diff.insert(it->data);
 }
 
 static void diffRemove(
-    std::vector<std::byte> &diff,
+    engine::Serializer &diff,
     std::vector<ComponentData>::const_iterator const &it
 )
 {
-    size_t offset = diff.size();
-    diff.resize(
-        offset + sizeof(EntityNumber) + sizeof(ComponentId) + sizeof(UpdateType)
-    );
-    std::memcpy(&diff[offset], &it->entity, sizeof(EntityNumber));
-    offset += sizeof(EntityNumber);
-    std::memcpy(&diff[offset], &it->componentId, sizeof(ComponentId));
-    offset += sizeof(ComponentId);
-    diff[offset] = std::byte(0x00);
+    diff.serializeTrivial(EntityNumber(it->entity));
+    diff.serializeTrivial(ComponentId(it->componentId));
+    diff.serializeTrivial(UpdateType(0x00));
 }
 
-std::vector<std::byte>
-net::diffSnapshots(net::Snapshot const &previous, net::Snapshot const &current)
+void net::diffSnapshots(
+    engine::Serializer &diff, net::Snapshot const &previous,
+    net::Snapshot const &current
+)
 {
-    std::vector<std::byte> diff;
     auto previousIt = previous.data.begin();
 
     for (auto currentIt = current.data.begin(); currentIt != current.data.end();
@@ -105,5 +92,12 @@ net::diffSnapshots(net::Snapshot const &previous, net::Snapshot const &current)
     for (auto it = previousIt; it != previous.data.end(); ++it) {
         diffRemove(diff, it);
     }
-    return diff;
+}
+
+std::vector<std::byte>
+net::diffSnapshots(net::Snapshot const &previous, net::Snapshot const &current)
+{
+    engine::Serializer diff;
+    diffSnapshots(diff, previous, current);
+    return diff.finalize();
 }

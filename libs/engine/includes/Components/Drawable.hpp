@@ -8,7 +8,7 @@
 #ifndef DRAWABLE_HPP_
 #define DRAWABLE_HPP_
 
-#include "Serializable.hpp"
+#include "Serialization/Serializable.hpp"
 
 namespace Component {
 
@@ -19,7 +19,7 @@ namespace Component {
  * to its associated resource in Registry::_assets_paths. It can be used as a
  * component in a system for managing drawable entities.
  */
-struct Drawable : Serializable<Drawable> {
+struct Drawable : engine::Serializable<Drawable> {
 public:
     /**
      * @brief Constructor for the Drawable structure.

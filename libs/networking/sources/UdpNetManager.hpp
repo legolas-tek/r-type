@@ -29,7 +29,7 @@ public:
     Udp(net::ClientNetManager, std::string addr, std::size_t port);
     ~Udp();
 
-    void send(net::Buffer &cmd, net::manager::Client const &client);
+    void send(net::Buffer const &cmd, net::manager::Client const &client);
     std::vector<std::pair<net::Buffer, net::manager::Client>>
     receive() noexcept;
     std::vector<Client> &getOthers();

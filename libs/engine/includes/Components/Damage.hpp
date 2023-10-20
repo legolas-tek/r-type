@@ -8,13 +8,13 @@
 #ifndef DAMAGE_HPP_
 #define DAMAGE_HPP_
 
-#include "Serializable.hpp"
+#include "Serialization/Serializable.hpp"
 
 namespace Component {
 
 /// @brief This component allows our entity to deal damages on collision and
 /// will be used by the damage system
-struct Damage : Serializable<Damage> {
+struct Damage : engine::Serializable<Damage> {
     /// @brief Constructs an instance of a Damage component and sets it's damage
     /// @param damages The damages that the entity will deal on collision
     Damage(int damages)
