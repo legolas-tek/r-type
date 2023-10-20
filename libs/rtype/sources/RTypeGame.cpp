@@ -128,7 +128,9 @@ void RTypeGame::initScene(engine::Registry &reg)
     );
     // bottomBorder
         reg.get_components<Component::Position>().insert_at(
-        bottomBorder, Component::Position(0, SCREEN_HEIGHT - 16, 1)
+        bottomBorder, Component::Position(
+            0, rendering::system::SCREEN_HEIGHT - 16, 1
+        )
     );
 
     // ==================== set velocity ====================
