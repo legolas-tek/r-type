@@ -44,7 +44,7 @@ net::manager::Udp::~Udp()
 }
 
 void net::manager::Udp::send(
-    net::Buffer &cmd, net::manager::Client const &client
+    net::Buffer const &cmd, net::manager::Client const &client
 )
 {
     _socket.send_to(asio::buffer(cmd.data(), cmd.size()), client.getEndpoint());

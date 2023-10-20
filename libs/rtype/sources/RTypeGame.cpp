@@ -7,6 +7,19 @@
 
 #include "Game.hpp"
 
+#include "Components/Animation.hpp"
+#include "Components/Collision.hpp"
+#include "Components/Controllable.hpp"
+#include "Components/Damage.hpp"
+#include "Components/Drawable.hpp"
+#include "Components/FireRate.hpp"
+#include "Components/HitBox.hpp"
+#include "Components/Life.hpp"
+#include "Components/LifeTime.hpp"
+#include "Components/Position.hpp"
+#include "Components/Text.hpp"
+#include "Components/Velocity.hpp"
+
 #include "Systems/AnimationSystem.hpp"
 #include "Systems/AttackSystem.hpp"
 #include "Systems/CollisionsSystem.hpp"
@@ -32,6 +45,7 @@ void RTypeGame::registerAllComponents(engine::Registry &reg)
     reg.register_component<Component::LifeTime>();
     reg.register_component<Component::Damage>();
     reg.register_component<Component::Life>();
+    reg.register_component<Component::Text>();
 }
 
 void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
@@ -73,13 +87,14 @@ void RTypeGame::registerAdditionalSystems(engine::Registry &reg)
 
 void RTypeGame::initAssets(engine::Registry &reg)
 {
-    reg._assets_paths.push_back(
-        "./client/assets/cyberpunk_street_background.png"
+    reg._assets_paths.emplace_back(
+        "./client/assets/images/cyberpunk_street_background.png"
     );
-    reg._assets_paths.push_back("./client/assets/cyberpunk_street_midground.png"
+    reg._assets_paths.emplace_back(
+        "./client/assets/images/cyberpunk_street_midground.png"
     );
-    reg._assets_paths.push_back(
-        "./client/assets/cyberpunk_street_foreground.png"
+    reg._assets_paths.emplace_back(
+        "./client/assets/images/cyberpunk_street_foreground.png"
     );
     reg._assets_paths.push_back("./client/assets/space_ships.png");
     reg._assets_paths.push_back("./client/assets/Plasma_Beam.png");
@@ -100,23 +115,24 @@ void RTypeGame::initScene(engine::Registry &reg)
     engine::Entity dummy(reg.get_new_entity());
     engine::Entity topBorder(reg.get_new_entity());
     engine::Entity bottomBorder(reg.get_new_entity());
+    engine::Entity Title(reg.get_new_entity());
 
     // ==================== set positions ====================
     // background
     reg.get_components<Component::Position>().insert_at(
-        background, std::move(Component::Position(256, 96, 0))
+        background, Component::Position(0, 0, 0)
     );
     // midground
     reg.get_components<Component::Position>().insert_at(
-        midground, std::move(Component::Position(256, 96, 0))
+        midground, Component::Position(0, 0, 0)
     );
     // foreground
     reg.get_components<Component::Position>().insert_at(
-        foreground, std::move(Component::Position(256, 96, 0))
+        foreground, Component::Position(0, 0, 0)
     );
     // player
     reg.get_components<Component::Position>().insert_at(
-        player, std::move(Component::Position(150, 150, 1))
+        player, Component::Position(150, 150, 1)
     );
     // test dummy
     reg.get_components<Component::Position>().insert_at(
@@ -127,33 +143,37 @@ void RTypeGame::initScene(engine::Registry &reg)
         topBorder, Component::Position(0, 0, 1)
     );
     // bottomBorder
-        reg.get_components<Component::Position>().insert_at(
-        bottomBorder, Component::Position(
-            0, rendering::system::SCREEN_HEIGHT - 16, 1
+    reg.get_components<Component::Position>().insert_at(
+    bottomBorder, Component::Position(
+        0, rendering::system::SCREEN_HEIGHT - 16, 1
         )
+    );
+    // title
+    reg.get_components<Component::Position>().insert_at(
+        Title, Component::Position(50, 50, 0)
     );
 
     // ==================== set velocity ====================
     reg.get_components<Component::Velocity>().insert_at(
-        player, std::move(Component::Velocity())
+        player, Component::Velocity()
     );
 
     // ==================== set Drawable ====================
     // background
     reg.get_components<Component::Drawable>().insert_at(
-        background, std::move(Component::Drawable(0, 512.0f, 192.0f, 2.0f))
+        background, Component::Drawable(0, 512.0f, 192.0f, 2.0f)
     );
     // midground
     reg.get_components<Component::Drawable>().insert_at(
-        midground, std::move(Component::Drawable(1, 512.0f, 192.0f, 2.0f))
+        midground, Component::Drawable(1, 512.0f, 192.0f, 2.0f)
     );
     // foreground
     reg.get_components<Component::Drawable>().insert_at(
-        foreground, std::move(Component::Drawable(2, 512.0f, 192.0f, 2.0f))
+        foreground, Component::Drawable(2, 512.0f, 192.0f, 2.0f)
     );
     // player
     reg.get_components<Component::Drawable>().insert_at(
-        player, std::move(Component::Drawable(SHIP_I, SHIP_W, SHIP_H, 3))
+        player, Component::Drawable(SHIP_I, SHIP_W, SHIP_H, 3)
     );
     // test dummy
     reg.get_components<Component::Drawable>().insert_at(
@@ -173,13 +193,13 @@ void RTypeGame::initScene(engine::Registry &reg)
 
     // ==================== set Animation ====================
     reg.get_components<Component::Animation>().insert_at(
-        background, std::move(Component::Animation(1024, 192, 512, 192, 1, 1))
+        background, Component::Animation(1024, 192, 512, 192, 1, 1)
     );
     reg.get_components<Component::Animation>().insert_at(
-        midground, std::move(Component::Animation(1024, 192, 512, 192, 3, 1))
+        midground, Component::Animation(1024, 192, 512, 192, 3, 1)
     );
     reg.get_components<Component::Animation>().insert_at(
-        foreground, std::move(Component::Animation(1408, 192, 704, 192, 5, 1))
+        foreground, Component::Animation(1408, 192, 704, 192, 5, 1)
     );
     reg.get_components<Component::Animation>().insert_at(
         player, Component::Animation(
@@ -208,7 +228,7 @@ void RTypeGame::initScene(engine::Registry &reg)
 
     // ==================== set Collision ====================
     reg.get_components<Component::Collision>().insert_at(
-        player, std::move(Component::Collision(128, 128))
+        player, Component::Collision(128, 128)
     );
     reg.get_components<Component::Collision>().insert_at(
         dummy, Component::Collision(48, 48)
@@ -224,6 +244,14 @@ void RTypeGame::initScene(engine::Registry &reg)
 
     // ==================== set Life ========================
     reg.get_components<Component::Life>().insert_at(dummy, Component::Life(10));
+
+    // ==================== set Text ====================
+    reg.get_components<Component::Text>().insert_at(
+        Title,
+        std::move(Component::Text(
+            "R-Type", "./client/assets/fonts/Over_There.ttf", 50, 10
+        ))
+    );
 }
 
 std::unique_ptr<engine::IGame> RTypeGame::createLobby()

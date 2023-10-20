@@ -13,7 +13,7 @@
 #include <utility>
 
 #include "Entity.hpp"
-#include "Serializable.hpp"
+#include "Serialization/Serializable.hpp"
 
 namespace Component {
 
@@ -24,7 +24,7 @@ namespace Component {
  * game or application. It stores the dimensions (width and height) of the
  * box. It can be used as a component in a collision detection system.
  */
-struct Collision : Serializable<Collision> {
+struct Collision : engine::Serializable<Collision> {
     /**
      * @brief Constructor for the collision structure.
      *
@@ -60,7 +60,6 @@ struct Collision : Serializable<Collision> {
      */
     std::optional<engine::Entity> _collidingEntity = std::nullopt;
 };
-
 }
 
 #endif /* !COLLISION_HPP_ */

@@ -12,7 +12,7 @@
 #include <cstring>
 #include <vector>
 
-#include "Serializable.hpp"
+#include "Serialization/Serializable.hpp"
 
 namespace Component {
 
@@ -22,7 +22,7 @@ namespace Component {
  * This structure is used to represent a velocity with x and y components.
  * It can be used as a component to store the velocity of an entity.
  */
-struct Velocity : Serializable<Velocity> {
+struct Velocity : engine::Serializable<Velocity> {
     /**
      * @brief The x-component of the velocity.
      */
@@ -54,6 +54,5 @@ struct Velocity : Serializable<Velocity> {
     {
     }
 };
-
 }
 #endif /* !VELOCITY_HPP_ */

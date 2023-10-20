@@ -10,7 +10,7 @@
 
 #include <cstddef>
 
-#include "Serializable.hpp"
+#include "Serialization/Serializable.hpp"
 
 namespace Component {
 
@@ -21,7 +21,7 @@ namespace Component {
  * identifier and life value. It can be used as a component in a system for
  * managing the life of entities.
  */
-struct Life : Serializable<Life> {
+struct Life : engine::Serializable<Life> {
     /**
      * @brief Constructor for the Life structure.
      *
@@ -46,7 +46,6 @@ struct Life : Serializable<Life> {
      */
     int life = 0;
 };
-
 }
 
 #endif /* !LIFE_HPP_ */

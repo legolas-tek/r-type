@@ -13,7 +13,7 @@
 
 bool rtype::NetworkServerSystem::canUpdate(
     engine::Entity entity, uint8_t component_id,
-    [[maybe_unused]] std::byte const *buffer
+    [[maybe_unused]] engine::Deserializer deserializer
 )
 {
     auto &controllable

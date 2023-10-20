@@ -8,7 +8,7 @@
 #ifndef CONTROLLABLE_HPP_
 #define CONTROLLABLE_HPP_
 
-#include "Serializable.hpp"
+#include "Serialization/Serializable.hpp"
 
 namespace Component {
 
@@ -19,7 +19,7 @@ namespace Component {
  * unique identifier. It can be used as a component in a system for managing
  * controllable entities.
  */
-struct Controllable : Serializable<Controllable> {
+struct Controllable : engine::Serializable<Controllable> {
     /**
      * @brief Constructor for the Controllable structure.
      *
@@ -43,7 +43,6 @@ struct Controllable : Serializable<Controllable> {
      */
     int _id = 0;
 };
-
 }
 
 #endif /* !CONTROLLABLE_HPP_ */

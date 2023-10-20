@@ -6,9 +6,11 @@
 */
 
 #include "LobbyClient.hpp"
+#include "Serialization/Serializer.hpp"
 #include "TcpNetManager.hpp"
 
 #include <algorithm>
+#include <cstdint>
 
 net::LobbyClient::LobbyClient(std::string addr, std::size_t port)
     : _network(std::make_unique<manager::Tcp>(addr, port))
@@ -17,21 +19,19 @@ net::LobbyClient::LobbyClient(std::string addr, std::size_t port)
 
 void net::LobbyClient::sendJoinRequest(std::string const &playerName)
 {
-    size_t playerNameSize = std::min(playerName.size(), (size_t) 0xff);
-    std::vector<std::byte> data(2 + playerNameSize, std::byte(0));
+    engine::Serializer serializer;
 
-    data[0] = std::byte(0x01);
-    data[1] = std::byte(playerNameSize);
-    std::memcpy(&data[2], playerName.data(), playerNameSize);
-
-    _network->write(data);
+    serializer.serializeTrivial(std::byte(0x01));
+    serializer.serializePascalString<std::uint8_t>(playerName);
+    _network->write(serializer.finalize());
 }
 
 void net::LobbyClient::sendStartRequest()
 {
-    std::vector<std::byte> data(1, std::byte(0x08));
+    engine::Serializer serializer;
 
-    _network->write(data);
+    serializer.serializeTrivial(std::byte(0x08));
+    _network->write(serializer.finalize());
 }
 
 void net::LobbyClient::operator()()
