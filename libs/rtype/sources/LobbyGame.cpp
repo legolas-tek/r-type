@@ -25,4 +25,7 @@ void RTypeLobby::registerAdditionalClientSystems(engine::Registry &reg)
 
 void RTypeLobby::registerAdditionalServerSystems(engine::Registry &reg)
 {
+    _serverLobby = dynamic_cast<net::lobby::Lobby &>(
+        reg.add_system<net::lobby::Lobby>(4242, 4)
+    );
 }

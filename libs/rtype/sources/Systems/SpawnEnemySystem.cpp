@@ -33,8 +33,8 @@ void System::SpawnEnemySystem::operator()()
     std::uniform_int_distribution<> distribX(_minX, _maxX);
     std::uniform_int_distribution<> distribY(_minY, _maxY);
 
-    auto randomX = static_cast<float>(distribX(_gen));
-    auto randomY = static_cast<float>(distribY(_gen));
+    auto randomX = float(distribX(_gen));
+    auto randomY = float(distribY(_gen));
 
     // set position
     _register.get_components<Component::Position>().insert_at(
@@ -44,8 +44,8 @@ void System::SpawnEnemySystem::operator()()
     _register.get_components<Component::Drawable>().insert_at(
         enemy,
         Component::Drawable(
-            _entityInfo.textureIndex, _entityInfo.entityWidth,
-            _entityInfo.entityHeight, _entityInfo.scale
+            _entityInfo.textureIndex, float(_entityInfo.entityWidth),
+            float(_entityInfo.entityHeight), _entityInfo.scale
         )
     );
     // set Animation

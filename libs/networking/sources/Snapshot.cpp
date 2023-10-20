@@ -24,6 +24,7 @@ net::Snapshot::Snapshot(size_t tick, engine::Registry const &registry)
 
 using EntityNumber = uint32_t;
 using ComponentId = uint8_t;
+using UpdateType = bool;
 
 static void diffAdd(
     engine::Serializer &diff,
@@ -32,7 +33,7 @@ static void diffAdd(
 {
     diff.serializeTrivial(EntityNumber(it->entity));
     diff.serializeTrivial(ComponentId(it->componentId));
-    diff.serializeTrivial(true);
+    diff.serializeTrivial(UpdateType(0x01));
     diff.insert(it->data);
 }
 
@@ -43,7 +44,7 @@ static void diffRemove(
 {
     diff.serializeTrivial(EntityNumber(it->entity));
     diff.serializeTrivial(ComponentId(it->componentId));
-    diff.serializeTrivial(false);
+    diff.serializeTrivial(UpdateType(0x00));
 }
 
 void net::diffSnapshots(

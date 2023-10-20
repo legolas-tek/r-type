@@ -19,33 +19,45 @@ public:
     /**
      * Register all of the game's components into the registry.
      */
-    virtual void registerAllComponents(engine::Registry &reg) = 0;
+    virtual void registerAllComponents(engine::Registry &reg)
+    {
+    }
 
     /**
      * Register extra systems only needed for the client
      */
-    virtual void registerAdditionalClientSystems(engine::Registry &reg) = 0;
+    virtual void registerAdditionalClientSystems(engine::Registry &reg)
+    {
+    }
 
     /**
      * Register extra systems only needed for the server
      */
-    virtual void registerAdditionalServerSystems(engine::Registry &reg) = 0;
+    virtual void registerAdditionalServerSystems(engine::Registry &reg)
+    {
+    }
 
     /**
      * Register systems needed for both the client and the server
      */
-    virtual void registerAdditionalSystems(engine::Registry &reg) = 0;
+    virtual void registerAdditionalSystems(engine::Registry &reg)
+    {
+    }
 
     /**
      * Initialize the initial entities of the game
      */
-    virtual void initScene(engine::Registry &reg) = 0;
+    virtual void initScene(engine::Registry &reg)
+    {
+    }
 
     /**
      * Initialize the assets of the game, into the `Registry::_assets_paths`
      * vector
      */
-    virtual void initAssets(engine::Registry &reg) = 0;
+    virtual void initAssets(engine::Registry &reg)
+    {
+    }
 
     /**
      * Create the lobby game. It will be run before this game starts, if not

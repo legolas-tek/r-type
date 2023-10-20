@@ -22,7 +22,7 @@ void runGame(engine::IGame &game)
     gameLoop(reg);
 }
 
-int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[])
+int main()
 {
     std::unique_ptr<engine::IGame> game(createGame());
 
