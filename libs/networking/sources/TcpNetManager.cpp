@@ -18,7 +18,7 @@ net::manager::Tcp::Tcp(std::string const &addr, std::size_t port)
     , _socket(_io_ctx)
 {
     asio::ip::tcp::endpoint endpoint(
-        asio::ip::make_address(addr.c_str(), _ec), port
+        asio::ip::make_address(addr.c_str(), _ec), asio::ip::port_type(port)
     );
     if (_ec)
         throw TcpNetManagerError(_ec.message());

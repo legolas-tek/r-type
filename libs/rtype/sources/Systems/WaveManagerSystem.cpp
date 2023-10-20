@@ -18,7 +18,10 @@ System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
                             .entityHeight = 72,
                             .offset = 64,
                             .frameDuration = 10,
-                            .scale = 2.0f };
+                            .scale = 2.0f,
+                            .damage = std::nullopt,
+                            .lifeTime = std::nullopt,
+                            .fireRate = std::nullopt };
     EntityInfo scourge = { .textureIndex = 6,
                            .textureWidth = 155,
                            .textureHeight = 27,
@@ -26,7 +29,10 @@ System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
                            .entityHeight = 27,
                            .offset = 31,
                            .frameDuration = 10,
-                           .scale = 2.0f };
+                           .scale = 2.0f,
+                           .damage = std::nullopt,
+                           .lifeTime = std::nullopt,
+                           .fireRate = std::nullopt };
 
     _entityList.push_back(mutalisk);
     _entityList.push_back(scourge);

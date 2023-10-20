@@ -18,7 +18,12 @@ namespace net::manager {
 class TcpServerImpl {
 public:
     TcpServerImpl(std::size_t port)
-        : _acceptor(_io_ctx, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port))
+        : _acceptor(
+            _io_ctx,
+            asio::ip::tcp::endpoint(
+                asio::ip::tcp::v4(), asio::ip::port_type(port)
+            )
+        )
     {
         _acceptor.non_blocking(true);
     }

@@ -46,9 +46,9 @@ public:
     Animation() = default;
 
     float _textureWidth = 0;
-    [[maybe_unused]] float _textureHeight = 0;
+    float _textureHeight = 0;
     float _entityWidth = 0;
-    [[maybe_unused]] float _entityHeight = 0;
+    float _entityHeight = 0;
     float _offset = 1; ///< The number of sprites in the animation.
     float _currentOffset = 0; ///< The current index of the animation.
     size_t _duration = 0;

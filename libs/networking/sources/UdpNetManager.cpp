@@ -16,7 +16,9 @@ net::manager::Udp::Udp(
 )
     : _socket(
         _io_ctxt,
-        asio::ip::udp::endpoint(asio::ip::make_address(addr.c_str(), _ec), port)
+        asio::ip::udp::endpoint(
+            asio::ip::make_address(addr.c_str(), _ec), asio::ip::port_type(port)
+        )
     )
 {
     if (_ec)
@@ -32,9 +34,9 @@ net::manager::Udp::Udp(
     _socket.open(asio::ip::udp::v4());
     _socket.non_blocking(true);
 
-    _others.emplace_back(
-        asio::ip::udp::endpoint(asio::ip::make_address(addr.c_str(), _ec), port)
-    );
+    _others.emplace_back(asio::ip::udp::endpoint(
+        asio::ip::make_address(addr.c_str(), _ec), asio::ip::port_type(port)
+    ));
 }
 
 net::manager::Udp::~Udp()
@@ -62,7 +64,7 @@ net::manager::Udp::receive() noexcept
             std::size_t buffSize
                 = _socket.receive_from(asio::buffer(buff), client_endpoint);
             buff.resize(buffSize);
-        } catch (std::exception &e) {
+        } catch (std::exception &) {
             break;
         }
 
