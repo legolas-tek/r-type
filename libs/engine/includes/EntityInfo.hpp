@@ -18,8 +18,6 @@ struct EntityInfo {
     int entityHeight;
     int offset;
     int frameDuration;
-    int posX;
-    int posY;
     float scale;
     std::optional<int> damage;
     std::optional<size_t> lifeTime;
