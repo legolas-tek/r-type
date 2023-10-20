@@ -70,7 +70,7 @@ void System::DamageSystem::createExplosion(Component::Position pos)
     );
     _registry.get_components<Component::Drawable>().insert_at(
         explosion, Component::Drawable(
-            EXPLOSION_INDEX ,EXPLOSION_WIDTH, EXPLOSION_HEIGHT, 2
+            EXPLOSION_INDEX ,EXPLOSION_WIDTH, EXPLOSION_HEIGHT, 3
             )
     );
     _registry.get_components<Component::Animation>().insert_at(
