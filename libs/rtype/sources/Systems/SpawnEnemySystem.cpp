@@ -7,6 +7,8 @@
 
 #include "SpawnEnemySystem.hpp"
 
+#include <random>
+
 #include "Rendering.hpp"
 
 System::SpawnEnemySystem::SpawnEnemySystem(engine::Registry &reg)
@@ -22,10 +24,14 @@ System::SpawnEnemySystem::SpawnEnemySystem(engine::Registry &reg)
 static void addEntity(engine::Registry &reg, EntityInfo entityInfo)
 {
     engine::Entity enemy(reg.get_new_entity());
-    int randomY = std::rand()
-        % static_cast<int>(
-                      rendering::system::SCREEN_HEIGHT - entityInfo.entityHeight
-        );
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    int possiblePosY = static_cast<int>(
+        rendering::system::SCREEN_HEIGHT - entityInfo.entityHeight
+    );
+    std::uniform_int_distribution<> distrib(0, possiblePosY);
+
+    int randomY = distrib(gen);
 
     // set position
     reg.get_components<Component::Position>().insert_at(
@@ -52,7 +58,10 @@ static void addEntity(engine::Registry &reg, EntityInfo entityInfo)
 
 void System::SpawnEnemySystem::addEnemy()
 {
-    int randomValue = (std::rand() % 2);
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distrib(0, 1);
+    int randomValue = distrib(gen);
 
     addEntity(_register, _entityList[randomValue]);
 }
@@ -79,7 +88,12 @@ void System::SpawnEnemySystem::operator()()
         = WAVE_START_SEC_TABLE[_waveNum + 1] - WAVE_PADDING[_waveNum];
 
     if (start_create_tick <= tick && tick <= end_create_tick) {
-        size_t random = std::rand() % (end_create_tick - start_create_tick);
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> distrib(
+            0, end_create_tick - start_create_tick
+        );
+        size_t random = distrib(gen);
         bool isInPercent = random < WAVE_ENEMY_NUM[_waveNum];
 
         if (isInPercent) {
