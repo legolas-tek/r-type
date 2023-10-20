@@ -11,8 +11,8 @@
 System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
     : _register(reg)
 {
-    EntityInfo mutalisk = { 5, 320, 72, 64, 72, 64, 10, 0, 0, 2.0f };
-    EntityInfo scourge = { 6, 155, 27, 31, 27, 31, 10, 0, 0, 2.0f };
+    EntityInfo mutalisk = { 5, 320, 72, 64, 72, 64, 10, 2.0f };
+    EntityInfo scourge = { 6, 155, 27, 31, 27, 31, 10, 2.0f };
 
     _entityList.push_back(mutalisk);
     _entityList.push_back(scourge);
