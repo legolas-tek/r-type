@@ -28,7 +28,7 @@ public:
         engine::Registry &reg, EntityInfo entityInfo, size_t startTick,
         size_t cycle, int minX, int maxX, int minY, int maxY
     );
-    ~SpawnEnemySystem() = default;
+    ~SpawnEnemySystem() override = default;
 
     void operator()() override;
 

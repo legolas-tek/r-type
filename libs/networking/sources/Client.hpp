@@ -9,6 +9,7 @@
 #define CLIENT_HPP_
 
 #include <asio.hpp>
+#include <utility>
 
 #include "Net.hpp"
 
@@ -17,14 +18,14 @@ namespace net::manager {
 class Client {
 
 public:
-    Client(asio::ip::udp::endpoint const &endpoint)
-        : _endpoint(endpoint)
+    explicit Client(asio::ip::udp::endpoint endpoint)
+        : _endpoint(std::move(endpoint))
     {
     }
 
     ~Client() = default;
 
-    asio::ip::udp::endpoint getEndpoint() const
+    [[nodiscard]] asio::ip::udp::endpoint getEndpoint() const
     {
         return _endpoint;
     }

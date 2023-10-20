@@ -17,7 +17,7 @@ namespace net {
 class CircularBuffer {
 
 public:
-    CircularBuffer(std::size_t size);
+    explicit CircularBuffer(std::size_t size);
 
     char *getWritePtr();
     std::size_t getAvailableCapacityUntilWrappingAround() const;
@@ -28,12 +28,10 @@ public:
     std::size_t getReadIndex() const;
     void resetReadIndex(std::size_t index);
 
-    char *data();
-
 public:
     class CannotReadException : public std::exception {
     public:
-        char const *what() const noexcept override;
+        [[nodiscard]] char const *what() const noexcept override;
     };
 
 private:

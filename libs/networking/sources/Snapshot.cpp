@@ -6,8 +6,6 @@
 */
 
 #include "Snapshot.hpp"
-#include "Serialization/Serializer.hpp"
-#include <cstring>
 #include <vector>
 
 net::Snapshot::Snapshot()
@@ -26,7 +24,6 @@ net::Snapshot::Snapshot(size_t tick, engine::Registry const &registry)
 
 using EntityNumber = uint32_t;
 using ComponentId = uint8_t;
-using UpdateType = bool;
 
 static void diffAdd(
     engine::Serializer &diff,
@@ -35,7 +32,7 @@ static void diffAdd(
 {
     diff.serializeTrivial(EntityNumber(it->entity));
     diff.serializeTrivial(ComponentId(it->componentId));
-    diff.serializeTrivial(UpdateType(0x01));
+    diff.serializeTrivial(true);
     diff.insert(it->data);
 }
 
@@ -46,7 +43,7 @@ static void diffRemove(
 {
     diff.serializeTrivial(EntityNumber(it->entity));
     diff.serializeTrivial(ComponentId(it->componentId));
-    diff.serializeTrivial(UpdateType(0x00));
+    diff.serializeTrivial(false);
 }
 
 void net::diffSnapshots(

@@ -36,13 +36,14 @@ public:
 
 private:
     /// Server side, contains the lobby, null on client
-    std::optional<std::reference_wrapper<net::lobby::Lobby>> _serverLobby;
+    [[maybe_unused]] std::optional<std::reference_wrapper<net::lobby::Lobby>>
+        _serverLobby;
 
 private:
     /// Client side, contains the player number (1-4), 0 on server
-    std::size_t _playerNumber = 0;
+    [[maybe_unused]] std::size_t _playerNumber = 0;
     /// Client side, contains the player hash, 0 on server
-    std::size_t _playerHash = 0;
+    [[maybe_unused]] std::size_t _playerHash = 0;
 };
 
 #endif /*! R_TYPE_GAME_HPP */

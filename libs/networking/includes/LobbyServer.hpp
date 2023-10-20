@@ -41,13 +41,12 @@ public:
      *
      * @param network The network connection to use
      */
-    LobbyRemoteClient(manager::TcpConnection &&network);
+    explicit LobbyRemoteClient(manager::TcpConnection &&network);
 
     /// Send a join success packet to the client
-    void sendJoinSuccess(std::uint8_t playerNumber, std::uint64_t playerHash);
+    void sendJoinSuccess(size_t playerNumber, std::uint64_t playerHash);
     /// Send a New Player notification to the client
-    void
-    sendNewPlayer(std::uint8_t playerNumber, std::string const &playerName);
+    void sendNewPlayer(size_t playerNumber, std::string const &playerName);
     /// Send a Game Start notification to the client
     void sendGameStart();
     /// Send an error message to the client
@@ -87,7 +86,7 @@ public:
      *
      * @param port The port to listen on
      */
-    LobbyServer(std::size_t port)
+    explicit LobbyServer(std::size_t port)
         : _server(port)
     {
     }
@@ -118,9 +117,9 @@ public:
     /// Checks for new connections and incoming packets from the clients
     void operator()() override
     {
-        auto client = _server.acceptNewClient();
-        if (client) {
-            emplaceClient(std::move(client));
+        auto newClient = _server.acceptNewClient();
+        if (newClient) {
+            emplaceClient(std::move(newClient));
         }
         for (auto &client : _clients) {
             client();

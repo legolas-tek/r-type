@@ -31,7 +31,7 @@ struct Life : engine::Serializable<Life> {
      * @param id The unique identifier for the entity.
      * @param life The life value of the entity.
      */
-    Life(int life)
+    explicit Life(int life)
         : life(life)
     {
     }

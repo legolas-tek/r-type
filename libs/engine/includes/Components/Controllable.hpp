@@ -41,7 +41,7 @@ struct Controllable : engine::Serializable<Controllable> {
     /**
      * @brief The unique identifier for the controllable entity.
      */
-    int _id = 0;
+    [[maybe_unused]] int _id = 0;
 };
 }
 

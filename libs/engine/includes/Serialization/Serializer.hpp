@@ -39,7 +39,7 @@ public:
     {
         if (str.size() > std::numeric_limits<SizeType>::max())
             throw std::runtime_error("String too long");
-        SizeType size = str.size();
+        auto size = static_cast<SizeType>(str.size());
         serializeTrivial<SizeType>(size);
         _data.resize(_offset + str.size());
         std::memcpy(_data.data() + _offset, str.data(), str.size());

@@ -6,17 +6,12 @@
 */
 
 #include "TcpServer.hpp"
-#include "TcpConnection.hpp"
 #include "TcpNetManager.hpp"
 #include "asio/error_code.hpp"
 #include "asio/io_context.hpp"
 #include "asio/ip/tcp.hpp"
 
-#include <asio.hpp>
-
-#include <cstddef>
 #include <memory>
-#include <thread>
 
 namespace net::manager {
 

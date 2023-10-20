@@ -12,7 +12,7 @@
 #include <vector>
 
 net::manager::Udp::Udp(
-    net::ServerNetManager, std::string addr, std::size_t port
+    net::ServerNetManager, std::string const &addr, std::size_t port
 )
     : _socket(
         _io_ctxt,
@@ -25,7 +25,7 @@ net::manager::Udp::Udp(
 }
 
 net::manager::Udp::Udp(
-    net::ClientNetManager, std::string addr, std::size_t port
+    net::ClientNetManager, std::string const &addr, std::size_t port
 )
     : _socket(_io_ctxt)
 {
@@ -59,8 +59,7 @@ net::manager::Udp::receive() noexcept
         net::Buffer buff(USHRT_MAX, std::byte(0x00));
 
         try {
-            std::size_t buffSize = 0;
-            buffSize
+            std::size_t buffSize
                 = _socket.receive_from(asio::buffer(buff), client_endpoint);
             buff.resize(buffSize);
         } catch (std::exception &e) {
@@ -78,7 +77,7 @@ net::manager::Udp::receive() noexcept
 
         _others.emplace_back(client_endpoint);
         packets.emplace_back(buff, _others.back());
-    } while (1);
+    } while (true);
 
     return packets;
 }

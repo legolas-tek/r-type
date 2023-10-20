@@ -19,7 +19,7 @@ namespace System {
 /// an other entity Hitbox
 class AnimationSystem : public ISystem {
 public:
-    AnimationSystem(engine::Registry &registry);
+    explicit AnimationSystem(engine::Registry &registry);
     // ~AnimationSystem();
     void operator()() override;
 

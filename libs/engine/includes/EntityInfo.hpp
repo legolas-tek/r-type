@@ -11,12 +11,12 @@
 #include <optional>
 
 struct EntityInfo {
-    int textureIndex;
-    int textureWidth;
-    int textureHeight;
-    int entityWidth;
-    int entityHeight;
-    int offset;
+    size_t textureIndex;
+    float textureWidth;
+    float textureHeight;
+    float entityWidth;
+    float entityHeight;
+    float offset;
     int frameDuration;
     float scale;
     std::optional<int> damage;

@@ -55,9 +55,9 @@ void System::AttackSystem::createLaserEntity(engine::Entity const attacker_index
         attack_entity_pos._x
             = attacker_pos._x - (attacker_collision->_width / 2) - 1;
     }
-    positions.emplace_at(attack_entity, std::move(attack_entity_pos));
+    positions.emplace_at(attack_entity, attack_entity_pos);
     _register.get_components<Component::Velocity>().emplace_at(
-        attack_entity, std::move(velocity)
+        attack_entity, velocity
     );
     _register.get_components<Component::HitBox>().insert_at(
         attack_entity, Component::HitBox(LASER_WIDTH, LASER_HEIGHT)
