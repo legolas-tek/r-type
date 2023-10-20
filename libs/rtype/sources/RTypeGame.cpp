@@ -7,16 +7,10 @@
 
 #include "Game.hpp"
 
-#include "Components/Animation.hpp"
-#include "Components/Collision.hpp"
-#include "Components/Controllable.hpp"
-#include "Components/Drawable.hpp"
-#include "Components/HitBox.hpp"
-#include "Components/Position.hpp"
-#include "Components/Velocity.hpp"
-
 #include "Systems/AnimationSystem.hpp"
 #include "Systems/AttackSystem.hpp"
+#include "Systems/CollisionsSystem.hpp"
+#include "Systems/DamageSystem.hpp"
 #include "Systems/LifeTimeSystem.hpp"
 #include "Systems/MoveSystem.hpp"
 #include "Systems/NetworkSystem.hpp"
@@ -38,6 +32,8 @@ void RTypeGame::registerAllComponents(engine::Registry &reg)
     reg.register_component<Component::HitBox>();
     reg.register_component<Component::FireRate>();
     reg.register_component<Component::LifeTime>();
+    reg.register_component<Component::Damage>();
+    reg.register_component<Component::Life>();
 }
 
 void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
@@ -47,6 +43,16 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
     );
     reg.add_system<System::LifeTimeSystem>(
         reg.get_components<Component::LifeTime>(), reg
+    );
+    reg.add_system<System::DamageSystem>(
+        reg.get_components<Component::Damage>(),
+        reg.get_components<Component::Life>(),
+        reg.get_components<Component::Collision>(), reg
+    );
+    reg.add_system<System::CollisionsSystem>(
+        reg.get_components<Component::Position>(),
+        reg.get_components<Component::HitBox>(),
+        reg.get_components<Component::Collision>()
     );
     reg.add_system<rtype::NetworkServerSystem>(reg, 4242);
 }
@@ -90,6 +96,7 @@ void RTypeGame::initScene(engine::Registry &reg)
     engine::Entity midground(reg.get_new_entity());
     engine::Entity foreground(reg.get_new_entity());
     engine::Entity scarfy(reg.get_new_entity());
+    engine::Entity dummy(reg.get_new_entity());
 
     // ==================== set positions ====================
     // background
@@ -107,6 +114,10 @@ void RTypeGame::initScene(engine::Registry &reg)
     // player
     reg.get_components<Component::Position>().insert_at(
         scarfy, std::move(Component::Position(150, 150, 1))
+    );
+    // test dummy
+    reg.get_components<Component::Position>().insert_at(
+        dummy, Component::Position(500, 150, 1)
     );
 
     // ==================== set velocity ====================
@@ -126,10 +137,13 @@ void RTypeGame::initScene(engine::Registry &reg)
     reg.get_components<Component::Drawable>().insert_at(
         foreground, std::move(Component::Drawable(2, 512.0f, 192.0f, 2.0f))
     );
-
     // player
     reg.get_components<Component::Drawable>().insert_at(
         scarfy, std::move(Component::Drawable(3, 128.0f, 128.0f, 1.0f))
+    );
+    // test dummy
+    reg.get_components<Component::Drawable>().insert_at(
+        dummy, Component::Drawable(3, 128.0f, 128.0f, 1.0f)
     );
 
     // ==================== set Animation ====================
@@ -153,6 +167,9 @@ void RTypeGame::initScene(engine::Registry &reg)
     reg.get_components<Component::Collision>().insert_at(
         scarfy, std::move(Component::Collision(128, 128))
     );
+    reg.get_components<Component::Collision>().insert_at(
+        dummy, Component::Collision(128, 128)
+    );
 
     // ==================== set FireRate ====================
     reg.get_components<Component::FireRate>().insert_at(
@@ -161,11 +178,16 @@ void RTypeGame::initScene(engine::Registry &reg)
 
     // ==================== set LifeTime ====================
     // register you're LifeTime components
+
+    // ==================== set Life ========================
+    reg.get_components<Component::Life>().insert_at(dummy, Component::Life(10));
 }
 
 std::unique_ptr<engine::IGame> RTypeGame::createLobby()
 {
-    return std::make_unique<RTypeLobby>();
+    // TODO: fix the lobby before changing this line
+    // return std::make_unique<RTypeLobby>();
+    return nullptr;
 }
 
 engine::IGame *createGame()
