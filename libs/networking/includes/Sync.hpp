@@ -9,9 +9,11 @@
 #define SYNC_HPP_
 
 #include <array>
+#include <functional>
 #include <memory>
 
 #include "ISystem.hpp"
+#include "Lobby.hpp"
 #include "Registry.hpp"
 
 #include "Net.hpp"
@@ -44,14 +46,20 @@ public:
      * @param registry the engine registry containing the game state
      * @param port the server port to connect to
      */
-    Sync(net::ClientNetManager, engine::Registry &registry, int port);
+    Sync(
+        net::ClientNetManager, engine::Registry &registry, int port,
+        size_t playerNumber, std::size_t playerHash
+    );
     /**
      * @brief Construct a new Sync object for the server
      *
      * @param registry the engine registry containing the game state
      * @param port the port use to expose the server
      */
-    Sync(net::ServerNetManager, engine::Registry &registry, int port);
+    Sync(
+        net::ServerNetManager, engine::Registry &registry, int port,
+        std::vector<net::lobby::RemoteClient> const &lobby
+    );
     /**
      * @brief Destroy the Sync object
      */
@@ -110,6 +118,14 @@ private:
      */
     net::Snapshot &find_last_ack(std::size_t client_index);
 
+    /**
+     * @brief Get a Client object, from its hash
+     *
+     * @param hash the hash of the client
+     * @return net::manager::Client* a pointer to the client, or nullptr if none
+     */
+    manager::Client *getClientWithHash(std::size_t hash);
+
 protected:
     engine::Registry &_registry; ///< the engine registry
 
@@ -122,6 +138,9 @@ private:
     std::size_t _rd_index; ///< The actual index to read the _snapshots
 
     net::Snapshot _dummy; ///< The dummy packet to use in special case
+
+    std::size_t _playerNumber; ///< Our player number, or 0 if server
+    std::size_t _playerHash; ///< Our player hash, or 0 if server
 };
 
 }

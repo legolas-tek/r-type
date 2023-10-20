@@ -14,25 +14,17 @@
 
 namespace net::manager {
 
-class Client {
-
-public:
-    Client(asio::ip::udp::endpoint const &endpoint)
-        : _endpoint(endpoint)
-    {
-    }
-
-    ~Client() = default;
-
-    asio::ip::udp::endpoint getEndpoint() const
-    {
-        return _endpoint;
-    }
-
-private:
-    asio::ip::udp::endpoint _endpoint;
+struct Client {
+    /// The player name
+    std::string _playerName;
+    /// The player number
+    std::size_t _playerNumber;
+    /// The player hash, for securily identify the player
+    std::size_t _playerHash;
+    /// The endpoint of the client, which is the last known address of the
+    /// client
+    std::optional<asio::ip::udp::endpoint> _endpoint;
 };
-
 }
 
 #endif /* CLIENT_HPP_ */

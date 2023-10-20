@@ -127,6 +127,16 @@ public:
         }
     }
 
+    std::vector<RemoteClient> const &getClients() const
+    {
+        return _clients;
+    }
+
+    std::vector<RemoteClient> &getClients()
+    {
+        return _clients;
+    }
+
     /// Emplaces a new client
     /// @param connection The connection to use
     /// The basic implementation is:

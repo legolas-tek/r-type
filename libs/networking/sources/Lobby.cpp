@@ -67,3 +67,18 @@ std::size_t net::lobby::Lobby::getCurrentPlayerCount() const
     }
     return count;
 }
+
+std::string const &net::lobby::RemoteClient::getPlayerName() const
+{
+    return _playerName;
+}
+
+size_t net::lobby::RemoteClient::getPlayerNumber() const
+{
+    return _playerNumber;
+}
+
+size_t net::lobby::RemoteClient::getPlayerHash() const
+{
+    return _playerHash;
+}

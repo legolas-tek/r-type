@@ -14,6 +14,7 @@ namespace engine {
 
 class IGame {
 public:
+    virtual ~IGame() = default;
     /**
      * Register all of the game's components into the registry.
      */

@@ -30,7 +30,8 @@ public:
     ~Udp();
 
     void send(net::Buffer const &cmd, net::manager::Client const &client);
-    std::vector<std::pair<net::Buffer, net::manager::Client>>
+
+    std::vector<std::pair<net::Buffer, asio::ip::udp::endpoint>>
     receive() noexcept;
     std::vector<Client> &getOthers();
 

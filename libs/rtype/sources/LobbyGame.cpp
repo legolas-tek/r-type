@@ -32,3 +32,16 @@ void RTypeLobby::registerAdditionalServerSystems(engine::Registry &reg)
         reg.add_system<net::lobby::Lobby>(4242, 4)
     );
 }
+
+RTypeLobby::RTypeLobby(RTypeGame &game)
+    : _game(game)
+{
+}
+
+RTypeLobby::~RTypeLobby()
+{
+    _game._playerHash = _playerHash;
+    _game._playerNumber = _playerNumber;
+    if (_serverLobby)
+        _game._serverClients = std::move(_serverLobby->get().getClients());
+}

@@ -15,7 +15,10 @@ namespace net::system {
 class NetworkServer : public Sync {
 
 public:
-    NetworkServer(engine::Registry &registry, int port);
+    NetworkServer(
+        engine::Registry &registry, int port,
+        std::vector<net::lobby::RemoteClient> const &lobby
+    );
     ~NetworkServer();
 
 private:

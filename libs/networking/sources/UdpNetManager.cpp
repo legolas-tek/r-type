@@ -6,6 +6,8 @@
 */
 
 #include "UdpNetManager.hpp"
+#include "Net.hpp"
+#include "asio/ip/detail/endpoint.hpp"
 
 #include <asio/ip/tcp.hpp>
 #include <asio/read_until.hpp>
@@ -34,6 +36,7 @@ net::manager::Udp::Udp(
     _socket.non_blocking(true);
 
     _others.emplace_back(
+        "server", 0, 0,
         asio::ip::udp::endpoint(asio::ip::make_address(addr.c_str(), _ec), port)
     );
 }
@@ -47,38 +50,26 @@ void net::manager::Udp::send(
     net::Buffer const &cmd, net::manager::Client const &client
 )
 {
-    _socket.send_to(asio::buffer(cmd.data(), cmd.size()), client.getEndpoint());
+    if (auto endpoint = client._endpoint) {
+        _socket.send_to(asio::buffer(cmd.data(), cmd.size()), *endpoint);
+    }
 }
 
-std::vector<std::pair<net::Buffer, net::manager::Client>>
+std::vector<std::pair<net::Buffer, asio::ip::udp::endpoint>>
 net::manager::Udp::receive() noexcept
 {
     asio::ip::udp::endpoint client_endpoint;
-    std::vector<std::pair<net::Buffer, net::manager::Client>> packets;
+    std::vector<std::pair<net::Buffer, asio::ip::udp::endpoint>> packets;
+    asio::error_code ec;
 
     do {
         net::Buffer buff(USHRT_MAX, std::byte(0x00));
-
-        try {
-            std::size_t buffSize = 0;
-            buffSize
-                = _socket.receive_from(asio::buffer(buff), client_endpoint);
-            buff.resize(buffSize);
-        } catch (std::exception &e) {
+        std::size_t buffSize
+            = _socket.receive_from(asio::buffer(buff), client_endpoint, 0, ec);
+        if (ec)
             break;
-        }
-
-        auto it = find_if(_others.begin(), _others.end(), [&](Client &i) {
-            return i.getEndpoint() == client_endpoint;
-        });
-
-        if (it != _others.end()) {
-            packets.emplace_back(buff, *it);
-            continue;
-        }
-
-        _others.emplace_back(client_endpoint);
-        packets.emplace_back(buff, _others.back());
+        buff.resize(buffSize);
+        packets.emplace_back(std::move(buff), client_endpoint);
     } while (1);
 
     return packets;
