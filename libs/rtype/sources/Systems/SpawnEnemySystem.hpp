@@ -13,6 +13,7 @@
 #include "ISystem.hpp"
 
 #include <iostream>
+#include <random>
 
 #include "Components/Animation.hpp"
 #include "Components/Drawable.hpp"
@@ -43,6 +44,9 @@ private:
     int _maxX;
     int _minY;
     int _maxY;
+
+    std::random_device rd;
+    std::mt19937 _gen;
 };
 }
 

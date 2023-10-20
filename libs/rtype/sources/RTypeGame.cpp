@@ -91,18 +91,18 @@ void RTypeGame::registerAdditionalSystems(engine::Registry &reg)
 void RTypeGame::initAssets(engine::Registry &reg)
 {
     reg._assets_paths.emplace_back(
-        "./client/assets/images/cyberpunk_street_background.png"
+        "./assets/images/cyberpunk_street_background.png"
     );
     reg._assets_paths.emplace_back(
-        "./client/assets/images/cyberpunk_street_midground.png"
+        "./assets/images/cyberpunk_street_midground.png"
     );
     reg._assets_paths.emplace_back(
-        "./client/assets/images/cyberpunk_street_foreground.png"
+        "./assets/images/cyberpunk_street_foreground.png"
     );
-    reg._assets_paths.push_back("./client/assets/scarfy.png");
-    reg._assets_paths.push_back("./client/assets/Plasma_Beam.png");
-    reg._assets_paths.push_back("./client/assets/mutalisk.png");
-    reg._assets_paths.push_back("./client/assets/scourge.png");
+    reg._assets_paths.push_back("./assets/scarfy.png");
+    reg._assets_paths.push_back("./assets/Plasma_Beam.png");
+    reg._assets_paths.push_back("./assets/mutalisk.png");
+    reg._assets_paths.push_back("./assets/scourge.png");
 }
 
 void RTypeGame::initScene(engine::Registry &reg)

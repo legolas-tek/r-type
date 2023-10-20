@@ -21,8 +21,7 @@ System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
 void System::WaveManagerSystem::operator()()
 {
     size_t tick = _register.getTick();
-    size_t maxWave
-        = sizeof(WAVE_START_SEC_TABLE) / sizeof(WAVE_START_SEC_TABLE[0]);
+    size_t maxWave = WAVE_START_SEC_TABLE.size();
 
     if (_waveNum == maxWave) {
         std::cout << "end wave" << std::endl;

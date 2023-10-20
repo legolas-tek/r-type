@@ -7,8 +7,6 @@
 
 #include "SpawnEnemySystem.hpp"
 
-#include <random>
-
 #include "Rendering.hpp"
 
 System::SpawnEnemySystem::SpawnEnemySystem(
@@ -23,6 +21,7 @@ System::SpawnEnemySystem::SpawnEnemySystem(
     , _maxX(maxX)
     , _minY(minY)
     , _maxY(maxY)
+    , _gen(rd())
 {
 }
 
@@ -33,14 +32,12 @@ void System::SpawnEnemySystem::operator()()
     }
 
     engine::Entity enemy(_register.get_new_entity());
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> distribX(_minX, _maxY);
+    std::uniform_int_distribution<> distribX(_minX, _maxX);
     std::uniform_int_distribution<> distribY(_minY, _maxY);
 
-    int randomY = distribY(gen);
+    int randomX = distribX(_gen);
+    int randomY = distribY(_gen);
 
-    std::cout << randomY << std::endl;
     // set position
     _register.get_components<Component::Position>().insert_at(
         enemy, std::move(Component::Position(700, randomY, 0))
