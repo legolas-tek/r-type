@@ -21,6 +21,7 @@
 #include "Systems/MoveSystem.hpp"
 #include "Systems/NetworkSystem.hpp"
 #include "Systems/SpawnEnemySystem.hpp"
+#include "Systems/WaveManagerSystem.hpp"
 
 #include "Key.hpp"
 #include "NetworkClientSystem.hpp"
@@ -53,7 +54,7 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
 void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
 {
     reg.add_system<System::AnimationSystem>(reg);
-    reg.add_system<System::SpawnEnemySystem>(reg);
+    reg.add_system<System::WaveManagerSystem>(reg);
     reg.add_system<rendering::system::Rendering>(reg);
     reg.add_system<rendering::system::Key>(reg);
     reg.add_system<net::system::NetworkClient>(reg, 4242);
