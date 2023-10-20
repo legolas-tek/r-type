@@ -6,7 +6,6 @@
 */
 
 #include <chrono>
-#include <iostream>
 
 #include "GameLoop.hpp"
 

@@ -8,7 +8,6 @@
 #ifndef RENDERING_HPP
 #define RENDERING_HPP
 
-#include <iostream>
 #include <unordered_map>
 
 #include "Entity.hpp"
