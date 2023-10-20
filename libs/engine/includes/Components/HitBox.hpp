@@ -10,7 +10,6 @@
 
 #include <cstddef>
 #include <utility>
-#include <optional>
 
 #include "Serialization/Serializable.hpp"
 
