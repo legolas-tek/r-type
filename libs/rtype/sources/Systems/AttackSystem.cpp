@@ -7,6 +7,7 @@
 
 #include "Systems/AttackSystem.hpp"
 
+#include "Components/Animation.hpp"
 #include "Components/Collision.hpp"
 #include "Components/Controllable.hpp"
 #include "Components/Damage.hpp"
@@ -15,7 +16,6 @@
 #include "Components/LifeTime.hpp"
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
-#include "Components/Animation.hpp"
 
 System::AttackSystem::AttackSystem(
     SparseArray<Component::FireRate> &fireRates, engine::Registry &reg
@@ -63,10 +63,11 @@ void System::AttackSystem::createLaserEntity(engine::Entity const attacker_index
         attack_entity, Component::HitBox(LASER_WIDTH, LASER_HEIGHT)
     );
     _register.get_components<Component::Animation>().insert_at(
-        attack_entity, Component::Animation(
-            LASER_WIDTH * LASER_FRAMES, LASER_HEIGHT,
-            LASER_WIDTH, LASER_HEIGHT, LASER_WIDTH, 10
-            )
+        attack_entity,
+        Component::Animation(
+            LASER_WIDTH * LASER_FRAMES, LASER_HEIGHT, LASER_WIDTH, LASER_HEIGHT,
+            LASER_WIDTH, 10
+        )
     );
     _register.get_components<Component::Drawable>().insert_at(
         attack_entity,

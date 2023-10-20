@@ -17,29 +17,28 @@
 #include "Components/Life.hpp"
 #include "Components/Position.hpp"
 
-
 namespace System {
 
 /// @brief This system allows entity with the component damage to deal damage
 /// on collision to entitys with the component life
 class DamageSystem : public ISystem {
-/// @brief The width of the explosion sprite
-static inline constexpr int EXPLOSION_WIDTH = 15;
-/// @brief The height of the explosion sprite
-static inline constexpr int EXPLOSION_HEIGHT = 14;
-/// @brief The index to find the explosion sprite
-static inline constexpr int EXPLOSION_INDEX = 5;
-/// @brief The number of frames for the explosion animation
-static inline constexpr int EXPLOSION_FRAMES = 6;
+    /// @brief The width of the explosion sprite
+    static inline constexpr int EXPLOSION_WIDTH = 15;
+    /// @brief The height of the explosion sprite
+    static inline constexpr int EXPLOSION_HEIGHT = 14;
+    /// @brief The index to find the explosion sprite
+    static inline constexpr int EXPLOSION_INDEX = 5;
+    /// @brief The number of frames for the explosion animation
+    static inline constexpr int EXPLOSION_FRAMES = 6;
 
-/// @brief The width of the big explosion sprite
-static inline constexpr int BIG_EX_WIDTH = 32;
-/// @brief The height of the big explosion sprite
-static inline constexpr int BIG_EX_HEIGHT = 31;
-/// @brief The index to find the big explosion sprite
-static inline constexpr int BIG_EX_INDEX = 10;
-/// @brief The number of frames for the big explosion animation
-static inline constexpr int BIG_EX_FRAMES = 6;
+    /// @brief The width of the big explosion sprite
+    static inline constexpr int BIG_EX_WIDTH = 32;
+    /// @brief The height of the big explosion sprite
+    static inline constexpr int BIG_EX_HEIGHT = 31;
+    /// @brief The index to find the big explosion sprite
+    static inline constexpr int BIG_EX_INDEX = 10;
+    /// @brief The number of frames for the big explosion animation
+    static inline constexpr int BIG_EX_FRAMES = 6;
 
 public:
     /// @brief constructs an instance of a DamageSystem class
