@@ -20,7 +20,7 @@ System::AnimationSystem::AnimationSystem(engine::Registry &registry)
 void System::AnimationSystem::operator()()
 {
     auto &animation_list = _registry.get_components<Component::Animation>();
-    auto drawable_list = _registry.get_components<Component::Drawable>();
+    auto &drawable_list = _registry.get_components<Component::Drawable>();
 
     for (auto it = animation_list.begin(); it != animation_list.end(); ++it) {
         auto &animationElement = animation_list[it.get_entity()].value();

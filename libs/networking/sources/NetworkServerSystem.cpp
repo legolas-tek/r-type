@@ -17,8 +17,9 @@ net::system::NetworkServer::~NetworkServer()
 }
 
 bool net::system::NetworkServer::canUpdate(
-    engine::Entity entity, [[maybe_unused]] uint8_t component_id,
-    [[maybe_unused]] std::byte const *buffer
+    [[maybe_unused]] engine::Entity entity,
+    [[maybe_unused]] uint8_t component_id,
+    [[maybe_unused]] engine::Deserializer deser
 )
 {
     return false;
