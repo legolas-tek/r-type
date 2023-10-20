@@ -29,7 +29,7 @@ inline constexpr int SCREEN_WIDTH = 800;
 /*!
  * \brief Constant integer value representing the screen height.
  */
-constexpr int SCREEN_HEIGHT = 384;
+inline constexpr int SCREEN_HEIGHT = 384;
 
 /*!
  * \class Rendering
