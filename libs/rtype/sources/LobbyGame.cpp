@@ -7,8 +7,10 @@
 
 #include "Game.hpp"
 
+#include "Components/Animation.hpp"
 #include "Components/Drawable.hpp"
 #include "Components/Position.hpp"
+#include "Components/Text.hpp"
 
 #include "Key.hpp"
 #include "Lobby.hpp"
@@ -19,6 +21,8 @@ void RTypeLobby::registerAllComponents(engine::Registry &reg)
 {
     reg.register_component<Component::Position>();
     reg.register_component<Component::Drawable>();
+    reg.register_component<Component::Animation>();
+    reg.register_component<Component::Text>();
 }
 
 void RTypeLobby::registerAdditionalClientSystems(engine::Registry &reg)
