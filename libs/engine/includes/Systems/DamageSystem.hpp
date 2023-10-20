@@ -15,7 +15,6 @@
 #include "Components/Collision.hpp"
 #include "Components/Damage.hpp"
 #include "Components/Life.hpp"
-#include "Components/Position.hpp"
 
 
 namespace System {
@@ -23,23 +22,6 @@ namespace System {
 /// @brief This system allows entity with the component damage to deal damage
 /// on collision to entitys with the component life
 class DamageSystem : public ISystem {
-/// @brief The width of the explosion sprite
-static inline constexpr int EXPLOSION_WIDTH = 15;
-/// @brief The height of the explosion sprite
-static inline constexpr int EXPLOSION_HEIGHT = 14;
-/// @brief The index to find the explosion sprite
-static inline constexpr int EXPLOSION_INDEX = 5;
-/// @brief The number of frames for the explosion animation
-static inline constexpr int EXPLOSION_FRAMES = 6;
-
-/// @brief The width of the big explosion sprite
-static inline constexpr int BIG_EX_WIDTH = 32;
-/// @brief The height of the big explosion sprite
-static inline constexpr int BIG_EX_HEIGHT = 31;
-/// @brief The index to find the big explosion sprite
-static inline constexpr int BIG_EX_INDEX = 10;
-/// @brief The number of frames for the big explosion animation
-static inline constexpr int BIG_EX_FRAMES = 6;
 
 public:
     /// @brief constructs an instance of a DamageSystem class
@@ -53,6 +35,7 @@ public:
         engine::Registry &registry
     );
 
+    /// @brief applys the logic of the system
     void operator()() override;
 
 private:
@@ -65,16 +48,6 @@ private:
     /// with the colliding entity damages component
     /// @param collidedEntity the entity wich receives the damages
     void damageEntity(engine::Entity const collidedEntity);
-
-    /// @brief creates an explosion entity that represents the impact
-    /// of the laser
-    /// @param pos The position of the explosion
-    void createExplosion(Component::Position pos);
-
-    /// @brief creates an explosion entity that represents another entity
-    /// exploding
-    /// @param pos The position of the explosion
-    void createBigExplosion(Component::Position pos);
 
     /// @brief A ref to a Damage components SparseArray
     SparseArray<Component::Damage> &_damages;

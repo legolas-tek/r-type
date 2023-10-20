@@ -10,6 +10,7 @@
 
 #include <cstddef>
 #include <utility>
+#include <optional>
 
 #include "Serialization/Serializable.hpp"
 
@@ -52,6 +53,8 @@ struct HitBox : engine::Serializable<HitBox> {
      * @brief The height of the hitbox.
      */
     float _height = 0;
+
+    bool isColliding = false;
 };
 }
 

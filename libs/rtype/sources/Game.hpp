@@ -43,7 +43,7 @@ static inline constexpr int SHOOT_ENNEMY_F = 4;
 static inline constexpr int SHOOT_ENNEMY_I = 7;
 
 /// @brief The Width of the borders sprite
-static inline constexpr int BORDERS_W = 418;
+static inline constexpr int BORDERS_W = 960;
 /// @brief The Height of the borders sprite
 static inline constexpr int BORDERS_H = 8;
 /// @brief The number of frames for the borders animation

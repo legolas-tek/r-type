@@ -7,23 +7,14 @@
 
 #include "Game.hpp"
 
-#include "Components/Animation.hpp"
-#include "Components/Collision.hpp"
-#include "Components/Controllable.hpp"
-#include "Components/Damage.hpp"
-#include "Components/Drawable.hpp"
-#include "Components/FireRate.hpp"
-#include "Components/HitBox.hpp"
-#include "Components/Life.hpp"
-#include "Components/LifeTime.hpp"
-#include "Components/Position.hpp"
 #include "Components/Text.hpp"
-#include "Components/Velocity.hpp"
 
 #include "Systems/AnimationSystem.hpp"
 #include "Systems/AttackSystem.hpp"
 #include "Systems/CollisionsSystem.hpp"
 #include "Systems/DamageSystem.hpp"
+#include "Systems/DeathSystem.hpp"
+#include "Systems/DeathAnimationManager.hpp"
 #include "Systems/LifeTimeSystem.hpp"
 #include "Systems/MoveSystem.hpp"
 #include "Systems/NetworkSystem.hpp"
@@ -50,6 +41,11 @@ void RTypeGame::registerAllComponents(engine::Registry &reg)
 
 void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
 {
+    reg.add_system<System::CollisionsSystem>(
+        reg.get_components<Component::Position>(),
+        reg.get_components<Component::HitBox>(),
+        reg.get_components<Component::Collision>()
+    );
     reg.add_system<System::AttackSystem>(
         reg.get_components<Component::FireRate>(), reg
     );
@@ -61,16 +57,45 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
         reg.get_components<Component::Life>(),
         reg.get_components<Component::Collision>(), reg
     );
-    reg.add_system<System::CollisionsSystem>(
-        reg.get_components<Component::Position>(),
+    reg.add_system<System::DeathAnimationManager>(
+        reg.get_components<Component::Life>(),
         reg.get_components<Component::HitBox>(),
-        reg.get_components<Component::Collision>()
+        reg
+    );
+    reg.add_system<System::DeathSystem>(
+        reg.get_components<Component::Life>(),
+        reg
     );
     reg.add_system<rtype::NetworkServerSystem>(reg, 4242);
 }
 
 void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
 {
+        reg.add_system<System::CollisionsSystem>(
+        reg.get_components<Component::Position>(),
+        reg.get_components<Component::HitBox>(),
+        reg.get_components<Component::Collision>()
+    );
+    reg.add_system<System::AttackSystem>(
+        reg.get_components<Component::FireRate>(), reg
+    );
+    reg.add_system<System::LifeTimeSystem>(
+        reg.get_components<Component::LifeTime>(), reg
+    );
+    reg.add_system<System::DamageSystem>(
+        reg.get_components<Component::Damage>(),
+        reg.get_components<Component::Life>(),
+        reg.get_components<Component::Collision>(), reg
+    );
+    reg.add_system<System::DeathAnimationManager>(
+        reg.get_components<Component::Life>(),
+        reg.get_components<Component::HitBox>(),
+        reg
+    );
+    reg.add_system<System::DeathSystem>(
+        reg.get_components<Component::Life>(),
+        reg
+    );
     reg.add_system<System::AnimationSystem>(reg);
     reg.add_system<rendering::system::Rendering>(reg);
     reg.add_system<rendering::system::Key>(reg);

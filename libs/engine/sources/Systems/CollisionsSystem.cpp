@@ -62,6 +62,7 @@ void System::CollisionsSystem::checkCollisions(size_t index)
                 pos.value(), _collisions[i].value()
             )) {
             it->value()._collidingEntity = engine::Entity(index);
+            _hitboxes[index]->isColliding = true;
         }
     }
 }

@@ -28,4 +28,5 @@ target_sources (rtype
     ./sources/LobbyGame.cpp
     ./sources/Systems/AttackSystem.cpp
     ./sources/Systems/NetworkSystem.cpp
+    ./sources/Systems/DeathAnimationManager.cpp
 )
