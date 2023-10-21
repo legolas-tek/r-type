@@ -11,9 +11,9 @@
 Here you will find an R-Type game, also a complete networking system but mostly, <br/>**a complete open source game engine (ECS)** 🫨
 <div/>
 
-<hr/>
-
 <div align="left">
+
+<br/>
 
 # PELAB's R-Type and Game Engine 🚀
 
@@ -27,9 +27,9 @@ Also, there are a plenty of work to do concerning the other features of the R-Ty
 
 And many other things...
 
+<br/>
 
 ## Needed dependencies ⚠️
-<hr/>
 
 This project will use dependencies of different kinds, some are basics others are more specific
 
@@ -63,9 +63,9 @@ For macOS
 brew install git cmake
 
 ```
+<br/>
 
 ## Build the project 🛠️
-<hr/>
 
 After installing the necessary dependencies, in order to build the project, use cmake.
 
@@ -119,9 +119,9 @@ Then, you can  finally build
 cmake --build build
 ```
 
+<br/>
 
 ## Documentation 📚
-<hr/>
 
 Added to the developper documentation, some other documentation is available on our Github Wiki.
 
@@ -132,9 +132,9 @@ Added to the developper documentation, some other documentation is available on 
 
 And some more available on the wiki...
 
+<br/>
 
 ## Contributing 👨‍🔧
-<hr/>
 
 Contributions are always welcome!
 
