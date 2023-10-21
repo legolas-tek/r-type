@@ -11,6 +11,7 @@ System::ShootSoundSystem::ShootSoundSystem(engine::Registry &reg)
     : _register(reg)
 {
     _sound = LoadSound(System::SoundManagerSystem::SHOOT_LASER_PATH);
+    SetSoundVolume(_sound, 0.1f);
 }
 
 bool System::ShootSoundSystem::isAbleToAttack(Component::FireRate &fire_rate)

@@ -6,6 +6,7 @@
 */
 
 #include "SoundManagerSystem.hpp"
+#include "SoundSystem/ExplosionSoundSystem.hpp"
 #include "SoundSystem/ShootSoundSystem.hpp"
 
 System::SoundManagerSystem::SoundManagerSystem(engine::Registry &reg)
@@ -15,9 +16,11 @@ System::SoundManagerSystem::SoundManagerSystem(engine::Registry &reg)
     _music = LoadMusicStream(WAVE1_MUSIC_PATH);
     _music.looping = true;
 
+    SetMusicVolume(_music, 0.1f);
     PlayMusicStream(_music);
 
     add_system<System::ShootSoundSystem>(_register);
+    add_system<System::ExplosionSoundSystem>(_register);
 }
 
 System::SoundManagerSystem::~SoundManagerSystem()

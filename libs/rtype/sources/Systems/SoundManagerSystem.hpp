@@ -13,8 +13,7 @@
 
 #include <raylib.h>
 
-#include <iostream>
-
+// TODO: docu => avant Dead et apres Damage
 namespace System {
 
 class SoundManagerSystem : public ISystem {

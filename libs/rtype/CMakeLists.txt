@@ -31,6 +31,7 @@ target_sources (rtype
     ./sources/Systems/SoundManagerSystem.cpp
     ./sources/Systems/WaveManagerSystem.cpp
     ./sources/Systems/NetworkSystem.cpp
-    ./sources/Systems/SoundSystem/ShootSoundSystem.cpp
     ./sources/Systems/DeathAnimationManager.cpp
+    ./sources/Systems/SoundSystem/ShootSoundSystem.cpp
+    ./sources/Systems/SoundSystem/ExplosionSoundSystem.cpp
 )

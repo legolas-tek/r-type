@@ -65,6 +65,7 @@ void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
         reg.get_components<Component::Life>(),
         reg.get_components<Component::Collision>(), reg
     );
+    reg.add_system<System::SoundManagerSystem>(reg);
     reg.add_system<System::DeathAnimationManager>(
         reg.get_components<Component::Life>(),
         reg.get_components<Component::Collision>(),
@@ -74,7 +75,6 @@ void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
         reg.get_components<Component::Life>(), reg
     );
     reg.add_system<System::AnimationSystem>(reg);
-    reg.add_system<System::SoundManagerSystem>(reg);
     reg.add_system<System::WaveManagerSystem>(reg);
     reg.add_system<rendering::system::Rendering>(reg);
     reg.add_system<rendering::system::Key>(reg);
