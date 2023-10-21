@@ -26,11 +26,6 @@ rendering::system::Rendering::Rendering(engine::Registry &registry)
         _registry.get_components<Component::Text>(),
         _registry.get_components<Component::Position>()
     );
-    addSystem<rendering::system::Focusable>(
-        _registry.get_components<Component::Focusable>(),
-        _registry.get_components<Component::HitBox>(),
-        _registry.get_components<Component::Position>()
-    );
 }
 
 rendering::system::Rendering::~Rendering()

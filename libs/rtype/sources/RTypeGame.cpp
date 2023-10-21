@@ -49,7 +49,6 @@ void RTypeGame::registerAllComponents(engine::Registry &reg)
     reg.register_component<Component::Damage>();
     reg.register_component<Component::Life>();
     reg.register_component<Component::Text>();
-    reg.register_component<Component::Focusable>();
 }
 
 void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)

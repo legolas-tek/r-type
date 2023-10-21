@@ -16,7 +16,7 @@ struct Focusable : engine::Serializable<Focusable> {
     /// @brief construct an instance of a Focusable component
     /// @param isFocusable The focusable state of the entity
     explicit Focusable(bool isFocusable)
-        : isFocusable(isFocusable)
+        : isFocused(isFocusable)
     {
     }
 
@@ -24,7 +24,7 @@ struct Focusable : engine::Serializable<Focusable> {
     Focusable() = default;
 
     /// @brief The focusable state of the entity
-    bool isFocusable = false;
+    bool isFocused = false;
 };
 }
 
