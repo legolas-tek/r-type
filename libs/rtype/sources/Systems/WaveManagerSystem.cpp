@@ -49,7 +49,7 @@ void System::WaveManagerSystem::operator()()
         if (_waveNum == 1) {
             add_system<System::SpawnEnemySystem>(
                 _register, _entityList[0], tick, secondsToTick(1), 832, 832,
-                0, 450 - _entityList[0].entityHeight
+                40, 344 - _entityList[0].entityHeight
             );
         }
         if (_waveNum == 2) { }

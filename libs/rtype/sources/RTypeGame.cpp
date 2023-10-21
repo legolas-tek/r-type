@@ -75,33 +75,6 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
 
 void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
 {
-    reg.add_system<System::WaveManagerSystem>(reg);
-    reg.add_system<System::CollisionsSystem>(
-        reg.get_components<Component::Position>(),
-        reg.get_components<Component::HitBox>(),
-        reg.get_components<Component::Collision>()
-    );
-    reg.add_system<System::AttackSystem>(
-        reg.get_components<Component::FireRate>(), reg
-    );
-    reg.add_system<System::LifeTimeSystem>(
-        reg.get_components<Component::LifeTime>(), reg
-    );
-    reg.add_system<System::DamageSystem>(
-        reg.get_components<Component::Damage>(),
-        reg.get_components<Component::Life>(),
-        reg.get_components<Component::Collision>(), reg
-    );
-    reg.add_system<System::DeathAnimationManager>(
-        reg.get_components<Component::Life>(),
-        reg.get_components<Component::Collision>(),
-        reg.get_components<Component::Damage>(),
-        reg
-    );
-    reg.add_system<System::DeathSystem>(
-        reg.get_components<Component::Life>(),
-        reg
-    );
     reg.add_system<System::AnimationSystem>(reg);
     reg.add_system<rendering::system::Rendering>(reg);
     reg.add_system<rendering::system::Key>(reg);
@@ -149,7 +122,6 @@ void RTypeGame::initScene(engine::Registry &reg)
     engine::Entity player(reg.get_new_entity());
     engine::Entity topBorder(reg.get_new_entity());
     engine::Entity bottomBorder(reg.get_new_entity());
-    engine::Entity Title(reg.get_new_entity());
 
     // ==================== set positions ====================
     // background
@@ -176,10 +148,6 @@ void RTypeGame::initScene(engine::Registry &reg)
     reg.get_components<Component::Position>().insert_at(
         bottomBorder,
         Component::Position(0, rendering::system::SCREEN_HEIGHT - 16, 1)
-    );
-    // title
-    reg.get_components<Component::Position>().insert_at(
-        Title, Component::Position(50, 50, 0)
     );
 
     // ==================== set velocity ====================
@@ -267,12 +235,7 @@ void RTypeGame::initScene(engine::Registry &reg)
     reg.get_components<Component::Life>().insert_at(player, Component::Life(3));
 
     // ==================== set Text ====================
-    reg.get_components<Component::Text>().insert_at(
-        Title,
-        Component::Text(
-            "R-Type", "./client/assets/fonts/Over_There.ttf", 50, 10
-        )
-    );
+
 }
 
 std::unique_ptr<engine::IGame> RTypeGame::createLobby()
