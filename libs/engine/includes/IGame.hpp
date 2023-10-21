@@ -19,9 +19,7 @@ public:
     /**
      * Register all of the game's components into the registry.
      */
-    virtual void registerAllComponents(engine::Registry &reg)
-    {
-    }
+    virtual void registerAllComponents(engine::Registry &reg) = 0;
 
     /**
      * Register extra systems only needed for the client

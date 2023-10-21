@@ -202,8 +202,6 @@ void net::Sync::operator()()
         case 0x02:
             processAckPacket(deserializer, client);
             break;
-        default:
-            break;
         }
     }
 

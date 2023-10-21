@@ -30,11 +30,11 @@ void System::SpawnEnemySystem::operator()()
     }
 
     engine::Entity enemy(_register.get_new_entity());
-    std::uniform_int_distribution<> distribX(_minX, _maxX);
-    std::uniform_int_distribution<> distribY(_minY, _maxY);
+    std::uniform_real_distribution<> distribX(_minX, _maxX);
+    std::uniform_real_distribution<> distribY(_minY, _maxY);
 
-    auto randomX = float(distribX(_gen));
-    auto randomY = float(distribY(_gen));
+    float randomX = distribX(_gen);
+    float randomY = distribY(_gen);
 
     // set position
     _register.get_components<Component::Position>().insert_at(

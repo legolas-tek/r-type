@@ -69,7 +69,7 @@ void System::CollisionsSystem::checkCollisions(size_t index)
 static void resetCollisions(SparseArray<Component::Collision> &collisions)
 {
     for (auto &collision : collisions)
-        collision.value()._collidingEntity = std::nullopt;
+        collision->_collidingEntity = std::nullopt;
 }
 
 void System::CollisionsSystem::operator()()
