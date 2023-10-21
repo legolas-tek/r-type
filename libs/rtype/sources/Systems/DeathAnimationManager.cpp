@@ -26,11 +26,12 @@ System::DeathAnimationManager::DeathAnimationManager(
 void System::DeathAnimationManager::operator()()
 {
     for (auto it = _healths.begin(); it != _healths.end(); it++) {
-        if ((*it)->health <= 0)
+        if ((*it)->health == 0) {
             createBigExplosion(
                 _registry.get_components<Component::Position>()[it.get_entity()]
                     .value()
             );
+        }
     }
     for (auto it = _collisions.begin(); it != _collisions.end(); it++) {
         if ((*it)->_collidingEntity && _damages[it.get_entity()]) {

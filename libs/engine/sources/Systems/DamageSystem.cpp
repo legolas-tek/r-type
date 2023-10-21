@@ -42,5 +42,6 @@ void System::DamageSystem::damageEntity(engine::Entity const collidedEntity)
     engine::Entity const collidingEntity
         = _collisions[collidedEntity]->_collidingEntity.value();
 
-    _healths[collidedEntity]->health -= _damages[collidingEntity]->damages;
+    if (_healths[collidedEntity]->health > 0)
+        _healths[collidedEntity]->health -= _damages[collidingEntity]->damages;
 }

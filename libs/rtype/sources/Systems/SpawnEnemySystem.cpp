@@ -89,6 +89,6 @@ void System::SpawnEnemySystem::operator()()
         enemy, Component::Damage(1)
     );
     _register.get_components<Component::Health>().insert_at(
-        enemy, Component::Health(1)
+        enemy, Component::Health(1, 1)
     );
 }

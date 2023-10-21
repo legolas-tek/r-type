@@ -25,4 +25,5 @@ target_sources (engine
     ./sources/Systems/DamageSystem.cpp
     ./sources/Systems/DeathSystem.cpp
     ./sources/Systems/CollisionsSystem.cpp
+    ./sources/Systems/RespawnSystem.cpp
 )

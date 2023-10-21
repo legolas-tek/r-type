@@ -31,8 +31,9 @@ struct Health : engine::Serializable<Health> {
      * @param id The unique identifier for the entity.
      * @param Health The Health value of the entity.
      */
-    explicit Health(int health)
+    explicit Health(int health, int maxHealth)
         : health(health)
+        , maxHealth(maxHealth)
     {
     }
 
@@ -44,7 +45,8 @@ struct Health : engine::Serializable<Health> {
     /**
      * @brief The Health value of the entity.
      */
-    int health = 0;
+    int health = 1;
+    int maxHealth = 1;
 };
 }
 

@@ -28,7 +28,6 @@ struct LifeTime : engine::Serializable<LifeTime> {
     LifeTime() = default;
 
     /// @brief The tick at wich the entity should die
-
     size_t death_tick = 0;
 };
 }

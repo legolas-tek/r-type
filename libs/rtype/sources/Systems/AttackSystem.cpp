@@ -18,9 +18,12 @@
 #include "Components/Velocity.hpp"
 
 System::AttackSystem::AttackSystem(
-    SparseArray<Component::FireRate> &fireRates, engine::Registry &reg
+    SparseArray<Component::FireRate> &fireRates,
+    SparseArray<Component::Health> &healths,
+    engine::Registry &reg
 )
     : _fireRates(fireRates)
+    , _healths(healths)
     , _register(reg)
 {
 }
@@ -34,9 +37,12 @@ void System::AttackSystem::operator()()
     }
 }
 
-void System::AttackSystem::createLaserEntity(engine::Entity const attacker_index
+void System::AttackSystem::createLaserEntity(
+    engine::Entity const attacker_index
 )
 {
+    if (_healths[attacker_index] && _healths[attacker_index]->health <= 0)
+        return;
     Component::Velocity velocity(15, 0);
     SparseArray<Component::Position> &positions
         = _register.get_components<Component::Position>();
