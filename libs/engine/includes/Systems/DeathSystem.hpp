@@ -12,7 +12,7 @@
 #include "Registry.hpp"
 #include "SparseArray.hpp"
 
-#include "Components/Life.hpp"
+#include "Components/Health.hpp"
 
 namespace System {
 
@@ -25,13 +25,13 @@ public:
     /// @brief constructs an instance of a DeathSystem class
     /// @param lifes A ref to a LifeTime components SparseArray
     /// @param reg A ref to the registry
-    DeathSystem(SparseArray<Component::Life> &lifes, engine::Registry &reg);
+    DeathSystem(SparseArray<Component::Health> &healths, engine::Registry &reg);
 
     /// @brief applys the logic of the system
     void operator()() override;
 
 private:
-    SparseArray<Component::Life> &_lifes;
+    SparseArray<Component::Health> &_healths;
     engine::Registry &_reg;
 };
 

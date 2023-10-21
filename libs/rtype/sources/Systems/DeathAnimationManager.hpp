@@ -14,7 +14,7 @@
 
 #include "Components/Collision.hpp"
 #include "Components/Damage.hpp"
-#include "Components/Life.hpp"
+#include "Components/Health.hpp"
 #include "Components/Position.hpp"
 
 namespace System {
@@ -43,10 +43,10 @@ class DeathAnimationManager : public ISystem {
 
 public:
     /// @brief constructs an instance of a DeathAnimation System class
-    /// @param lifes A ref to a LifeTime components SparseArray
+    /// @param healths A ref to a Health components SparseArray
     /// @param reg A ref to the registry
     DeathAnimationManager(
-        SparseArray<Component::Life> &lifes,
+        SparseArray<Component::Health> &healths,
         SparseArray<Component::Collision> &collisions,
         SparseArray<Component::Damage> &damages, engine::Registry &reg
     );
@@ -67,8 +67,8 @@ private:
 
     /// @brief A ref to a Damage components SparseArray
     SparseArray<Component::Damage> &_damages;
-    /// @brief A ref to a Life components SparseArray
-    SparseArray<Component::Life> &_lifes;
+    /// @brief A ref to a Health components SparseArray
+    SparseArray<Component::Health> &_healths;
     /// @brief A ref to a Hitbox components SparseArray
     SparseArray<Component::Collision> &_collisions;
     /// @brief A ref to the registry

@@ -9,11 +9,11 @@
 
 System::DamageSystem::DamageSystem(
     SparseArray<Component::Damage> &damages,
-    SparseArray<Component::Life> &lifes,
+    SparseArray<Component::Health> &healths,
     SparseArray<Component::Collision> &collisions, engine::Registry &registry
 )
     : _damages(damages)
-    , _lifes(lifes)
+    , _healths(healths)
     , _collisions(collisions)
     , _registry(registry)
 {
@@ -34,7 +34,7 @@ bool System::DamageSystem::isDamageCollision(engine::Entity const collidedEntity
     engine::Entity const collidingEntity
         = _collisions[collidedEntity]->_collidingEntity.value();
 
-    return (_lifes[collidedEntity] && _damages[collidingEntity]);
+    return (_healths[collidedEntity] && _damages[collidingEntity]);
 }
 
 void System::DamageSystem::damageEntity(engine::Entity const collidedEntity)
@@ -42,5 +42,5 @@ void System::DamageSystem::damageEntity(engine::Entity const collidedEntity)
     engine::Entity const collidingEntity
         = _collisions[collidedEntity]->_collidingEntity.value();
 
-    _lifes[collidedEntity]->life -= _damages[collidingEntity]->damages;
+    _healths[collidedEntity]->health -= _damages[collidingEntity]->damages;
 }
