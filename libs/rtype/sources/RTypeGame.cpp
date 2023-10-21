@@ -18,6 +18,7 @@
 #include "Systems/LifeTimeSystem.hpp"
 #include "Systems/MoveSystem.hpp"
 #include "Systems/NetworkSystem.hpp"
+#include "Systems/SoundManagerSystem.hpp"
 #include "Systems/SpawnEnemySystem.hpp"
 #include "Systems/WaveManagerSystem.hpp"
 #include "Systems/RespawnSystem.hpp"
@@ -45,7 +46,6 @@ void RTypeGame::registerAllComponents(engine::Registry &reg)
 
 void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
 {
-    reg.add_system<System::WaveManagerSystem>(reg);
     reg.add_system<System::CollisionsSystem>(
         reg.get_components<Component::Position>(),
         reg.get_components<Component::HitBox>(),
@@ -79,11 +79,47 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
         reg.get_components<Component::Life>(),
         reg
     );
+    reg.add_system<System::WaveManagerSystem>(reg);
     reg.add_system<rtype::NetworkServerSystem>(reg, 4242);
 }
 
 void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
 {
+        reg.add_system<System::CollisionsSystem>(
+        reg.get_components<Component::Position>(),
+        reg.get_components<Component::HitBox>(),
+        reg.get_components<Component::Collision>()
+    );
+    reg.add_system<System::AttackSystem>(
+        reg.get_components<Component::FireRate>(),
+        reg.get_components<Component::Health>(),
+        reg
+    );
+    reg.add_system<System::LifeTimeSystem>(
+        reg.get_components<Component::LifeTime>(), reg
+    );
+    reg.add_system<System::DamageSystem>(
+        reg.get_components<Component::Damage>(),
+        reg.get_components<Component::Health>(),
+        reg.get_components<Component::Collision>(), reg
+    );
+    reg.add_system<System::DeathAnimationManager>(
+        reg.get_components<Component::Health>(),
+        reg.get_components<Component::Collision>(),
+        reg.get_components<Component::Damage>(), reg
+    );
+    reg.add_system<System::RespawnSystem>(
+        reg.get_components<Component::Life>(),
+        reg.get_components<Component::Health>(),
+        reg
+    );
+    reg.add_system<System::DeathSystem>(
+        reg.get_components<Component::Health>(),
+        reg.get_components<Component::Life>(),
+        reg
+    );
+    reg.add_system<System::WaveManagerSystem>(reg);
+    reg.add_system<System::SoundManagerSystem>(reg);
     reg.add_system<System::AnimationSystem>(reg);
     reg.add_system<rendering::system::Rendering>(reg);
     reg.add_system<rendering::system::Key>(reg);
@@ -114,9 +150,11 @@ void RTypeGame::initAssets(engine::Registry &reg)
     reg._assets_paths.emplace_back("./assets/images/impact_explosion.png");
     reg._assets_paths.emplace_back("./assets/images/basic_ennemy.png");
     reg._assets_paths.emplace_back("./assets/images/shooting_ennemy.png");
-    reg._assets_paths.emplace_back("./assets/images/first_level_bottom_borders.png"
+    reg._assets_paths.emplace_back(
+        "./assets/images/first_level_bottom_borders.png"
     );
-    reg._assets_paths.emplace_back("./assets/images/first_level_top_borders.png");
+    reg._assets_paths.emplace_back("./assets/images/first_level_top_borders.png"
+    );
     reg._assets_paths.emplace_back("./assets/images/big_explosion.png");
 }
 

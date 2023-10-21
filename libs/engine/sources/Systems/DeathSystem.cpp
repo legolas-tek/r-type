@@ -21,9 +21,20 @@ System::DeathSystem::DeathSystem(
 void System::DeathSystem::operator()()
 {
     for (auto it = _healths.begin(); it != _healths.end(); it++) {
-        if ((*it)->health <= 0
-        && _lifes[it.get_entity()]
-        && _lifes[it.get_entity()]->lifes <= 0)
+        auto target = std::find(
+            _toEraseEntityList.begin(), _toEraseEntityList.end(),
+            it.get_entity()
+        );
+
+        if (target != _toEraseEntityList.end()) {
             _reg.erase_entity(it.get_entity());
+            continue;
+        }
+        if ((*it)->health <= 0
+                && _lifes[it.get_entity()]
+            && _lifes[it.get_entity()]->lifes <= 0
+        ) {
+            _toEraseEntityList.push_back(it.get_entity());
+        }
     }
 }
