@@ -30,4 +30,5 @@ target_sources (rtype
     ./sources/Systems/SpawnEnemySystem.cpp
     ./sources/Systems/WaveManagerSystem.cpp
     ./sources/Systems/NetworkSystem.cpp
+    ./sources/Systems/DeathAnimationManager.cpp
 )
