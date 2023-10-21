@@ -11,7 +11,9 @@
 #include "ISystem.hpp"
 #include "Registry.hpp"
 
-#include <iostream>
+#include "Systems/SoundManagerSystem.hpp"
+
+#include "Components/FireRate.hpp"
 
 namespace System {
 
@@ -22,8 +24,11 @@ public:
 
     void operator()() override;
 
+    bool isAbleToAttack(Component::FireRate &fire_rate);
+
 private:
     engine::Registry &_register;
+    Sound _sound;
 };
 }
 

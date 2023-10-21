@@ -10,9 +10,23 @@
 System::ShootSoundSystem::ShootSoundSystem(engine::Registry &reg)
     : _register(reg)
 {
+    _sound = LoadSound(System::SoundManagerSystem::SHOOT_LASER_PATH);
+}
+
+bool System::ShootSoundSystem::isAbleToAttack(Component::FireRate &fire_rate)
+{
+    if (fire_rate.reload_ticks == 0)
+        return true;
+    return (_register.getTick() % fire_rate.reload_ticks == 0);
 }
 
 void System::ShootSoundSystem::operator()()
 {
-    std::cout << "shoot system" << std::endl;
+    auto fireRateList = _register.get_components<Component::FireRate>();
+
+    for (auto it = fireRateList.begin(); it != fireRateList.end(); it++) {
+        if (isAbleToAttack(it->value())) {
+            PlaySound(_sound);
+        }
+    }
 }

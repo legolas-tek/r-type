@@ -18,6 +18,7 @@
 namespace System {
 
 class SoundManagerSystem : public ISystem {
+public:
     static inline constexpr char *WAVE1_MUSIC_PATH
         = "./assets/sounds/wave1.mp3";
     static inline constexpr char *SHOOT_LASER_PATH

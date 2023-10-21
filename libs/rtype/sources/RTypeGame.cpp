@@ -44,7 +44,11 @@ void RTypeGame::registerAllComponents(engine::Registry &reg)
 
 void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
 {
-    reg.add_system<System::WaveManagerSystem>(reg);
+    reg.add_system<rtype::NetworkServerSystem>(reg, 4242);
+}
+
+void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
+{
     reg.add_system<System::CollisionsSystem>(
         reg.get_components<Component::Position>(),
         reg.get_components<Component::HitBox>(),
@@ -69,11 +73,6 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
     reg.add_system<System::DeathSystem>(
         reg.get_components<Component::Life>(), reg
     );
-    reg.add_system<rtype::NetworkServerSystem>(reg, 4242);
-}
-
-void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
-{
     reg.add_system<System::AnimationSystem>(reg);
     reg.add_system<System::SoundManagerSystem>(reg);
     reg.add_system<System::WaveManagerSystem>(reg);
