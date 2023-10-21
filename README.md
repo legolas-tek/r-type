@@ -31,14 +31,10 @@ And many other things...
 ## Needed dependencies ⚠️
 <hr/>
 
-This project will use some dependencies of different kinds 
+This project will use dependencies of different kinds, some are basics others are more specific
 
-Some are basics and fondamentals dependencies that you should have on you're computer
 
-Others are more specific, that's why our cmake build env will install them for you
-
-You can install them with this command:
-
+You can install the specific ones with those commands:
 
 For Ubuntu
 
