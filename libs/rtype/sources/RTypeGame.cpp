@@ -13,7 +13,6 @@
 #include "Components/Damage.hpp"
 #include "Components/Drawable.hpp"
 #include "Components/FireRate.hpp"
-#include "Components/Focusable.hpp"
 #include "Components/HitBox.hpp"
 #include "Components/Life.hpp"
 #include "Components/LifeTime.hpp"
