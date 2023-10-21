@@ -33,7 +33,7 @@ public:
     /// @brief deleted copy constructor
     AttackSystem(System::AttackSystem const &other) = delete;
 
-    ~AttackSystem() = default;
+    ~AttackSystem() override = default;
 
     void operator()() override;
 
@@ -41,7 +41,7 @@ private:
     /// @brief private function that create a laser
     /// @param attack_comp the attack component of the attacking entity
     /// @param attacker_index the index of the attacking entity
-    void createLaserEntity(engine::Entity const attacker_index);
+    void createLaserEntity(engine::Entity attacker_index);
 
     /// @brief private function that allows the attack system to know when he
     /// can create a laser entity

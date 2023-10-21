@@ -12,11 +12,13 @@
 #include <vector>
 
 net::manager::Udp::Udp(
-    net::ServerNetManager, std::string addr, std::size_t port
+    net::ServerNetManager, std::string const &addr, std::size_t port
 )
     : _socket(
         _io_ctxt,
-        asio::ip::udp::endpoint(asio::ip::make_address(addr.c_str(), _ec), port)
+        asio::ip::udp::endpoint(
+            asio::ip::make_address(addr.c_str(), _ec), asio::ip::port_type(port)
+        )
     )
 {
     if (_ec)
@@ -25,16 +27,16 @@ net::manager::Udp::Udp(
 }
 
 net::manager::Udp::Udp(
-    net::ClientNetManager, std::string addr, std::size_t port
+    net::ClientNetManager, std::string const &addr, std::size_t port
 )
     : _socket(_io_ctxt)
 {
     _socket.open(asio::ip::udp::v4());
     _socket.non_blocking(true);
 
-    _others.emplace_back(
-        asio::ip::udp::endpoint(asio::ip::make_address(addr.c_str(), _ec), port)
-    );
+    _others.emplace_back(asio::ip::udp::endpoint(
+        asio::ip::make_address(addr.c_str(), _ec), asio::ip::port_type(port)
+    ));
 }
 
 net::manager::Udp::~Udp()
@@ -59,11 +61,10 @@ net::manager::Udp::receive() noexcept
         net::Buffer buff(USHRT_MAX, std::byte(0x00));
 
         try {
-            std::size_t buffSize = 0;
-            buffSize
+            std::size_t buffSize
                 = _socket.receive_from(asio::buffer(buff), client_endpoint);
             buff.resize(buffSize);
-        } catch (std::exception &e) {
+        } catch (std::exception &) {
             break;
         }
 
@@ -78,7 +79,7 @@ net::manager::Udp::receive() noexcept
 
         _others.emplace_back(client_endpoint);
         packets.emplace_back(buff, _others.back());
-    } while (1);
+    } while (true);
 
     return packets;
 }

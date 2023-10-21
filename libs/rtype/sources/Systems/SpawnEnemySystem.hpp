@@ -26,9 +26,9 @@ class SpawnEnemySystem : public ISystem {
 public:
     SpawnEnemySystem(
         engine::Registry &reg, EntityInfo entityInfo, size_t startTick,
-        size_t cycle, int minX, int maxX, int minY, int maxY
+        size_t cycle, float minX, float maxX, float minY, float maxY
     );
-    ~SpawnEnemySystem() = default;
+    ~SpawnEnemySystem() override = default;
 
     void operator()() override;
 
@@ -39,10 +39,10 @@ private:
     EntityInfo _entityInfo;
     size_t _startTick;
     size_t _cycle;
-    int _minX;
-    int _maxX;
-    int _minY;
-    int _maxY;
+    float _minX;
+    float _maxX;
+    float _minY;
+    float _maxY;
 
     std::random_device rd;
     std::mt19937 _gen;

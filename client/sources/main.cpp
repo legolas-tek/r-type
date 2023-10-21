@@ -22,7 +22,7 @@ void runGame(engine::IGame &game)
     gameLoop(reg);
 }
 
-int main(int argc, char *argv[])
+int main()
 {
     std::unique_ptr<engine::IGame> game(createGame());
 
@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
         std::unique_ptr<engine::IGame> lobby(game->createLobby());
         if (lobby)
             runGame(*lobby);
-    } catch (engine::IGame::StartGameException const &e) {
+    } catch (engine::IGame::StartGameException const &) {
         // run the game:
     }
     runGame(*game);

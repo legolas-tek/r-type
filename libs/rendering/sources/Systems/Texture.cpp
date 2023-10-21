@@ -56,7 +56,7 @@ void rendering::system::Texture::operator()()
                                 _drawables[entity]->_height };
 
         if (anim.has_value())
-            sourceRec.x = (float) anim.value()._current_offset;
+            sourceRec.x = (float) anim.value()._currentOffset;
 
         Rectangle destRec
             = { pos->_x, pos->_y, sourceRec.width * _drawables[entity]->_scale,

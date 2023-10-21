@@ -99,10 +99,10 @@ void RTypeGame::initAssets(engine::Registry &reg)
     reg._assets_paths.emplace_back(
         "./assets/images/cyberpunk_street_foreground.png"
     );
-    reg._assets_paths.push_back("./assets/scarfy.png");
-    reg._assets_paths.push_back("./assets/Plasma_Beam.png");
-    reg._assets_paths.push_back("./assets/mutalisk.png");
-    reg._assets_paths.push_back("./assets/scourge.png");
+    reg._assets_paths.emplace_back("./assets/images/scarfy.png");
+    reg._assets_paths.emplace_back("./assets/images/Plasma_Beam.png");
+    reg._assets_paths.emplace_back("./assets/images/mutalisk.png");
+    reg._assets_paths.emplace_back("./assets/images/scourge.png");
 }
 
 void RTypeGame::initScene(engine::Registry &reg)

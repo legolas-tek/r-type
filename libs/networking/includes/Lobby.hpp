@@ -47,7 +47,7 @@ private:
     /// The player number (1-maxPlayers), or 0 if not joined
     size_t _playerNumber = 0;
     /// The player hash, a random number used to identify the player uniquely
-    size_t _playerHash;
+    size_t _playerHash {};
     /// The parent lobby server
     Lobby &_parent;
 
@@ -72,7 +72,7 @@ public:
     void emplaceClient(manager::TcpConnection &&connection) override;
 
     /// Get the current number of players in the lobby
-    std::size_t getCurrentPlayerCount() const;
+    [[nodiscard]] std::size_t getCurrentPlayerCount() const;
 
     friend class RemoteClient;
 

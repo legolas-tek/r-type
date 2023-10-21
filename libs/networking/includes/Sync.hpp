@@ -55,13 +55,13 @@ public:
     /**
      * @brief Destroy the Sync object
      */
-    ~Sync();
+    ~Sync() override;
 
     /**
      * @brief Overload of the () operator, that will be used to call all
      * the engine systems
      */
-    void operator()();
+    void operator()() override;
 
 private:
     /**

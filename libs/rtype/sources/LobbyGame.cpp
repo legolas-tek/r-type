@@ -10,9 +10,6 @@
 #include "Components/Drawable.hpp"
 #include "Components/Position.hpp"
 
-#include "Key.hpp"
-#include "Lobby.hpp"
-#include "Registry.hpp"
 #include "Rendering.hpp"
 
 void RTypeLobby::registerAllComponents(engine::Registry &reg)

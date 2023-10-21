@@ -27,8 +27,8 @@ public:
 
     TcpConnection(TcpConnection const &) = delete;
     TcpConnection &operator=(TcpConnection const &) = delete;
-    TcpConnection(TcpConnection &&);
-    TcpConnection &operator=(TcpConnection &&);
+    TcpConnection(TcpConnection &&) noexcept;
+    TcpConnection &operator=(TcpConnection &&) noexcept;
 
     /// Checks if this object refers to a valid tcp connection
     operator bool() const;

@@ -18,7 +18,10 @@ System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
                             .entityHeight = 72,
                             .offset = 64,
                             .frameDuration = 10,
-                            .scale = 2.0f };
+                            .scale = 2.0f,
+                            .damage = std::nullopt,
+                            .lifeTime = std::nullopt,
+                            .fireRate = std::nullopt };
     EntityInfo scourge = { .textureIndex = 6,
                            .textureWidth = 155,
                            .textureHeight = 27,
@@ -26,7 +29,10 @@ System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
                            .entityHeight = 27,
                            .offset = 31,
                            .frameDuration = 10,
-                           .scale = 2.0f };
+                           .scale = 2.0f,
+                           .damage = std::nullopt,
+                           .lifeTime = std::nullopt,
+                           .fireRate = std::nullopt };
 
     _entityList.push_back(mutalisk);
     _entityList.push_back(scourge);
@@ -44,8 +50,8 @@ void System::WaveManagerSystem::operator()()
         _waveNum++;
         if (_waveNum == 1) {
             add_system<System::SpawnEnemySystem>(
-                _register, _entityList[0], tick, seconds_to_tick(1), 700, 700,
-                0, 450 - _entityList[0].entityHeight
+                _register, _entityList[0], tick, secondsToTick(1), 700.f, 700.f,
+                0.f, 450 - _entityList[0].entityHeight
             );
         }
         if (_waveNum == 2) { }

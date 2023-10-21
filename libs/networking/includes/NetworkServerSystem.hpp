@@ -16,7 +16,7 @@ class NetworkServer : public Sync {
 
 public:
     NetworkServer(engine::Registry &registry, int port);
-    ~NetworkServer();
+    ~NetworkServer() override;
 
 private:
     bool canUpdate(

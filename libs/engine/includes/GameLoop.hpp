@@ -10,6 +10,6 @@
 
 #include "Registry.hpp"
 
-void gameLoop(engine::Registry &reg);
+[[noreturn]] void gameLoop(engine::Registry &reg);
 
 #endif /* !GAMELOOP_HPP_ */
