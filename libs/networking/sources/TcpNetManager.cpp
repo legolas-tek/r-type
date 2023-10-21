@@ -50,11 +50,14 @@ net::manager::Tcp::~Tcp()
         _t.join();
 }
 
-void net::manager::Tcp::write(std::vector<std::byte> const &data)
+void net::manager::Tcp::write(std::vector<std::byte> &&data)
 {
-    _socket.async_write_some(
-        asio::buffer(data),
-        [this](std::error_code ec, std::size_t writed [[maybe_unused]]) {
+    std::vector<std::byte> *closure
+        = new std::vector<std::byte>(std::move(data));
+    asio::async_write(
+        _socket, asio::buffer(*closure),
+        [closure](std::error_code ec, std::size_t writed [[maybe_unused]]) {
+            delete closure;
             if (ec)
                 throw TcpNetManagerError(ec.message());
         }
