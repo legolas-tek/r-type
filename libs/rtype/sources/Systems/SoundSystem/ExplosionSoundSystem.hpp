@@ -8,8 +8,6 @@
 #ifndef EXPLOSIONSOUNDSYSTEM_HPP_
 #define EXPLOSIONSOUNDSYSTEM_HPP_
 
-#include <iostream>
-
 #include "ISystem.hpp"
 #include "Registry.hpp"
 
