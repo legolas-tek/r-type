@@ -14,8 +14,8 @@ struct EntityInfo {
     size_t textureIndex;
     size_t textureWidth;
     size_t textureHeight;
-    size_t entityWidth;
-    size_t entityHeight;
+    float entityWidth;
+    float entityHeight;
     size_t offset;
     int frameDuration;
     float scale;

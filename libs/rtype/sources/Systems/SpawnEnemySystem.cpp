@@ -44,8 +44,8 @@ void System::SpawnEnemySystem::operator()()
     _register.get_components<Component::Drawable>().insert_at(
         enemy,
         Component::Drawable(
-            _entityInfo.textureIndex, float(_entityInfo.entityWidth),
-            float(_entityInfo.entityHeight), _entityInfo.scale
+            _entityInfo.textureIndex, _entityInfo.entityWidth,
+            _entityInfo.entityHeight, _entityInfo.scale
         )
     );
     // set Animation
