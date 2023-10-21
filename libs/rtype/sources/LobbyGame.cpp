@@ -42,10 +42,6 @@ void RTypeLobby::registerAdditionalClientSystems(engine::Registry &reg)
         reg.get_components<Component::Focusable>(),
         reg.get_components<Component::Text>()
     );
-    reg.add_system<rendering::system::Text>(
-        reg.get_components<Component::Text>(),
-        reg.get_components<Component::Position>()
-    );
 }
 
 void RTypeLobby::registerAdditionalServerSystems(engine::Registry &reg)

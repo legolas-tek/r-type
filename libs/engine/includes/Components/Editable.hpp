@@ -12,11 +12,7 @@
 
 namespace Component {
 
-struct Editable : engine::Serializable<Editable> {
-    Editable() = default;
-    ~Editable() = default;
-};
-
+struct Editable : engine::Serializable<Editable> { };
 }
 
 #endif // R_TYPE_EDITABLE_HPP
