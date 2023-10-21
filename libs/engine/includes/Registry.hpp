@@ -155,6 +155,7 @@ public:
     }
 
     std::vector<std::string> _assets_paths;
+    std::vector<std::string> _sounds_paths;
 
 private:
     /**

@@ -105,6 +105,13 @@ void RTypeGame::initAssets(engine::Registry &reg)
     reg._assets_paths.emplace_back("./assets/images/scourge.png");
 }
 
+void RTypeGame::initSounds(engine::Registry &reg)
+{
+    reg._sounds_paths.emplace_back("./assets/sounds/wave1.mp3");
+    reg._sounds_paths.emplace_back("./assets/sounds/shootLaser.mp3");
+    reg._sounds_paths.emplace_back("./assets/sounds/explosion.mp3");
+}
+
 void RTypeGame::initScene(engine::Registry &reg)
 {
     engine::Entity background(reg.get_new_entity());

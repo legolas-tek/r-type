@@ -6,6 +6,7 @@
 */
 
 #include "WaveManagerSystem.hpp"
+#include "SoundManagerSystem.hpp"
 #include "SpawnEnemySystem.hpp"
 
 System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
@@ -36,6 +37,8 @@ System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
 
     _entityList.push_back(mutalisk);
     _entityList.push_back(scourge);
+
+    add_system<System::SoundManagerSystem>(_register, 0);
 }
 
 void System::WaveManagerSystem::operator()()

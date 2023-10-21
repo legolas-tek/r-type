@@ -22,6 +22,7 @@ public:
     void registerAdditionalSystems(engine::Registry &reg) override;
 
     void initAssets(engine::Registry &reg) override;
+    void initSounds(engine::Registry &reg) override;
     void initScene(engine::Registry &reg) override;
 
     std::unique_ptr<engine::IGame> createLobby() override;
