@@ -43,7 +43,4 @@ void System::DamageSystem::damageEntity(engine::Entity const collidedEntity)
         = _collisions[collidedEntity]->_collidingEntity.value();
 
     _lifes[collidedEntity]->life -= _damages[collidingEntity]->damages;
-    _registry.erase_entity(collidingEntity);
-    if (_lifes[collidedEntity]->life <= 0)
-        _registry.erase_entity(collidedEntity);
 }

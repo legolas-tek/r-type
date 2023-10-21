@@ -7,23 +7,14 @@
 
 #include "Game.hpp"
 
-#include "Components/Animation.hpp"
-#include "Components/Collision.hpp"
-#include "Components/Controllable.hpp"
-#include "Components/Damage.hpp"
-#include "Components/Drawable.hpp"
-#include "Components/FireRate.hpp"
-#include "Components/HitBox.hpp"
-#include "Components/Life.hpp"
-#include "Components/LifeTime.hpp"
-#include "Components/Position.hpp"
 #include "Components/Text.hpp"
-#include "Components/Velocity.hpp"
 
 #include "Systems/AnimationSystem.hpp"
 #include "Systems/AttackSystem.hpp"
 #include "Systems/CollisionsSystem.hpp"
 #include "Systems/DamageSystem.hpp"
+#include "Systems/DeathAnimationManager.hpp"
+#include "Systems/DeathSystem.hpp"
 #include "Systems/LifeTimeSystem.hpp"
 #include "Systems/MoveSystem.hpp"
 #include "Systems/NetworkSystem.hpp"
@@ -53,6 +44,12 @@ void RTypeGame::registerAllComponents(engine::Registry &reg)
 
 void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
 {
+    reg.add_system<System::WaveManagerSystem>(reg);
+    reg.add_system<System::CollisionsSystem>(
+        reg.get_components<Component::Position>(),
+        reg.get_components<Component::HitBox>(),
+        reg.get_components<Component::Collision>()
+    );
     reg.add_system<System::AttackSystem>(
         reg.get_components<Component::FireRate>(), reg
     );
@@ -64,10 +61,13 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
         reg.get_components<Component::Life>(),
         reg.get_components<Component::Collision>(), reg
     );
-    reg.add_system<System::CollisionsSystem>(
-        reg.get_components<Component::Position>(),
-        reg.get_components<Component::HitBox>(),
-        reg.get_components<Component::Collision>()
+    reg.add_system<System::DeathAnimationManager>(
+        reg.get_components<Component::Life>(),
+        reg.get_components<Component::Collision>(),
+        reg.get_components<Component::Damage>(), reg
+    );
+    reg.add_system<System::DeathSystem>(
+        reg.get_components<Component::Life>(), reg
     );
     reg.add_system<rtype::NetworkServerSystem>(reg, 4242);
 }
@@ -101,10 +101,17 @@ void RTypeGame::initAssets(engine::Registry &reg)
     reg._assets_paths.emplace_back(
         "./assets/images/cyberpunk_street_foreground.png"
     );
-    reg._assets_paths.emplace_back("./assets/images/scarfy.png");
+    reg._assets_paths.emplace_back("./assets/images/space_ships.png");
     reg._assets_paths.emplace_back("./assets/images/Plasma_Beam.png");
-    reg._assets_paths.emplace_back("./assets/images/mutalisk.png");
-    reg._assets_paths.emplace_back("./assets/images/scourge.png");
+    reg._assets_paths.emplace_back("./assets/images/impact_explosion.png");
+    reg._assets_paths.emplace_back("./assets/images/basic_ennemy.png");
+    reg._assets_paths.emplace_back("./assets/images/shooting_ennemy.png");
+    reg._assets_paths.emplace_back(
+        "./assets/images/first_level_bottom_borders.png"
+    );
+    reg._assets_paths.emplace_back("./assets/images/first_level_top_borders.png"
+    );
+    reg._assets_paths.emplace_back("./assets/images/big_explosion.png");
 }
 
 void RTypeGame::initScene(engine::Registry &reg)
@@ -112,9 +119,9 @@ void RTypeGame::initScene(engine::Registry &reg)
     engine::Entity background(reg.get_new_entity());
     engine::Entity midground(reg.get_new_entity());
     engine::Entity foreground(reg.get_new_entity());
-    engine::Entity scarfy(reg.get_new_entity());
-    engine::Entity dummy(reg.get_new_entity());
-    engine::Entity Title(reg.get_new_entity());
+    engine::Entity player(reg.get_new_entity());
+    engine::Entity topBorder(reg.get_new_entity());
+    engine::Entity bottomBorder(reg.get_new_entity());
 
     // ==================== set positions ====================
     // background
@@ -131,21 +138,23 @@ void RTypeGame::initScene(engine::Registry &reg)
     );
     // player
     reg.get_components<Component::Position>().insert_at(
-        scarfy, Component::Position(150, 150, 1)
+        player, Component::Position(150, 150, 1)
     );
-    // test dummy
+    // topBorder
     reg.get_components<Component::Position>().insert_at(
-        dummy, Component::Position(500, 150, 1)
+        topBorder, Component::Position(0, 0, 1)
     );
-    // title
+    // bottomBorder
     reg.get_components<Component::Position>().insert_at(
-        Title, Component::Position(50, 50, 0)
+        bottomBorder,
+        Component::Position(0, rendering::system::SCREEN_HEIGHT - 16, 1)
     );
 
     // ==================== set velocity ====================
     reg.get_components<Component::Velocity>().insert_at(
-        scarfy, Component::Velocity()
+        player, Component::Velocity()
     );
+
     // ==================== set Drawable ====================
     // background
     reg.get_components<Component::Drawable>().insert_at(
@@ -161,11 +170,15 @@ void RTypeGame::initScene(engine::Registry &reg)
     );
     // player
     reg.get_components<Component::Drawable>().insert_at(
-        scarfy, Component::Drawable(3, 128.0f, 128.0f, 1.0f)
+        player, Component::Drawable(SHIP_I, SHIP_W, SHIP_H, 3)
     );
-    // test dummy
+    // topBorder
     reg.get_components<Component::Drawable>().insert_at(
-        dummy, Component::Drawable(3, 128.0f, 128.0f, 1.0f)
+        topBorder, Component::Drawable(TOP_BORDER_I, BORDERS_W, BORDERS_H, 3)
+    );
+    // bottomBorder
+    reg.get_components<Component::Drawable>().insert_at(
+        bottomBorder, Component::Drawable(BOT_BORDER_I, BORDERS_W, BORDERS_H, 3)
     );
 
     // ==================== set Animation ====================
@@ -179,38 +192,49 @@ void RTypeGame::initScene(engine::Registry &reg)
         foreground, Component::Animation(1408, 192, 704, 192, 5, 1)
     );
     reg.get_components<Component::Animation>().insert_at(
-        scarfy, Component::Animation(768, 128, 128, 128, 128, 10)
+        player,
+        Component::Animation(
+            SHIP_W * SHIP_F, SHIP_H, SHIP_W, SHIP_H, SHIP_W, 50
+        )
+    );
+    reg.get_components<Component::Animation>().insert_at(
+        topBorder,
+        Component::Animation(
+            BORDERS_F * BORDERS_W, BORDERS_H, BORDERS_W, BORDERS_H, 1, 1
+        )
+    );
+    reg.get_components<Component::Animation>().insert_at(
+        bottomBorder,
+        Component::Animation(
+            BORDERS_F * BORDERS_W, BORDERS_H, BORDERS_W, BORDERS_H, 1, 1
+        )
     );
 
     // // ==================== set Controllable ====================
-    reg.get_components<Component::Controllable>().insert_at(scarfy, 2);
+    reg.get_components<Component::Controllable>().insert_at(player, 2);
 
     // ==================== set Collision ====================
     reg.get_components<Component::Collision>().insert_at(
-        scarfy, Component::Collision(128, 128)
+        player, Component::Collision(SHIP_W, SHIP_H)
     );
-    reg.get_components<Component::Collision>().insert_at(
-        dummy, Component::Collision(128, 128)
+
+    // ==================== set Hitbox ====================
+    reg.get_components<Component::HitBox>().insert_at(
+        player, Component::HitBox(SHIP_W, SHIP_H)
     );
 
     // ==================== set FireRate ====================
     reg.get_components<Component::FireRate>().insert_at(
-        scarfy, Component::FireRate(50)
+        player, Component::FireRate(50)
     );
 
     // ==================== set LifeTime ====================
     // register you're LifeTime components
 
     // ==================== set Life ========================
-    reg.get_components<Component::Life>().insert_at(dummy, Component::Life(10));
+    reg.get_components<Component::Life>().insert_at(player, Component::Life(3));
 
     // ==================== set Text ====================
-    reg.get_components<Component::Text>().insert_at(
-        Title,
-        std::move(Component::Text(
-            "R-Type", "./client/assets/fonts/Over_There.ttf", 50, 10
-        ))
-    );
 }
 
 std::unique_ptr<engine::IGame> RTypeGame::createLobby()
