@@ -28,8 +28,8 @@ struct Health : engine::Serializable<Health> {
      * Initializes an instance of the Health structure with the specified
      * identifier and Health value.
      *
-     * @param id The unique identifier for the entity.
      * @param Health The Health value of the entity.
+     * @param maxHealth The maximum of health the entity can have
      */
     explicit Health(int health, int maxHealth)
         : health(health)
