@@ -13,6 +13,7 @@
 #include "Components/Damage.hpp"
 #include "Components/Drawable.hpp"
 #include "Components/FireRate.hpp"
+#include "Components/Focusable.hpp"
 #include "Components/HitBox.hpp"
 #include "Components/Life.hpp"
 #include "Components/LifeTime.hpp"
@@ -48,6 +49,7 @@ void RTypeGame::registerAllComponents(engine::Registry &reg)
     reg.register_component<Component::Damage>();
     reg.register_component<Component::Life>();
     reg.register_component<Component::Text>();
+    reg.register_component<Component::Focusable>()
 }
 
 void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
