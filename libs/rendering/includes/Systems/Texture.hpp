@@ -20,7 +20,7 @@
 
 namespace rendering::system {
 
-/// @brief A system for handling textures in the R-Type game.
+/// @brief A system for handling textures.
 struct Texture : public ISystem {
     /// @brief Constructor for the Texture system.
     /// @param registry A reference to the game registry.

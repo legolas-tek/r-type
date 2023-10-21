@@ -16,7 +16,7 @@
 
 namespace rendering::system {
 
-/// @brief A system for handling focusable components in the R-Type game.
+/// @brief A system for handling focusable components.
 struct Focusable : public ISystem {
     /// @brief Constructor for the Focusable system.
     /// @param focusables A reference to the focusables component storage.
