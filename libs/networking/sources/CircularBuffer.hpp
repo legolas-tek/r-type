@@ -17,23 +17,21 @@ namespace net {
 class CircularBuffer {
 
 public:
-    CircularBuffer(std::size_t size);
+    explicit CircularBuffer(std::size_t size);
 
     char *getWritePtr();
     std::size_t getAvailableCapacityUntilWrappingAround() const;
     void updateWriteIndexAfterWrite(std::size_t writtenLength);
 
-    bool canRead(size_t size) const;
+    bool canRead(size_t size) const noexcept;
     void readInto(void *dest, size_t size);
     std::size_t getReadIndex() const;
     void resetReadIndex(std::size_t index);
 
-    char *data();
-
 public:
     class CannotReadException : public std::exception {
     public:
-        char const *what() const noexcept override;
+        [[nodiscard]] char const *what() const noexcept override;
     };
 
 private:

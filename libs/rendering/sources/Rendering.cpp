@@ -8,6 +8,7 @@
 
 #include "Rendering.hpp"
 
+#include "Systems/Focusable.hpp"
 #include "Systems/Text.hpp"
 #include "Systems/Texture.hpp"
 

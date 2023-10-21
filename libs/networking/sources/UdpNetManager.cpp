@@ -11,11 +11,13 @@
 #include <vector>
 
 net::manager::Udp::Udp(
-    net::ServerNetManager, std::string addr, std::size_t port
+    net::ServerNetManager, std::string const &addr, std::size_t port
 )
     : _socket(
         _io_ctxt,
-        asio::ip::udp::endpoint(asio::ip::make_address(addr.c_str(), _ec), port)
+        asio::ip::udp::endpoint(
+            asio::ip::make_address(addr.c_str(), _ec), asio::ip::port_type(port)
+        )
     )
 {
     if (_ec)
@@ -24,7 +26,7 @@ net::manager::Udp::Udp(
 }
 
 net::manager::Udp::Udp(
-    net::ClientNetManager, std::string addr, std::size_t port
+    net::ClientNetManager, std::string const &addr, std::size_t port
 )
     : _socket(_io_ctxt)
 {
@@ -33,7 +35,9 @@ net::manager::Udp::Udp(
 
     _others.emplace_back(
         "server", 0, 0,
-        asio::ip::udp::endpoint(asio::ip::make_address(addr.c_str(), _ec), port)
+        asio::ip::udp::endpoint(
+            asio::ip::make_address(addr.c_str(), _ec), asio::ip::port_type(port)
+        )
     );
 }
 
@@ -66,7 +70,7 @@ net::manager::Udp::receive() noexcept
             break;
         buff.resize(buffSize);
         packets.emplace_back(std::move(buff), client_endpoint);
-    } while (1);
+    } while (true);
 
     return packets;
 }

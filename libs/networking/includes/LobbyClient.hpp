@@ -29,7 +29,7 @@ class Tcp;
 class LobbyClient : public ISystem {
 public:
     /// Create a new Client, connecting to the server at the given address
-    LobbyClient(std::string addr, std::size_t port);
+    LobbyClient(std::string const &addr, std::size_t port);
 
     /// Send a Join Request with the given player name
     void sendJoinRequest(std::string const &playerName);

@@ -8,28 +8,32 @@
 #include "WaveManagerSystem.hpp"
 #include "SpawnEnemySystem.hpp"
 
+#include "Game.hpp"
+
 System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
     : _register(reg)
 {
-    EntityInfo mutalisk = { .textureIndex = 5,
-                            .textureWidth = 320,
-                            .textureHeight = 72,
-                            .entityWidth = 64,
-                            .entityHeight = 72,
-                            .offset = 64,
-                            .frameDuration = 10,
-                            .scale = 2.0f };
-    EntityInfo scourge = { .textureIndex = 6,
-                           .textureWidth = 155,
-                           .textureHeight = 27,
-                           .entityWidth = 31,
-                           .entityHeight = 27,
-                           .offset = 31,
-                           .frameDuration = 10,
-                           .scale = 2.0f };
+    EntityInfo mutalisk = { .textureIndex = RTypeGame::SHOOT_ENNEMY_I,
+                            .textureWidth = RTypeGame::SHOOT_ENNEMY_W
+                                * RTypeGame::SHOOT_ENNEMY_F,
+                            .textureHeight = RTypeGame::SHOOT_ENNEMY_H,
+                            .entityWidth = RTypeGame::SHOOT_ENNEMY_W,
+                            .entityHeight = RTypeGame::SHOOT_ENNEMY_H,
+                            .offset = RTypeGame::SHOOT_ENNEMY_W,
+                            .frameDuration = 50,
+                            .scale = 1.5 };
+    EntityInfo scourge = { .textureIndex = RTypeGame::BASIC_ENNEMY_I,
+                           .textureWidth = RTypeGame::BASIC_ENNEMY_W
+                               * RTypeGame::BASIC_ENNEMY_F,
+                           .textureHeight = RTypeGame::BASIC_ENNEMY_H,
+                           .entityWidth = RTypeGame::BASIC_ENNEMY_W,
+                           .entityHeight = RTypeGame::BASIC_ENNEMY_H,
+                           .offset = RTypeGame::BASIC_ENNEMY_W,
+                           .frameDuration = 50,
+                           .scale = 1.5 };
 
-    _entityList.push_back(mutalisk);
     _entityList.push_back(scourge);
+    _entityList.push_back(mutalisk);
 }
 
 void System::WaveManagerSystem::operator()()
@@ -44,8 +48,8 @@ void System::WaveManagerSystem::operator()()
         _waveNum++;
         if (_waveNum == 1) {
             add_system<System::SpawnEnemySystem>(
-                _register, _entityList[0], tick, seconds_to_tick(1), 700, 700,
-                0, 450 - _entityList[0].entityHeight
+                _register, _entityList[0], tick, secondsToTick(1), 832, 832, 40,
+                344 - _entityList[0].entityHeight
             );
         }
         if (_waveNum == 2) { }

@@ -14,19 +14,18 @@
 #include <string>
 
 #include <climits>
+#include <utility>
 
 #include "Client.hpp"
 #include "Net.hpp"
 
-namespace net {
-
-namespace manager {
+namespace net::manager {
 
 class Udp {
 
 public:
-    Udp(net::ServerNetManager, std::string addr, std::size_t port);
-    Udp(net::ClientNetManager, std::string addr, std::size_t port);
+    Udp(net::ServerNetManager, std::string const &addr, std::size_t port);
+    Udp(net::ClientNetManager, std::string const &addr, std::size_t port);
     ~Udp();
 
     void send(net::Buffer const &cmd, net::manager::Client const &client);
@@ -38,12 +37,12 @@ public:
     class UdpNetManagerError : public std::exception {
 
     public:
-        UdpNetManagerError(std::string const &msg)
-            : _msg(msg)
+        explicit UdpNetManagerError(std::string msg)
+            : _msg(std::move(msg))
         {
         }
 
-        char const *what() const noexcept override
+        [[nodiscard]] char const *what() const noexcept override
         {
             return _msg.c_str();
         }
@@ -60,11 +59,7 @@ private:
     asio::ip::udp::socket _socket;
 
     std::vector<Client> _others;
-
-    bool _isClient;
 };
-
-}
 
 }
 

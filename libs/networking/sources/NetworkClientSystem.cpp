@@ -14,6 +14,4 @@ net::system::NetworkClient::NetworkClient(
 {
 }
 
-net::system::NetworkClient::~NetworkClient()
-{
-}
+net::system::NetworkClient::~NetworkClient() = default;

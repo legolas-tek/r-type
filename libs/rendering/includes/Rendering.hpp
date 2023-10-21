@@ -17,15 +17,16 @@
 #include "Components/Position.hpp"
 
 namespace rendering::system {
+
 /*!
  * \brief Constant integer value representing the screen width.
  */
-int const SCREEN_WIDTH = 800;
+inline constexpr int SCREEN_WIDTH = 800;
 
 /*!
  * \brief Constant integer value representing the screen height.
  */
-int const SCREEN_HEIGHT = 450;
+inline constexpr int SCREEN_HEIGHT = 384;
 
 /*!
  * \class Rendering

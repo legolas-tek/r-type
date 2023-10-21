@@ -10,7 +10,6 @@
 #include "TcpNetManager.hpp"
 
 #include <algorithm>
-#include <memory>
 
 net::LobbyRemoteClient::LobbyRemoteClient(net::manager::TcpConnection &&network)
     : _network(std::move(network))
@@ -18,25 +17,25 @@ net::LobbyRemoteClient::LobbyRemoteClient(net::manager::TcpConnection &&network)
 }
 
 void net::LobbyRemoteClient::sendJoinSuccess(
-    std::uint8_t playerNumber, std::uint64_t playerHash
+    size_t playerNumber, std::uint64_t playerHash
 )
 {
     engine::Serializer serializer;
 
     serializer.serializeTrivial(std::byte(0x01));
-    serializer.serializeTrivial(playerNumber);
+    serializer.serializeTrivial(std::uint8_t(playerNumber));
     serializer.serializeTrivial(playerHash);
     _network->write(serializer.finalize());
 }
 
 void net::LobbyRemoteClient::sendNewPlayer(
-    std::uint8_t playerNumber, std::string const &playerName
+    size_t playerNumber, std::string const &playerName
 )
 {
     engine::Serializer serializer;
 
     serializer.serializeTrivial(std::byte(0x02));
-    serializer.serializeTrivial(playerNumber);
+    serializer.serializeTrivial(std::uint8_t(playerNumber));
     serializer.serializePascalString<std::uint8_t>(playerName);
     _network->write(serializer.finalize());
 }

@@ -41,7 +41,7 @@ public:
      *
      * Handles any necessary cleanup for the Key system upon its deletion.
      */
-    ~Key();
+    ~Key() override;
 
     /*!
      * \brief Operator function to update entity velocities.

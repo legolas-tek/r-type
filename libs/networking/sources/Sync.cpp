@@ -102,7 +102,7 @@ void net::Sync::processUpdatePacket(
         uint8_t component_id = 0;
         deserializer.deserializeTrivial(component_id);
 
-        bool updateType = 0;
+        bool updateType = false;
         deserializer.deserializeTrivial(updateType);
 
         if (not canUpdate(client, entity, component_id, deserializer)) {
@@ -152,7 +152,7 @@ void net::Sync::processAckPacket(
     std::size_t index = (&client) - _nmu->getOthers().data();
 
     // mark the snapshot as acked by the client number by its index
-    snapshot_it->ack_mask |= (1 << index);
+    snapshot_it->ack_mask |= (std::size_t(1) << index);
 }
 
 net::Snapshot &net::Sync::find_last_ack(std::size_t client_index)
@@ -167,7 +167,7 @@ net::Snapshot &net::Sync::find_last_ack(std::size_t client_index)
             return snapshot.snapshot;
         }
 
-        if (snapshot.ack_mask & (1 << client_index)) {
+        if (snapshot.ack_mask & (std::size_t(1) << client_index)) {
             // the snapshot was acked by the client
             return snapshot.snapshot;
         }

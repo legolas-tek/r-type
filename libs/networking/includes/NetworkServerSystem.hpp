@@ -19,7 +19,7 @@ public:
         engine::Registry &registry, int port,
         std::vector<net::lobby::RemoteClient> const &lobby
     );
-    ~NetworkServer();
+    ~NetworkServer() override;
 
 private:
     bool canUpdate(

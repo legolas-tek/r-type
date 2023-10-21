@@ -32,7 +32,7 @@ std::size_t net::CircularBuffer::getAvailableCapacityUntilWrappingAround() const
     return _buffer.size() - _writer;
 }
 
-bool net::CircularBuffer::canRead(size_t size) const
+bool net::CircularBuffer::canRead(size_t size) const noexcept
 {
     if (_writer < _reader)
         return _buffer.size() - _reader + _writer >= size;

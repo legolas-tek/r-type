@@ -69,7 +69,7 @@ public:
         );
     }
 
-    template <class Component> size_t get_component_id() const
+    template <class Component> [[nodiscard]] size_t get_component_id() const
     {
         return _component_ids.at(typeid(SparseArray<Component>));
     }
@@ -115,7 +115,7 @@ public:
         );
     }
 
-    std::vector<ComponentData> collect_data() const
+    [[nodiscard]] std::vector<ComponentData> collect_data() const
     {
         std::vector<ComponentData> data;
 
@@ -149,7 +149,7 @@ public:
         _tick += 1;
     }
 
-    std::size_t getTick() const
+    [[nodiscard]] std::size_t getTick() const
     {
         return _tick;
     }

@@ -27,5 +27,7 @@ target_sources (rendering
     ./sources/Rendering.cpp
     ./sources/Key.cpp
     ./sources/Systems/Text.cpp
+    ./sources/Systems/Focusable.cpp
+    ./sources/Systems/Editable.cpp
     ./sources/Systems/Texture.cpp
 )

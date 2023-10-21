@@ -6,24 +6,24 @@
 */
 
 #include "TcpServer.hpp"
-#include "TcpConnection.hpp"
 #include "TcpNetManager.hpp"
 #include "asio/error_code.hpp"
 #include "asio/io_context.hpp"
 #include "asio/ip/tcp.hpp"
 
-#include <asio.hpp>
-
-#include <cstddef>
 #include <memory>
-#include <thread>
 
 namespace net::manager {
 
 class TcpServerImpl {
 public:
     TcpServerImpl(std::size_t port)
-        : _acceptor(_io_ctx, asio::ip::tcp::endpoint(asio::ip::tcp::v4(), port))
+        : _acceptor(
+            _io_ctx,
+            asio::ip::tcp::endpoint(
+                asio::ip::tcp::v4(), asio::ip::port_type(port)
+            )
+        )
     {
         _acceptor.non_blocking(true);
     }

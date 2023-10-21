@@ -19,9 +19,7 @@ rendering::system::Key::Key(
 {
 }
 
-rendering::system::Key::~Key()
-{
-}
+rendering::system::Key::~Key() = default;
 
 void rendering::system::Key::operator()()
 {

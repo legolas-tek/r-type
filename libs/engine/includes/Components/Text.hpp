@@ -73,12 +73,12 @@ struct Text {
     /**
      * The size of the text.
      */
-    float _size;
+    float _size = 10;
 
     /**
      * The spacing of the text.
      */
-    float _spacing;
+    float _spacing = 1;
 };
 }
 

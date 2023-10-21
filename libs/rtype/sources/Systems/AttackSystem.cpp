@@ -7,6 +7,7 @@
 
 #include "Systems/AttackSystem.hpp"
 
+#include "Components/Animation.hpp"
 #include "Components/Collision.hpp"
 #include "Components/Controllable.hpp"
 #include "Components/Damage.hpp"
@@ -36,7 +37,6 @@ void System::AttackSystem::operator()()
 void System::AttackSystem::createLaserEntity(engine::Entity const attacker_index
 )
 {
-    size_t laser_index = 4;
     Component::Velocity velocity(15, 0);
     SparseArray<Component::Position> &positions
         = _register.get_components<Component::Position>();
@@ -47,24 +47,35 @@ void System::AttackSystem::createLaserEntity(engine::Entity const attacker_index
     Component::Position attack_entity_pos(attacker_pos);
 
     if (attacker_collision) {
-        attack_entity_pos._x += (attacker_collision->_width / 2) + 1;
+        attack_entity_pos._x
+            += (attacker_collision->_width / 2) + (LASER_WIDTH);
     }
     if (!_register.get_components<Component::Controllable>()[attacker_index]
         && attacker_collision) {
         velocity._vx = -15;
-        attack_entity_pos._x
-            = attacker_pos._x - (attacker_collision->_width / 2) - 1;
+        attack_entity_pos._x = attacker_pos._x
+            - (attacker_collision->_width / 2) - (LASER_WIDTH);
     }
-    positions.emplace_at(attack_entity, std::move(attack_entity_pos));
+    positions.emplace_at(attack_entity, attack_entity_pos);
     _register.get_components<Component::Velocity>().emplace_at(
-        attack_entity, std::move(velocity)
+        attack_entity, velocity
     );
     _register.get_components<Component::HitBox>().insert_at(
         attack_entity, Component::HitBox(LASER_WIDTH, LASER_HEIGHT)
     );
+    _register.get_components<Component::Collision>().insert_at(
+        attack_entity, Component::Collision(LASER_WIDTH, LASER_HEIGHT)
+    );
+    _register.get_components<Component::Animation>().insert_at(
+        attack_entity,
+        Component::Animation(
+            LASER_WIDTH * LASER_FRAMES, LASER_HEIGHT, LASER_WIDTH, LASER_HEIGHT,
+            LASER_WIDTH, 10
+        )
+    );
     _register.get_components<Component::Drawable>().insert_at(
         attack_entity,
-        Component::Drawable(laser_index, LASER_WIDTH, LASER_HEIGHT)
+        Component::Drawable(LASER_INDEX, LASER_WIDTH, LASER_HEIGHT)
     );
     _register.get_components<Component::LifeTime>().insert_at(
         attack_entity, Component::LifeTime(200, _register.getTick())

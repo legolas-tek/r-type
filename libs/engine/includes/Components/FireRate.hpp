@@ -17,7 +17,7 @@ namespace Component {
 struct FireRate : engine::Serializable<FireRate> {
     /// @brief construct an instance of a Firerate component
     /// @param reload_ticks The ticks required for the entity to shoot again
-    FireRate(int reload_ticks)
+    explicit FireRate(int reload_ticks)
         : reload_ticks(reload_ticks)
     {
     }

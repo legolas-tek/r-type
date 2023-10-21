@@ -16,15 +16,20 @@
 #include "Components/FireRate.hpp"
 
 namespace System {
-/// @brief The width of the laser sprite
-inline constexpr int LASER_WIDTH = 32;
-/// @brief The height of the laser component
-inline constexpr int LASER_HEIGHT = 2;
 
 /// @brief This system checks wherever the entity is attacking with the attack
 /// component. If it does it launches an attack creating an entity and set back
 /// the attack component to true.
 class AttackSystem : public ISystem {
+    /// @brief The width of the laser sprite
+    static inline constexpr int LASER_WIDTH = 50;
+    /// @brief The height of the laser component
+    static inline constexpr int LASER_HEIGHT = 4;
+    /// @brief The number of frames for the laser animation
+    static inline constexpr int LASER_FRAMES = 4;
+    /// @brief The index to find the laser sprite
+    static inline constexpr int LASER_INDEX = 4;
+
 public:
     AttackSystem(
         SparseArray<Component::FireRate> &fireRates, engine::Registry &reg
@@ -33,7 +38,7 @@ public:
     /// @brief deleted copy constructor
     AttackSystem(System::AttackSystem const &other) = delete;
 
-    ~AttackSystem() = default;
+    ~AttackSystem() override = default;
 
     void operator()() override;
 
@@ -41,7 +46,7 @@ private:
     /// @brief private function that create a laser
     /// @param attack_comp the attack component of the attacking entity
     /// @param attacker_index the index of the attacking entity
-    void createLaserEntity(engine::Entity const attacker_index);
+    void createLaserEntity(engine::Entity attacker_index);
 
     /// @brief private function that allows the attack system to know when he
     /// can create a laser entity

@@ -6,19 +6,17 @@
 */
 
 #include "TcpNetManager.hpp"
-#include "TcpConnection.hpp"
-#include "TcpServer.hpp"
 
 #include <iostream>
 #include <memory>
 #include <vector>
 
-net::manager::Tcp::Tcp(std::string addr, std::size_t port)
+net::manager::Tcp::Tcp(std::string const &addr, std::size_t port)
     : _buffer(BUFFER_SIZE)
     , _socket(_io_ctx)
 {
     asio::ip::tcp::endpoint endpoint(
-        asio::ip::make_address(addr.c_str(), _ec), port
+        asio::ip::make_address(addr.c_str(), _ec), asio::ip::port_type(port)
     );
     if (_ec)
         throw TcpNetManagerError(_ec.message());
@@ -92,10 +90,11 @@ net::manager::TcpConnection::TcpConnection(std::unique_ptr<Tcp> &&impl)
 }
 
 net::manager::TcpConnection::~TcpConnection() = default;
-net::manager::TcpConnection::TcpConnection(net::manager::TcpConnection &&)
+net::manager::TcpConnection::TcpConnection(net::manager::TcpConnection
+                                               &&) noexcept
     = default;
 net::manager::TcpConnection &
-net::manager::TcpConnection::operator=(net::manager::TcpConnection &&)
+net::manager::TcpConnection::operator=(net::manager::TcpConnection &&) noexcept
     = default;
 
 net::manager::TcpConnection::operator bool() const

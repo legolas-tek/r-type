@@ -21,6 +21,7 @@ namespace System {
 /// @brief This system allows entity with the component damage to deal damage
 /// on collision to entitys with the component life
 class DamageSystem : public ISystem {
+
 public:
     /// @brief constructs an instance of a DamageSystem class
     /// @param damages A ref to a Damage components SparseArray
@@ -33,18 +34,19 @@ public:
         engine::Registry &registry
     );
 
+    /// @brief applies the logic of the system
     void operator()() override;
 
 private:
     /// @brief this functions determines wether the collision
     /// deals damage or not
     /// @return returns true if the collision deals damage
-    bool isDamageCollision(engine::Entity const collidedEntity);
+    bool isDamageCollision(engine::Entity collidedEntity);
 
     /// @brief This function damage the collided entity life component
     /// with the colliding entity damages component
     /// @param collidedEntity the entity wich receives the damages
-    void damageEntity(engine::Entity const collidedEntity);
+    void damageEntity(engine::Entity collidedEntity);
 
     /// @brief A ref to a Damage components SparseArray
     SparseArray<Component::Damage> &_damages;

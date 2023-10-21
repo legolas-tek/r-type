@@ -15,6 +15,7 @@ namespace engine {
 class IGame {
 public:
     virtual ~IGame() = default;
+
     /**
      * Register all of the game's components into the registry.
      */
@@ -73,7 +74,7 @@ public:
      */
     class StartGameException : public std::exception {
     public:
-        char const *what() const noexcept override
+        [[nodiscard]] char const *what() const noexcept override
         {
             return "Game is starting, lobby has finished.";
         }

@@ -23,5 +23,6 @@ target_sources (engine
     ./sources/Systems/AnimationSystem.cpp
     ./sources/Systems/LifeTimeSystem.cpp
     ./sources/Systems/DamageSystem.cpp
+    ./sources/Systems/DeathSystem.cpp
     ./sources/Systems/CollisionsSystem.cpp
 )

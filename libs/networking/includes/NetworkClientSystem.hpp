@@ -21,7 +21,7 @@ public:
         engine::Registry &registry, int port, size_t playerNumber,
         size_t playerHash
     );
-    ~NetworkClient();
+    ~NetworkClient() override;
 };
 
 }

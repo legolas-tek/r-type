@@ -13,6 +13,7 @@
 #include <future>
 #include <string>
 #include <thread>
+#include <utility>
 
 #include "CircularBuffer.hpp"
 #include "TcpServer.hpp"
@@ -23,7 +24,7 @@ class Tcp {
     static inline constexpr std::size_t BUFFER_SIZE = 1024 * 6;
 
 public:
-    Tcp(std::string addr, std::size_t port);
+    Tcp(std::string const &addr, std::size_t port);
     Tcp(asio::ip::tcp::acceptor &acceptor, asio::error_code &ec);
     ~Tcp();
 
@@ -34,12 +35,12 @@ public:
     class TcpNetManagerError : public std::exception {
 
     public:
-        TcpNetManagerError(std::string const &msg)
-            : _msg(msg)
+        explicit TcpNetManagerError(std::string msg)
+            : _msg(std::move(msg))
         {
         }
 
-        char const *what() const noexcept override
+        [[nodiscard]] char const *what() const noexcept override
         {
             return _msg.c_str();
         }
