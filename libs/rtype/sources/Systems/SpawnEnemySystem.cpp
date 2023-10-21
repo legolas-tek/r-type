@@ -9,7 +9,7 @@
 
 System::SpawnEnemySystem::SpawnEnemySystem(
     engine::Registry &reg, EntityInfo entityInfo, size_t startTick,
-    size_t cycle, int minX, int maxX, int minY, int maxY
+    size_t cycle, float minX, float maxX, float minY, float maxY
 )
     : _register(reg)
     , _entityInfo(entityInfo)
@@ -30,11 +30,11 @@ void System::SpawnEnemySystem::operator()()
     }
 
     engine::Entity enemy(_register.get_new_entity());
-    std::uniform_real_distribution<> distribX(_minX, _maxX);
-    std::uniform_real_distribution<> distribY(_minY, _maxY);
+    std::uniform_real_distribution<float> distribX(_minX, _maxX);
+    std::uniform_real_distribution<float> distribY(_minY, _maxY);
 
-    float randomX = distribX(_gen);
-    float randomY = distribY(_gen);
+    auto randomX = distribX(_gen);
+    auto randomY = distribY(_gen);
 
     // set position
     _register.get_components<Component::Position>().insert_at(
