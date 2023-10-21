@@ -98,15 +98,15 @@ void RTypeGame::initAssets(engine::Registry &reg)
     reg._assets_paths.emplace_back(
         "./assets/images/cyberpunk_street_foreground.png"
     );
-    reg._assets_paths.push_back("./assets/images/space_ships.png");
-    reg._assets_paths.push_back("./assets/images/Plasma_Beam.png");
-    reg._assets_paths.push_back("./assets/images/impact_explosion.png");
-    reg._assets_paths.push_back("./assets/images/basic_ennemy.png");
-    reg._assets_paths.push_back("./assets/images/shooting_ennemy.png");
-    reg._assets_paths.push_back("./assets/images/first_level_bottom_borders.png"
+    reg._assets_paths.emplace_back("./assets/images/space_ships.png");
+    reg._assets_paths.emplace_back("./assets/images/Plasma_Beam.png");
+    reg._assets_paths.emplace_back("./assets/images/impact_explosion.png");
+    reg._assets_paths.emplace_back("./assets/images/basic_ennemy.png");
+    reg._assets_paths.emplace_back("./assets/images/shooting_ennemy.png");
+    reg._assets_paths.emplace_back("./assets/images/first_level_bottom_borders.png"
     );
-    reg._assets_paths.push_back("./assets/images/first_level_top_borders.png");
-    reg._assets_paths.push_back("./assets/images/big_explosion.png");
+    reg._assets_paths.emplace_back("./assets/images/first_level_top_borders.png");
+    reg._assets_paths.emplace_back("./assets/images/big_explosion.png");
 }
 
 void RTypeGame::initScene(engine::Registry &reg)

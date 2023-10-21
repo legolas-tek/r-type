@@ -34,7 +34,7 @@ public:
         engine::Registry &registry
     );
 
-    /// @brief applys the logic of the system
+    /// @brief applies the logic of the system
     void operator()() override;
 
 private:
