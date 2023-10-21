@@ -17,7 +17,7 @@
 
 namespace rendering::system {
 
-/// @brief A system for handling text components.
+/// @brief A system for rendering text components.
 struct Text : public ISystem {
     /// @brief Constructor for the Text system.
     /// @param texts A reference to the texts component storage.
