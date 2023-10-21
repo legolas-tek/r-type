@@ -33,6 +33,10 @@ public:
 
     void registerAdditionalServerSystems(engine::Registry &reg) override;
     void registerAdditionalClientSystems(engine::Registry &reg) override;
+    void registerAdditionalSystems(engine::Registry &reg) override;
+
+    void initAssets(engine::Registry &reg) override;
+    void initScene(engine::Registry &reg) override;
 
 private:
     /// Server side, contains the lobby, null on client
