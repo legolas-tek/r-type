@@ -1,10 +1,12 @@
 <div align="center">
-	![Logo](https://www.dotemu.com/wp-content/uploads/2016/08/r_type_logo.png)
-	![Static Badge](https://img.shields.io/badge/r--type-game_engine-blue)
-	![GitHub issues](https://img.shields.io/github/issues/legolas-tek/r-type)
-	![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/legolas-tek/r-type/github-actions-compile.yml)
-	![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/legolas-tek/r-type/github-actions-win64-compile.yml?label=windows%20build)
-	![GitHub top language](https://img.shields.io/github/languages/top/legolas-tek/r-type)
+
+![Logo](https://www.dotemu.com/wp-content/uploads/2016/08/r_type_logo.png)
+
+![Static Badge](https://img.shields.io/badge/r--type-game_engine-blue)
+![GitHub issues](https://img.shields.io/github/issues/legolas-tek/r-type)
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/legolas-tek/r-type/github-actions-compile.yml)
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/legolas-tek/r-type/github-actions-win64-compile.yml?label=windows%20build)
+![GitHub top language](https://img.shields.io/github/languages/top/legolas-tek/r-type)
 
 Here you will find an R-Type game, also a complete networking system but mostly, <br/>**a complete open source game engine (ECS)** 🫨
 <div/>
