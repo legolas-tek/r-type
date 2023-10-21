@@ -28,9 +28,12 @@ target_sources (rtype
     ./sources/LobbyGame.cpp
     ./sources/Systems/AttackSystem.cpp
     ./sources/Systems/SpawnEnemySystem.cpp
+    ./sources/Systems/SoundManagerSystem.cpp
     ./sources/Systems/WaveManagerSystem.cpp
     ./sources/Systems/NetworkSystem.cpp
     ./sources/Systems/DeathAnimationManager.cpp
     ./sources/Systems/JoinButton.cpp
     ./sources/Systems/LobbyClientImpl.cpp
+    ./sources/Systems/SoundSystem/ShootSoundSystem.cpp
+    ./sources/Systems/SoundSystem/ExplosionSoundSystem.cpp
 )

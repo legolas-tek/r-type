@@ -33,6 +33,8 @@ public:
 private:
     SparseArray<Component::Life> &_lifes;
     engine::Registry &_reg;
+    /// @brief A vector of entity to erase
+    std::vector<engine::Entity> _toEraseEntityList;
 };
 
 }

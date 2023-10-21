@@ -6,6 +6,7 @@
 */
 
 #include "WaveManagerSystem.hpp"
+#include "SoundManagerSystem.hpp"
 #include "SpawnEnemySystem.hpp"
 
 #include "Game.hpp"
