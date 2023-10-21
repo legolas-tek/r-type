@@ -18,13 +18,14 @@ namespace System {
 
 class SoundManagerSystem : public ISystem {
 public:
-    static inline constexpr char *WAVE1_MUSIC_PATH
+    static inline constexpr char const *WAVE1_MUSIC_PATH
         = "./assets/sounds/wave1.mp3";
-    static inline constexpr char *SHOOT_LASER_PATH
+    static inline constexpr char const *SHOOT_LASER_PATH
         = "./assets/sounds/shootLaser.mp3";
-    static inline constexpr char *EXPLOSION_PATH
+    static inline constexpr char const *EXPLOSION_PATH
         = "./assets/sounds/explosion.mp3";
-    static inline constexpr char *WAVE2_PATH = "./assets/sounds/wave2.mp3";
+    static inline constexpr char const *WAVE2_PATH
+        = "./assets/sounds/wave2.mp3";
 
 public:
     SoundManagerSystem(engine::Registry &reg);
