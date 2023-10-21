@@ -29,3 +29,10 @@ target_sources (engine
     ./sources/Systems/DamageSystem.cpp
     ./sources/Systems/CollisionsSystem.cpp
 )
+
+install(TARGETS engine
+        RUNTIME DESTINATION bin
+        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION lib
+        FRAMEWORK DESTINATION bin
+)
