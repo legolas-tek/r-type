@@ -89,9 +89,17 @@ public:
     void initAssets(engine::Registry &reg) override;
     void initScene(engine::Registry &reg) override;
 
+    void onJoinSuccess(std::uint8_t playerNumber, std::uint64_t playerHash);
+
 private:
     /// The reference to the game
     RTypeGame &_game;
+
+private:
+    engine::Entity _joinButton { 0 };
+    engine::Entity _addressInput { 0 };
+    engine::Entity _portInput { 0 };
+    engine::Entity _nameInput { 0 };
 
 private:
     /// Server side, contains the lobby, null on client

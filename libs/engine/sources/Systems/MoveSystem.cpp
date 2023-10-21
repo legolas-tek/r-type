@@ -18,16 +18,13 @@ System::MoveSystem::MoveSystem(
 
 void System::MoveSystem::operator()()
 {
-    auto pos_it = _positions.begin();
-    auto vel_it = _velocities.begin();
+    for (auto it = _positions.begin(); it != _positions.end(); ++it) {
+        auto &pos = **it;
+        auto &vel = _velocities[it.get_entity()];
 
-    for (; pos_it != _positions.end() && vel_it != _velocities.end();
-         ++pos_it, ++vel_it) {
-        auto &vel = _velocities[pos_it.get_entity()];
-
-        if (vel.has_value()) {
-            (*pos_it)->_x += vel.value()._vx;
-            (*pos_it)->_y += vel.value()._vy;
+        if (vel) {
+            pos._x += vel->_vx;
+            pos._y += vel->_vy;
         }
     }
 }

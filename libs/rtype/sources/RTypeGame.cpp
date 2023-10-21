@@ -213,7 +213,7 @@ void RTypeGame::initScene(engine::Registry &reg)
     );
 
     // // ==================== set Controllable ====================
-    reg.get_components<Component::Controllable>().insert_at(player, 2);
+    reg.get_components<Component::Controllable>().insert_at(player, 1);
 
     // ==================== set Collision ====================
     reg.get_components<Component::Collision>().insert_at(

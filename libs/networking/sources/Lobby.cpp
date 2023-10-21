@@ -7,7 +7,8 @@
 
 #include "Lobby.hpp"
 #include "IGame.hpp"
-#include <string>
+
+#include <iostream>
 
 net::lobby::RemoteClient::RemoteClient(
     manager::TcpConnection &&network, Lobby &parent
@@ -27,6 +28,8 @@ void net::lobby::RemoteClient::onJoinRequest(std::string &&playerName)
     }
     _playerNumber = playerCount + 1;
     _playerHash = _parent._dist(_parent._random);
+    std::cout << "Player " << _playerName << " joined the lobby as player "
+              << _playerNumber << " with hash " << _playerHash << std::endl;
     sendJoinSuccess(_playerNumber, _playerHash);
     for (auto &player : _parent._clients) {
         if (player._playerNumber) {
@@ -37,6 +40,8 @@ void net::lobby::RemoteClient::onJoinRequest(std::string &&playerName)
 
 void net::lobby::RemoteClient::onStartRequest()
 {
+    std::cout << "Player " << _playerName << " requested to start the game"
+              << std::endl;
     for (auto &player : _parent._clients) {
         if (player._playerNumber) {
             player.sendGameStart();

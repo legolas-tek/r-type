@@ -53,8 +53,8 @@ public:
     void operator()() override;
 
 private:
-    SparseArray<Component::Controllable> _controllables;
-    SparseArray<Component::Velocity> _velocities;
+    SparseArray<Component::Controllable> &_controllables;
+    SparseArray<Component::Velocity> &_velocities;
     std::uint8_t _playerNumber;
 };
 }
