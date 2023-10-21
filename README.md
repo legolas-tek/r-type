@@ -61,7 +61,7 @@ For ArchLinux
 sudo pacman install git cmake clang
 ```
 
-For macOs
+For macOS
 
 ```bash
 brew install git cmake
@@ -76,13 +76,13 @@ After installing the necessary dependencies, in order to build the project, use 
 Clone the project
 
 ```bash
-  git clone https://link-to-project
+  git clone https://github.com/legolas-tek/r-type.git
 ```
 
 Go to the project directory
 
 ```bash
-  cd my-project
+  cd r-type
 ```
 
 Build using cmake
@@ -90,7 +90,7 @@ Build using cmake
 ```bash
 cmake -Bbuild \
 -DCMAKE_BUILD_TYPE=Release \
--DDEBUG_NETWORK=0  
+-DDEBUG_NETWORK=1
 ```
 
 If you specifically wants to build for you're platform, use the right preset.
@@ -109,7 +109,7 @@ cmake -Bbuild \
 -DCMAKE_BUILD_TYPE=Debug
 ```
 
-### For macOs:
+### For macOS:
 ```bash
 cmake -Bbuild \
 --preset macos-arm64
@@ -131,8 +131,8 @@ Added to the developper documentation, some other documentation is available on 
 
 - [Loby Network Protocol](https://github.com/legolas-tek/r-type/wiki/Lobby-Network-Protocol)
 - [Game Network Protocol](https://github.com/legolas-tek/r-type/wiki/Game-Network-Protocol)
-- [System list] (https://github.com/legolas-tek/r-type/wiki/Systems-list)
-- [Component List] (https://github.com/legolas-tek/r-type/wiki/Component-list)
+- [System list](https://github.com/legolas-tek/r-type/wiki/Systems-list)
+- [Component List](https://github.com/legolas-tek/r-type/wiki/Component-list)
 
 And some more available on the wiki...
 
