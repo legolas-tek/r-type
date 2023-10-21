@@ -30,19 +30,22 @@ void rendering::system::Editable::operator()()
             or not _focusables[index]->isFocused)
             continue;
 
-        auto focusable = _focusables[index].value();
-        auto text = _texts[index].value();
+        auto focusable = &_focusables[index].value();
+        auto text = &_texts[index].value();
 
         if (IsKeyPressed(KEY_BACKSPACE)) {
-            if (not text._text.empty())
-                text._text.pop_back();
+            if (not text->_text.empty())
+                text->_text.pop_back();
             continue;
         }
         if (IsKeyPressed(KEY_ENTER)) {
-            focusable.isFocused = false;
+            focusable->isFocused = false;
             continue;
         }
 
-        text._text.push_back(char(GetCharPressed()));
+        auto c = GetCharPressed();
+        if (c == 0)
+            continue;
+        text->_text.push_back(char(c));
     }
 }
