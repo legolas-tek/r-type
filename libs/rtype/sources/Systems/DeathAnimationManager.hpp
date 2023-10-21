@@ -15,6 +15,7 @@
 #include "Components/Life.hpp"
 #include "Components/Position.hpp"
 #include "Components/Collision.hpp"
+#include "Components/Damage.hpp"
 
 namespace System {
 
@@ -47,6 +48,7 @@ public:
     DeathAnimationManager(
         SparseArray<Component::Life> &lifes,
         SparseArray<Component::Collision> &collisions,
+        SparseArray<Component::Damage> &damages,
         engine::Registry &reg
     );
 
@@ -63,6 +65,8 @@ private:
     /// @param pos The position of the explosion
     void createBigExplosion(Component::Position pos);
 
+    /// @brief A ref to a Damage components SparseArray
+    SparseArray<Component::Damage> &_damages;
     /// @brief A ref to a Life components SparseArray
     SparseArray<Component::Life> &_lifes;
     /// @brief A ref to a Hitbox components SparseArray

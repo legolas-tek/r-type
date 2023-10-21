@@ -63,6 +63,7 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
     reg.add_system<System::DeathAnimationManager>(
         reg.get_components<Component::Life>(),
         reg.get_components<Component::Collision>(),
+        reg.get_components<Component::Damage>(),
         reg
     );
     reg.add_system<System::DeathSystem>(
@@ -74,6 +75,33 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
 
 void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
 {
+    reg.add_system<System::WaveManagerSystem>(reg);
+    reg.add_system<System::CollisionsSystem>(
+        reg.get_components<Component::Position>(),
+        reg.get_components<Component::HitBox>(),
+        reg.get_components<Component::Collision>()
+    );
+    reg.add_system<System::AttackSystem>(
+        reg.get_components<Component::FireRate>(), reg
+    );
+    reg.add_system<System::LifeTimeSystem>(
+        reg.get_components<Component::LifeTime>(), reg
+    );
+    reg.add_system<System::DamageSystem>(
+        reg.get_components<Component::Damage>(),
+        reg.get_components<Component::Life>(),
+        reg.get_components<Component::Collision>(), reg
+    );
+    reg.add_system<System::DeathAnimationManager>(
+        reg.get_components<Component::Life>(),
+        reg.get_components<Component::Collision>(),
+        reg.get_components<Component::Damage>(),
+        reg
+    );
+    reg.add_system<System::DeathSystem>(
+        reg.get_components<Component::Life>(),
+        reg
+    );
     reg.add_system<System::AnimationSystem>(reg);
     reg.add_system<rendering::system::Rendering>(reg);
     reg.add_system<rendering::system::Key>(reg);
@@ -119,7 +147,6 @@ void RTypeGame::initScene(engine::Registry &reg)
     engine::Entity midground(reg.get_new_entity());
     engine::Entity foreground(reg.get_new_entity());
     engine::Entity player(reg.get_new_entity());
-    engine::Entity dummy(reg.get_new_entity());
     engine::Entity topBorder(reg.get_new_entity());
     engine::Entity bottomBorder(reg.get_new_entity());
     engine::Entity Title(reg.get_new_entity());
@@ -140,10 +167,6 @@ void RTypeGame::initScene(engine::Registry &reg)
     // player
     reg.get_components<Component::Position>().insert_at(
         player, Component::Position(150, 150, 1)
-    );
-    // test dummy
-    reg.get_components<Component::Position>().insert_at(
-        dummy, Component::Position(500, 150, 1)
     );
     // topBorder
     reg.get_components<Component::Position>().insert_at(
@@ -181,11 +204,6 @@ void RTypeGame::initScene(engine::Registry &reg)
     reg.get_components<Component::Drawable>().insert_at(
         player, Component::Drawable(SHIP_I, SHIP_W, SHIP_H, 3)
     );
-    // test dummy
-    reg.get_components<Component::Drawable>().insert_at(
-        dummy,
-        Component::Drawable(BASIC_ENNEMY_I, BASIC_ENNEMY_W, BASIC_ENNEMY_H, 1.5)
-    );
     // topBorder
     reg.get_components<Component::Drawable>().insert_at(
         topBorder, Component::Drawable(TOP_BORDER_I, BORDERS_W, BORDERS_H, 3)
@@ -212,13 +230,6 @@ void RTypeGame::initScene(engine::Registry &reg)
         )
     );
     reg.get_components<Component::Animation>().insert_at(
-        dummy,
-        Component::Animation(
-            BASIC_ENNEMY_W * BASIC_ENNEMY_F, BASIC_ENNEMY_H, BASIC_ENNEMY_W,
-            BASIC_ENNEMY_H, BASIC_ENNEMY_W, 50
-        )
-    );
-    reg.get_components<Component::Animation>().insert_at(
         topBorder,
         Component::Animation(
             BORDERS_F * BORDERS_W, BORDERS_H, BORDERS_W, BORDERS_H, 1, 1
@@ -238,16 +249,10 @@ void RTypeGame::initScene(engine::Registry &reg)
     reg.get_components<Component::Collision>().insert_at(
         player, Component::Collision(SHIP_W, SHIP_H)
     );
-    reg.get_components<Component::Collision>().insert_at(
-        dummy, Component::Collision(BASIC_ENNEMY_W, BASIC_ENNEMY_H)
-    );
 
     // ==================== set Hitbox ====================
     reg.get_components<Component::HitBox>().insert_at(
         player, Component::HitBox(SHIP_W, SHIP_H)
-    );
-    reg.get_components<Component::HitBox>().insert_at(
-        dummy, Component::HitBox(BASIC_ENNEMY_W, BASIC_ENNEMY_H)
     );
 
     // ==================== set FireRate ====================
@@ -259,14 +264,14 @@ void RTypeGame::initScene(engine::Registry &reg)
     // register you're LifeTime components
 
     // ==================== set Life ========================
-    reg.get_components<Component::Life>().insert_at(dummy, Component::Life(10));
+    reg.get_components<Component::Life>().insert_at(player, Component::Life(3));
 
     // ==================== set Text ====================
     reg.get_components<Component::Text>().insert_at(
         Title,
-        std::move(Component::Text(
+        Component::Text(
             "R-Type", "./client/assets/fonts/Over_There.ttf", 50, 10
-        ))
+        )
     );
 }
 

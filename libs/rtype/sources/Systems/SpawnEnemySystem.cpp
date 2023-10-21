@@ -6,8 +6,14 @@
 */
 
 #include "SpawnEnemySystem.hpp"
-
 #include "Rendering.hpp"
+
+#include "Components/LifeTime.hpp"
+#include "Components/Velocity.hpp"
+#include "Components/Damage.hpp"
+#include "Components/HitBox.hpp"
+#include "Components/Collision.hpp"
+#include "Components/Life.hpp"
 
 System::SpawnEnemySystem::SpawnEnemySystem(
     engine::Registry &reg, EntityInfo entityInfo, size_t startTick,
@@ -40,23 +46,53 @@ void System::SpawnEnemySystem::operator()()
 
     // set position
     _register.get_components<Component::Position>().insert_at(
-        enemy, std::move(Component::Position(randomX, randomY, 0))
+        enemy, Component::Position(randomX, randomY, 0)
     );
     // set Drawable
     _register.get_components<Component::Drawable>().insert_at(
         enemy,
-        std::move(Component::Drawable(
+        Component::Drawable(
             _entityInfo.textureIndex, _entityInfo.entityWidth,
             _entityInfo.entityHeight, _entityInfo.scale
-        ))
+        )
     );
     // set Animation
     _register.get_components<Component::Animation>().insert_at(
         enemy,
-        std::move(Component::Animation(
+        Component::Animation(
             _entityInfo.textureWidth, _entityInfo.textureHeight,
             _entityInfo.entityWidth, _entityInfo.entityHeight,
             _entityInfo.offset, _entityInfo.frameDuration
-        ))
+        )
+    );
+    _register.get_components<Component::LifeTime>().insert_at(
+        enemy,
+        Component::LifeTime(200, _register.getTick())
+    );
+    _register.get_components<Component::Velocity>().insert_at(
+        enemy,
+        Component::Velocity(-5, 0)
+    );
+    _register.get_components<Component::HitBox>().insert_at(
+        enemy,
+        Component::HitBox(
+            _entityInfo.entityWidth * _entityInfo.scale,
+            _entityInfo.entityHeight * _entityInfo.scale
+        )
+    );
+    _register.get_components<Component::Collision>().insert_at(
+        enemy,
+        Component::Collision(
+            _entityInfo.entityWidth * _entityInfo.scale,
+            _entityInfo.entityHeight * _entityInfo.scale
+        )
+    );
+    _register.get_components<Component::Damage>().insert_at(
+        enemy,
+        Component::Damage(1)
+    );
+    _register.get_components<Component::Life>().insert_at(
+        enemy,
+        Component::Life(1)
     );
 }

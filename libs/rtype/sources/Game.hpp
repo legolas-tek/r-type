@@ -14,6 +14,7 @@
 #include <memory>
 
 class RTypeGame : public engine::IGame {
+public:
     /// @brief The Width of the ship sprite
     static inline constexpr int SHIP_W = 32;
     /// @brief The Height of the ship sprite
@@ -42,7 +43,7 @@ class RTypeGame : public engine::IGame {
     static inline constexpr int SHOOT_ENNEMY_I = 7;
 
     /// @brief The Width of the borders sprite
-    static inline constexpr int BORDERS_W = 418;
+    static inline constexpr int BORDERS_W = 960;
     /// @brief The Height of the borders sprite
     static inline constexpr int BORDERS_H = 8;
     /// @brief The number of frames for the borders animation
@@ -52,7 +53,6 @@ class RTypeGame : public engine::IGame {
     /// @brief The index to find the top border sprite
     static inline constexpr int TOP_BORDER_I = 9;
 
-public:
     void registerAllComponents(engine::Registry &reg) override;
 
     void registerAdditionalServerSystems(engine::Registry &reg) override;
