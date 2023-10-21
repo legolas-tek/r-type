@@ -8,10 +8,9 @@
 #include "Systems/DeathSystem.hpp"
 
 System::DeathSystem::DeathSystem(
-    SparseArray<Component::Life> &lifes,
-    engine::Registry &reg
+    SparseArray<Component::Life> &lifes, engine::Registry &reg
 )
-    :_lifes(lifes)
+    : _lifes(lifes)
     , _reg(reg)
 {
 }

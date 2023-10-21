@@ -9,8 +9,8 @@
 #define SPARSEARRAY_HPP_
 
 #include <optional>
-#include <vector>
 #include <stdexcept>
+#include <vector>
 
 #include "Entity.hpp"
 

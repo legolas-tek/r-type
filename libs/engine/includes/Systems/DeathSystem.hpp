@@ -9,8 +9,8 @@
 #define DEATHSYSTEM_HPP_
 
 #include "ISystem.hpp"
-#include "SparseArray.hpp"
 #include "Registry.hpp"
+#include "SparseArray.hpp"
 
 #include "Components/Life.hpp"
 
@@ -25,10 +25,7 @@ public:
     /// @brief constructs an instance of a DeathSystem class
     /// @param lifes A ref to a LifeTime components SparseArray
     /// @param reg A ref to the registry
-    DeathSystem(
-        SparseArray<Component::Life> &lifes,
-        engine::Registry &reg
-    );
+    DeathSystem(SparseArray<Component::Life> &lifes, engine::Registry &reg);
 
     /// @brief applys the logic of the system
     void operator()() override;

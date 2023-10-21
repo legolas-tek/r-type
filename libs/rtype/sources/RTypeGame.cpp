@@ -13,8 +13,8 @@
 #include "Systems/AttackSystem.hpp"
 #include "Systems/CollisionsSystem.hpp"
 #include "Systems/DamageSystem.hpp"
-#include "Systems/DeathSystem.hpp"
 #include "Systems/DeathAnimationManager.hpp"
+#include "Systems/DeathSystem.hpp"
 #include "Systems/LifeTimeSystem.hpp"
 #include "Systems/MoveSystem.hpp"
 #include "Systems/NetworkSystem.hpp"
@@ -63,12 +63,10 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
     reg.add_system<System::DeathAnimationManager>(
         reg.get_components<Component::Life>(),
         reg.get_components<Component::Collision>(),
-        reg.get_components<Component::Damage>(),
-        reg
+        reg.get_components<Component::Damage>(), reg
     );
     reg.add_system<System::DeathSystem>(
-        reg.get_components<Component::Life>(),
-        reg
+        reg.get_components<Component::Life>(), reg
     );
     reg.add_system<rtype::NetworkServerSystem>(reg, 4242);
 }
@@ -105,12 +103,9 @@ void RTypeGame::initAssets(engine::Registry &reg)
     reg._assets_paths.push_back("./assets/images/impact_explosion.png");
     reg._assets_paths.push_back("./assets/images/basic_ennemy.png");
     reg._assets_paths.push_back("./assets/images/shooting_ennemy.png");
-    reg._assets_paths.push_back(
-        "./assets/images/first_level_bottom_borders.png"
+    reg._assets_paths.push_back("./assets/images/first_level_bottom_borders.png"
     );
-    reg._assets_paths.push_back(
-        "./assets/images/first_level_top_borders.png"
-    );
+    reg._assets_paths.push_back("./assets/images/first_level_top_borders.png");
     reg._assets_paths.push_back("./assets/images/big_explosion.png");
 }
 
@@ -235,7 +230,6 @@ void RTypeGame::initScene(engine::Registry &reg)
     reg.get_components<Component::Life>().insert_at(player, Component::Life(3));
 
     // ==================== set Text ====================
-
 }
 
 std::unique_ptr<engine::IGame> RTypeGame::createLobby()

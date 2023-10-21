@@ -8,12 +8,12 @@
 #include "SpawnEnemySystem.hpp"
 #include "Rendering.hpp"
 
-#include "Components/LifeTime.hpp"
-#include "Components/Velocity.hpp"
+#include "Components/Collision.hpp"
 #include "Components/Damage.hpp"
 #include "Components/HitBox.hpp"
-#include "Components/Collision.hpp"
 #include "Components/Life.hpp"
+#include "Components/LifeTime.hpp"
+#include "Components/Velocity.hpp"
 
 System::SpawnEnemySystem::SpawnEnemySystem(
     engine::Registry &reg, EntityInfo entityInfo, size_t startTick,
@@ -66,12 +66,10 @@ void System::SpawnEnemySystem::operator()()
         )
     );
     _register.get_components<Component::LifeTime>().insert_at(
-        enemy,
-        Component::LifeTime(200, _register.getTick())
+        enemy, Component::LifeTime(200, _register.getTick())
     );
     _register.get_components<Component::Velocity>().insert_at(
-        enemy,
-        Component::Velocity(-5, 0)
+        enemy, Component::Velocity(-5, 0)
     );
     _register.get_components<Component::HitBox>().insert_at(
         enemy,
@@ -88,11 +86,9 @@ void System::SpawnEnemySystem::operator()()
         )
     );
     _register.get_components<Component::Damage>().insert_at(
-        enemy,
-        Component::Damage(1)
+        enemy, Component::Damage(1)
     );
     _register.get_components<Component::Life>().insert_at(
-        enemy,
-        Component::Life(1)
+        enemy, Component::Life(1)
     );
 }
