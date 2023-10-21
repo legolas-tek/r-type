@@ -76,4 +76,24 @@ void RTypeLobby::initAssets(engine::Registry &reg)
 
 void RTypeLobby::initScene(engine::Registry &reg)
 {
+    engine::Entity Title(reg.get_new_entity());
+
+    reg.get_components<Component::Position>().emplace_at(
+        Title, Component::Position(0, 0)
+    );
+    reg.get_components<Component::Text>().insert_at(
+        Title,
+        Component::Text(
+            "R-Type", "./client/assets/fonts/Over_There.ttf", 50, 10
+        )
+    );
+    reg.get_components<Component::Focusable>().emplace_at(
+        Title, Component::Focusable(false)
+    );
+    reg.get_components<Component::Editable>().emplace_at(
+        Title, Component::Editable()
+    );
+    reg.get_components<Component::HitBox>().insert_at(
+        Title, Component::HitBox(300, 300)
+    );
 }
