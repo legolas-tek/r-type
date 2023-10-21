@@ -5,6 +5,7 @@
 ** Game
 */
 
+#include "Entity.hpp"
 #include "Game.hpp"
 
 #include "Components/Animation.hpp"
@@ -74,26 +75,44 @@ void RTypeLobby::initAssets(engine::Registry &reg)
 {
 }
 
+static engine::Entity createField(
+    engine::Registry &reg, std::string &&label, std::string &&value, int x,
+    int y
+)
+{
+    using namespace Component;
+    engine::Entity labelEntity(reg.get_new_entity());
+    engine::Entity valueEntity(reg.get_new_entity());
+
+    reg.get_components<Position>().emplace_at(labelEntity, Position(x, y));
+    reg.get_components<Text>().emplace_at(
+        labelEntity,
+        Text(std::move(label), "./client/assets/fonts/Over_There.ttf", 20, 1)
+    );
+    reg.get_components<Position>().emplace_at(
+        valueEntity, Position(x + 10, y + 30)
+    );
+    reg.get_components<Text>().emplace_at(
+        valueEntity,
+        Text(std::move(value), "./client/assets/fonts/Over_There.ttf", 20, 1)
+    );
+    reg.get_components<Focusable>().emplace_at(valueEntity, Focusable());
+    reg.get_components<Editable>().emplace_at(valueEntity, Editable());
+    reg.get_components<HitBox>().emplace_at(valueEntity, HitBox(300, 50));
+    return valueEntity;
+}
+
 void RTypeLobby::initScene(engine::Registry &reg)
 {
-    engine::Entity Title(reg.get_new_entity());
+    using namespace Component;
+    engine::Entity title(reg.get_new_entity());
 
-    reg.get_components<Component::Position>().emplace_at(
-        Title, Component::Position(0, 0)
+    reg.get_components<Position>().emplace_at(title, Position(0, 0));
+    reg.get_components<Text>().insert_at(
+        title, Text("R-Type", "./client/assets/fonts/Over_There.ttf", 50, 10)
     );
-    reg.get_components<Component::Text>().insert_at(
-        Title,
-        Component::Text(
-            "R-Type", "./client/assets/fonts/Over_There.ttf", 50, 10
-        )
-    );
-    reg.get_components<Component::Focusable>().emplace_at(
-        Title, Component::Focusable(false)
-    );
-    reg.get_components<Component::Editable>().emplace_at(
-        Title, Component::Editable()
-    );
-    reg.get_components<Component::HitBox>().insert_at(
-        Title, Component::HitBox(300, 300)
-    );
+
+    engine::Entity address = createField(reg, "Address", "127.0.0.1", 100, 100);
+    engine::Entity port = createField(reg, "Port", "4242", 100, 200);
+    engine::Entity name = createField(reg, "Name", "Player", 100, 300);
 }
