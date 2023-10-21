@@ -10,6 +10,10 @@ cmake_minimum_required (VERSION 3.8)
 
 add_library (engine SHARED)
 
+set_target_properties (engine PROPERTIES
+    FRAMEWORK TRUE
+)
+
 target_include_directories (engine
     PUBLIC
     ./includes/
@@ -24,10 +28,4 @@ target_sources (engine
     ./sources/Systems/LifeTimeSystem.cpp
     ./sources/Systems/DamageSystem.cpp
     ./sources/Systems/CollisionsSystem.cpp
-)
-
-install(TARGETS engine
-        RUNTIME DESTINATION bin
-        ARCHIVE DESTINATION lib
-        LIBRARY DESTINATION lib
 )

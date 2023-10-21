@@ -10,6 +10,10 @@ cmake_minimum_required (VERSION 3.8)
 
 add_library (networking SHARED)
 
+set_target_properties (networking PROPERTIES
+    FRAMEWORK TRUE
+)
+
 target_link_libraries (networking
     PRIVATE
     asio
@@ -41,10 +45,4 @@ target_sources (networking
     ./sources/TcpServer.cpp
     ./sources/LobbyRemoteClient.cpp
     ./sources/Lobby.cpp
-)
-
-install(TARGETS networking
-        RUNTIME DESTINATION bin
-        ARCHIVE DESTINATION lib
-        LIBRARY DESTINATION lib
 )

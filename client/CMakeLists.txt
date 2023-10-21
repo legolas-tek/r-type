@@ -8,7 +8,7 @@
 
 cmake_minimum_required (VERSION 3.8)
 
-add_executable (r-type_client)
+add_executable (r-type_client MACOSX_BUNDLE)
 
 target_link_libraries (r-type_client
     PRIVATE

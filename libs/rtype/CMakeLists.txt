@@ -10,6 +10,10 @@ cmake_minimum_required (VERSION 3.8)
 
 add_library (rtype SHARED)
 
+set_target_properties (rtype PROPERTIES
+    FRAMEWORK TRUE
+)
+
 target_link_libraries (rtype
     PUBLIC
     engine
@@ -30,10 +34,4 @@ target_sources (rtype
     ./sources/Systems/SpawnEnemySystem.cpp
     ./sources/Systems/WaveManagerSystem.cpp
     ./sources/Systems/NetworkSystem.cpp
-)
-
-install(TARGETS rtype
-        RUNTIME DESTINATION bin
-        ARCHIVE DESTINATION lib
-        LIBRARY DESTINATION lib
 )

@@ -10,6 +10,10 @@ cmake_minimum_required (VERSION 3.8)
 
 add_library (rendering SHARED)
 
+set_target_properties (rendering PROPERTIES
+    FRAMEWORK TRUE
+)
+
 target_link_libraries (rendering
     PUBLIC
     raylib
@@ -28,10 +32,4 @@ target_sources (rendering
     ./sources/Key.cpp
     ./sources/Systems/Text.cpp
     ./sources/Systems/Texture.cpp
-)
-
-install(TARGETS rendering
-        RUNTIME DESTINATION bin
-        ARCHIVE DESTINATION lib
-        LIBRARY DESTINATION lib
 )
