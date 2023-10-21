@@ -16,16 +16,43 @@
 #include <iostream>
 
 namespace System {
+
 class SoundManagerSystem : public ISystem {
+    static inline constexpr char *WAVE1_MUSIC_PATH
+        = "./assets/sounds/wave1.mp3";
+    static inline constexpr char *SHOOT_LASER_PATH
+        = "./assets/sounds/shootLaser.mp3";
+    static inline constexpr char *EXPLOSION_PATH
+        = "./assets/sounds/explosion.mp3";
+    static inline constexpr char *WAVE2_PATH = "./assets/sounds/wave2.mp3";
+
 public:
-    SoundManagerSystem(engine::Registry &reg, size_t soundPathIndex);
+    SoundManagerSystem(engine::Registry &reg);
     ~SoundManagerSystem();
 
     void operator()() override;
 
+    void changeMusic(char const *soundPath);
+
+    template <typename System, class... Params>
+    ISystem &add_system(Params &&...args)
+    {
+        return *_systems.emplace_back(
+            std::make_unique<System>(std::forward<Params>(args)...)
+        );
+    }
+
+    void run_systems()
+    {
+        for (auto &system : _systems)
+            (*system)();
+    }
+
 private:
     engine::Registry &_register;
     Music _music;
+
+    std::vector<std::unique_ptr<ISystem>> _systems;
 };
 }
 #endif /* !SOUNDMANAGERSYSTEM_HPP_ */

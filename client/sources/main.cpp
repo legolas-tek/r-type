@@ -15,7 +15,6 @@ void runGame(engine::IGame &game)
 
     game.registerAllComponents(reg);
     game.initAssets(reg);
-    game.initSounds(reg);
     game.initScene(reg);
     game.registerAdditionalSystems(reg);
     game.registerAdditionalClientSystems(reg);

@@ -58,14 +58,6 @@ public:
     }
 
     /**
-     * Initialize the sounds of the game, into the `Registry::_sounds_paths`
-     * vector
-     */
-    virtual void initSounds(engine::Registry &reg)
-    {
-    }
-
-    /**
      * Create the lobby game. It will be run before this game starts, if not
      * null.
      */
