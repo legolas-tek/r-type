@@ -17,10 +17,10 @@ namespace Component {
 struct LifeTime : engine::Serializable<LifeTime> {
     /// @brief Constructs an instance of a LifeTime component and sets the
     /// tick at wich the entity should die
-    /// @param life_time The number of ticks the entity should live
-    /// @param actual_tick The actual tick in the registry
-    LifeTime(int life_time, size_t actual_tick)
-        : death_tick(actual_tick + life_time)
+    /// @param lifeTime The number of ticks the entity should live
+    /// @param actualTick The actual tick in the registry
+    LifeTime(int lifeTime, size_t actualTick)
+        : deathTick(actualTick + lifeTime)
     {
     }
 
@@ -28,7 +28,7 @@ struct LifeTime : engine::Serializable<LifeTime> {
     LifeTime() = default;
 
     /// @brief The tick at wich the entity should die
-    size_t death_tick = 0;
+    size_t deathTick = 0;
 };
 }
 #endif /* !LIFETIME_HPP_ */

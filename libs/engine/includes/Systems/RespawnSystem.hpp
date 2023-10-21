@@ -46,7 +46,7 @@ private:
     /// @param entity The entity which should be respawned
     void respawnEntity(size_t entity);
 
-    int _respawnCooldown = 20;
+    int _respawnCooldown = 150;
     /// @brief An unordered map that stores the ticks at wich the entitys
     /// should respawn
     std::unordered_map<size_t, size_t> _respawnsTicks;
