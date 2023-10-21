@@ -25,3 +25,5 @@ target_sources (r-type_server
     PRIVATE
         ./sources/main.cpp
 )
+
+install(TARGETS r-type_server DESTINATION bin)

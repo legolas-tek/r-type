@@ -22,3 +22,5 @@ target_sources (r-type_client
     PRIVATE
         ./sources/main.cpp
 )
+
+install(TARGETS r-type_client DESTINATION bin)

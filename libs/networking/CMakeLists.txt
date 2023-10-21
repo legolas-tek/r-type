@@ -24,8 +24,8 @@ if (DEBUG_NETWORK)
 endif (DEBUG_NETWORK)
 
 target_include_directories (networking
-    PUBLIC
-    ./includes/
+    PUBLIC  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/includes>
+            $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/>
 )
 
 target_sources (networking
@@ -41,4 +41,10 @@ target_sources (networking
     ./sources/TcpServer.cpp
     ./sources/LobbyRemoteClient.cpp
     ./sources/Lobby.cpp
+)
+
+install(TARGETS networking
+        RUNTIME DESTINATION bin
+        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION lib
 )

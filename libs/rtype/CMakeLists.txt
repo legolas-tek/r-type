@@ -31,3 +31,9 @@ target_sources (rtype
     ./sources/Systems/WaveManagerSystem.cpp
     ./sources/Systems/NetworkSystem.cpp
 )
+
+install(TARGETS rtype
+        RUNTIME DESTINATION bin
+        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION lib
+)

@@ -29,3 +29,9 @@ target_sources (rendering
     ./sources/Systems/Text.cpp
     ./sources/Systems/Texture.cpp
 )
+
+install(TARGETS rendering
+        RUNTIME DESTINATION bin
+        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION lib
+)
