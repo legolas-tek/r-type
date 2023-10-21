@@ -48,7 +48,7 @@ void System::WaveManagerSystem::operator()()
         _waveNum++;
         if (_waveNum == 1) {
             add_system<System::SpawnEnemySystem>(
-                _register, _entityList[0], tick, seconds_to_tick(1), 832, 832,
+                _register, _entityList[0], tick, secondsToTick(1), 832, 832,
                 0, 450 - _entityList[0].entityHeight
             );
         }

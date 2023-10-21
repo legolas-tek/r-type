@@ -6,8 +6,6 @@
 */
 
 #include "Snapshot.hpp"
-#include "Serialization/Serializer.hpp"
-#include <cstring>
 #include <vector>
 
 net::Snapshot::Snapshot()

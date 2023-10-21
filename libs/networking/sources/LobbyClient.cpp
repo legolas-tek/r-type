@@ -10,9 +10,8 @@
 #include "TcpNetManager.hpp"
 
 #include <algorithm>
-#include <cstdint>
 
-net::LobbyClient::LobbyClient(std::string addr, std::size_t port)
+net::LobbyClient::LobbyClient(std::string const &addr, std::size_t port)
     : _network(std::make_unique<manager::Tcp>(addr, port))
 {
 }

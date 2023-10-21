@@ -31,7 +31,7 @@ public:
     struct components_iterator {
 
     public:
-        components_iterator(pointer_type ptr, pointer_type end_ptr = 0)
+        explicit components_iterator(pointer_type ptr, pointer_type end_ptr = 0)
             : _m_ptr(ptr)
             , _end_ptr(end_ptr)
         {

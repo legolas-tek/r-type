@@ -13,9 +13,7 @@ rendering::system::Key::Key(engine::Registry &registry)
 {
 }
 
-rendering::system::Key::~Key()
-{
-}
+rendering::system::Key::~Key() = default;
 
 void rendering::system::Key::operator()()
 {

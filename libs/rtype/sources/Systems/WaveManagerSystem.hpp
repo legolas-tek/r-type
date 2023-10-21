@@ -17,15 +17,15 @@
 
 namespace System {
 
-static inline constexpr size_t seconds_to_tick(float sec)
+static inline constexpr size_t secondsToTick(float sec)
 {
-    return 60 * sec + 1;
+    return static_cast<size_t>(60 * sec + 1);
 }
 
 class WaveManagerSystem : public ISystem {
 public:
-    WaveManagerSystem(engine::Registry &reg);
-    ~WaveManagerSystem() = default;
+    explicit WaveManagerSystem(engine::Registry &reg);
+    ~WaveManagerSystem() override = default;
 
     void operator()() override;
 
@@ -52,13 +52,10 @@ private:
 
     // better to have a multiple of 4 sec (4 % 0.016 = 0)
     static inline constexpr std::array<size_t, 3> WAVE_START_TICK_TABLE = {
-        seconds_to_tick(0), // wave 1 start sec
-        seconds_to_tick(4), // wave 1 start sec
-        seconds_to_tick(8) // wave 1 start sec
+        secondsToTick(0), // wave 1 start sec
+        secondsToTick(4), // wave 1 start sec
+        secondsToTick(8) // wave 1 start sec
     };
-
-    static inline constexpr std::array<size_t, 2> WAVE_PADDING
-        = { seconds_to_tick(0.4), seconds_to_tick(0.4) };
 };
 }
 #endif /* !WAVEMANAGERSYSTEM_HPP_ */

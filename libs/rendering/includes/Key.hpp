@@ -32,14 +32,14 @@ public:
      * \param registry Reference to the engine's registry to access entity
      * components.
      */
-    Key(engine::Registry &registry);
+    explicit Key(engine::Registry &registry);
 
     /*!
      * \brief Destroy the Key system.
      *
      * Handles any necessary cleanup for the Key system upon its deletion.
      */
-    ~Key();
+    ~Key() override;
 
     /*!
      * \brief Operator function to update entity velocities.

@@ -12,9 +12,7 @@ net::system::NetworkServer::NetworkServer(engine::Registry &registry, int port)
 {
 }
 
-net::system::NetworkServer::~NetworkServer()
-{
-}
+net::system::NetworkServer::~NetworkServer() = default;
 
 bool net::system::NetworkServer::canUpdate(
     [[maybe_unused]] engine::Entity entity,

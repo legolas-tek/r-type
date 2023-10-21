@@ -12,6 +12,4 @@ net::system::NetworkClient::NetworkClient(engine::Registry &registry, int port)
 {
 }
 
-net::system::NetworkClient::~NetworkClient()
-{
-}
+net::system::NetworkClient::~NetworkClient() = default;

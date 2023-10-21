@@ -41,12 +41,12 @@ private:
     /// @brief this functions determines wether the collision
     /// deals damage or not
     /// @return returns true if the collision deals damage
-    bool isDamageCollision(engine::Entity const collidedEntity);
+    bool isDamageCollision(engine::Entity collidedEntity);
 
     /// @brief This function damage the collided entity life component
     /// with the colliding entity damages component
     /// @param collidedEntity the entity wich receives the damages
-    void damageEntity(engine::Entity const collidedEntity);
+    void damageEntity(engine::Entity collidedEntity);
 
     /// @brief A ref to a Damage components SparseArray
     SparseArray<Component::Damage> &_damages;
