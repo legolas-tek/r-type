@@ -32,8 +32,11 @@ void net::lobby::RemoteClient::onJoinRequest(std::string &&playerName)
               << _playerNumber << " with hash " << _playerHash << std::endl;
     sendJoinSuccess(_playerNumber, _playerHash);
     for (auto &player : _parent._clients) {
-        if (player._playerNumber) {
-            player.sendNewPlayer(_playerNumber, _playerName);
+        if (!player._playerNumber)
+            continue;
+        player.sendNewPlayer(_playerNumber, _playerName);
+        if (player._playerNumber != _playerNumber) {
+            sendNewPlayer(player._playerNumber, player._playerName);
         }
     }
 }
