@@ -100,7 +100,7 @@ public:
 
     void erase_component(Entity const &entity, size_t component_id)
     {
-        std::cout << "erase func entity = " << entity << " comp = " << component_id << std::endl;
+        std::cout << "erase func entity = " << entity /* << " comp = " << component_id */<< std::endl;
         _erase_component_funcs[component_id](*this, entity);
     }
 
@@ -115,6 +115,7 @@ public:
     /// Remove all entities from the scene
     void reset_scene()
     {
+        std::cout << "reset Scene" << std::endl;
         for (size_t i = 0; i < _entity_counter; i++) {
             erase_entity(Entity(i));
         }

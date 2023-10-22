@@ -159,7 +159,7 @@ public:
 
     reference_type insert_at(size_type pos, Component const &comp)
     {
-        std::cout << "inserted comp " << typeid(comp).name() << "at " << pos << std::endl;
+        std::cout << "inserted comp " << typeid(comp).name() << " at " << pos << std::endl;
         if (pos >= _data.size())
             _data.resize(pos + 1);
         if (_data.at(pos))
@@ -170,7 +170,7 @@ public:
 
     reference_type insert_at(size_type pos, Component &&comp)
     {
-        std::cout << "inserted comp " << typeid(comp).name() << "at " << pos << std::endl;
+        std::cout << "inserted comp " << typeid(comp).name() << " at " << pos << std::endl;
         if (pos >= _data.size())
             _data.resize(pos + 1);
         if (_data.at(pos))
