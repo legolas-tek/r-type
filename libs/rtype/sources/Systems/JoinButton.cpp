@@ -10,6 +10,7 @@
 #include "Components/Text.hpp"
 #include "Game.hpp"
 #include "LobbyClientImpl.hpp"
+#include "Registry.hpp"
 #include <iostream>
 
 System::JoinButton::JoinButton(
@@ -44,6 +45,6 @@ void System::JoinButton::operator()()
         = dynamic_cast<LobbyClientImpl &>(_registry.add_system<LobbyClientImpl>(
             _game, address->_text, std::stoi(port->_text)
         ));
+    _game.initLobbyScene(_registry, client);
     client.sendJoinRequest(name->_text);
-    client.sendStartRequest();
 }

@@ -13,6 +13,10 @@
 #include <functional>
 #include <memory>
 
+namespace System {
+class LobbyClientImpl;
+}
+
 class RTypeGame : public engine::IGame {
 public:
     /// @brief The Width of the ship sprite
@@ -87,7 +91,10 @@ public:
     void registerAdditionalSystems(engine::Registry &reg) override;
 
     void initAssets(engine::Registry &reg) override;
+    /// Init the initial scene, which is the menu
     void initScene(engine::Registry &reg) override;
+    /// Init the lobby scene, which is where other players are displayed
+    void initLobbyScene(engine::Registry &reg, System::LobbyClientImpl &client);
 
     void onJoinSuccess(std::uint8_t playerNumber, std::uint64_t playerHash);
 

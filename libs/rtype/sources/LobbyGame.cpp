@@ -19,6 +19,7 @@
 #include "Systems/Focusable.hpp"
 #include "Systems/JoinButton.hpp"
 #include "Systems/LobbyClientImpl.hpp"
+#include "Systems/StartGameButton.hpp"
 #include "Systems/Text.hpp"
 
 #include "Rendering.hpp"
@@ -142,4 +143,15 @@ void RTypeLobby::onJoinSuccess(
 {
     _playerNumber = playerNumber;
     _playerHash = playerHash;
+}
+
+void RTypeLobby::initLobbyScene(
+    engine::Registry &reg, System::LobbyClientImpl &client
+)
+{
+    reg.reset_scene();
+    engine::Entity button = createButton(reg, "Start Game", 400, 300);
+    reg.add_system<System::StartGameButton>(
+        client, reg.get_components<Component::Focusable>()[button].value()
+    );
 }

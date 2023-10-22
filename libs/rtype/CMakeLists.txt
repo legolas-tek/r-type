@@ -33,6 +33,7 @@ target_sources (rtype
     ./sources/Systems/NetworkSystem.cpp
     ./sources/Systems/DeathAnimationManager.cpp
     ./sources/Systems/JoinButton.cpp
+    ./sources/Systems/StartGameButton.cpp
     ./sources/Systems/LobbyClientImpl.cpp
     ./sources/Systems/SoundSystem/ShootSoundSystem.cpp
     ./sources/Systems/SoundSystem/ExplosionSoundSystem.cpp
