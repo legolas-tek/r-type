@@ -41,8 +41,13 @@ void rendering::system::Text::operator()()
         auto &font = _cache[(*it)->_font];
         auto &pos = _positions[index];
 
+        Vector2 measure = MeasureTextEx(
+            font, (*it)->_text.c_str(), (*it)->_size, (*it)->_spacing
+        );
+
         DrawTextEx(
-            font, (*it)->_text.c_str(), Vector2 { pos->_x, pos->_y },
+            font, (*it)->_text.c_str(),
+            Vector2 { pos->_x - measure.x / 2, pos->_y - measure.y / 2 },
             (*it)->_size, (*it)->_spacing, BLACK
         );
     }
