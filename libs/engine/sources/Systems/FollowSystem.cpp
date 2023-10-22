@@ -9,11 +9,10 @@
 
 System::FollowSystem::FollowSystem(
     SparseArray<Component::Follow> &follows,
-    SparseArray<Component::Position> &positions, engine::Registry &reg
+    SparseArray<Component::Position> &positions
 )
     : _follows(follows)
     , _positions(positions)
-    , _reg(reg)
 {
 }
 

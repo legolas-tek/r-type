@@ -27,7 +27,7 @@ public:
     /// @param registry A reference to the registry
     FollowSystem(
         SparseArray<Component::Follow> &follows,
-        SparseArray<Component::Position> &positions, engine::Registry &registry
+        SparseArray<Component::Position> &positions
     );
 
     /// @brief an overload of the operator() which apply the FollowSystem logic
@@ -49,8 +49,6 @@ private:
     SparseArray<Component::Follow> &_follows;
     /// @brief A constant reference to a LifeTime components SparseArray
     SparseArray<Component::Position> &_positions;
-    /// @brief a reference to the registry
-    engine::Registry &_reg;
 };
 
 }
