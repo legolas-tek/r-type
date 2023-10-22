@@ -15,6 +15,7 @@
 
 #include "Components/FireRate.hpp"
 #include "Components/Health.hpp"
+#include "Components/Position.hpp"
 
 namespace System {
 
@@ -34,7 +35,8 @@ class AttackSystem : public ISystem {
 public:
     AttackSystem(
         SparseArray<Component::FireRate> &fireRates,
-        SparseArray<Component::Health> &_healths, engine::Registry &reg
+        SparseArray<Component::Health> &_healths,
+        SparseArray<Component::Position> &positions, engine::Registry &reg
     );
 
     /// @brief deleted copy constructor
@@ -57,8 +59,13 @@ private:
     /// wait more
     bool isAbleToAttack(Component::FireRate &fire_rate);
 
+    /// @brief A ref to a FireRate components SparseArray
     SparseArray<Component::FireRate> &_fireRates;
+    /// @brief A ref to a Health components SparseArray
     SparseArray<Component::Health> &_healths;
+    /// @brief A ref to a Position components SparseArray
+    SparseArray<Component::Position> &_positions;
+    /// @brief A ref to the registry
     engine::Registry &_register;
 };
 }

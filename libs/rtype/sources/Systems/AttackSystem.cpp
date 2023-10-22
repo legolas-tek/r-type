@@ -19,18 +19,20 @@
 
 System::AttackSystem::AttackSystem(
     SparseArray<Component::FireRate> &fireRates,
-    SparseArray<Component::Health> &healths, engine::Registry &reg
+    SparseArray<Component::Health> &healths,
+    SparseArray<Component::Position> &positions, engine::Registry &reg
 )
     : _fireRates(fireRates)
     , _healths(healths)
     , _register(reg)
+    , _positions(positions)
 {
 }
 
 void System::AttackSystem::operator()()
 {
     for (auto it = _fireRates.begin(); it != _fireRates.end(); it++) {
-        if (isAbleToAttack(it->value())) {
+        if (isAbleToAttack(it->value()) && _positions[it.get_entity()]) {
             createLaserEntity(engine::Entity(it.get_entity()));
         }
     }
@@ -42,10 +44,8 @@ void System::AttackSystem::createLaserEntity(engine::Entity const attacker_index
     if (_healths[attacker_index] && _healths[attacker_index]->health <= 0)
         return;
     Component::Velocity velocity(15, 0);
-    SparseArray<Component::Position> &positions
-        = _register.get_components<Component::Position>();
     engine::Entity attack_entity(_register.get_new_entity());
-    Component::Position &attacker_pos = positions[attacker_index].value();
+    Component::Position &attacker_pos = _positions[attacker_index].value();
     std::optional<Component::Collision> attacker_collision
         = _register.get_components<Component::Collision>()[attacker_index];
     Component::Position attack_entity_pos(attacker_pos);
@@ -60,7 +60,7 @@ void System::AttackSystem::createLaserEntity(engine::Entity const attacker_index
         attack_entity_pos._x = attacker_pos._x
             - (attacker_collision->_width / 2) - (LASER_WIDTH);
     }
-    positions.emplace_at(attack_entity, attack_entity_pos);
+    _positions.emplace_at(attack_entity, attack_entity_pos);
     _register.get_components<Component::Velocity>().emplace_at(
         attack_entity, velocity
     );

@@ -53,7 +53,8 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
     );
     reg.add_system<System::AttackSystem>(
         reg.get_components<Component::FireRate>(),
-        reg.get_components<Component::Health>(), reg
+        reg.get_components<Component::Health>(),
+        reg.get_components<Component::Position>(), reg
     );
     reg.add_system<System::LifeTimeSystem>(
         reg.get_components<Component::LifeTime>(), reg
@@ -131,9 +132,9 @@ void RTypeGame::initScene(engine::Registry &reg)
     engine::Entity background(reg.get_new_entity());
     engine::Entity midground(reg.get_new_entity());
     engine::Entity foreground(reg.get_new_entity());
-    engine::Entity player(reg.get_new_entity());
     engine::Entity topBorder(reg.get_new_entity());
     engine::Entity bottomBorder(reg.get_new_entity());
+    engine::Entity player(reg.get_new_entity());
 
     // ==================== set positions ====================
     // background
