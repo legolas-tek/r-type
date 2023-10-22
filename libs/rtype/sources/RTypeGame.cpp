@@ -65,6 +65,7 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
         reg.get_components<Component::Collision>(), reg
     );
     reg.add_system<System::DeathAnimationManager>(
+        reg.get_components<Component::Position>(),
         reg.get_components<Component::Health>(),
         reg.get_components<Component::Collision>(),
         reg.get_components<Component::Damage>(), reg
@@ -104,6 +105,7 @@ void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
         reg.get_components<Component::Collision>(), reg
     );
     reg.add_system<System::DeathAnimationManager>(
+        reg.get_components<Component::Position>(),
         reg.get_components<Component::Health>(),
         reg.get_components<Component::Collision>(),
         reg.get_components<Component::Damage>(), reg
