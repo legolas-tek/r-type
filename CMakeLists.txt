@@ -11,7 +11,9 @@ cmake_minimum_required (VERSION 3.8)
 set (RTYPE_CMAKE_DIR "${CMAKE_CURRENT_LIST_DIR}/cmake" CACHE PATH "The path to the cmake directory")
 list (APPEND CMAKE_MODULE_PATH ${RTYPE_CMAKE_DIR})
 
-project (R-Type)
+project (R-Type
+    VERSION ${CMAKE_PROJECT_VERSION}
+)
 
 enable_language (CXX)
 set (CMAKE_CXX_STANDARD 20)
