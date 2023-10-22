@@ -7,6 +7,7 @@
 
 #include "Systems/Texture.hpp"
 #include <algorithm>
+#include <iostream>
 
 rendering::system::Texture::Texture(
     engine::Registry &registry, SparseArray<Component::Drawable> &drawables,
@@ -18,6 +19,16 @@ rendering::system::Texture::Texture(
     , _animations(animations)
     , _positions(positions)
 {
+    size_t index = 0;
+
+    for (auto asset :_registry._assets_paths) {
+        if (!isTextureLoaded(index)) {
+            _cache[index] = LoadTexture(
+                _registry._assets_paths[index].c_str()
+            );
+        }
+        index++;
+    }
 }
 
 rendering::system::Texture::~Texture()
@@ -35,8 +46,12 @@ void rendering::system::Texture::operator()()
 {
     std::vector<engine::Entity> entityList;
 
-    for (auto it = _drawables.begin(); it != _drawables.end(); ++it)
-        entityList.push_back(it.get_entity());
+    for (auto it = _drawables.begin(); it != _drawables.end(); ++it) {
+        if (_positions[it.get_entity()]) {
+            entityList.emplace_back(it.get_entity());
+            // std::cout << "entity " << it.get_entity() << " emplaced index = " << (*it)->_index << std::endl;
+        }
+    }
 
     std::sort(entityList.begin(), entityList.end(), [this](size_t a, size_t b) {
         return _positions[a]->_z < _positions[b]->_z;
@@ -45,13 +60,9 @@ void rendering::system::Texture::operator()()
     for (auto &entity : entityList) {
         auto pos = _positions[entity];
         auto anim = _animations[entity];
+        size_t textureIndex = _drawables[entity]->_index;
 
-        if (not isTextureLoaded(entity))
-            _cache[entity] = LoadTexture(
-                _registry._assets_paths[_drawables[entity]->_index].c_str()
-            );
-
-        Texture2D texture = _cache[entity];
+        Texture2D texture = _cache[textureIndex];
         Rectangle sourceRec
             = { 0.0f, _drawables[entity]->_yOrigin, _drawables[entity]->_width,
                 _drawables[entity]->_height };
