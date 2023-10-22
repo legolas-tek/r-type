@@ -9,8 +9,7 @@
 
 System::DeathSystem::DeathSystem(
     SparseArray<Component::Health> &healths,
-        SparseArray<Component::Life> &lifes,
-    engine::Registry &reg
+    SparseArray<Component::Life> &lifes, engine::Registry &reg
 )
     : _healths(healths)
     , _reg(reg)
@@ -30,10 +29,8 @@ void System::DeathSystem::operator()()
             _reg.erase_entity(it.get_entity());
             continue;
         }
-        if ((*it)->health <= 0
-                && _lifes[it.get_entity()]
-            && _lifes[it.get_entity()]->lifes <= 0
-        ) {
+        if ((*it)->health <= 0 && _lifes[it.get_entity()]
+            && _lifes[it.get_entity()]->lifes <= 0) {
             _toEraseEntityList.push_back(it.get_entity());
         }
     }

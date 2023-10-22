@@ -9,12 +9,12 @@
 #define RESPAWNSYSTEM_HPP_
 
 #include "ISystem.hpp"
-#include "SparseArray.hpp"
 #include "Registry.hpp"
+#include "SparseArray.hpp"
 
-#include "Components/Life.hpp"
-#include "Components/Health.hpp"
 #include "Components/Drawable.hpp"
+#include "Components/Health.hpp"
+#include "Components/Life.hpp"
 
 namespace System {
 
@@ -30,8 +30,7 @@ public:
     /// @param reg A reference to the registry
     RespawnSystem(
         SparseArray<Component::Life> &lifes,
-        SparseArray<Component::Health> &healths,
-        engine::Registry &reg,
+        SparseArray<Component::Health> &healths, engine::Registry &reg,
         int respawnCooldown = 150
     );
 
