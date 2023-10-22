@@ -28,12 +28,12 @@ int main()
 {
     std::unique_ptr<engine::IGame> game(createGame());
 
-    // try {
-    //     std::unique_ptr<engine::IGame> lobby(game->createLobby());
-    //     if (lobby)
-    //         runGame(std::move(lobby));
-    // } catch (engine::IGame::StartGameException const &) {
-    //     // run the game:
-    // }
+    try {
+        std::unique_ptr<engine::IGame> lobby(game->createLobby());
+        if (lobby)
+            runGame(std::move(lobby));
+    } catch (engine::IGame::StartGameException const &) {
+        // run the game:
+    }
     runGame(std::move(game));
 }
