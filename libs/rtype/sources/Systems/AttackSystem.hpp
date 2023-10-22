@@ -34,8 +34,7 @@ class AttackSystem : public ISystem {
 public:
     AttackSystem(
         SparseArray<Component::FireRate> &fireRates,
-        SparseArray<Component::Health> &_healths,
-        engine::Registry &reg
+        SparseArray<Component::Health> &_healths, engine::Registry &reg
     );
 
     /// @brief deleted copy constructor

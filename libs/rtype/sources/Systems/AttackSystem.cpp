@@ -19,8 +19,7 @@
 
 System::AttackSystem::AttackSystem(
     SparseArray<Component::FireRate> &fireRates,
-    SparseArray<Component::Health> &healths,
-    engine::Registry &reg
+    SparseArray<Component::Health> &healths, engine::Registry &reg
 )
     : _fireRates(fireRates)
     , _healths(healths)
@@ -37,8 +36,7 @@ void System::AttackSystem::operator()()
     }
 }
 
-void System::AttackSystem::createLaserEntity(
-    engine::Entity const attacker_index
+void System::AttackSystem::createLaserEntity(engine::Entity const attacker_index
 )
 {
     if (_healths[attacker_index] && _healths[attacker_index]->health <= 0)
