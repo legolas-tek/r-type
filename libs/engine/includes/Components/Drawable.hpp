@@ -27,18 +27,23 @@ public:
      * Initializes an instance of the Drawable structure with the specified
      * resource path.
      *
-     * @param index The index to the resource associated with the drawable
-     * entity.
+     * @param index The index to the resource, in the assets paths vector of the
+     * registry.
      * @param width The width of the drawable entity in pixels.
      * @param height The height of the drawable entity in pixels.
      * @param scale The scale factor to apply to the drawable entity (default
      * is 1.0).
+     * @param yOrigin The y origin of the drawable entity (default is 0.0).
      */
-    Drawable(size_t index, float width, float height, float scale = 1.0f)
+    Drawable(
+        size_t index, float width, float height, float scale = 1.0f,
+        float yOrigin = 0.0f
+    )
         : _index(index)
         , _width(width)
         , _height(height)
         , _scale(scale)
+        , _yOrigin(yOrigin)
     {
     }
 
@@ -52,6 +57,7 @@ public:
     float _width = 0.0f; ///< The width of the drawable entity in pixels.
     float _height = 0.0f; ///< The height of the drawable entity in pixels.
     float _scale = 1.0f; ///< The scale factor applied to the drawable entity.
+    float _yOrigin = 0.0f; ///< The y origin of the drawable entity.
 };
 
 } // namespace Component

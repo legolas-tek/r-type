@@ -61,7 +61,8 @@ void System::LobbyClientImpl::onNewPlayer(
         iconEntity, Component::Position(25 + 150 * playerNumber, 100)
     );
     _registry.get_components<Component::Drawable>().emplace_at(
-        iconEntity, Component::Drawable(0, SHIP_W, SHIP_H, 3)
+        iconEntity,
+        Component::Drawable(0, SHIP_W, SHIP_H, 3, 17 * (playerNumber - 1))
     );
     _registry.get_components<Component::Animation>().emplace_at(
         iconEntity,
