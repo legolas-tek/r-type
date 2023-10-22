@@ -36,7 +36,6 @@ jobs:
         with:
           name: windows-installer
           path: "./generated_packages/"
-
   create_release:
     name: "Create a release from previously generated installers."
     runs-on: ubuntu-latest
