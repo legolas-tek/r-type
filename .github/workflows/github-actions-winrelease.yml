@@ -7,42 +7,51 @@ on:
 
 jobs:
   compile_project:
-    name: "Test that the project compile as expected"
+    name: "Generate and get the windows installer"
     runs-on: "windows-latest"
     steps:
-      - name: "Determine tag"
-        run: "echo \"RELEASE_TAG=${GITHUB_REF#refs/tags/}\" >> $GITHUB_ENV"
-
       - uses: "actions/checkout@v3"
         with:
           fetch-depth: 0
+
+      - run: mkdir -p ./generated_packages/
+
+      - name: "Install needed commands (CPack)"
+        run "choco install cmake"
+
       - name: "Configure the project using cmake"
-        run: "cmake -Bbuild -DCMAKE_CXX_COMPILER=cl -DCMAKE_C_COMPILER=cl -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE='.\\cmake\\windows-base.cmake'"
-      - name: "compile the code"
+      run: "cmake -Bbuild -DCMAKE_PROJECT_VERSION=${{  github.ref_name }} -DCMAKE_CXX_COMPILER=cl -DCMAKE_C_COMPILER=cl -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE='.\\cmake\\windows-base.cmake'"
+      - name: "Compile the code"
         run: "cmake --build build --config=release"
-      - name: "pack the code"
+
+      - name: "Pack the code"
         run: |
           "cd build"
           "cpack"
 
-      - name: "Create release"
-        uses: "actions/github-script@v6"
-        with:
-          github-token: "${{ secrets.GITHUB_TOKEN }}"
-          script: |
-            try {
-              const response = await github.rest.repos.createRelease({
-                draft: false,
-                generate_release_notes: true,
-                name: process.env.RELEASE_TAG,
-                owner: context.repo.owner,
-                prerelease: false,
-                repo: context.repo.repo,
-                tag_name: process.env.RELEASE_TAG,
-              });
+      - name: "Move the generated installer to the dir"
+        run: "mv build/R-Type-${{  github.ref_name }}-win64.exe generated_packages/"
 
-              core.exportVariable('RELEASE_ID', response.data.id);
-              core.exportVariable('RELEASE_UPLOAD_URL', response.data.upload_url);
-            } catch (error) {
-              core.setFailed(error.message);
-            }
+      - uses: actions/upload-artifact@master
+        with:
+          name: windows-installer
+          path: ./generated_packages/
+
+  create_release:
+    name: "Create a release from previously generated installers."
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    step:
+      - uses: actions/checkout@v3
+
+    - uses: actions/download-artifact@master
+      with:
+        name: windows-installer
+        path: ./generated_packages/
+
+    - uses: ncipollo/release-action@v1
+      with:
+        artifacts: "./generated_packages/R-Type-${{  github.ref_name }}-win64.exe"
+        bodyFile: "body.md"
+        generateReleaseNotes: true
