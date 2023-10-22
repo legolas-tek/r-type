@@ -15,6 +15,7 @@
 #include "Components/Position.hpp"
 #include "Components/Text.hpp"
 
+#include "Systems/AnimationSystem.hpp"
 #include "Systems/Editable.hpp"
 #include "Systems/Focusable.hpp"
 #include "Systems/JoinButton.hpp"
@@ -39,6 +40,7 @@ void RTypeLobby::registerAllComponents(engine::Registry &reg)
 
 void RTypeLobby::registerAdditionalClientSystems(engine::Registry &reg)
 {
+    reg.add_system<System::AnimationSystem>(reg);
     reg.add_system<rendering::system::Rendering>(reg);
     reg.add_system<rendering::system::Focusable>(
         reg.get_components<Component::Focusable>(),
@@ -81,6 +83,7 @@ void RTypeLobby::registerAdditionalSystems(engine::Registry &reg)
 
 void RTypeLobby::initAssets(engine::Registry &reg)
 {
+    reg._assets_paths.emplace_back("./assets/images/space_ships.png");
 }
 
 static engine::Entity createField(

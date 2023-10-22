@@ -6,6 +6,8 @@
 */
 
 #include "LobbyClientImpl.hpp"
+#include "Components/Animation.hpp"
+#include "Components/Drawable.hpp"
 #include "Components/Position.hpp"
 #include "Components/Text.hpp"
 #include "Entity.hpp"
@@ -36,17 +38,35 @@ void System::LobbyClientImpl::onNewPlayer(
     std::uint8_t playerNumber, std::string &&playerName
 )
 {
+    auto SHIP_F = RTypeGame::SHIP_F;
+    auto SHIP_H = RTypeGame::SHIP_H;
+    auto SHIP_W = RTypeGame::SHIP_W;
+
     std::cout << "New player: " << int(playerNumber) << " " << playerName
               << std::endl;
-    engine::Entity player(_registry.get_new_entity());
+    engine::Entity nameEntity(_registry.get_new_entity());
 
     _registry.get_components<Component::Position>().emplace_at(
-        player, Component::Position(25 + 150 * playerNumber, 100)
+        nameEntity, Component::Position(25 + 150 * playerNumber, 200)
     );
     _registry.get_components<Component::Text>().emplace_at(
-        player,
+        nameEntity,
         Component::Text(
-            std::move(playerName), "./assets/fonts/Over_There.ttf", 20, 5
+            std::move(playerName), "./assets/fonts/Over_There.ttf", 15, 5
+        )
+    );
+    engine::Entity iconEntity(_registry.get_new_entity());
+
+    _registry.get_components<Component::Position>().emplace_at(
+        iconEntity, Component::Position(25 + 150 * playerNumber, 100)
+    );
+    _registry.get_components<Component::Drawable>().emplace_at(
+        iconEntity, Component::Drawable(0, SHIP_W, SHIP_H, 3)
+    );
+    _registry.get_components<Component::Animation>().emplace_at(
+        iconEntity,
+        Component::Animation(
+            SHIP_W * SHIP_F, SHIP_H, SHIP_W, SHIP_H, SHIP_W, 50
         )
     );
 }
