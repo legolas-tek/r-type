@@ -43,9 +43,10 @@ struct Health : engine::Serializable<Health> {
     Health() = default;
 
     /**
-     * @brief The Health value of the entity.
+     * @brief The Health value the entity curently has.
      */
     int health = 1;
+    /// @brief The maximum amount of health the entity can have.
     int maxHealth = 1;
 };
 }
