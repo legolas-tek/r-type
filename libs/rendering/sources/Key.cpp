@@ -11,7 +11,7 @@
 
 rendering::system::Key::Key(
     SparseArray<Component::Controllable> &controllables,
-    SparseArray<Component::Velocity> &velocities, std::uint8_t playerNumber
+    SparseArray<Component::Velocity> &velocities, std::size_t playerNumber
 )
     : _controllables(controllables)
     , _velocities(velocities)
@@ -29,25 +29,25 @@ void rendering::system::Key::operator()()
         bool isControllable
             = controllable && controllable->_id == _playerNumber;
 
-        if (isControllable) {
-            velocity._vx = 0.0f;
-            velocity._vy = 0.0f;
-            if (IsKeyDown(KEY_W) || IsKeyDown(KEY_Z)) {
-                velocity._vx += 0.0f;
-                velocity._vy += -5.0f;
-            }
-            if (IsKeyDown(KEY_A) || IsKeyDown(KEY_Q)) {
-                velocity._vx += -5.0f;
-                velocity._vy += 0.0f;
-            }
-            if (IsKeyDown(KEY_S)) {
-                velocity._vx += 0.0f;
-                velocity._vy += 5.0f;
-            }
-            if (IsKeyDown(KEY_D)) {
-                velocity._vx += 5.0f;
-                velocity._vy += 0.0f;
-            }
+        if (not isControllable)
+            continue;
+        velocity._vx = 0.0f;
+        velocity._vy = 0.0f;
+        if (IsKeyDown(KEY_W) || IsKeyDown(KEY_Z)) {
+            velocity._vx += 0.0f;
+            velocity._vy += -5.0f;
+        }
+        if (IsKeyDown(KEY_A) || IsKeyDown(KEY_Q)) {
+            velocity._vx += -5.0f;
+            velocity._vy += 0.0f;
+        }
+        if (IsKeyDown(KEY_S)) {
+            velocity._vx += 0.0f;
+            velocity._vy += 5.0f;
+        }
+        if (IsKeyDown(KEY_D)) {
+            velocity._vx += 5.0f;
+            velocity._vy += 0.0f;
         }
     }
 }

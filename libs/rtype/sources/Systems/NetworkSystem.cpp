@@ -18,7 +18,7 @@ bool rtype::NetworkServerSystem::canUpdate(
 {
     auto &controllable
         = _registry.get_components<Component::Controllable>()[entity];
-    if (!controllable)
+    if (not controllable)
         return false;
     if (getPlayerNumber(client) != controllable->_id)
         return false;

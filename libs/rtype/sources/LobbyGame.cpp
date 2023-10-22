@@ -83,8 +83,8 @@ void RTypeLobby::initAssets(engine::Registry &reg)
 }
 
 static engine::Entity createField(
-    engine::Registry &reg, std::string &&label, std::string &&value, int x,
-    int y
+    engine::Registry &reg, std::string &&label, std::string &&value, float x,
+    float y
 )
 {
     using namespace Component;
@@ -108,7 +108,7 @@ static engine::Entity createField(
 }
 
 static engine::Entity
-createButton(engine::Registry &reg, std::string &&label, int x, int y)
+createButton(engine::Registry &reg, std::string &&label, float x, float y)
 {
     using namespace Component;
     engine::Entity button(reg.get_new_entity());

@@ -71,7 +71,8 @@ public:
      */
     void operator()() override;
 
-    std::size_t getPlayerNumber(manager::Client const &client) const;
+    [[nodiscard]] std::size_t getPlayerNumber(manager::Client const &client
+    ) const;
 
 private:
     /**

@@ -33,8 +33,7 @@ public:
      * \param playerNumber The player number to move.
      */
     Key(SparseArray<Component::Controllable> &controllables,
-        SparseArray<Component::Velocity> &velocities,
-        std::uint8_t playerNumber);
+        SparseArray<Component::Velocity> &velocities, std::size_t playerNumber);
 
     /*!
      * \brief Destroy the Key system.
@@ -55,7 +54,7 @@ public:
 private:
     SparseArray<Component::Controllable> &_controllables;
     SparseArray<Component::Velocity> &_velocities;
-    std::uint8_t _playerNumber;
+    std::size_t _playerNumber;
 };
 }
 #endif /* !KEY_HPP_ */
