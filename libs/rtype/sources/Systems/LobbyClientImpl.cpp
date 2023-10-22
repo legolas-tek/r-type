@@ -6,6 +6,9 @@
 */
 
 #include "LobbyClientImpl.hpp"
+#include "Components/Position.hpp"
+#include "Components/Text.hpp"
+#include "Entity.hpp"
 #include "Game.hpp"
 #include <iostream>
 
@@ -35,6 +38,17 @@ void System::LobbyClientImpl::onNewPlayer(
 {
     std::cout << "New player: " << int(playerNumber) << " " << playerName
               << std::endl;
+    engine::Entity player(_registry.get_new_entity());
+
+    _registry.get_components<Component::Position>().emplace_at(
+        player, Component::Position(25 + 150 * playerNumber, 100)
+    );
+    _registry.get_components<Component::Text>().emplace_at(
+        player,
+        Component::Text(
+            std::move(playerName), "./assets/fonts/Over_There.ttf", 20, 5
+        )
+    );
 }
 
 void System::LobbyClientImpl::onGameStart()
