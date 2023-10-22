@@ -22,6 +22,7 @@
 #include "Systems/SoundManagerSystem.hpp"
 #include "Systems/SpawnEnemySystem.hpp"
 #include "Systems/WaveManagerSystem.hpp"
+#include "Systems/FollowSystem.hpp"
 
 #include "Key.hpp"
 #include "NetworkClientSystem.hpp"
@@ -41,6 +42,7 @@ void RTypeGame::registerAllComponents(engine::Registry &reg)
     reg.register_component<Component::Damage>();
     reg.register_component<Component::Health>();
     reg.register_component<Component::Life>();
+    reg.register_component<Component::Follow>();
     reg.register_component<Component::Text>();
 }
 
@@ -58,6 +60,10 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
     );
     reg.add_system<System::LifeTimeSystem>(
         reg.get_components<Component::LifeTime>(), reg
+    );
+    reg.add_system<System::FollowSystem>(
+        reg.get_components<Component::Follow>(),
+        reg.get_components<Component::Position>(), reg
     );
     reg.add_system<System::DamageSystem>(
         reg.get_components<Component::Damage>(),
@@ -132,9 +138,9 @@ void RTypeGame::initScene(engine::Registry &reg)
     engine::Entity background(reg.get_new_entity());
     engine::Entity midground(reg.get_new_entity());
     engine::Entity foreground(reg.get_new_entity());
+    engine::Entity player(reg.get_new_entity());
     engine::Entity topBorder(reg.get_new_entity());
     engine::Entity bottomBorder(reg.get_new_entity());
-    engine::Entity player(reg.get_new_entity());
 
     // ==================== set positions ====================
     // background
@@ -259,15 +265,16 @@ void RTypeGame::initScene(engine::Registry &reg)
     // ==================== set LifeTime ====================
     // register you're LifeTime components
 
-    // ==================== set health ========================
+    // ==================== set Health ========================
     reg.get_components<Component::Health>().insert_at(
         player, Component::Health(2, 2)
     );
 
-    // ==================== set lifes ========================
+    // ==================== set Lifes ========================
     reg.get_components<Component::Life>().insert_at(player, Component::Life(1));
 
     // ==================== set Text ====================
+    // ==================== set Follow ========================
 }
 
 std::unique_ptr<engine::IGame> RTypeGame::createLobby()
