@@ -31,7 +31,7 @@ struct Follow : engine::Serializable<Follow> {
     Follow() = default;
 
     /// @brief The entity the owner follow
-    engine::Entity targetEntity;
+    engine::Entity targetEntity= engine::Entity(0);
     /// @brief The X offset between the followed entity and the owner
     float offsetX = 0;
     /// @brief The Y offset between the followed entity and the owner
