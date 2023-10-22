@@ -43,8 +43,9 @@ void System::JoinButton::operator()()
               << name->_text << std::endl;
     LobbyClientImpl &client
         = dynamic_cast<LobbyClientImpl &>(_registry.add_system<LobbyClientImpl>(
-            _game, address->_text, std::stoi(port->_text)
+            _game, _registry, address->_text, std::stoi(port->_text)
         ));
-    _game.initLobbyScene(_registry, client);
+    _registry.reset_scene();
+    // TODO: add loading screen
     client.sendJoinRequest(name->_text);
 }

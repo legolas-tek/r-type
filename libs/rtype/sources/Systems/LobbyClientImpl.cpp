@@ -10,10 +10,12 @@
 #include <iostream>
 
 System::LobbyClientImpl::LobbyClientImpl(
-    RTypeLobby &game, std::string const &addr, std::size_t port
+    RTypeLobby &game, engine::Registry &reg, std::string const &addr,
+    std::size_t port
 )
     : net::LobbyClient(addr, port)
     , _game(game)
+    , _registry(reg)
 {
 }
 
@@ -24,6 +26,7 @@ void System::LobbyClientImpl::onJoinSuccess(
     std::cout << "Join success: " << int(playerNumber) << " " << playerHash
               << std::endl;
     _game.onJoinSuccess(playerNumber, playerHash);
+    _game.initLobbyScene(_registry, *this);
 }
 
 void System::LobbyClientImpl::onNewPlayer(
