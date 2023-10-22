@@ -130,15 +130,27 @@ void RTypeGame::initScene(engine::Registry &reg)
     // ==================== set positions ====================
     // background
     reg.get_components<Component::Position>().insert_at(
-        background, Component::Position(0, 0, 0)
+        background,
+        Component::Position(
+            float(rendering::system::SCREEN_WIDTH) / 4,
+            float(rendering::system::SCREEN_HEIGHT) / 4, 0
+        )
     );
     // midground
     reg.get_components<Component::Position>().insert_at(
-        midground, Component::Position(0, 0, 0)
+        midground,
+        Component::Position(
+            float(rendering::system::SCREEN_WIDTH) / 4,
+            float(rendering::system::SCREEN_HEIGHT) / 4, 0
+        )
     );
     // foreground
     reg.get_components<Component::Position>().insert_at(
-        foreground, Component::Position(0, 0, 0)
+        foreground,
+        Component::Position(
+            float(rendering::system::SCREEN_WIDTH) / 4,
+            float(rendering::system::SCREEN_HEIGHT) / 4, 0
+        )
     );
     // player
     reg.get_components<Component::Position>().insert_at(
@@ -151,7 +163,10 @@ void RTypeGame::initScene(engine::Registry &reg)
     // bottomBorder
     reg.get_components<Component::Position>().insert_at(
         bottomBorder,
-        Component::Position(0, rendering::system::SCREEN_HEIGHT - 16, 1)
+        Component::Position(
+            float(rendering::system::SCREEN_WIDTH) / 2,
+            float(rendering::system::SCREEN_HEIGHT) - float(BORDERS_H) / 2, 1
+        )
     );
 
     // ==================== set velocity ====================
