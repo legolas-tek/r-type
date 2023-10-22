@@ -288,7 +288,8 @@ void RTypeGame::initScene(engine::Registry &reg)
         reg.get_components<Component::Text>().insert_at(
             name,
             Component::Text(
-                std::move(playerName), "./assets/fonts/Over_There.ttf", 15, 5
+                std::move(playerName), "./assets/fonts/Over_There.ttf", 15, 5,
+                0xFFFFFFFF
             )
         );
         reg.get_components<Component::Velocity>().insert_at(

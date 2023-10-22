@@ -45,11 +45,16 @@ void rendering::system::Text::operator()()
         Vector2 measure = MeasureTextEx(
             font, text._text.c_str(), text._size, text._spacing
         );
+        Color color
+            = Color { static_cast<unsigned char>(text._color & 0xFF),
+                      static_cast<unsigned char>((text._color >> 8) & 0xFF),
+                      static_cast<unsigned char>((text._color >> 16) & 0xFF),
+                      static_cast<unsigned char>((text._color >> 24) & 0xFF) };
 
         DrawTextEx(
             font, text._text.c_str(),
             Vector2 { pos->_x - measure.x / 2, pos->_y - measure.y / 2 },
-            text._size, text._spacing, BLACK
+            text._size, text._spacing, color
         );
     }
 }
