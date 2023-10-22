@@ -132,24 +132,24 @@ void RTypeGame::initScene(engine::Registry &reg)
     reg.get_components<Component::Position>().insert_at(
         background,
         Component::Position(
-            float(rendering::system::SCREEN_WIDTH) / 4,
-            float(rendering::system::SCREEN_HEIGHT) / 4, 0
+            float(rendering::system::SCREEN_WIDTH) / 2,
+            float(rendering::system::SCREEN_HEIGHT) / 2, 0
         )
     );
     // midground
     reg.get_components<Component::Position>().insert_at(
         midground,
         Component::Position(
-            float(rendering::system::SCREEN_WIDTH) / 4,
-            float(rendering::system::SCREEN_HEIGHT) / 4, 0
+            float(rendering::system::SCREEN_WIDTH) / 2,
+            float(rendering::system::SCREEN_HEIGHT) / 2, 0
         )
     );
     // foreground
     reg.get_components<Component::Position>().insert_at(
         foreground,
         Component::Position(
-            float(rendering::system::SCREEN_WIDTH) / 4,
-            float(rendering::system::SCREEN_HEIGHT) / 4, 0
+            float(rendering::system::SCREEN_WIDTH) / 2,
+            float(rendering::system::SCREEN_HEIGHT) / 2, 0
         )
     );
     // player
