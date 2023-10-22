@@ -28,8 +28,7 @@ public:
     /// @param reg A ref to the registry
     DeathSystem(
         SparseArray<Component::Health> &healths,
-        SparseArray<Component::Life> &lifes,
-        engine::Registry &reg
+        SparseArray<Component::Life> &lifes, engine::Registry &reg
     );
 
     /// @brief applys the logic of the system

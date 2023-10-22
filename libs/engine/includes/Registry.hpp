@@ -100,11 +100,20 @@ public:
         _erase_component_funcs[component_id](*this, entity);
     }
 
-    void erase_entity(engine::Entity const entity)
+    void erase_entity(Entity entity)
     {
         for (auto it : _component_ids) {
             erase_component(entity, it.second);
         }
+    }
+
+    /// Remove all entities from the scene
+    void reset_scene()
+    {
+        for (size_t i = 0; i < _entity_counter; i++) {
+            erase_entity(Entity(i));
+        }
+        _entity_counter = 1;
     }
 
     template <typename System, class... Params>

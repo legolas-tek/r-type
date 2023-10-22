@@ -52,8 +52,9 @@ void rendering::system::Texture::operator()()
             );
 
         Texture2D texture = _cache[entity];
-        Rectangle sourceRec = { 0.0f, 0.0f, _drawables[entity]->_width,
-                                _drawables[entity]->_height };
+        Rectangle sourceRec
+            = { 0.0f, _drawables[entity]->_yOrigin, _drawables[entity]->_width,
+                _drawables[entity]->_height };
 
         if (anim.has_value())
             sourceRec.x = float(anim.value()._currentOffset);

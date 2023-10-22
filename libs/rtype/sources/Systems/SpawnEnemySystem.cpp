@@ -10,8 +10,8 @@
 
 #include "Components/Collision.hpp"
 #include "Components/Damage.hpp"
-#include "Components/HitBox.hpp"
 #include "Components/Health.hpp"
+#include "Components/HitBox.hpp"
 #include "Components/LifeTime.hpp"
 #include "Components/Velocity.hpp"
 

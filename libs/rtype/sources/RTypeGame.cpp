@@ -18,10 +18,10 @@
 #include "Systems/LifeTimeSystem.hpp"
 #include "Systems/MoveSystem.hpp"
 #include "Systems/NetworkSystem.hpp"
+#include "Systems/RespawnSystem.hpp"
 #include "Systems/SoundManagerSystem.hpp"
 #include "Systems/SpawnEnemySystem.hpp"
 #include "Systems/WaveManagerSystem.hpp"
-#include "Systems/RespawnSystem.hpp"
 
 #include "Key.hpp"
 #include "NetworkClientSystem.hpp"
@@ -53,8 +53,7 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
     );
     reg.add_system<System::AttackSystem>(
         reg.get_components<Component::FireRate>(),
-        reg.get_components<Component::Health>(),
-        reg
+        reg.get_components<Component::Health>(), reg
     );
     reg.add_system<System::LifeTimeSystem>(
         reg.get_components<Component::LifeTime>(), reg
@@ -72,13 +71,11 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
     );
     reg.add_system<System::RespawnSystem>(
         reg.get_components<Component::Life>(),
-        reg.get_components<Component::Health>(),
-        reg
+        reg.get_components<Component::Health>(), reg
     );
     reg.add_system<System::DeathSystem>(
         reg.get_components<Component::Health>(),
-        reg.get_components<Component::Life>(),
-        reg
+        reg.get_components<Component::Life>(), reg
     );
     reg.add_system<System::WaveManagerSystem>(reg);
     reg.add_system<rtype::NetworkServerSystem>(reg, 4242, _serverClients);
@@ -86,41 +83,6 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
 
 void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
 {
-        reg.add_system<System::CollisionsSystem>(
-        reg.get_components<Component::Position>(),
-        reg.get_components<Component::HitBox>(),
-        reg.get_components<Component::Collision>()
-    );
-    reg.add_system<System::AttackSystem>(
-        reg.get_components<Component::FireRate>(),
-        reg.get_components<Component::Health>(),
-        reg
-    );
-    reg.add_system<System::LifeTimeSystem>(
-        reg.get_components<Component::LifeTime>(), reg
-    );
-    reg.add_system<System::DamageSystem>(
-        reg.get_components<Component::Damage>(),
-        reg.get_components<Component::Health>(),
-        reg.get_components<Component::Collision>(), reg
-    );
-    reg.add_system<System::DeathAnimationManager>(
-        reg.get_components<Component::Position>(),
-        reg.get_components<Component::Health>(),
-        reg.get_components<Component::Collision>(),
-        reg.get_components<Component::Damage>(), reg
-    );
-    reg.add_system<System::RespawnSystem>(
-        reg.get_components<Component::Life>(),
-        reg.get_components<Component::Health>(),
-        reg
-    );
-    reg.add_system<System::DeathSystem>(
-        reg.get_components<Component::Health>(),
-        reg.get_components<Component::Life>(),
-        reg
-    );
-    reg.add_system<System::WaveManagerSystem>(reg);
     reg.add_system<System::SoundManagerSystem>(reg);
     reg.add_system<System::AnimationSystem>(reg);
     reg.add_system<rendering::system::Rendering>(reg);
@@ -299,24 +261,18 @@ void RTypeGame::initScene(engine::Registry &reg)
 
     // ==================== set health ========================
     reg.get_components<Component::Health>().insert_at(
-        player,
-        Component::Health(2, 2)
+        player, Component::Health(2, 2)
     );
 
     // ==================== set lifes ========================
-    reg.get_components<Component::Life>().insert_at(
-        player,
-        Component::Life(1)
-    );
+    reg.get_components<Component::Life>().insert_at(player, Component::Life(1));
 
     // ==================== set Text ====================
 }
 
 std::unique_ptr<engine::IGame> RTypeGame::createLobby()
 {
-    // TODO: fix the lobby before changing this line
     return std::make_unique<RTypeLobby>(*this);
-    // return nullptr;
 }
 
 engine::IGame *createGame()

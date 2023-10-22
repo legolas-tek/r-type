@@ -15,10 +15,12 @@
 #include "Components/Position.hpp"
 #include "Components/Text.hpp"
 
+#include "Systems/AnimationSystem.hpp"
 #include "Systems/Editable.hpp"
 #include "Systems/Focusable.hpp"
 #include "Systems/JoinButton.hpp"
 #include "Systems/LobbyClientImpl.hpp"
+#include "Systems/StartGameButton.hpp"
 #include "Systems/Text.hpp"
 
 #include "Rendering.hpp"
@@ -38,6 +40,7 @@ void RTypeLobby::registerAllComponents(engine::Registry &reg)
 
 void RTypeLobby::registerAdditionalClientSystems(engine::Registry &reg)
 {
+    reg.add_system<System::AnimationSystem>(reg);
     reg.add_system<rendering::system::Rendering>(reg);
     reg.add_system<rendering::system::Focusable>(
         reg.get_components<Component::Focusable>(),
@@ -80,6 +83,7 @@ void RTypeLobby::registerAdditionalSystems(engine::Registry &reg)
 
 void RTypeLobby::initAssets(engine::Registry &reg)
 {
+    reg._assets_paths.emplace_back("./assets/images/space_ships.png");
 }
 
 static engine::Entity createField(
@@ -142,4 +146,15 @@ void RTypeLobby::onJoinSuccess(
 {
     _playerNumber = playerNumber;
     _playerHash = playerHash;
+}
+
+void RTypeLobby::initLobbyScene(
+    engine::Registry &reg, System::LobbyClientImpl &client
+)
+{
+    reg.reset_scene();
+    engine::Entity button = createButton(reg, "Start Game", 400, 300);
+    reg.add_system<System::StartGameButton>(
+        client, reg.get_components<Component::Focusable>()[button].value()
+    );
 }

@@ -17,7 +17,10 @@ namespace Component {
 struct Life : engine::Serializable<Life> {
     /// @brief Constructs an instance of a LifeTime component
     /// @param lifes The number of lifes the entity will have
-    Life(int lifes) : lifes(lifes) {}
+    Life(int lifes)
+        : lifes(lifes)
+    {
+    }
 
     /// @brief Default constructor
     Life() = default;
