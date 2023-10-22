@@ -36,7 +36,8 @@ public:
      * @param port The server port
      */
     LobbyClientImpl(
-        RTypeLobby &game, std::string const &addr, std::size_t port
+        RTypeLobby &game, engine::Registry &reg, std::string const &addr,
+        std::size_t port
     );
 
 private:
@@ -55,6 +56,8 @@ private:
 private:
     /// The game object
     RTypeLobby &_game;
+    /// The registry of the game
+    engine::Registry &_registry;
 };
 }
 
