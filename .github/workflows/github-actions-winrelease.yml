@@ -36,21 +36,22 @@ jobs:
         with:
           name: windows-installer
           path: "./generated_packages/"
+
   create_release:
     name: "Create a release from previously generated installers."
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    step:
+    steps:
       - uses: actions/checkout@v3
 
-    - uses: actions/download-artifact@master
-      with:
-        name: windows-installer
-        path: "./generated_packages/"
+      - uses: actions/download-artifact@master
+        with:
+          name: windows-installer
+          path: "./generated_packages/"
 
-    - uses: ncipollo/release-action@v1
-      with:
-        artifacts: "./generated_packages/R-Type-${{  github.ref_name }}-win64.exe"
-        bodyFile: "body.md"
-        generateReleaseNotes: true
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "./generated_packages/R-Type-${{  github.ref_name }}-win64.exe"
+          bodyFile: "body.md"
+          generateReleaseNotes: true
