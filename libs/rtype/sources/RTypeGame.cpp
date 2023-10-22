@@ -141,7 +141,7 @@ void RTypeGame::initScene(engine::Registry &reg)
         background,
         Component::Position(
             float(rendering::system::SCREEN_WIDTH) / 2,
-            float(rendering::system::SCREEN_HEIGHT) / 2, 0
+            float(rendering::system::SCREEN_HEIGHT) / 2, -10
         )
     );
     // midground
@@ -149,7 +149,7 @@ void RTypeGame::initScene(engine::Registry &reg)
         midground,
         Component::Position(
             float(rendering::system::SCREEN_WIDTH) / 2,
-            float(rendering::system::SCREEN_HEIGHT) / 2, 0
+            float(rendering::system::SCREEN_HEIGHT) / 2, -9
         )
     );
     // foreground
@@ -157,23 +157,23 @@ void RTypeGame::initScene(engine::Registry &reg)
         foreground,
         Component::Position(
             float(rendering::system::SCREEN_WIDTH) / 2,
-            float(rendering::system::SCREEN_HEIGHT) / 2, 0
+            float(rendering::system::SCREEN_HEIGHT) / 2, -8
         )
     );
     // player
     reg.get_components<Component::Position>().insert_at(
-        player, Component::Position(150, 150, 1)
+        player, Component::Position(150, 150, 0)
     );
     // topBorder
     reg.get_components<Component::Position>().insert_at(
-        topBorder, Component::Position(0, 0, 1)
+        topBorder, Component::Position(0, 0, -7)
     );
     // bottomBorder
     reg.get_components<Component::Position>().insert_at(
         bottomBorder,
         Component::Position(
             float(rendering::system::SCREEN_WIDTH) / 2,
-            float(rendering::system::SCREEN_HEIGHT) - float(BORDERS_H) / 2, 1
+            float(rendering::system::SCREEN_HEIGHT) - float(BORDERS_H) / 2, -7
         )
     );
 

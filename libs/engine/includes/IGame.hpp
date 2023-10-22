@@ -67,6 +67,16 @@ public:
     }
 
     /**
+     * @brief Check if the game draws the scene client side
+     *
+     * @return true if the scene is created client-side, false by default
+     */
+    virtual bool isClientScene() const
+    {
+        return false;
+    }
+
+    /**
      * @brief The exception thrown when the game should start after the lobby
      *
      * This exception is thrown when the game should start, and is caught by

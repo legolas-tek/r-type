@@ -104,6 +104,11 @@ public:
 
     void onJoinSuccess(std::uint8_t playerNumber, std::uint64_t playerHash);
 
+    bool isClientScene() const override
+    {
+        return true;
+    }
+
 private:
     /// The reference to the game
     RTypeGame &_game;
