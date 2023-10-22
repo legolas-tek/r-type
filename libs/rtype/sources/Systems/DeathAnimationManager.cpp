@@ -12,11 +12,11 @@
 #include "Components/LifeTime.hpp"
 
 System::DeathAnimationManager::DeathAnimationManager(
-    SparseArray<Component::Life> &lifes,
+    SparseArray<Component::Health> &healths,
     SparseArray<Component::Collision> &collisions,
     SparseArray<Component::Damage> &damages, engine::Registry &reg
 )
-    : _lifes(lifes)
+    : _healths(healths)
     , _registry(reg)
     , _collisions(collisions)
     , _damages(damages)
@@ -25,12 +25,13 @@ System::DeathAnimationManager::DeathAnimationManager(
 
 void System::DeathAnimationManager::operator()()
 {
-    for (auto it = _lifes.begin(); it != _lifes.end(); it++) {
-        if ((*it)->life <= 0)
+    for (auto it = _healths.begin(); it != _healths.end(); it++) {
+        if ((*it)->health == 0) {
             createBigExplosion(
                 _registry.get_components<Component::Position>()[it.get_entity()]
                     .value()
             );
+        }
     }
     for (auto it = _collisions.begin(); it != _collisions.end(); it++) {
         if ((*it)->_collidingEntity && _damages[it.get_entity()]) {

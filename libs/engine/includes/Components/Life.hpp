@@ -1,6 +1,6 @@
 /*
 ** EPITECH PROJECT, 2023
-** R-Type
+** R-type
 ** File description:
 ** Life Component
 */
@@ -8,44 +8,23 @@
 #ifndef LIFE_HPP_
 #define LIFE_HPP_
 
-#include <cstddef>
-
 #include "Serialization/Serializable.hpp"
 
 namespace Component {
 
-/**
- * @brief Structure representing an entity's life.
- *
- * This structure is used to represent an entity's life and stores its unique
- * identifier and life value. It can be used as a component in a system for
- * managing the life of entities.
- */
+/// @brief This component allows our entity to have a life wich if it reaches 0
+/// the lifeSystem will end the current game
 struct Life : engine::Serializable<Life> {
-    /**
-     * @brief Constructor for the Life structure.
-     *
-     * Initializes an instance of the Life structure with the specified
-     * identifier and life value.
-     *
-     * @param id The unique identifier for the entity.
-     * @param life The life value of the entity.
-     */
-    explicit Life(int life)
-        : life(life)
-    {
-    }
+    /// @brief Constructs an instance of a LifeTime component
+    /// @param lifes The number of lifes the entity will have
+    Life(int lifes) : lifes(lifes) {}
 
-    /**
-     * @brief Default constructor for the Life structure.
-     */
+    /// @brief Default constructor
     Life() = default;
 
-    /**
-     * @brief The life value of the entity.
-     */
-    int life = 0;
+    /// @brief The number of lifes the entity has
+    int lifes = 1;
 };
-}
 
+}
 #endif /* !LIFE_HPP_ */

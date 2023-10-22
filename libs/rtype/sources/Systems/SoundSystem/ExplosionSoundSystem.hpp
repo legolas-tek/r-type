@@ -11,7 +11,7 @@
 #include "ISystem.hpp"
 #include "Registry.hpp"
 
-#include "Components/Life.hpp"
+#include "Components/Health.hpp"
 
 #include "Systems/SoundManagerSystem.hpp"
 

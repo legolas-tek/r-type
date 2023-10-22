@@ -16,10 +16,10 @@ System::ExplosionSoundSystem::ExplosionSoundSystem(engine::Registry &reg)
 
 void System::ExplosionSoundSystem::operator()()
 {
-    auto lifeList = _register.get_components<Component::Life>();
+    auto lifeList = _register.get_components<Component::Health>();
 
     for (auto it = lifeList.begin(); it != lifeList.end(); it++) {
-        if ((*it)->life <= 0)
+        if ((*it)->health <= 0)
             PlaySound(_sound);
     }
 }

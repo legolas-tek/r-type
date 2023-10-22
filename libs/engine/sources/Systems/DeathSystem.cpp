@@ -8,16 +8,19 @@
 #include "Systems/DeathSystem.hpp"
 
 System::DeathSystem::DeathSystem(
-    SparseArray<Component::Life> &lifes, engine::Registry &reg
+    SparseArray<Component::Health> &healths,
+        SparseArray<Component::Life> &lifes,
+    engine::Registry &reg
 )
-    : _lifes(lifes)
+    : _healths(healths)
     , _reg(reg)
+    , _lifes(lifes)
 {
 }
 
 void System::DeathSystem::operator()()
 {
-    for (auto it = _lifes.begin(); it != _lifes.end(); it++) {
+    for (auto it = _healths.begin(); it != _healths.end(); it++) {
         auto target = std::find(
             _toEraseEntityList.begin(), _toEraseEntityList.end(),
             it.get_entity()
@@ -27,7 +30,11 @@ void System::DeathSystem::operator()()
             _reg.erase_entity(it.get_entity());
             continue;
         }
-        if ((*it)->life <= 0)
+        if ((*it)->health <= 0
+                && _lifes[it.get_entity()]
+            && _lifes[it.get_entity()]->lifes <= 0
+        ) {
             _toEraseEntityList.push_back(it.get_entity());
+        }
     }
 }

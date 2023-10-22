@@ -23,6 +23,8 @@ public:
     static inline constexpr int SHIP_F = 4;
     /// @brief The index to find the ship sprite
     static inline constexpr int SHIP_I = 3;
+    /// @brief The Health a ship should have
+    static inline constexpr int SHIP_HEALTH = 3;
 
     /// @brief The Width of the basic ennemy sprite
     static inline constexpr int BASIC_ENNEMY_W = 32;
@@ -32,6 +34,8 @@ public:
     static inline constexpr int BASIC_ENNEMY_F = 4;
     /// @brief The index to find the basic ennemy sprite
     static inline constexpr int BASIC_ENNEMY_I = 6;
+    /// @brief The Health a basic enemy should have
+    static inline constexpr int BASIC_ENNEMY_HEALTH = 1;
 
     /// @brief The Width of the shooting ennemy sprite
     static inline constexpr int SHOOT_ENNEMY_W = 62;
@@ -41,6 +45,8 @@ public:
     static inline constexpr int SHOOT_ENNEMY_F = 4;
     /// @brief The index to find the shoot ennemy sprite
     static inline constexpr int SHOOT_ENNEMY_I = 7;
+    /// @brief The Health a shoot enemy should have
+    static inline constexpr int SHOOT_ENNEMY_HEALTH = 3;
 
     /// @brief The Width of the borders sprite
     static inline constexpr int BORDERS_W = 960;
