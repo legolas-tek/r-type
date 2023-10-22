@@ -10,8 +10,9 @@
 
 #include "Components/Controllable.hpp"
 #include "Components/Velocity.hpp"
+
 #include "ISystem.hpp"
-#include "Registry.hpp"
+#include "SparseArray.hpp"
 
 namespace rendering::system {
 /*!
@@ -27,12 +28,12 @@ public:
     /*!
      * \brief Construct a Key system.
      *
-     * Construct the Key system by initializing its entity registry.
-     *
-     * \param registry Reference to the engine's registry to access entity
-     * components.
+     * \param controllables The registry of Controllable components.
+     * \param velocities The registry of Velocity components.
+     * \param playerNumber The player number to move.
      */
-    explicit Key(engine::Registry &registry);
+    Key(SparseArray<Component::Controllable> &controllables,
+        SparseArray<Component::Velocity> &velocities, std::size_t playerNumber);
 
     /*!
      * \brief Destroy the Key system.
@@ -51,8 +52,9 @@ public:
     void operator()() override;
 
 private:
-    engine::Registry &_registry; /*!< Reference to the entity-component system's
-                                    registry to manipulate entity data. */
+    SparseArray<Component::Controllable> &_controllables;
+    SparseArray<Component::Velocity> &_velocities;
+    std::size_t _playerNumber;
 };
 }
 #endif /* !KEY_HPP_ */

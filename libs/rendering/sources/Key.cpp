@@ -6,10 +6,16 @@
 */
 
 #include "Key.hpp"
+#include "SparseArray.hpp"
 #include "raylib.h"
 
-rendering::system::Key::Key(engine::Registry &registry)
-    : _registry(registry)
+rendering::system::Key::Key(
+    SparseArray<Component::Controllable> &controllables,
+    SparseArray<Component::Velocity> &velocities, std::size_t playerNumber
+)
+    : _controllables(controllables)
+    , _velocities(velocities)
+    , _playerNumber(playerNumber)
 {
 }
 
@@ -17,32 +23,31 @@ rendering::system::Key::~Key() = default;
 
 void rendering::system::Key::operator()()
 {
-    auto &velocity_list = _registry.get_components<Component::Velocity>();
-    auto &controllable_list
-        = _registry.get_components<Component::Controllable>();
+    for (auto it = _velocities.begin(); it != _velocities.end(); ++it) {
+        auto &controllable = _controllables[it.get_entity()];
+        auto &velocity = **it;
+        bool isControllable
+            = controllable && controllable->_id == _playerNumber;
 
-    for (auto it = velocity_list.begin(); it != velocity_list.end(); ++it) {
-        bool isControllable = controllable_list[it.get_entity()].has_value();
-
-        if (isControllable) {
-            velocity_list[it.get_entity()]->_vx = 0.0f;
-            velocity_list[it.get_entity()]->_vy = 0.0f;
-            if (IsKeyDown(KEY_W) || IsKeyDown(KEY_Z)) {
-                velocity_list[it.get_entity()]->_vx += 0.0f;
-                velocity_list[it.get_entity()]->_vy += -5.0f;
-            }
-            if (IsKeyDown(KEY_A) || IsKeyDown(KEY_Q)) {
-                velocity_list[it.get_entity()]->_vx += -5.0f;
-                velocity_list[it.get_entity()]->_vy += 0.0f;
-            }
-            if (IsKeyDown(KEY_S)) {
-                velocity_list[it.get_entity()]->_vx += 0.0f;
-                velocity_list[it.get_entity()]->_vy += 5.0f;
-            }
-            if (IsKeyDown(KEY_D)) {
-                velocity_list[it.get_entity()]->_vx += 5.0f;
-                velocity_list[it.get_entity()]->_vy += 0.0f;
-            }
+        if (not isControllable)
+            continue;
+        velocity._vx = 0.0f;
+        velocity._vy = 0.0f;
+        if (IsKeyDown(KEY_W) || IsKeyDown(KEY_Z)) {
+            velocity._vx += 0.0f;
+            velocity._vy += -5.0f;
+        }
+        if (IsKeyDown(KEY_A) || IsKeyDown(KEY_Q)) {
+            velocity._vx += -5.0f;
+            velocity._vy += 0.0f;
+        }
+        if (IsKeyDown(KEY_S)) {
+            velocity._vx += 0.0f;
+            velocity._vy += 5.0f;
+        }
+        if (IsKeyDown(KEY_D)) {
+            velocity._vx += 5.0f;
+            velocity._vy += 0.0f;
         }
     }
 }

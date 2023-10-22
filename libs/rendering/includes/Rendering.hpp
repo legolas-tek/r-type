@@ -8,8 +8,6 @@
 #ifndef RENDERING_HPP
 #define RENDERING_HPP
 
-#include <unordered_map>
-
 #include "Entity.hpp"
 #include "ISystem.hpp"
 #include "Registry.hpp"

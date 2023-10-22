@@ -35,6 +35,13 @@ public:
      */
     RemoteClient(manager::TcpConnection &&network, Lobby &parent);
 
+    /// Get the player name
+    [[nodiscard]] std::string const &getPlayerName() const;
+    /// Get the player number
+    [[nodiscard]] size_t getPlayerNumber() const;
+    /// Get the player hash
+    [[nodiscard]] size_t getPlayerHash() const;
+
 private:
     /// Called when the client sends a join request
     void onJoinRequest(std::string &&playerName) override;

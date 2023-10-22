@@ -23,8 +23,7 @@ namespace manager {
 
 class Udp;
 
-class Client;
-
+struct Client;
 }
 
 }

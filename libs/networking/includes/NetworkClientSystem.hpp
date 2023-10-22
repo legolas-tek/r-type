@@ -17,7 +17,10 @@ namespace net::system {
 class NetworkClient : public Sync {
 
 public:
-    NetworkClient(engine::Registry &registry, int port);
+    NetworkClient(
+        engine::Registry &registry, int port, size_t playerNumber,
+        size_t playerHash
+    );
     ~NetworkClient() override;
 };
 

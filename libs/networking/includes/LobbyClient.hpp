@@ -9,6 +9,7 @@
 #define RTYPE_NETWORKING_LOBBY_CLIENT_HPP
 
 #include "ISystem.hpp"
+#include "TcpConnection.hpp"
 
 #include <cstdint>
 #include <memory>
@@ -62,7 +63,7 @@ private:
 
 private:
     /// The underlying tcp connection
-    std::unique_ptr<net::manager::Tcp> _network;
+    net::manager::TcpConnection _network;
 };
 }
 

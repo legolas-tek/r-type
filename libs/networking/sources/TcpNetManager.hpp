@@ -30,7 +30,7 @@ public:
 
     CircularBuffer &getBuffer();
 
-    void write(std::vector<std::byte> const &data);
+    void write(std::vector<std::byte> &&data);
 
     class TcpNetManagerError : public std::exception {
 

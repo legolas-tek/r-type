@@ -69,7 +69,7 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
         reg.get_components<Component::Life>(), reg
     );
     reg.add_system<System::WaveManagerSystem>(reg);
-    reg.add_system<rtype::NetworkServerSystem>(reg, 4242);
+    reg.add_system<rtype::NetworkServerSystem>(reg, 4242, _serverClients);
 }
 
 void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
@@ -77,8 +77,13 @@ void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
     reg.add_system<System::SoundManagerSystem>(reg);
     reg.add_system<System::AnimationSystem>(reg);
     reg.add_system<rendering::system::Rendering>(reg);
-    reg.add_system<rendering::system::Key>(reg);
-    reg.add_system<net::system::NetworkClient>(reg, 4242);
+    reg.add_system<rendering::system::Key>(
+        reg.get_components<Component::Controllable>(),
+        reg.get_components<Component::Velocity>(), _playerNumber
+    );
+    reg.add_system<net::system::NetworkClient>(
+        reg, 4242, _playerNumber, _playerHash
+    );
 }
 
 void RTypeGame::registerAdditionalSystems(engine::Registry &reg)
@@ -210,7 +215,7 @@ void RTypeGame::initScene(engine::Registry &reg)
     );
 
     // // ==================== set Controllable ====================
-    reg.get_components<Component::Controllable>().insert_at(player, 2);
+    reg.get_components<Component::Controllable>().insert_at(player, 1);
 
     // ==================== set Collision ====================
     reg.get_components<Component::Collision>().insert_at(
@@ -239,8 +244,8 @@ void RTypeGame::initScene(engine::Registry &reg)
 std::unique_ptr<engine::IGame> RTypeGame::createLobby()
 {
     // TODO: fix the lobby before changing this line
-    // return std::make_unique<RTypeLobby>();
-    return nullptr;
+    return std::make_unique<RTypeLobby>(*this);
+    // return nullptr;
 }
 
 engine::IGame *createGame()

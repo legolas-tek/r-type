@@ -63,10 +63,23 @@ public:
     void initScene(engine::Registry &reg) override;
 
     std::unique_ptr<engine::IGame> createLobby() override;
+
+public:
+    /// Server side, contains the clients, empty on client
+    std::vector<net::lobby::RemoteClient> _serverClients;
+
+public:
+    /// Client side, contains the player number (1-4), 0 on server
+    std::size_t _playerNumber = 0;
+    /// Client side, contains our player hash, 0 on server
+    std::size_t _playerHash = 0;
 };
 
 class RTypeLobby : public engine::IGame {
 public:
+    explicit RTypeLobby(RTypeGame &game);
+    ~RTypeLobby() override;
+
     void registerAllComponents(engine::Registry &reg) override;
 
     void registerAdditionalServerSystems(engine::Registry &reg) override;
@@ -75,6 +88,18 @@ public:
 
     void initAssets(engine::Registry &reg) override;
     void initScene(engine::Registry &reg) override;
+
+    void onJoinSuccess(std::uint8_t playerNumber, std::uint64_t playerHash);
+
+private:
+    /// The reference to the game
+    RTypeGame &_game;
+
+private:
+    engine::Entity _joinButton { 0 };
+    engine::Entity _addressInput { 0 };
+    engine::Entity _portInput { 0 };
+    engine::Entity _nameInput { 0 };
 
 private:
     /// Server side, contains the lobby, null on client

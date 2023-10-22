@@ -12,15 +12,16 @@
 #include "NetworkSystem.hpp"
 
 bool rtype::NetworkServerSystem::canUpdate(
-    engine::Entity entity, uint8_t component_id,
-    [[maybe_unused]] engine::Deserializer deserializer
+    net::manager::Client const &client, engine::Entity entity,
+    uint8_t component_id, [[maybe_unused]] engine::Deserializer deserializer
 )
 {
     auto &controllable
         = _registry.get_components<Component::Controllable>()[entity];
-    if (!controllable)
+    if (not controllable)
         return false;
-    // TODO: check player ID
+    if (getPlayerNumber(client) != controllable->_id)
+        return false;
     if (component_id == _registry.get_component_id<Component::Velocity>())
         return true;
     // TODO: attack etc

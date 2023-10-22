@@ -10,6 +10,8 @@
 
 #include "Serialization/Serializable.hpp"
 
+#include <cstdint>
+
 namespace Component {
 
 /**
@@ -26,7 +28,7 @@ struct Controllable : engine::Serializable<Controllable> {
      * Initializes an instance of the Controllable structure with the specified
      * identifier.
      *
-     * @param id The unique identifier for the controllable entity.
+     * @param id The identifier of the player controlling the entity
      */
     Controllable(int id)
         : _id(id)
@@ -39,9 +41,9 @@ struct Controllable : engine::Serializable<Controllable> {
     Controllable() = default;
 
     /**
-     * @brief The unique identifier for the controllable entity.
+     * @brief The player number of the player controlling the entity
      */
-    int _id = 0;
+    std::uint8_t _id = 0;
 };
 }
 
