@@ -16,11 +16,11 @@ jobs:
 
       - run: mkdir -p ./generated_packages/
 
-      - name: "Install needed commands (CPack)"
+      - name: "Install needed commands, CPack"
         run "choco install cmake"
 
       - name: "Configure the project using cmake"
-      run: "cmake -Bbuild -DCMAKE_PROJECT_VERSION=${{  github.ref_name }} -DCMAKE_CXX_COMPILER=cl -DCMAKE_C_COMPILER=cl -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE='.\\cmake\\windows-base.cmake'"
+        run: "cmake -Bbuild -DCMAKE_PROJECT_VERSION=${{  github.ref_name }} -DCMAKE_CXX_COMPILER=cl -DCMAKE_C_COMPILER=cl -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE='.\\cmake\\windows-base.cmake'"
       - name: "Compile the code"
         run: "cmake --build build --config=release"
 
