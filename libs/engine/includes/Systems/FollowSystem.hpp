@@ -5,8 +5,8 @@
 ** FollowSystem
 */
 
-#ifndef FOLLOWSYSTEM_HPP_
-#define FOLLOWSYSTEM_HPP_
+#ifndef R_TYPE_ENGINE_FOLLOW_SYSTEM_HPP_
+#define R_TYPE_ENGINE_FOLLOW_SYSTEM_HPP_
 
 #include "ISystem.hpp"
 #include "Registry.hpp"
@@ -30,7 +30,7 @@ public:
         SparseArray<Component::Position> &positions, engine::Registry &registry
     );
 
-    /// @brief an overload of the operator() wich apply the FollowSystem logic
+    /// @brief an overload of the operator() which apply the FollowSystem logic
     void operator()() override;
 
 private:
@@ -54,5 +54,4 @@ private:
 };
 
 }
-
-#endif /* !FOLLOWSYSTEM_HPP_ */
+#endif /* !R_TYPE_ENGINE_FOLLOW_SYSTEM_HPP_ */

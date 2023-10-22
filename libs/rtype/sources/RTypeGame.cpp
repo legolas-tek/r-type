@@ -265,16 +265,15 @@ void RTypeGame::initScene(engine::Registry &reg)
     // ==================== set LifeTime ====================
     // register you're LifeTime components
 
-    // ==================== set Health ========================
+    // ==================== set health ========================
     reg.get_components<Component::Health>().insert_at(
         player, Component::Health(2, 2)
     );
 
-    // ==================== set Lifes ========================
+    // ==================== set lifes ========================
     reg.get_components<Component::Life>().insert_at(player, Component::Life(1));
 
     // ==================== set Text ====================
-    // ==================== set Follow ========================
 }
 
 std::unique_ptr<engine::IGame> RTypeGame::createLobby()

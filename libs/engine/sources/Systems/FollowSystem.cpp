@@ -23,11 +23,12 @@ void System::FollowSystem::operator()()
         auto follow = **it;
 
         if (_positions[it.get_entity()] && _positions[follow.targetEntity])
-            moveToTarget(
-                follow,
-                _positions[it.get_entity()].value(),
-                _positions[follow.targetEntity].value()
-            );
+            continue;
+        moveToTarget(
+            follow,
+            _positions[it.get_entity()].value(),
+            _positions[follow.targetEntity].value()
+        );
     }
 }
 
@@ -38,5 +39,4 @@ void System::FollowSystem::moveToTarget(
 {
     ownerPosition._x = targetPosition._x + ownerFollow.offsetX;
     ownerPosition._y = targetPosition._y + ownerFollow.offsetY;
-    ownerPosition._z = targetPosition._z + ownerFollow.offsetZ;
 }
