@@ -128,7 +128,7 @@ void RTypeLobby::initScene(engine::Registry &reg)
     using namespace Component;
     engine::Entity title(reg.get_new_entity());
 
-    reg.get_components<Position>().emplace_at(title, Position(0, 0));
+    reg.get_components<Position>().emplace_at(title, Position(125, 30));
     reg.get_components<Text>().insert_at(title, Text("R-Type", FONT, 50, 10));
 
     _addressInput = createField(reg, "Address", "127.0.0.1", 100, 100);

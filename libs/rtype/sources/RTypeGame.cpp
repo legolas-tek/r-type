@@ -21,6 +21,7 @@
 #include "Systems/SoundManagerSystem.hpp"
 #include "Systems/SpawnEnemySystem.hpp"
 #include "Systems/WaveManagerSystem.hpp"
+#include "Systems/RespawnSystem.hpp"
 
 #include "Key.hpp"
 #include "NetworkClientSystem.hpp"
@@ -38,6 +39,7 @@ void RTypeGame::registerAllComponents(engine::Registry &reg)
     reg.register_component<Component::FireRate>();
     reg.register_component<Component::LifeTime>();
     reg.register_component<Component::Damage>();
+    reg.register_component<Component::Health>();
     reg.register_component<Component::Life>();
     reg.register_component<Component::Text>();
 }
@@ -50,23 +52,32 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
         reg.get_components<Component::Collision>()
     );
     reg.add_system<System::AttackSystem>(
-        reg.get_components<Component::FireRate>(), reg
+        reg.get_components<Component::FireRate>(),
+        reg.get_components<Component::Health>(),
+        reg
     );
     reg.add_system<System::LifeTimeSystem>(
         reg.get_components<Component::LifeTime>(), reg
     );
     reg.add_system<System::DamageSystem>(
         reg.get_components<Component::Damage>(),
-        reg.get_components<Component::Life>(),
+        reg.get_components<Component::Health>(),
         reg.get_components<Component::Collision>(), reg
     );
     reg.add_system<System::DeathAnimationManager>(
-        reg.get_components<Component::Life>(),
+        reg.get_components<Component::Health>(),
         reg.get_components<Component::Collision>(),
         reg.get_components<Component::Damage>(), reg
     );
+    reg.add_system<System::RespawnSystem>(
+        reg.get_components<Component::Life>(),
+        reg.get_components<Component::Health>(),
+        reg
+    );
     reg.add_system<System::DeathSystem>(
-        reg.get_components<Component::Life>(), reg
+        reg.get_components<Component::Health>(),
+        reg.get_components<Component::Life>(),
+        reg
     );
     reg.add_system<System::WaveManagerSystem>(reg);
     reg.add_system<rtype::NetworkServerSystem>(reg, 4242, _serverClients);
@@ -74,6 +85,40 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
 
 void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
 {
+        reg.add_system<System::CollisionsSystem>(
+        reg.get_components<Component::Position>(),
+        reg.get_components<Component::HitBox>(),
+        reg.get_components<Component::Collision>()
+    );
+    reg.add_system<System::AttackSystem>(
+        reg.get_components<Component::FireRate>(),
+        reg.get_components<Component::Health>(),
+        reg
+    );
+    reg.add_system<System::LifeTimeSystem>(
+        reg.get_components<Component::LifeTime>(), reg
+    );
+    reg.add_system<System::DamageSystem>(
+        reg.get_components<Component::Damage>(),
+        reg.get_components<Component::Health>(),
+        reg.get_components<Component::Collision>(), reg
+    );
+    reg.add_system<System::DeathAnimationManager>(
+        reg.get_components<Component::Health>(),
+        reg.get_components<Component::Collision>(),
+        reg.get_components<Component::Damage>(), reg
+    );
+    reg.add_system<System::RespawnSystem>(
+        reg.get_components<Component::Life>(),
+        reg.get_components<Component::Health>(),
+        reg
+    );
+    reg.add_system<System::DeathSystem>(
+        reg.get_components<Component::Health>(),
+        reg.get_components<Component::Life>(),
+        reg
+    );
+    reg.add_system<System::WaveManagerSystem>(reg);
     reg.add_system<System::SoundManagerSystem>(reg);
     reg.add_system<System::AnimationSystem>(reg);
     reg.add_system<rendering::system::Rendering>(reg);
@@ -130,15 +175,27 @@ void RTypeGame::initScene(engine::Registry &reg)
     // ==================== set positions ====================
     // background
     reg.get_components<Component::Position>().insert_at(
-        background, Component::Position(0, 0, 0)
+        background,
+        Component::Position(
+            float(rendering::system::SCREEN_WIDTH) / 2,
+            float(rendering::system::SCREEN_HEIGHT) / 2, 0
+        )
     );
     // midground
     reg.get_components<Component::Position>().insert_at(
-        midground, Component::Position(0, 0, 0)
+        midground,
+        Component::Position(
+            float(rendering::system::SCREEN_WIDTH) / 2,
+            float(rendering::system::SCREEN_HEIGHT) / 2, 0
+        )
     );
     // foreground
     reg.get_components<Component::Position>().insert_at(
-        foreground, Component::Position(0, 0, 0)
+        foreground,
+        Component::Position(
+            float(rendering::system::SCREEN_WIDTH) / 2,
+            float(rendering::system::SCREEN_HEIGHT) / 2, 0
+        )
     );
     // player
     reg.get_components<Component::Position>().insert_at(
@@ -151,7 +208,10 @@ void RTypeGame::initScene(engine::Registry &reg)
     // bottomBorder
     reg.get_components<Component::Position>().insert_at(
         bottomBorder,
-        Component::Position(0, rendering::system::SCREEN_HEIGHT - 16, 1)
+        Component::Position(
+            float(rendering::system::SCREEN_WIDTH) / 2,
+            float(rendering::system::SCREEN_HEIGHT) - float(BORDERS_H) / 2, 1
+        )
     );
 
     // ==================== set velocity ====================
@@ -235,8 +295,17 @@ void RTypeGame::initScene(engine::Registry &reg)
     // ==================== set LifeTime ====================
     // register you're LifeTime components
 
-    // ==================== set Life ========================
-    reg.get_components<Component::Life>().insert_at(player, Component::Life(3));
+    // ==================== set health ========================
+    reg.get_components<Component::Health>().insert_at(
+        player,
+        Component::Health(2, 2)
+    );
+
+    // ==================== set lifes ========================
+    reg.get_components<Component::Life>().insert_at(
+        player,
+        Component::Life(1)
+    );
 
     // ==================== set Text ====================
 }

@@ -18,7 +18,7 @@ System::LifeTimeSystem::LifeTimeSystem(
 void System::LifeTimeSystem::operator()()
 {
     for (auto it = _life_times.begin(); it != _life_times.end(); it++) {
-        if ((*it)->death_tick == _registry.getTick()) {
+        if ((*it)->deathTick == _registry.getTick()) {
             _registry.erase_entity(it.get_entity());
         }
     }

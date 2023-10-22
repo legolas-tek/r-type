@@ -14,7 +14,7 @@
 
 #include "Components/Collision.hpp"
 #include "Components/Damage.hpp"
-#include "Components/Life.hpp"
+#include "Components/Health.hpp"
 
 namespace System {
 
@@ -29,7 +29,7 @@ public:
     /// @param collisions A ref to a Collision components SparseArray
     DamageSystem(
         SparseArray<Component::Damage> &damages,
-        SparseArray<Component::Life> &lifes,
+        SparseArray<Component::Health> &healths,
         SparseArray<Component::Collision> &collisions,
         engine::Registry &registry
     );
@@ -51,7 +51,7 @@ private:
     /// @brief A ref to a Damage components SparseArray
     SparseArray<Component::Damage> &_damages;
     /// @brief A ref to a LifeTime components SparseArray
-    SparseArray<Component::Life> &_lifes;
+    SparseArray<Component::Health> &_healths;
     /// @brief A ref to a Collision components SparseArray
     SparseArray<Component::Collision> &_collisions;
     /// @brief A ref to the registry

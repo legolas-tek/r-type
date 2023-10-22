@@ -11,7 +11,7 @@
 #include "Components/Collision.hpp"
 #include "Components/Damage.hpp"
 #include "Components/HitBox.hpp"
-#include "Components/Life.hpp"
+#include "Components/Health.hpp"
 #include "Components/LifeTime.hpp"
 #include "Components/Velocity.hpp"
 
@@ -88,7 +88,7 @@ void System::SpawnEnemySystem::operator()()
     _register.get_components<Component::Damage>().insert_at(
         enemy, Component::Damage(1)
     );
-    _register.get_components<Component::Life>().insert_at(
-        enemy, Component::Life(1)
+    _register.get_components<Component::Health>().insert_at(
+        enemy, Component::Health(1, 1)
     );
 }

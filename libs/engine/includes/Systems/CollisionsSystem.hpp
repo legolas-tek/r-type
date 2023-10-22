@@ -13,7 +13,6 @@
 
 #include "Components/Collision.hpp"
 #include "Components/HitBox.hpp"
-#include "Components/Life.hpp"
 #include "Components/Position.hpp"
 
 namespace System {
