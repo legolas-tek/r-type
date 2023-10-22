@@ -273,6 +273,30 @@ void RTypeGame::initScene(engine::Registry &reg)
         reg.get_components<Component::Life>().insert_at(
             player, Component::Life(1)
         );
+
+        engine::Entity name(reg.get_new_entity());
+        reg.get_components<Component::Position>().insert_at(
+            name,
+            Component::Position(
+                150,
+                int(rendering::system::SCREEN_HEIGHT / 2) + 50
+                    + (75.0 * (client.getPlayerNumber() - 2.5)),
+                1
+            )
+        );
+        std::string playerName = client.getPlayerName();
+        reg.get_components<Component::Text>().insert_at(
+            name,
+            Component::Text(
+                std::move(playerName), "./assets/fonts/Over_There.ttf", 15, 5
+            )
+        );
+        reg.get_components<Component::Velocity>().insert_at(
+            name, Component::Velocity()
+        );
+        reg.get_components<Component::Controllable>().insert_at(
+            name, client.getPlayerNumber()
+        );
     }
 }
 
