@@ -58,13 +58,12 @@ void rendering::system::Texture::operator()()
         if (anim.has_value())
             sourceRec.x = float(anim.value()._currentOffset);
 
-        auto destX = pos->_x - sourceRec.width * _drawables[entity]->_scale / 2;
-        auto destY
-            = pos->_y - sourceRec.height * _drawables[entity]->_scale / 2;
+        auto scaledWidth = sourceRec.width * _drawables[entity]->_scale;
+        auto scaledHeight = sourceRec.height * _drawables[entity]->_scale;
 
         Rectangle destRec
-            = { destX, destY, sourceRec.width * _drawables[entity]->_scale,
-                sourceRec.height * _drawables[entity]->_scale };
+            = { pos->_x - scaledWidth / 2, pos->_y - scaledHeight / 2,
+                scaledWidth, scaledHeight };
 
         DrawTexturePro(texture, sourceRec, destRec, { 0, 0 }, 0.0f, WHITE);
     }
