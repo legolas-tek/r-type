@@ -8,7 +8,7 @@
 
 cmake_minimum_required (VERSION 3.8)
 
-add_executable (r-type_client)
+add_executable (r-type_client MACOSX_BUNDLE)
 
 target_link_libraries (r-type_client
     PRIVATE
@@ -22,3 +22,6 @@ target_sources (r-type_client
     PRIVATE
         ./sources/main.cpp
 )
+
+install(TARGETS r-type_client DESTINATION bin)
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/assets DESTINATION bin)

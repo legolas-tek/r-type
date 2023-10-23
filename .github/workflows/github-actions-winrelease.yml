@@ -1,0 +1,61 @@
+name: Windows release action
+
+on:
+  push:
+    tags:
+      - "**"
+
+jobs:
+  install_cmake:
+    name: "Install cmake for cpack"
+    runs-on: "windows-latest"
+    steps:
+      - name: "Install needed commands, CPack"
+        run: "choco install cmake --installargs 'ADD_CMAKE_TO_PATH=User'"
+
+
+  compile_project:
+    name: "Generate and get the windows installer"
+    runs-on: "windows-latest"
+    needs: install_cmake
+    steps:
+      - uses: "actions/checkout@v3"
+        with:
+          fetch-depth: 0
+
+      - run: mkdir -p "./generated_packages/"
+
+      - name: "Configure the project using cmake"
+        run: "cmake -Bbuild -DCMAKE_PROJECT_VERSION='${{  github.ref_name }}' -DCMAKE_CXX_COMPILER=cl -DCMAKE_C_COMPILER=cl -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE='.\\cmake\\windows-base.cmake'"
+      - name: "Compile the code"
+        run: "cmake --build build --config=release"
+
+      - name: "Pack the code"
+        run: "cd build; cpack"
+
+      - name: "Move the generated installer to the dir"
+        run: "mv build/R-Type-${{  github.ref_name }}-win64.exe generated_packages/"
+
+      - uses: actions/upload-artifact@master
+        with:
+          name: windows-installer
+          path: "./generated_packages/"
+
+  create_release:
+    name: "Create a release from previously generated installers."
+    runs-on: ubuntu-latest
+    needs: compile_project
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@master
+        with:
+          name: windows-installer
+          path: "./generated_packages/"
+
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "./generated_packages/R-Type-${{  github.ref_name }}-win64.exe"
+          generateReleaseNotes: true
