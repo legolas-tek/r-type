@@ -61,10 +61,6 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
     reg.add_system<System::LifeTimeSystem>(
         reg.get_components<Component::LifeTime>(), reg
     );
-    reg.add_system<System::FollowSystem>(
-        reg.get_components<Component::Follow>(),
-        reg.get_components<Component::Position>()
-    );
     reg.add_system<System::DamageSystem>(
         reg.get_components<Component::Damage>(),
         reg.get_components<Component::Health>(),
@@ -107,6 +103,10 @@ void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
 
 void RTypeGame::registerAdditionalSystems(engine::Registry &reg)
 {
+    reg.add_system<System::FollowSystem>(
+        reg.get_components<Component::Follow>(),
+        reg.get_components<Component::Position>()
+    );
     reg.add_system<System::MoveSystem>(
         reg.get_components<Component::Position>(),
         reg.get_components<Component::Velocity>()
@@ -287,13 +287,7 @@ void RTypeGame::initScene(engine::Registry &reg)
 
         engine::Entity name(reg.get_new_entity());
         reg.get_components<Component::Position>().insert_at(
-            name,
-            Component::Position(
-                150,
-                int(rendering::system::SCREEN_HEIGHT / 2) + 50
-                    + (75.0 * (client.getPlayerNumber() - 2.5)),
-                1
-            )
+            name, Component::Position()
         );
         std::string playerName = client.getPlayerName();
         reg.get_components<Component::Text>().insert_at(
@@ -306,8 +300,8 @@ void RTypeGame::initScene(engine::Registry &reg)
         reg.get_components<Component::Velocity>().insert_at(
             name, Component::Velocity()
         );
-        reg.get_components<Component::Controllable>().insert_at(
-            name, client.getPlayerNumber()
+        reg.get_components<Component::Follow>().insert_at(
+            name, Component::Follow(player, 0, 50)
         );
     }
 }
