@@ -7,18 +7,22 @@
 
 #include "Systems/RespawnSystem.hpp"
 
-#include "Components/Position.hpp"
-#include "Components/Velocity.hpp"
-
 System::RespawnSystem::RespawnSystem(
-    SparseArray<Component::Life> &lifes,
-    SparseArray<Component::Health> &healths, engine::Registry &reg,
-    int respawnCooldown
+        SparseArray<Component::Life> &lifes,
+        SparseArray<Component::Health> &healths,
+        SparseArray<Component::Controllable> &controllables,
+        SparseArray<Component::Drawable> &drawables,
+        SparseArray<Component::Velocity> &velocities,
+        engine::Registry &reg, int respawnCooldown
 )
     : _lifes(lifes)
     , _healths(healths)
+    , _controllables(controllables)
+    , _drawables(drawables)
+    , _velocities(velocities)
     , _reg(reg)
     , _respawnCooldown(respawnCooldown)
+
 {
 }
 
@@ -39,21 +43,21 @@ void System::RespawnSystem::operator()()
 
 void System::RespawnSystem::registerRespawnEntity(engine::Entity entity)
 {
-    auto controllables = _reg.get_components<Component::Controllable>()[entity];
-    auto drawables = _reg.get_components<Component::Drawable>()[entity];
-    auto velocities = _reg.get_components<Component::Velocity>()[entity];
+    auto controllable = _controllables[entity];
+    auto drawable = _drawables[entity];
+    auto velocitie = _velocities[entity];
 
     _respawnsTicks[entity] = _reg.getTick() + _respawnCooldown;
-    if (drawables) {
-        _drawableComps.emplace(entity, drawables.value());
+    if (drawable) {
+        _drawableComps.emplace(entity, drawable.value());
         _reg.erase_component<Component::Drawable>(entity);
     }
-    if (velocities) {
-        velocities->_vx = 0;
-        velocities->_vy = 0;
+    if (velocitie) {
+        velocitie->_vx = 0;
+        velocitie->_vy = 0;
     }
-    if (controllables) {
-        _controllableComps.emplace(entity, controllables.value());
+    if (controllable) {
+        _controllableComps.emplace(entity, controllable.value());
         _reg.erase_component<Component::Controllable>(entity);
     }
     _healths[entity]->health = -1;

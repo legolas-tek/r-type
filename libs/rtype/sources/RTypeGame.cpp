@@ -71,7 +71,10 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
     );
     reg.add_system<System::RespawnSystem>(
         reg.get_components<Component::Life>(),
-        reg.get_components<Component::Health>(), reg
+        reg.get_components<Component::Health>(),
+        reg.get_components<Component::Controllable>(),
+        reg.get_components<Component::Drawable>(),
+        reg.get_components<Component::Velocity>(), reg
     );
     reg.add_system<System::DeathSystem>(
         reg.get_components<Component::Health>(),

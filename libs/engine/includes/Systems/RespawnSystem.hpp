@@ -16,6 +16,7 @@
 #include "Components/Health.hpp"
 #include "Components/Life.hpp"
 #include "Components/Controllable.hpp"
+#include "Components/Velocity.hpp"
 
 namespace System {
 
@@ -31,8 +32,11 @@ public:
     /// @param reg A reference to the registry
     RespawnSystem(
         SparseArray<Component::Life> &lifes,
-        SparseArray<Component::Health> &healths, engine::Registry &reg,
-        int respawnCooldown = 150
+        SparseArray<Component::Health> &healths,
+        SparseArray<Component::Controllable> &controllables,
+        SparseArray<Component::Drawable> &drawables,
+        SparseArray<Component::Velocity> &velocities,
+        engine::Registry &reg, int respawnCooldown = 150
     );
 
     /// @brief Applies the RespawnSystem logic
@@ -46,7 +50,6 @@ private:
     /// @param entity The entity which should be respawned
     void respawnEntity(size_t entity);
 
-    int _respawnCooldown = 150;
     /// @brief An unordered map that stores the ticks at wich the entitys
     /// should respawn
     std::unordered_map<size_t, size_t> _respawnsTicks;
@@ -60,8 +63,16 @@ private:
     SparseArray<Component::Life> &_lifes;
     /// @brief A reference to a Health components SparseArray
     SparseArray<Component::Health> &_healths;
+    /// @brief A reference to a Controllable components SparseArray
+    SparseArray<Component::Controllable> &_controllables;
+    /// @brief A reference to a Drawable components SparseArray
+    SparseArray<Component::Drawable> &_drawables;
+    /// @brief A reference to a Velocity components SparseArray
+    SparseArray<Component::Velocity> &_velocities;
     /// @brief a reference to the registry
     engine::Registry &_reg;
+    /// @brief The ticks it takes for a unit to respawn
+    int _respawnCooldown = 150;
 };
 
 }
