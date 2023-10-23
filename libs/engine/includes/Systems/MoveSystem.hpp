@@ -45,6 +45,16 @@ private:
     /// entity if there's one
     engine::Entity getCollidingSolidEntity(engine::Entity entity);
 
+    /// @brief This methos checks whether the owner can move or if it's blocked
+    /// by a solid entity
+    /// @param collidingEntity The entity who colids with the owner and has a
+    /// solid component
+    /// @return returns true if it can move and false if it can't
+    bool canMove(
+        engine::Entity collidingEntity, Component::Velocity const &velocity,
+        Component::Position &position
+    );
+
     /// @brief A ref to a Position component SparseArray
     SparseArray<Component::Position> &_positions;
     /// @brief A const ref to a Velocity component SparseArray

@@ -8,6 +8,7 @@
 #include "Game.hpp"
 
 #include "Components/Text.hpp"
+#include "Components/Solid.hpp"
 
 #include "Systems/AnimationSystem.hpp"
 #include "Systems/AttackSystem.hpp"
@@ -42,6 +43,7 @@ void RTypeGame::registerAllComponents(engine::Registry &reg)
     reg.register_component<Component::Health>();
     reg.register_component<Component::Life>();
     reg.register_component<Component::Text>();
+    reg.register_component<Component::Solid>();
 }
 
 void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
@@ -246,6 +248,12 @@ void RTypeGame::initScene(engine::Registry &reg)
     reg.get_components<Component::Collision>().insert_at(
         player, Component::Collision(SHIP_W, SHIP_H)
     );
+    reg.get_components<Component::Collision>().insert_at(
+        topBorder, Component::Collision(BORDERS_W, BORDERS_H)
+    );
+    reg.get_components<Component::Collision>().insert_at(
+        bottomBorder, Component::Collision(BORDERS_W, BORDERS_H)
+    );
 
     // ==================== set Hitbox ====================
     reg.get_components<Component::HitBox>().insert_at(
@@ -269,6 +277,17 @@ void RTypeGame::initScene(engine::Registry &reg)
     reg.get_components<Component::Life>().insert_at(player, Component::Life(1));
 
     // ==================== set Text ====================
+
+    // ==================== set Solid ====================
+    reg.get_components<Component::Solid>().insert_at(
+        player, Component::Solid()
+    );
+    reg.get_components<Component::Solid>().insert_at(
+        topBorder, Component::Solid()
+    );
+    reg.get_components<Component::Solid>().insert_at(
+        bottomBorder, Component::Solid()
+    );
 }
 
 std::unique_ptr<engine::IGame> RTypeGame::createLobby()
