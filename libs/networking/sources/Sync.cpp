@@ -25,6 +25,7 @@ net::Sync::Sync(
     , _nmu(std::make_unique<net::manager::Udp>(
           net::client_netmanager, "127.0.0.1", port
       ))
+    , _last_packet_tick(0)
     , _rd_index(0)
     , _playerNumber(playerNumber)
     , _playerHash(playerHash)
@@ -39,6 +40,7 @@ net::Sync::Sync(
     , _nmu(std::make_unique<net::manager::Udp>(
           net::server_netmanager, "0.0.0.0", port
       ))
+    , _last_packet_tick(0)
     , _rd_index(0)
     , _playerNumber(0)
     , _playerHash(0)
@@ -87,6 +89,10 @@ void net::Sync::processUpdatePacket(
     uint32_t tickNumber;
     deserializer.deserializeTrivial(tickNumber);
 
+    if (tickNumber < _last_packet_tick)
+        return;
+
+    _last_packet_tick = tickNumber;
     deserializer.skip(sizeof(uint32_t)); // skip the previous tick number
 
     while (not deserializer.isFinished()) {
@@ -210,23 +216,26 @@ void net::Sync::operator()()
     auto received = _nmu->receive();
 
     for (auto &[buffer, endpoint] : received) {
-        engine::Deserializer deserializer(buffer);
-        std::size_t playerHash = 0;
-        deserializer.deserializeTrivial(playerHash);
-        auto *client = getClientWithHash(playerHash);
-        if (not client)
-            continue;
-        client->_endpoint = endpoint;
+        try {
+            engine::Deserializer deserializer(buffer);
+            std::size_t playerHash = 0;
+            deserializer.deserializeTrivial(playerHash);
+            auto *client = getClientWithHash(playerHash);
+            if (not client)
+                continue;
+            client->_endpoint = endpoint;
 
-        std::uint8_t packetId = 0;
-        deserializer.deserializeTrivial(packetId);
-        switch (packetId) {
-        case 0x01:
-            processUpdatePacket(deserializer, *client);
-            break;
-        case 0x02:
-            processAckPacket(deserializer, *client);
-            break;
+            std::uint8_t packetId = 0;
+            deserializer.deserializeTrivial(packetId);
+            switch (packetId) {
+            case 0x01:
+                processUpdatePacket(deserializer, *client);
+                break;
+            case 0x02:
+                processAckPacket(deserializer, *client);
+                break;
+            }
+        } catch (engine::Deserializer::DeserializerError &e) {
         }
     }
 

@@ -31,7 +31,7 @@ public:
     template <typename T> void deserializeTrivial(T &value)
     {
         if (_offset + sizeof(T) > _data.size())
-            throw std::runtime_error("Not enough data");
+            throw DeserializerError();
         std::memcpy(&value, _data.data() + _offset, sizeof(T));
         _offset += sizeof(T);
     }
@@ -41,7 +41,7 @@ public:
         SizeType size = 0;
         deserializeTrivial(size);
         if (_offset + size > _data.size())
-            throw std::runtime_error("Not enough data");
+            throw DeserializerError();
         str.assign(
             reinterpret_cast<char const *>(_data.data() + _offset), size
         );
@@ -56,7 +56,7 @@ public:
     void skip(std::size_t size)
     {
         if (_offset + size > _data.size())
-            throw std::runtime_error("Not enough data");
+            throw DeserializerError();
         _offset += size;
     }
 
@@ -64,6 +64,22 @@ public:
     {
         return _offset == _data.size();
     }
+
+    class DeserializerError : public std::exception {
+    public:
+        DeserializerError()
+            : _message("Not enough data")
+        {
+        }
+
+        char const *what() const noexcept override
+        {
+            return _message.c_str();
+        }
+
+    private:
+        std::string _message;
+    };
 
 private:
     std::vector<std::byte> const &_data;

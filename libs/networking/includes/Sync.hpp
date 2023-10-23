@@ -139,6 +139,8 @@ private:
     std::array<SnapshotHistory, NET_SNAPSHOT_NBR>
         _snapshots; ///< A vector of Snapshots
 
+    std::size_t _last_packet_tick;
+
     std::size_t _rd_index; ///< The actual index to read the _snapshots
 
     net::Snapshot _dummy; ///< The dummy packet to use in special case
