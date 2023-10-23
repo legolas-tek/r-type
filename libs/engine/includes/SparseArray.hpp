@@ -22,7 +22,6 @@ public:
     using const_reference_type = value_type const &;
     using container_t = std::vector<value_type>;
     using size_type = typename container_t::size_type;
-    using const_iterator = typename container_t ::const_iterator;
     using pointer_type = value_type *;
     using difference_type = std::ptrdiff_t;
     using iterator_category = std::forward_iterator_tag;
@@ -100,14 +99,16 @@ public:
 
     SparseArray &operator=(SparseArray const &other)
     {
-        this = other;
+        this->_data = other._data;
         return *this;
     }
+
     SparseArray &operator=(SparseArray &&other) noexcept
     {
-        this = other;
+        this->_data = std::move(other._data);
         return *this;
     }
+
     reference_type operator[](size_t idx)
     {
         if (idx >= _data.size())
@@ -129,26 +130,10 @@ public:
             it++;
         return it;
     }
-    const_iterator begin() const
-    {
-        return _data.begin();
-    }
-    const_iterator cbegin() const
-    {
-        return _data.cbegin();
-    }
 
     iterator end()
     {
         return iterator(&_data.data()[_data.size()]);
-    }
-    const_iterator end() const
-    {
-        return _data.end();
-    }
-    const_iterator cend() const
-    {
-        return _data.cend();
     }
 
     size_type size() const
@@ -158,22 +143,12 @@ public:
 
     reference_type insert_at(size_type pos, Component const &comp)
     {
-        if (pos >= _data.size())
-            _data.resize(pos + 1);
-        if (_data.at(pos))
-            _data[pos].reset();
-        _data.insert(_data.begin() + pos, comp);
-        return *(_data.begin() + pos);
+        return emplace_at(pos, comp);
     }
 
     reference_type insert_at(size_type pos, Component &&comp)
     {
-        if (pos >= _data.size())
-            _data.resize(pos + 1);
-        if (_data.at(pos))
-            _data[pos].reset();
-        _data.insert(_data.begin() + pos, comp);
-        return *(_data.begin() + pos);
+        return emplace_at(pos, std::move(comp));
     }
 
     template <class... Params>
@@ -193,18 +168,6 @@ public:
         if (pos >= _data.size())
             throw std::out_of_range("Position out of range.");
         _data[pos].reset();
-    }
-
-    size_type get_index(value_type const &value_searched) const
-    {
-        size_type pos = 0;
-
-        for (auto it = _data.begin(); it != _data.end(); it++) {
-            if (*it == value_searched)
-                return pos;
-            pos++;
-        }
-        return -1;
     }
 
 private:

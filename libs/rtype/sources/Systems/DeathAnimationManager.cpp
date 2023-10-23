@@ -12,11 +12,13 @@
 #include "Components/LifeTime.hpp"
 
 System::DeathAnimationManager::DeathAnimationManager(
+    SparseArray<Component::Position> &positions,
     SparseArray<Component::Health> &healths,
     SparseArray<Component::Collision> &collisions,
     SparseArray<Component::Damage> &damages, engine::Registry &reg
 )
-    : _healths(healths)
+    : _positions(positions)
+    , _healths(healths)
     , _registry(reg)
     , _collisions(collisions)
     , _damages(damages)
@@ -26,20 +28,28 @@ System::DeathAnimationManager::DeathAnimationManager(
 void System::DeathAnimationManager::operator()()
 {
     for (auto it = _healths.begin(); it != _healths.end(); it++) {
-        if ((*it)->health == 0) {
-            createBigExplosion(
-                _registry.get_components<Component::Position>()[it.get_entity()]
-                    .value()
-            );
-        }
+        auto &health = **it;
+        auto &pos = _positions[it.get_entity()];
+
+        if (not pos.has_value())
+            continue;
+
+        if (health.health == 0)
+            createBigExplosion(pos.value());
     }
+
     for (auto it = _collisions.begin(); it != _collisions.end(); it++) {
-        if ((*it)->_collidingEntity && _damages[it.get_entity()]) {
-            createExplosion(
-                _registry.get_components<Component::Position>()[it.get_entity()]
-                    .value()
-            );
-            _registry.erase_entity(it.get_entity());
+        auto &collision = **it;
+        auto id = it.get_entity();
+        auto &pos = _positions[id];
+        auto &damage = _damages[id];
+
+        if (not pos.has_value() or not damage.has_value())
+            continue;
+
+        if (collision._collidingEntity) {
+            createExplosion(pos.value());
+            _registry.erase_entity(id);
         }
     }
 }
@@ -50,7 +60,7 @@ void System::DeathAnimationManager::createExplosion(
 {
     engine::Entity explosion(_registry.get_new_entity());
 
-    _registry.get_components<Component::Position>().insert_at(explosion, pos);
+    _positions.insert_at(explosion, pos);
     _registry.get_components<Component::Drawable>().insert_at(
         explosion,
         Component::Drawable(
@@ -73,7 +83,7 @@ void System::DeathAnimationManager::createBigExplosion(Component::Position pos)
 {
     engine::Entity explosion(_registry.get_new_entity());
 
-    _registry.get_components<Component::Position>().insert_at(explosion, pos);
+    _positions.insert_at(explosion, pos);
     _registry.get_components<Component::Drawable>().insert_at(
         explosion,
         Component::Drawable(BIG_EX_INDEX, BIG_EX_WIDTH, BIG_EX_HEIGHT, 2)
