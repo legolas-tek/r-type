@@ -63,7 +63,7 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
     );
     reg.add_system<System::FollowSystem>(
         reg.get_components<Component::Follow>(),
-        reg.get_components<Component::Position>(), reg
+        reg.get_components<Component::Position>()
     );
     reg.add_system<System::DamageSystem>(
         reg.get_components<Component::Damage>(),
