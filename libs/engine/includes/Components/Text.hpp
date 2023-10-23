@@ -33,14 +33,20 @@ struct Text {
      * @brief Constructor for the Text structure with a specified text.
      *
      * @param text The text to be stored in this structure.
+     * @param font The font used to render the text.
+     * @param size The size of the text.
+     * @param spacing The spacing of the text.
+     * @param color The color of the text, in AABBGGRR format.
      */
     explicit Text(
-        std::string &&text, std::string &&font, float size, float spacing
+        std::string &&text, std::string &&font, float size, float spacing,
+        std::uint32_t color = 0xFF000000
     )
         : _text(std::move(text))
         , _font(std::move(font))
         , _size(size)
         , _spacing(spacing)
+        , _color(color)
     {
     }
 
@@ -50,6 +56,7 @@ struct Text {
         serializer.serializePascalString<std::uint8_t>(_font);
         serializer.serializeTrivial(_size);
         serializer.serializeTrivial(_spacing);
+        serializer.serializeTrivial(_color);
     }
 
     void deserialize(engine::Deserializer &deserializer)
@@ -58,6 +65,7 @@ struct Text {
         deserializer.deserializePascalString<std::uint8_t>(_font);
         deserializer.deserializeTrivial(_size);
         deserializer.deserializeTrivial(_spacing);
+        deserializer.deserializeTrivial(_color);
     }
 
     /**
@@ -79,6 +87,11 @@ struct Text {
      * The spacing of the text.
      */
     float _spacing = 1;
+
+    /**
+     * The color of the text, in AABBGGRR format.
+     */
+    std::uint32_t _color = 0xFF000000;
 };
 }
 

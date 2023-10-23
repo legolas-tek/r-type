@@ -6,6 +6,7 @@
 */
 
 #include "Key.hpp"
+#include "Components/Velocity.hpp"
 #include "SparseArray.hpp"
 #include "raylib.h"
 
@@ -23,31 +24,27 @@ rendering::system::Key::~Key() = default;
 
 void rendering::system::Key::operator()()
 {
+    Component::Velocity velocity;
+    if (IsKeyDown(KEY_W) || IsKeyDown(KEY_Z)) {
+        velocity._vy += -5.0f;
+    }
+    if (IsKeyDown(KEY_A) || IsKeyDown(KEY_Q)) {
+        velocity._vx += -5.0f;
+    }
+    if (IsKeyDown(KEY_S)) {
+        velocity._vy += 5.0f;
+    }
+    if (IsKeyDown(KEY_D)) {
+        velocity._vx += 5.0f;
+    }
+
     for (auto it = _velocities.begin(); it != _velocities.end(); ++it) {
         auto &controllable = _controllables[it.get_entity()];
-        auto &velocity = **it;
         bool isControllable
             = controllable && controllable->_id == _playerNumber;
 
         if (not isControllable)
             continue;
-        velocity._vx = 0.0f;
-        velocity._vy = 0.0f;
-        if (IsKeyDown(KEY_W) || IsKeyDown(KEY_Z)) {
-            velocity._vx += 0.0f;
-            velocity._vy += -5.0f;
-        }
-        if (IsKeyDown(KEY_A) || IsKeyDown(KEY_Q)) {
-            velocity._vx += -5.0f;
-            velocity._vy += 0.0f;
-        }
-        if (IsKeyDown(KEY_S)) {
-            velocity._vx += 0.0f;
-            velocity._vy += 5.0f;
-        }
-        if (IsKeyDown(KEY_D)) {
-            velocity._vx += 5.0f;
-            velocity._vy += 0.0f;
-        }
+        **it = velocity;
     }
 }
