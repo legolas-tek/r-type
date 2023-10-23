@@ -98,7 +98,9 @@ void RTypeGame::registerAdditionalSystems(engine::Registry &reg)
 {
     reg.add_system<System::MoveSystem>(
         reg.get_components<Component::Position>(),
-        reg.get_components<Component::Velocity>()
+        reg.get_components<Component::Velocity>(),
+        reg.get_components<Component::Solid>(),
+        reg.get_components<Component::Collision>()
     );
 }
 
