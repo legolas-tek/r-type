@@ -22,7 +22,6 @@
 #include <unordered_map>
 #include <vector>
 #include <queue>
-#include <iostream>
 
 namespace engine {
 class Registry {
@@ -107,20 +106,17 @@ public:
         for (auto it : _component_ids) {
             erase_component(entity, it.second);
         }
-        std::cout << "pushed entity" << std::endl;
         _freedEntities.push(entity);
     }
 
     /// Remove all entities from the scene
     void reset_scene()
     {
-        std::cout << "scene reset" << std::endl;
         for (size_t i = 0; i < _entity_counter; i++) {
             erase_entity(Entity(i));
         }
         _entity_counter = 1;
-        for (size_t i = 0; i < _freedEntities.size(); i++) {
-            std::cout << "reset scene" << std::endl;
+        while (!_freedEntities.empty()) {
             _freedEntities.pop();
         }
     }
@@ -162,7 +158,6 @@ public:
         if (!_freedEntities.empty()) {
             engine::Entity newEntity = _freedEntities.front();
 
-            std::cout << "reuse entity : " << newEntity << std::endl;
             _freedEntities.pop();
             return newEntity;
         }
