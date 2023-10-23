@@ -139,7 +139,6 @@ void RTypeGame::initScene(engine::Registry &reg)
     engine::Entity midground(reg.get_new_entity());
     engine::Entity foreground(reg.get_new_entity());
     engine::Entity player(reg.get_new_entity());
-    engine::Entity dummy(reg.get_new_entity());
     engine::Entity topBorder(reg.get_new_entity());
     engine::Entity bottomBorder(reg.get_new_entity());
 
@@ -176,9 +175,6 @@ void RTypeGame::initScene(engine::Registry &reg)
     reg.get_components<Component::Position>().insert_at(
         topBorder, Component::Position(0, 0, 1)
     );
-    reg.get_components<Component::Position>().insert_at(
-        dummy, Component::Position(150, 150, 1)
-    );
     // bottomBorder
     reg.get_components<Component::Position>().insert_at(
         bottomBorder,
@@ -210,11 +206,6 @@ void RTypeGame::initScene(engine::Registry &reg)
     reg.get_components<Component::Drawable>().insert_at(
         player, Component::Drawable(SHIP_I, SHIP_W, SHIP_H, 3)
     );
-    /// LAAAA
-    reg.get_components<Component::Drawable>().insert_at(
-        dummy, Component::Drawable(SHIP_I, SHIP_W, SHIP_H, 3)
-    );
-    reg.get_components<Component::Follow>()[dummy] = Component::Follow(player, 0, 150);
     // topBorder
     reg.get_components<Component::Drawable>().insert_at(
         topBorder, Component::Drawable(TOP_BORDER_I, BORDERS_W, BORDERS_H, 3)
