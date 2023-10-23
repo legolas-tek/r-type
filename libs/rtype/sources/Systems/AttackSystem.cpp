@@ -24,8 +24,8 @@ System::AttackSystem::AttackSystem(
 )
     : _fireRates(fireRates)
     , _healths(healths)
-    , _register(reg)
     , _positions(positions)
+    , _register(reg)
 {
 }
 

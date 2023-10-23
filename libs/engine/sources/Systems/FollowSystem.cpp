@@ -22,12 +22,10 @@ void System::FollowSystem::operator()()
         auto follow = **it;
 
         if (_positions[it.get_entity()] && _positions[follow.targetEntity])
-            continue;
-        moveToTarget(
-            follow,
-            _positions[it.get_entity()].value(),
-            _positions[follow.targetEntity].value()
-        );
+            moveToTarget(
+                follow, _positions[it.get_entity()].value(),
+                _positions[follow.targetEntity].value()
+            );
     }
 }
 
