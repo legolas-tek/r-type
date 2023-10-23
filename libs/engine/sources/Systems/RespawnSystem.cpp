@@ -8,12 +8,12 @@
 #include "Systems/RespawnSystem.hpp"
 
 System::RespawnSystem::RespawnSystem(
-        SparseArray<Component::Life> &lifes,
-        SparseArray<Component::Health> &healths,
-        SparseArray<Component::Controllable> &controllables,
-        SparseArray<Component::Drawable> &drawables,
-        SparseArray<Component::Velocity> &velocities,
-        engine::Registry &reg, int respawnCooldown
+    SparseArray<Component::Life> &lifes,
+    SparseArray<Component::Health> &healths,
+    SparseArray<Component::Controllable> &controllables,
+    SparseArray<Component::Drawable> &drawables,
+    SparseArray<Component::Velocity> &velocities, engine::Registry &reg,
+    int respawnCooldown
 )
     : _lifes(lifes)
     , _healths(healths)
@@ -69,7 +69,7 @@ void System::RespawnSystem::respawnEntity(size_t entity)
     _healths[entity]->health = _healths[entity]->maxHealth;
     _reg.get_components<Component::Drawable>()[entity] = _drawableComps[entity];
     _drawableComps.erase(entity);
-    _reg.get_components<Component::Controllable>()[entity] =
-        _controllableComps[entity];
+    _reg.get_components<Component::Controllable>()[entity]
+        = _controllableComps[entity];
     _controllableComps.erase(entity);
 }

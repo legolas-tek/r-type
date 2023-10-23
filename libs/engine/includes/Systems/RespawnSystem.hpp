@@ -12,10 +12,10 @@
 #include "Registry.hpp"
 #include "SparseArray.hpp"
 
+#include "Components/Controllable.hpp"
 #include "Components/Drawable.hpp"
 #include "Components/Health.hpp"
 #include "Components/Life.hpp"
-#include "Components/Controllable.hpp"
 #include "Components/Velocity.hpp"
 
 namespace System {
@@ -35,8 +35,8 @@ public:
         SparseArray<Component::Health> &healths,
         SparseArray<Component::Controllable> &controllables,
         SparseArray<Component::Drawable> &drawables,
-        SparseArray<Component::Velocity> &velocities,
-        engine::Registry &reg, int respawnCooldown = 150
+        SparseArray<Component::Velocity> &velocities, engine::Registry &reg,
+        int respawnCooldown = 150
     );
 
     /// @brief Applies the RespawnSystem logic

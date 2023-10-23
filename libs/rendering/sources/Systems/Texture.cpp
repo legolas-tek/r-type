@@ -18,10 +18,8 @@ rendering::system::Texture::Texture(
     , _animations(animations)
     , _positions(positions)
 {
-    for (auto asset :_registry._assets_paths) {
-        _cache.push_back(LoadTexture(
-            asset.c_str())
-        );
+    for (auto asset : _registry._assets_paths) {
+        _cache.push_back(LoadTexture(asset.c_str()));
     }
 }
 
