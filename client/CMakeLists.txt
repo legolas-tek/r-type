@@ -24,3 +24,4 @@ target_sources (r-type_client
 )
 
 install(TARGETS r-type_client DESTINATION bin)
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/assets DESTINATION bin)
