@@ -22,8 +22,6 @@
 #include <unordered_map>
 #include <vector>
 
-#include <iostream>
-
 namespace engine {
 class Registry {
 public:
@@ -94,19 +92,16 @@ public:
     template <class Component>
     void erase_component(engine::Entity const &entity)
     {
-        std::cout << "erase func entity = " << entity << " comp = " << typeid(Component).name() << std::endl;
         _erase_component_funcs[get_component_id<Component>()](*this, entity);
     }
 
     void erase_component(Entity const &entity, size_t component_id)
     {
-        std::cout << "erase func entity = " << entity /* << " comp = " << component_id */<< std::endl;
         _erase_component_funcs[component_id](*this, entity);
     }
 
     void erase_entity(Entity entity)
     {
-        std::cout << "erase entity " << entity << std::endl;
         for (auto it : _component_ids) {
             erase_component(entity, it.second);
         }
@@ -115,7 +110,6 @@ public:
     /// Remove all entities from the scene
     void reset_scene()
     {
-        std::cout << "reset Scene" << std::endl;
         for (size_t i = 0; i < _entity_counter; i++) {
             erase_entity(Entity(i));
         }

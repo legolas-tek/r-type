@@ -10,8 +10,8 @@
 #include "Systems/RespawnSystem.hpp"
 
 #include "Components/Controllable.hpp"
-#include "Components/Velocity.hpp"
 #include "Components/Position.hpp"
+#include "Components/Velocity.hpp"
 
 System::RespawnSystem::RespawnSystem(
     SparseArray<Component::Life> &lifes,
@@ -46,8 +46,7 @@ void System::RespawnSystem::registerRespawnEntity(engine::Entity entity)
     // TODO: Fix the rendering system so our ship can disapear properly
     if (_reg.get_components<Component::Drawable>()[entity]) {
         _drawableComps.emplace(
-            entity,
-            _reg.get_components<Component::Drawable>()[entity].value()
+            entity, _reg.get_components<Component::Drawable>()[entity].value()
         );
         _reg.erase_component<Component::Drawable>(entity);
     }
@@ -64,12 +63,10 @@ void System::RespawnSystem::respawnEntity(size_t entity)
     _lifes[entity]->lifes -= 1;
     _healths[entity]->health = _healths[entity]->maxHealth;
     // TODO: Fix the rendering system so our ship can disapear properly
-    _reg.get_components<Component::Drawable>().insert_at(
-        entity,
-        std::move(_drawableComps[entity])
-    );
+    _reg.get_components<Component::Drawable>()[entity] = _drawableComps[entity];
     std::cout << "respawn" << std::endl;
-    // std::cout << "pos of top border = " << _reg.get_components<Component::Position>()[] << std::endl;
+    // std::cout << "pos of top border = " <<
+    // _reg.get_components<Component::Position>()[] << std::endl;
     _drawableComps.erase(entity);
     _reg.get_components<Component::Controllable>().insert_at(
         entity, Component::Controllable(1)
