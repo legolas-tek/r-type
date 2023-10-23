@@ -86,7 +86,6 @@ Build using cmake
 ```bash
 cmake -Bbuild \
 -DCMAKE_BUILD_TYPE=Release \
--DDEBUG_NETWORK=1
 ```
 
 If you specifically wants to build for you're platform, use the right preset.
@@ -94,8 +93,9 @@ If you specifically wants to build for you're platform, use the right preset.
 ### For Linux:
 ```bash
 cmake -Bbuild \
---preset linux-amd64
--DCMAKE_BUILD_TYPE=Debug
+--preset linux-amd64 \
+-DCMAKE_BUILD_TYPE=Debug \
+-DDEBUG_NETWORK=1
 ```
 
 ### For Windows:
@@ -138,7 +138,7 @@ And some more available on the wiki...
 
 Contributions are always welcome!
 
-See `contributing.md` for ways to get started.
+See `[CONTRIBUTING](https://github.com/legolas-tek/r-type/CONTRIBUTING)` for ways to get started.
 
 Please adhere to this project's `code of conduct`.
 
