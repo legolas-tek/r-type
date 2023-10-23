@@ -45,16 +45,16 @@ void System::RespawnSystem::registerRespawnEntity(engine::Entity entity)
 {
     auto controllable = _controllables[entity];
     auto drawable = _drawables[entity];
-    auto velocitie = _velocities[entity];
+    auto velocity = _velocities[entity];
 
     _respawnsTicks[entity] = _reg.getTick() + _respawnCooldown;
     if (drawable) {
         _drawableComps.emplace(entity, drawable.value());
         _reg.erase_component<Component::Drawable>(entity);
     }
-    if (velocitie) {
-        velocitie->_vx = 0;
-        velocitie->_vy = 0;
+    if (velocity) {
+        velocity->_vx = 0;
+        velocity->_vy = 0;
     }
     if (controllable) {
         _controllableComps.emplace(entity, controllable.value());

@@ -135,7 +135,6 @@ void RTypeGame::initScene(engine::Registry &reg)
     engine::Entity background(reg.get_new_entity());
     engine::Entity midground(reg.get_new_entity());
     engine::Entity foreground(reg.get_new_entity());
-    engine::Entity player(reg.get_new_entity());
     engine::Entity topBorder(reg.get_new_entity());
     engine::Entity bottomBorder(reg.get_new_entity());
 
@@ -164,10 +163,6 @@ void RTypeGame::initScene(engine::Registry &reg)
             float(rendering::system::SCREEN_HEIGHT) / 2, -8
         )
     );
-    // player
-    reg.get_components<Component::Position>().insert_at(
-        player, Component::Position(150, 150, 0)
-    );
     // topBorder
     reg.get_components<Component::Position>().insert_at(
         topBorder, Component::Position(0, 0, -7)
@@ -179,11 +174,6 @@ void RTypeGame::initScene(engine::Registry &reg)
             float(rendering::system::SCREEN_WIDTH) / 2,
             float(rendering::system::SCREEN_HEIGHT) - float(BORDERS_H) / 2, -7
         )
-    );
-
-    // ==================== set velocity ====================
-    reg.get_components<Component::Velocity>().insert_at(
-        player, Component::Velocity()
     );
 
     // ==================== set Drawable ====================
@@ -198,10 +188,6 @@ void RTypeGame::initScene(engine::Registry &reg)
     // foreground
     reg.get_components<Component::Drawable>().insert_at(
         foreground, Component::Drawable(2, 512.0f, 192.0f, 2.0f)
-    );
-    // player
-    reg.get_components<Component::Drawable>().insert_at(
-        player, Component::Drawable(SHIP_I, SHIP_W, SHIP_H, 3)
     );
     // topBorder
     reg.get_components<Component::Drawable>().insert_at(
@@ -223,12 +209,6 @@ void RTypeGame::initScene(engine::Registry &reg)
         foreground, Component::Animation(1408, 192, 704, 192, 5, 1)
     );
     reg.get_components<Component::Animation>().insert_at(
-        player,
-        Component::Animation(
-            SHIP_W * SHIP_F, SHIP_H, SHIP_W, SHIP_H, SHIP_W, 50
-        )
-    );
-    reg.get_components<Component::Animation>().insert_at(
         topBorder,
         Component::Animation(
             BORDERS_F * BORDERS_W, BORDERS_H, BORDERS_W, BORDERS_H, 1, 1
@@ -241,36 +221,88 @@ void RTypeGame::initScene(engine::Registry &reg)
         )
     );
 
-    // // ==================== set Controllable ====================
-    reg.get_components<Component::Controllable>().insert_at(player, 1);
-
     // ==================== set Collision ====================
-    reg.get_components<Component::Collision>().insert_at(
-        player, Component::Collision(SHIP_W, SHIP_H)
-    );
-
-    // ==================== set Hitbox ====================
-    reg.get_components<Component::HitBox>().insert_at(
-        player, Component::HitBox(SHIP_W, SHIP_H)
-    );
-
-    // ==================== set FireRate ====================
-    reg.get_components<Component::FireRate>().insert_at(
-        player, Component::FireRate(50)
-    );
 
     // ==================== set LifeTime ====================
     // register you're LifeTime components
 
     // ==================== set health ========================
-    reg.get_components<Component::Health>().insert_at(
-        player, Component::Health(1, 1)
-    );
 
     // ==================== set lifes ========================
-    reg.get_components<Component::Life>().insert_at(player, Component::Life(1));
 
     // ==================== set Text ====================
+
+    // ==================== PLAYER ====================
+    for (auto &client : this->_serverClients) {
+        engine::Entity player(reg.get_new_entity());
+        reg.get_components<Component::Position>().insert_at(
+            player,
+            Component::Position(
+                150,
+                int(rendering::system::SCREEN_HEIGHT / 2)
+                    + (75.0 * (client.getPlayerNumber() - 2.5)),
+                1
+            )
+        );
+        reg.get_components<Component::Velocity>().insert_at(
+            player, Component::Velocity()
+        );
+        reg.get_components<Component::Drawable>().insert_at(
+            player,
+            Component::Drawable(
+                SHIP_I, SHIP_W, SHIP_H, 3, 17 * (client.getPlayerNumber() - 1)
+            )
+        );
+        reg.get_components<Component::Animation>().insert_at(
+            player,
+            Component::Animation(
+                SHIP_W * SHIP_F, SHIP_H, SHIP_W, SHIP_H, SHIP_W, 50
+            )
+        );
+        reg.get_components<Component::Collision>().insert_at(
+            player, Component::Collision(SHIP_W, SHIP_H)
+        );
+        reg.get_components<Component::HitBox>().insert_at(
+            player, Component::HitBox(SHIP_W, SHIP_H)
+        );
+        reg.get_components<Component::FireRate>().insert_at(
+            player, Component::FireRate(50)
+        );
+        reg.get_components<Component::Controllable>().insert_at(
+            player, client.getPlayerNumber()
+        );
+        reg.get_components<Component::Health>().insert_at(
+            player, Component::Health(2, 2)
+        );
+        reg.get_components<Component::Life>().insert_at(
+            player, Component::Life(1)
+        );
+
+        engine::Entity name(reg.get_new_entity());
+        reg.get_components<Component::Position>().insert_at(
+            name,
+            Component::Position(
+                150,
+                int(rendering::system::SCREEN_HEIGHT / 2) + 50
+                    + (75.0 * (client.getPlayerNumber() - 2.5)),
+                1
+            )
+        );
+        std::string playerName = client.getPlayerName();
+        reg.get_components<Component::Text>().insert_at(
+            name,
+            Component::Text(
+                std::move(playerName), "./assets/fonts/Over_There.ttf", 15, 5,
+                0xFFFFFFFF
+            )
+        );
+        reg.get_components<Component::Velocity>().insert_at(
+            name, Component::Velocity()
+        );
+        reg.get_components<Component::Controllable>().insert_at(
+            name, client.getPlayerNumber()
+        );
+    }
 }
 
 std::unique_ptr<engine::IGame> RTypeGame::createLobby()
