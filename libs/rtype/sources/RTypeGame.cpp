@@ -8,6 +8,7 @@
 #include "Game.hpp"
 
 #include "Components/Text.hpp"
+#include "Components/Solid.hpp"
 
 #include "Systems/AnimationSystem.hpp"
 #include "Systems/AttackSystem.hpp"
@@ -44,6 +45,7 @@ void RTypeGame::registerAllComponents(engine::Registry &reg)
     reg.register_component<Component::Life>();
     reg.register_component<Component::Follow>();
     reg.register_component<Component::Text>();
+    reg.register_component<Component::Solid>();
 }
 
 void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
@@ -109,7 +111,9 @@ void RTypeGame::registerAdditionalSystems(engine::Registry &reg)
     );
     reg.add_system<System::MoveSystem>(
         reg.get_components<Component::Position>(),
-        reg.get_components<Component::Velocity>()
+        reg.get_components<Component::Velocity>(),
+        reg.get_components<Component::Solid>(),
+        reg.get_components<Component::Collision>()
     );
 }
 
@@ -229,6 +233,18 @@ void RTypeGame::initScene(engine::Registry &reg)
     );
 
     // ==================== set Collision ====================
+    reg.get_components<Component::Collision>().insert_at(
+        topBorder, Component::Collision(BORDERS_W, BORDERS_H * 3)
+    );
+    reg.get_components<Component::Collision>().insert_at(
+        bottomBorder, Component::Collision(BORDERS_W, BORDERS_H * 3)
+    );
+    reg.get_components<Component::HitBox>().insert_at(
+        topBorder, Component::HitBox(BORDERS_W * 3, BORDERS_H * 3)
+    );
+    reg.get_components<Component::HitBox>().insert_at(
+        bottomBorder, Component::HitBox(BORDERS_W * 3, BORDERS_H * 3)
+    );
 
     // ==================== set LifeTime ====================
     // register you're LifeTime components
@@ -239,6 +255,12 @@ void RTypeGame::initScene(engine::Registry &reg)
 
     // ==================== set Text ====================
 
+    reg.get_components<Component::Solid>().insert_at(
+        topBorder, Component::Solid()
+    );
+    reg.get_components<Component::Solid>().insert_at(
+        bottomBorder, Component::Solid()
+    );
     // ==================== PLAYER ====================
     for (auto &client : this->_serverClients) {
         engine::Entity player(reg.get_new_entity());
@@ -250,6 +272,9 @@ void RTypeGame::initScene(engine::Registry &reg)
                     + (75.0 * (client.getPlayerNumber() - 2.5)),
                 1
             )
+        );
+        reg.get_components<Component::Solid>().insert_at(
+        player, Component::Solid()
         );
         reg.get_components<Component::Velocity>().insert_at(
             player, Component::Velocity()
@@ -267,10 +292,10 @@ void RTypeGame::initScene(engine::Registry &reg)
             )
         );
         reg.get_components<Component::Collision>().insert_at(
-            player, Component::Collision(SHIP_W, SHIP_H)
+            player, Component::Collision(SHIP_W * 2, SHIP_H * 2)
         );
         reg.get_components<Component::HitBox>().insert_at(
-            player, Component::HitBox(SHIP_W, SHIP_H)
+            player, Component::HitBox(SHIP_W * 2, SHIP_H * 2)
         );
         reg.get_components<Component::FireRate>().insert_at(
             player, Component::FireRate(50)
