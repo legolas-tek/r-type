@@ -30,8 +30,8 @@ void System::FollowSystem::operator()()
 }
 
 void System::FollowSystem::moveToTarget(
-    Component::Follow &ownerFollow,
-    Component::Position &ownerPosition, Component::Position &targetPosition
+    Component::Follow &ownerFollow, Component::Position &ownerPosition,
+    Component::Position &targetPosition
 )
 {
     ownerPosition._x = targetPosition._x + ownerFollow.offsetX;

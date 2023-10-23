@@ -41,8 +41,8 @@ private:
     /// @param tagetPosition A ref to the Position component of the target
     /// entity
     void moveToTarget(
-        Component::Follow &follow,
-        Component::Position &ownerPosition, Component::Position &tagetPosition
+        Component::Follow &follow, Component::Position &ownerPosition,
+        Component::Position &tagetPosition
     );
 
     /// @brief A constant reference to a Follow components SparseArray

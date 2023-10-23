@@ -15,6 +15,7 @@
 #include "Systems/DamageSystem.hpp"
 #include "Systems/DeathAnimationManager.hpp"
 #include "Systems/DeathSystem.hpp"
+#include "Systems/FollowSystem.hpp"
 #include "Systems/LifeTimeSystem.hpp"
 #include "Systems/MoveSystem.hpp"
 #include "Systems/NetworkSystem.hpp"
@@ -22,7 +23,6 @@
 #include "Systems/SoundManagerSystem.hpp"
 #include "Systems/SpawnEnemySystem.hpp"
 #include "Systems/WaveManagerSystem.hpp"
-#include "Systems/FollowSystem.hpp"
 
 #include "Key.hpp"
 #include "NetworkClientSystem.hpp"
