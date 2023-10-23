@@ -46,3 +46,10 @@ target_sources (networking
     ./sources/LobbyRemoteClient.cpp
     ./sources/Lobby.cpp
 )
+
+install(TARGETS networking
+        RUNTIME DESTINATION bin
+        ARCHIVE DESTINATION lib
+        LIBRARY DESTINATION lib
+        FRAMEWORK DESTINATION bin
+)
