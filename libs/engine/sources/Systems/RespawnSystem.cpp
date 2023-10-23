@@ -5,11 +5,8 @@
 ** RespawnSystem
 */
 
-#include <iostream>
-
 #include "Systems/RespawnSystem.hpp"
 
-#include "Components/Controllable.hpp"
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
 
@@ -42,19 +39,23 @@ void System::RespawnSystem::operator()()
 
 void System::RespawnSystem::registerRespawnEntity(engine::Entity entity)
 {
+    auto controllables = _reg.get_components<Component::Controllable>()[entity];
+    auto drawables = _reg.get_components<Component::Drawable>()[entity];
+    auto velocities = _reg.get_components<Component::Velocity>()[entity];
+
     _respawnsTicks[entity] = _reg.getTick() + _respawnCooldown;
-    // TODO: Fix the rendering system so our ship can disapear properly
-    if (_reg.get_components<Component::Drawable>()[entity]) {
-        _drawableComps.emplace(
-            entity, _reg.get_components<Component::Drawable>()[entity].value()
-        );
+    if (drawables) {
+        _drawableComps.emplace(entity, drawables.value());
         _reg.erase_component<Component::Drawable>(entity);
     }
-    if (_reg.get_components<Component::Velocity>()[entity]) {
-        _reg.get_components<Component::Velocity>()[entity]->_vx = 0;
-        _reg.get_components<Component::Velocity>()[entity]->_vy = 0;
+    if (velocities) {
+        velocities->_vx = 0;
+        velocities->_vy = 0;
     }
-    _reg.erase_component<Component::Controllable>(entity);
+    if (controllables) {
+        _controllableComps.emplace(entity, controllables.value());
+        _reg.erase_component<Component::Controllable>(entity);
+    }
     _healths[entity]->health = -1;
 }
 
@@ -62,13 +63,9 @@ void System::RespawnSystem::respawnEntity(size_t entity)
 {
     _lifes[entity]->lifes -= 1;
     _healths[entity]->health = _healths[entity]->maxHealth;
-    // TODO: Fix the rendering system so our ship can disapear properly
     _reg.get_components<Component::Drawable>()[entity] = _drawableComps[entity];
-    std::cout << "respawn" << std::endl;
-    // std::cout << "pos of top border = " <<
-    // _reg.get_components<Component::Position>()[] << std::endl;
     _drawableComps.erase(entity);
-    _reg.get_components<Component::Controllable>().insert_at(
-        entity, Component::Controllable(1)
-    );
+    _reg.get_components<Component::Controllable>()[entity] =
+        _controllableComps[entity];
+    _controllableComps.erase(entity);
 }

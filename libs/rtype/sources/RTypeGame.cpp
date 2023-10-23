@@ -51,10 +51,10 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
         reg.get_components<Component::HitBox>(),
         reg.get_components<Component::Collision>()
     );
-    // reg.add_system<System::AttackSystem>(
-    //     reg.get_components<Component::FireRate>(),
-    //     reg.get_components<Component::Health>(), reg
-    // );
+    reg.add_system<System::AttackSystem>(
+        reg.get_components<Component::FireRate>(),
+        reg.get_components<Component::Health>(), reg
+    );
     reg.add_system<System::LifeTimeSystem>(
         reg.get_components<Component::LifeTime>(), reg
     );

@@ -40,16 +40,11 @@ struct Texture : public ISystem {
     void operator()() override;
 
 private:
-    /// @brief Check if a texture is already loaded.
-    /// @param id The unique ID of the texture.
-    /// @return True if the texture is loaded, false otherwise.
-    bool isTextureLoaded(size_t id);
-
     engine::Registry &_registry;
     SparseArray<Component::Drawable> &_drawables;
     SparseArray<Component::Animation> &_animations;
     SparseArray<Component::Position> &_positions;
-    std::unordered_map<size_t, Texture2D> _cache;
+    std::vector<Texture2D> _cache;
 };
 
 } // namespace rendering::system

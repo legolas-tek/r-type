@@ -7,7 +7,6 @@
 
 #include "Systems/Texture.hpp"
 #include <algorithm>
-#include <iostream>
 
 rendering::system::Texture::Texture(
     engine::Registry &registry, SparseArray<Component::Drawable> &drawables,
@@ -22,11 +21,9 @@ rendering::system::Texture::Texture(
     size_t index = 0;
 
     for (auto asset :_registry._assets_paths) {
-        if (!isTextureLoaded(index)) {
-            _cache[index] = LoadTexture(
-                _registry._assets_paths[index].c_str()
-            );
-        }
+        _cache.push_back(LoadTexture(
+            _registry._assets_paths[index].c_str())
+        );
         index++;
     }
 }
@@ -34,12 +31,7 @@ rendering::system::Texture::Texture(
 rendering::system::Texture::~Texture()
 {
     for (auto &texture : _cache)
-        UnloadTexture(texture.second);
-}
-
-bool rendering::system::Texture::isTextureLoaded(size_t id)
-{
-    return _cache.find(id) != _cache.end();
+        UnloadTexture(texture);
 }
 
 void rendering::system::Texture::operator()()
@@ -49,7 +41,6 @@ void rendering::system::Texture::operator()()
     for (auto it = _drawables.begin(); it != _drawables.end(); ++it) {
         if (_positions[it.get_entity()]) {
             entityList.emplace_back(it.get_entity());
-            // std::cout << "entity " << it.get_entity() << " emplaced index = " << (*it)->_index << std::endl;
         }
     }
 

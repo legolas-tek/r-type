@@ -15,6 +15,7 @@
 #include "Components/Drawable.hpp"
 #include "Components/Health.hpp"
 #include "Components/Life.hpp"
+#include "Components/Controllable.hpp"
 
 namespace System {
 
@@ -49,9 +50,12 @@ private:
     /// @brief An unordered map that stores the ticks at wich the entitys
     /// should respawn
     std::unordered_map<size_t, size_t> _respawnsTicks;
-    /// @brief An unordered map that stores copys of the drawables components
+    /// @brief An unordered map that stores copys of the Drawable components
     /// that we delete from our respawning entities
     std::unordered_map<size_t, Component::Drawable> _drawableComps;
+    /// @brief An unordered map that stores copys of the Controllable components
+    /// that we delete from our respawning entities
+    std::unordered_map<size_t, Component::Controllable> _controllableComps;
     /// @brief A reference to a Life components SparseArray
     SparseArray<Component::Life> &_lifes;
     /// @brief A reference to a Health components SparseArray
