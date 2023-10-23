@@ -16,6 +16,17 @@
 namespace net::manager {
 
 struct Client {
+    Client(
+        std::string playerName, std::size_t playerNumber,
+        std::size_t playerHash, std::optional<asio::ip::udp::endpoint> endpoint
+    )
+        : _playerName(playerName)
+        , _playerNumber(playerNumber)
+        , _playerHash(playerHash)
+        , _endpoint(endpoint)
+    {
+    }
+
     /// The player name
     std::string _playerName;
     /// The player number

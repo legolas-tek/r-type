@@ -190,7 +190,7 @@ static std::vector<std::byte> constructUpdatePacket(
 
     size_t size = serializer.getSize();
     net::diffSnapshots(serializer, previous, current);
-    if (serializer.getSize() == size) {
+    if (serializer.getSize() == size && previous.tick != 0) {
         return {}; // no update
     }
     return serializer.finalize();

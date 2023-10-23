@@ -7,18 +7,22 @@
 
 #include "Systems/RespawnSystem.hpp"
 
-#include "Components/Controllable.hpp"
-#include "Components/Velocity.hpp"
-
 System::RespawnSystem::RespawnSystem(
     SparseArray<Component::Life> &lifes,
-    SparseArray<Component::Health> &healths, engine::Registry &reg,
+    SparseArray<Component::Health> &healths,
+    SparseArray<Component::Controllable> &controllables,
+    SparseArray<Component::Drawable> &drawables,
+    SparseArray<Component::Velocity> &velocities, engine::Registry &reg,
     int respawnCooldown
 )
     : _lifes(lifes)
     , _healths(healths)
+    , _controllables(controllables)
+    , _drawables(drawables)
+    , _velocities(velocities)
     , _reg(reg)
     , _respawnCooldown(respawnCooldown)
+
 {
 }
 
@@ -39,20 +43,23 @@ void System::RespawnSystem::operator()()
 
 void System::RespawnSystem::registerRespawnEntity(engine::Entity entity)
 {
+    auto controllable = _controllables[entity];
+    auto drawable = _drawables[entity];
+    auto velocity = _velocities[entity];
+
     _respawnsTicks[entity] = _reg.getTick() + _respawnCooldown;
-    // TODO: Fix the rendering system so our ship can disapear properly
-    // if (_reg.get_components<Component::Drawable>()[entity]) {
-    //     _drawableComps.emplace(
-    //         entity,
-    //         _reg.get_components<Component::Drawable>()[entity].value()
-    //     );
-    //     _reg.erase_component<Component::Drawable>(entity);
-    // }
-    if (_reg.get_components<Component::Velocity>()[entity]) {
-        _reg.get_components<Component::Velocity>()[entity]->_vx = 0;
-        _reg.get_components<Component::Velocity>()[entity]->_vy = 0;
+    if (drawable) {
+        _drawableComps.emplace(entity, drawable.value());
+        _reg.erase_component<Component::Drawable>(entity);
     }
-    _reg.erase_component<Component::Controllable>(entity);
+    if (velocity) {
+        velocity->_vx = 0;
+        velocity->_vy = 0;
+    }
+    if (controllable) {
+        _controllableComps.emplace(entity, controllable.value());
+        _reg.erase_component<Component::Controllable>(entity);
+    }
     _healths[entity]->health = -1;
 }
 
@@ -60,12 +67,9 @@ void System::RespawnSystem::respawnEntity(size_t entity)
 {
     _lifes[entity]->lifes -= 1;
     _healths[entity]->health = _healths[entity]->maxHealth;
-    // TODO: Fix the rendering system so our ship can disapear properly
-    // _reg.get_components<Component::Drawable>().insert_at(
-    //     entity,
-    //     _drawableComps[entity]
-    // );
-    _reg.get_components<Component::Controllable>().insert_at(
-        entity, Component::Controllable(2)
-    );
+    _reg.get_components<Component::Drawable>()[entity] = _drawableComps[entity];
+    _drawableComps.erase(entity);
+    _reg.get_components<Component::Controllable>()[entity]
+        = _controllableComps[entity];
+    _controllableComps.erase(entity);
 }

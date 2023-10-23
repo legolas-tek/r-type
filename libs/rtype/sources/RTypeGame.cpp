@@ -78,7 +78,10 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
     );
     reg.add_system<System::RespawnSystem>(
         reg.get_components<Component::Life>(),
-        reg.get_components<Component::Health>(), reg
+        reg.get_components<Component::Health>(),
+        reg.get_components<Component::Controllable>(),
+        reg.get_components<Component::Drawable>(),
+        reg.get_components<Component::Velocity>(), reg
     );
     reg.add_system<System::DeathSystem>(
         reg.get_components<Component::Health>(),
@@ -148,7 +151,7 @@ void RTypeGame::initScene(engine::Registry &reg)
         background,
         Component::Position(
             float(rendering::system::SCREEN_WIDTH) / 2,
-            float(rendering::system::SCREEN_HEIGHT) / 2, 0
+            float(rendering::system::SCREEN_HEIGHT) / 2, -10
         )
     );
     // midground
@@ -156,7 +159,7 @@ void RTypeGame::initScene(engine::Registry &reg)
         midground,
         Component::Position(
             float(rendering::system::SCREEN_WIDTH) / 2,
-            float(rendering::system::SCREEN_HEIGHT) / 2, 0
+            float(rendering::system::SCREEN_HEIGHT) / 2, -9
         )
     );
     // foreground
@@ -164,19 +167,19 @@ void RTypeGame::initScene(engine::Registry &reg)
         foreground,
         Component::Position(
             float(rendering::system::SCREEN_WIDTH) / 2,
-            float(rendering::system::SCREEN_HEIGHT) / 2, 0
+            float(rendering::system::SCREEN_HEIGHT) / 2, -8
         )
     );
     // topBorder
     reg.get_components<Component::Position>().insert_at(
-        topBorder, Component::Position(0, 0, 1)
+        topBorder, Component::Position(0, 0, -7)
     );
     // bottomBorder
     reg.get_components<Component::Position>().insert_at(
         bottomBorder,
         Component::Position(
             float(rendering::system::SCREEN_WIDTH) / 2,
-            float(rendering::system::SCREEN_HEIGHT) - float(BORDERS_H) / 2, 1
+            float(rendering::system::SCREEN_HEIGHT) - float(BORDERS_H) / 2, -7
         )
     );
 

@@ -18,25 +18,26 @@ rendering::system::Texture::Texture(
     , _animations(animations)
     , _positions(positions)
 {
+    for (auto asset : _registry._assets_paths) {
+        _cache.push_back(LoadTexture(asset.c_str()));
+    }
 }
 
 rendering::system::Texture::~Texture()
 {
     for (auto &texture : _cache)
-        UnloadTexture(texture.second);
-}
-
-bool rendering::system::Texture::isTextureLoaded(size_t id)
-{
-    return _cache.find(id) != _cache.end();
+        UnloadTexture(texture);
 }
 
 void rendering::system::Texture::operator()()
 {
     std::vector<engine::Entity> entityList;
 
-    for (auto it = _drawables.begin(); it != _drawables.end(); ++it)
-        entityList.push_back(it.get_entity());
+    for (auto it = _drawables.begin(); it != _drawables.end(); ++it) {
+        if (_positions[it.get_entity()]) {
+            entityList.emplace_back(it.get_entity());
+        }
+    }
 
     std::sort(entityList.begin(), entityList.end(), [this](size_t a, size_t b) {
         return _positions[a]->_z < _positions[b]->_z;
@@ -45,13 +46,9 @@ void rendering::system::Texture::operator()()
     for (auto &entity : entityList) {
         auto pos = _positions[entity];
         auto anim = _animations[entity];
+        size_t textureIndex = _drawables[entity]->_index;
 
-        if (not isTextureLoaded(entity))
-            _cache[entity] = LoadTexture(
-                _registry._assets_paths[_drawables[entity]->_index].c_str()
-            );
-
-        Texture2D texture = _cache[entity];
+        Texture2D texture = _cache[textureIndex];
         Rectangle sourceRec
             = { 0.0f, _drawables[entity]->_yOrigin, _drawables[entity]->_width,
                 _drawables[entity]->_height };
