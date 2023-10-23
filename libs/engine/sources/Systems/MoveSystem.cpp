@@ -7,6 +7,8 @@
 
 #include "Systems/MoveSystem.hpp"
 
+#include <iostream>
+
 System::MoveSystem::MoveSystem(
     SparseArray<Component::Position> &positions,
     SparseArray<Component::Velocity> const &velocities,
@@ -29,8 +31,7 @@ void System::MoveSystem::operator()()
         engine::Entity collidingEntity =
             getCollidingSolidEntity(it.get_entity());
 
-        if (vel && collidingEntity != 0
-        && canMove(collidingEntity, vel.value(), pos)) {
+        if (vel && canMove(collidingEntity, vel.value(), pos)) {
             pos._x += vel->_vx;
             pos._y += vel->_vy;
         }
@@ -52,7 +53,8 @@ bool System::MoveSystem::canMove(
     Component::Position &position
 )
 {
-    if (!_positions[collidingEntity] || !_solids[collidingEntity])
+    if (collidingEntity == 0 || !_positions[collidingEntity]
+        || !_solids[collidingEntity])
         return true;
     auto collidingEntityPos = _positions[collidingEntity].value();
 
@@ -60,9 +62,9 @@ bool System::MoveSystem::canMove(
         return false;
     if (position._x > collidingEntityPos._x && velocity._vx < 0)
         return false;
-    if (position._y < collidingEntityPos._y && velocity._vx > 0)
+    if (position._y < collidingEntityPos._y && velocity._vy > 0)
         return false;
-    if (position._y > collidingEntityPos._y && velocity._vx < 0)
+    if (position._y > collidingEntityPos._y && velocity._vy < 0)
         return false;
     return true;
 }

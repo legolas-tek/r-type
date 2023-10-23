@@ -14,6 +14,7 @@
 
 #include "Entity.hpp"
 #include "Serialization/Serializable.hpp"
+#include "Serialization/Serializer.hpp"
 
 namespace Component {
 
@@ -24,7 +25,7 @@ namespace Component {
  * game or application. It stores the dimensions (width and height) of the
  * box. It can be used as a component in a collision detection system.
  */
-struct Collision : engine::Serializable<Collision> {
+struct Collision {
     /**
      * @brief Constructor for the collision structure.
      *
@@ -59,6 +60,30 @@ struct Collision : engine::Serializable<Collision> {
      * @brief The entity colliding with this collision.
      */
     std::optional<engine::Entity> _collidingEntity = std::nullopt;
+
+    void serialize(engine::Serializer &serializer) const
+    {
+        serializer.serializeTrivial(_width);
+        serializer.serializeTrivial(_height);
+        serializer.serializeTrivial(_collidingEntity.has_value());
+        if (_collidingEntity.has_value())
+            serializer.serializeTrivial(_collidingEntity.value());
+    }
+
+    void deserialize(engine::Deserializer &deserializer)
+    {
+        deserializer.deserializeTrivial(_width);
+        deserializer.deserializeTrivial(_height);
+        bool hasCollidingEntity;
+        deserializer.deserializeTrivial(hasCollidingEntity);
+        if (hasCollidingEntity) {
+            engine::Entity collidingEntity { 0 };
+            deserializer.deserializeTrivial(collidingEntity);
+            _collidingEntity = collidingEntity;
+        } else {
+            _collidingEntity = std::nullopt;
+        }
+    }
 };
 }
 

@@ -46,6 +46,7 @@ public:
     /// @param healths A ref to a Health components SparseArray
     /// @param reg A ref to the registry
     DeathAnimationManager(
+        SparseArray<Component::Position> &positions,
         SparseArray<Component::Health> &healths,
         SparseArray<Component::Collision> &collisions,
         SparseArray<Component::Damage> &damages, engine::Registry &reg
@@ -65,6 +66,8 @@ private:
     /// @param pos The position of the explosion
     void createBigExplosion(Component::Position pos);
 
+    /// @brief A ref to a Position components SparseArray
+    SparseArray<Component::Position> &_positions;
     /// @brief A ref to a Damage components SparseArray
     SparseArray<Component::Damage> &_damages;
     /// @brief A ref to a Health components SparseArray
