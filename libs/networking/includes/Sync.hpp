@@ -37,7 +37,7 @@ public:
      * @brief Using for the functions that process received packets.
      */
     using process_packet_t
-        = void(engine::Deserializer &, net::manager::Client const &);
+        = void(engine::Deserializer &, net::manager::Client &);
 
 public:
     /**
@@ -138,8 +138,6 @@ private:
 
     std::array<SnapshotHistory, NET_SNAPSHOT_NBR>
         _snapshots; ///< A vector of Snapshots
-
-    std::size_t _last_packet_tick;
 
     std::size_t _rd_index; ///< The actual index to read the _snapshots
 

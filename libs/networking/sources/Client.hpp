@@ -36,6 +36,8 @@ struct Client {
     /// The endpoint of the client, which is the last known address of the
     /// client
     std::optional<asio::ip::udp::endpoint> _endpoint;
+    /// The last received tick of the client
+    std::size_t _lastTick = 0;
 };
 }
 
