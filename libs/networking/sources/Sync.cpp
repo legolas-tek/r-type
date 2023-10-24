@@ -25,7 +25,6 @@ net::Sync::Sync(
     , _nmu(std::make_unique<net::manager::Udp>(
           net::client_netmanager, "127.0.0.1", port
       ))
-    , _last_packet_tick(0)
     , _rd_index(0)
     , _playerNumber(playerNumber)
     , _playerHash(playerHash)
@@ -40,7 +39,6 @@ net::Sync::Sync(
     , _nmu(std::make_unique<net::manager::Udp>(
           net::server_netmanager, "0.0.0.0", port
       ))
-    , _last_packet_tick(0)
     , _rd_index(0)
     , _playerNumber(0)
     , _playerHash(0)
@@ -83,16 +81,16 @@ void net::Sync::sendAckPacket(
 }
 
 void net::Sync::processUpdatePacket(
-    engine::Deserializer &deserializer, net::manager::Client const &client
+    engine::Deserializer &deserializer, net::manager::Client &client
 )
 {
     uint32_t tickNumber;
     deserializer.deserializeTrivial(tickNumber);
 
-    if (tickNumber < _last_packet_tick)
+    if (tickNumber <= client._lastTick)
         return;
 
-    _last_packet_tick = tickNumber;
+    client._lastTick = tickNumber;
     deserializer.skip(sizeof(uint32_t)); // skip the previous tick number
 
     while (not deserializer.isFinished()) {
@@ -136,7 +134,7 @@ void net::Sync::processUpdatePacket(
 }
 
 void net::Sync::processAckPacket(
-    engine::Deserializer &deserializer, net::manager::Client const &client
+    engine::Deserializer &deserializer, net::manager::Client &client
 )
 {
     uint32_t tick_number = 0;
