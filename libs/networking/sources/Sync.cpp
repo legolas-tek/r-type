@@ -204,11 +204,11 @@ static std::vector<std::byte> constructUpdatePacket(
 
 void net::Sync::updateSnapshotHistory(net::Snapshot &&current)
 {
-    SnapshotHistory &snap = _snapshots[_rd_index % NET_SNAPSHOT_NBR];
+    _rd_index = (_rd_index + 1) % NET_SNAPSHOT_NBR;
 
+    SnapshotHistory &snap = _snapshots[_rd_index];
     snap.snapshot = std::move(current);
     snap.ack_mask = 0;
-    _rd_index = (_rd_index + 1) % NET_SNAPSHOT_NBR;
 }
 
 void net::Sync::operator()()
@@ -249,13 +249,13 @@ void net::Sync::operator()()
 
         if (packet.empty())
             continue;
-        updateSnapshotHistory(std::move(current));
 
 #ifdef DEBUG_NETWORK
         std::cout << "SyncSystem: sent " << packet.size()
-                  << " byte update packet for tick " << _registry.getTick()
-                  << std::endl;
+                  << " byte update packet for tick " << previous.tick << " -> "
+                  << _registry.getTick() << std::endl;
 #endif
+        updateSnapshotHistory(std::move(current));
         _nmu->send(packet, *it);
     }
 }
