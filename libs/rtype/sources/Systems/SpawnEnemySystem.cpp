@@ -14,6 +14,7 @@
 #include "Components/HitBox.hpp"
 #include "Components/LifeTime.hpp"
 #include "Components/Velocity.hpp"
+#include "Components/FireRate.hpp"
 
 System::SpawnEnemySystem::SpawnEnemySystem(
     engine::Registry &reg, EntityInfo entityInfo, size_t startTick,
@@ -65,9 +66,6 @@ void System::SpawnEnemySystem::operator()()
             _entityInfo.offset, _entityInfo.frameDuration
         )
     );
-    _register.get_components<Component::LifeTime>().insert_at(
-        enemy, Component::LifeTime(200, _register.getTick())
-    );
     _register.get_components<Component::Velocity>().insert_at(
         enemy, Component::Velocity(-5, 0)
     );
@@ -85,10 +83,25 @@ void System::SpawnEnemySystem::operator()()
             _entityInfo.entityHeight * _entityInfo.scale
         )
     );
-    _register.get_components<Component::Damage>().insert_at(
-        enemy, Component::Damage(1)
-    );
     _register.get_components<Component::Health>().insert_at(
         enemy, Component::Health(1, 1)
     );
+    if (_entityInfo.lifeTime) {
+        _register.get_components<Component::LifeTime>().insert_at(
+            enemy, Component::LifeTime(
+                _entityInfo.lifeTime.value(),
+                _register.getTick()
+                )
+        );
+    }
+    if (_entityInfo.damage) {
+        _register.get_components<Component::Damage>().insert_at(
+            enemy, Component::Damage(_entityInfo.damage.value())
+        );
+    }
+    if (_entityInfo.fireRate) {
+        _register.get_components<Component::FireRate>().insert_at(
+            enemy, Component::FireRate(_entityInfo.fireRate.value())
+        );
+    }
 }
