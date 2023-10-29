@@ -5,10 +5,11 @@
 ** Game
 */
 
+#include "DiffLogger.hpp"
 #include "Game.hpp"
 
-#include "Components/Text.hpp"
 #include "Components/Solid.hpp"
+#include "Components/Text.hpp"
 
 #include "Systems/AnimationSystem.hpp"
 #include "Systems/AttackSystem.hpp"
@@ -105,6 +106,9 @@ void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
 
 void RTypeGame::registerAdditionalSystems(engine::Registry &reg)
 {
+#ifdef DEBUG_LOG_DIFF
+    reg.add_system<net::system::DiffLogger>(reg);
+#endif
     reg.add_system<System::FollowSystem>(
         reg.get_components<Component::Follow>(),
         reg.get_components<Component::Position>()
@@ -274,7 +278,7 @@ void RTypeGame::initScene(engine::Registry &reg)
             )
         );
         reg.get_components<Component::Solid>().insert_at(
-        player, Component::Solid()
+            player, Component::Solid()
         );
         reg.get_components<Component::Velocity>().insert_at(
             player, Component::Velocity()

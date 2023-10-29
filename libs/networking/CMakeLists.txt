@@ -24,7 +24,10 @@ target_link_libraries (networking
 option (DEBUG_NETWORK "Enable network debug" OFF)
 
 if (DEBUG_NETWORK)
-    add_definitions (-DDEBUG_NETWORK)
+    target_compile_definitions (networking
+        PRIVATE
+        DEBUG_NETWORK
+    )
 endif (DEBUG_NETWORK)
 
 target_include_directories (networking
@@ -45,6 +48,7 @@ target_sources (networking
     ./sources/TcpServer.cpp
     ./sources/LobbyRemoteClient.cpp
     ./sources/Lobby.cpp
+    ./sources/DiffLogger.cpp
 )
 
 install(TARGETS networking
