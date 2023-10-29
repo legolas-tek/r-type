@@ -11,6 +11,12 @@
 #include "Snapshot.hpp"
 #include <iomanip>
 
+#ifdef _WIN32
+    #include <process.h>
+#else
+    #include <unistd.h>
+#endif
+
 net::system::DiffLogger::DiffLogger(engine::Registry &registry)
     : _registry(registry)
 {
