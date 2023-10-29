@@ -89,13 +89,12 @@ public:
         );
     }
 
-    template <class Component>
-    void erase_component(engine::Entity const &entity)
+    template <class Component> void erase_component(Entity entity)
     {
-        _erase_component_funcs[get_component_id<Component>()](*this, entity);
+        erase_component(entity, get_component_id<Component>());
     }
 
-    void erase_component(Entity const &entity, size_t component_id)
+    void erase_component(Entity entity, size_t component_id)
     {
         _erase_component_funcs[component_id](*this, entity);
     }
