@@ -79,7 +79,6 @@ void net::diffSnapshots(
                     diffRemove(diff, it2);
                 }
                 previousIt = it + 1;
-                --currentIt; // reprocess current
                 break;
             }
         }
