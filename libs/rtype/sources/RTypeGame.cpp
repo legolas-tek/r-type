@@ -99,7 +99,7 @@ void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
         reg.get_components<Component::Velocity>(), _playerNumber
     );
     reg.add_system<net::system::NetworkClient>(
-        reg, _port, _address, _playerNumber, _playerHash
+        reg, _address, _port, _playerNumber, _playerHash
     );
 }
 

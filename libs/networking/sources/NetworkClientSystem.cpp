@@ -8,7 +8,7 @@
 #include "NetworkClientSystem.hpp"
 
 net::system::NetworkClient::NetworkClient(
-    engine::Registry &registry, int port, std::string addr, size_t playerNumber,
+    engine::Registry &registry, std::string addr, int port, size_t playerNumber,
     size_t playerHash
 )
     : Sync(

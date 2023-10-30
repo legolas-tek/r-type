@@ -19,7 +19,7 @@
 
 net::Sync::Sync(
     net::ClientNetManager, engine::Registry &registry, int port,
-    std::string addr, size_t playerNumber, size_t playerHash
+    std::string const &addr, size_t playerNumber, size_t playerHash
 )
     : _registry(registry)
     , _nmu(std::make_unique<net::manager::Udp>(
@@ -34,7 +34,7 @@ net::Sync::Sync(
 
 net::Sync::Sync(
     net::ServerNetManager, engine::Registry &registry, int port,
-    std::string addr, std::vector<net::lobby::RemoteClient> const &lobby
+    std::string const &addr, std::vector<net::lobby::RemoteClient> const &lobby
 )
     : _registry(registry)
     , _nmu(std::make_unique<net::manager::Udp>(

@@ -48,7 +48,7 @@ public:
      */
     Sync(
         net::ClientNetManager, engine::Registry &registry, int port,
-        std::string addr, size_t playerNumber, std::size_t playerHash
+        std::string const &addr, size_t playerNumber, std::size_t playerHash
     );
     /**
      * @brief Construct a new Sync object for the server
@@ -58,7 +58,8 @@ public:
      */
     Sync(
         net::ServerNetManager, engine::Registry &registry, int port,
-        std::string addr, std::vector<net::lobby::RemoteClient> const &lobby
+        std::string const &addr,
+        std::vector<net::lobby::RemoteClient> const &lobby
     );
     /**
      * @brief Destroy the Sync object
