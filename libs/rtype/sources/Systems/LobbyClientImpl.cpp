@@ -32,7 +32,7 @@ void System::LobbyClientImpl::onJoinSuccess(
 {
     std::cout << "Join success: " << int(playerNumber) << " " << playerHash
               << std::endl;
-    _game.onJoinSuccess(playerNumber, playerHash, _address, _port);
+    _game.onJoinSuccess(playerNumber, playerHash, std::move(_address), _port);
     _game.initLobbyScene(_registry, *this);
 }
 
