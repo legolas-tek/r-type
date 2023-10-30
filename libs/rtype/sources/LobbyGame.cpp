@@ -73,6 +73,8 @@ RTypeLobby::~RTypeLobby()
 {
     _game._playerHash = _playerHash;
     _game._playerNumber = _playerNumber;
+    _game._address = std::move(_address);
+    _game._port = _port;
     if (_serverLobby)
         _game._serverClients = std::move(_serverLobby->get().getClients());
 }
@@ -141,11 +143,14 @@ void RTypeLobby::initScene(engine::Registry &reg)
 }
 
 void RTypeLobby::onJoinSuccess(
-    std::uint8_t playerNumber, std::uint64_t playerHash
+    std::uint8_t playerNumber, std::uint64_t playerHash, std::string address,
+    std::size_t port
 )
 {
     _playerNumber = playerNumber;
     _playerHash = playerHash;
+    _address = std::move(address);
+    _port = port;
 }
 
 void RTypeLobby::initLobbyScene(

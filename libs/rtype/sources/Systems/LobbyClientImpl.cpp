@@ -21,6 +21,8 @@ System::LobbyClientImpl::LobbyClientImpl(
     : net::LobbyClient(addr, port)
     , _game(game)
     , _registry(reg)
+    , _address(addr)
+    , _port(port)
 {
 }
 
@@ -30,7 +32,7 @@ void System::LobbyClientImpl::onJoinSuccess(
 {
     std::cout << "Join success: " << int(playerNumber) << " " << playerHash
               << std::endl;
-    _game.onJoinSuccess(playerNumber, playerHash);
+    _game.onJoinSuccess(playerNumber, playerHash, std::move(_address), _port);
     _game.initLobbyScene(_registry, *this);
 }
 
