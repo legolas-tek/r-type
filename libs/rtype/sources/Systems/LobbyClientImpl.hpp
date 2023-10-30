@@ -58,6 +58,11 @@ private:
     RTypeLobby &_game;
     /// The registry of the game
     engine::Registry &_registry;
+
+    /// The server address
+    std::string _address;
+    /// The server port
+    std::size_t _port;
 };
 }
 

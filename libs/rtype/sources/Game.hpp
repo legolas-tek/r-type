@@ -83,6 +83,10 @@ public:
     std::size_t _playerNumber = 0;
     /// Client side, contains our player hash, 0 on server
     std::size_t _playerHash = 0;
+    /// The server address to connect to
+    std::string _address;
+    /// The server port to use
+    std::size_t _port;
 };
 
 class RTypeLobby : public engine::IGame {
@@ -102,7 +106,10 @@ public:
     /// Init the lobby scene, which is where other players are displayed
     void initLobbyScene(engine::Registry &reg, System::LobbyClientImpl &client);
 
-    void onJoinSuccess(std::uint8_t playerNumber, std::uint64_t playerHash);
+    void onJoinSuccess(
+        std::uint8_t playerNumber, std::uint64_t playerHash,
+        std::string address, std::size_t port
+    );
 
     bool isClientScene() const override
     {
@@ -128,6 +135,10 @@ private:
     std::size_t _playerNumber = 0;
     /// Client side, contains the player hash, 0 on server
     std::size_t _playerHash = 0;
+    /// The server address to connect to
+    std::string _address;
+    /// The server port to use
+    std::size_t _port;
 };
 
 #endif /*! R_TYPE_GAME_HPP */

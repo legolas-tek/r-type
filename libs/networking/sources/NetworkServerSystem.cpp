@@ -11,7 +11,7 @@ net::system::NetworkServer::NetworkServer(
     engine::Registry &registry, int port,
     std::vector<net::lobby::RemoteClient> const &lobby
 )
-    : Sync(net::server_netmanager, registry, port, lobby)
+    : Sync(net::server_netmanager, registry, port, "0.0.0.0", lobby)
 {
 }
 
