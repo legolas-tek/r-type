@@ -18,7 +18,7 @@ class NetworkClient : public Sync {
 
 public:
     NetworkClient(
-        engine::Registry &registry, std::string addr, int port,
+        engine::Registry &registry, std::string const &addr, int port,
         size_t playerNumber, size_t playerHash
     );
     ~NetworkClient() override;

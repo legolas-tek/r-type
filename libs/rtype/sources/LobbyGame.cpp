@@ -143,7 +143,7 @@ void RTypeLobby::initScene(engine::Registry &reg)
 }
 
 void RTypeLobby::onJoinSuccess(
-    std::uint8_t playerNumber, std::uint64_t playerHash, std::string &&address,
+    std::uint8_t playerNumber, std::uint64_t playerHash, std::string &address,
     std::size_t port
 )
 {

@@ -108,7 +108,7 @@ public:
 
     void onJoinSuccess(
         std::uint8_t playerNumber, std::uint64_t playerHash,
-        std::string &&address, std::size_t port
+        std::string &address, std::size_t port
     );
 
     bool isClientScene() const override
