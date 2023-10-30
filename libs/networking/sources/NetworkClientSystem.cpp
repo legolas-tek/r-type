@@ -12,7 +12,7 @@ net::system::NetworkClient::NetworkClient(
     size_t playerNumber, size_t playerHash
 )
     : Sync(
-        net::client_netmanager, registry, port, addr, playerNumber, playerHash
+        net::client_netmanager, registry, addr, port, playerNumber, playerHash
     )
 {
 }

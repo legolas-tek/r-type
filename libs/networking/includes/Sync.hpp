@@ -47,8 +47,9 @@ public:
      * @param port the server port to connect to
      */
     Sync(
-        net::ClientNetManager, engine::Registry &registry, int port,
-        std::string const &addr, size_t playerNumber, std::size_t playerHash
+        net::ClientNetManager, engine::Registry &registry,
+        std::string const &addr, int port, size_t playerNumber,
+        std::size_t playerHash
     );
     /**
      * @brief Construct a new Sync object for the server
@@ -57,8 +58,8 @@ public:
      * @param port the port use to expose the server
      */
     Sync(
-        net::ServerNetManager, engine::Registry &registry, int port,
-        std::string const &addr,
+        net::ServerNetManager, engine::Registry &registry,
+        std::string const &addr, int port,
         std::vector<net::lobby::RemoteClient> const &lobby
     );
     /**
