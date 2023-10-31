@@ -146,14 +146,12 @@ public:
     {
         _data[pos] = comp;
         return _data[pos] = comp;
-        // return emplace_at(pos, comp);
     }
 
     reference_type insert_at(size_type pos, Component &&comp)
     {
         _data[pos] = comp;
         return _data[pos] = comp;
-        // return emplace_at(pos, std::move(comp));
     }
 
     template <class... Params>
