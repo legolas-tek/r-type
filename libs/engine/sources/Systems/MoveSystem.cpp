@@ -7,8 +7,6 @@
 
 #include "Systems/MoveSystem.hpp"
 
-#include <iostream>
-
 System::MoveSystem::MoveSystem(
     SparseArray<Component::Position> &positions,
     SparseArray<Component::Velocity> const &velocities,
