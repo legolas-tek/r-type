@@ -28,6 +28,8 @@ net::Sync::Sync(
     , _rd_index(0)
     , _playerNumber(playerNumber)
     , _playerHash(playerHash)
+    , _lastSendedTick(1)
+    , _isServer(false)
 {
 }
 
@@ -42,6 +44,8 @@ net::Sync::Sync(
     , _rd_index(0)
     , _playerNumber(0)
     , _playerHash(0)
+    , _lastSendedTick(1)
+    , _isServer(true)
 {
     for (auto &client : lobby) {
         _nmu->getOthers().emplace_back(
@@ -161,8 +165,8 @@ void net::Sync::processAckPacket(
 
 net::Snapshot &net::Sync::find_last_ack(std::size_t client_index)
 {
-    for (int i = 0; i != net::NET_SNAPSHOT_NBR; ++i) {
-        unsigned int index = (_rd_index - i) % net::NET_SNAPSHOT_NBR;
+    for (int i = 0; i != net::SNAPSHOT_NBR; ++i) {
+        unsigned int index = (_rd_index - i) % net::SNAPSHOT_NBR;
 
         auto &snapshot = _snapshots[index];
 
@@ -202,7 +206,7 @@ static std::vector<std::byte> constructUpdatePacket(
 
 void net::Sync::updateSnapshotHistory(net::Snapshot &&current)
 {
-    _rd_index = (_rd_index + 1) % NET_SNAPSHOT_NBR;
+    _rd_index = (_rd_index + 1) % net::SNAPSHOT_NBR;
 
     SnapshotHistory &snap = _snapshots[_rd_index];
     snap.snapshot = std::move(current);
@@ -237,6 +241,10 @@ void net::Sync::operator()()
         }
     }
 
+    if (_isServer
+        and _registry.getTick() - _lastSendedTick < net::SERVER_TIME_STEP)
+        return;
+
     auto &clients = _nmu->getOthers();
 
     for (auto it = clients.begin(); it != clients.end(); it++) {
@@ -256,6 +264,8 @@ void net::Sync::operator()()
         updateSnapshotHistory(std::move(current));
         _nmu->send(packet, *it);
     }
+
+    _lastSendedTick = _registry.getTick();
 }
 
 net::manager::Client *net::Sync::getClientWithHash(std::size_t hash)

@@ -22,7 +22,9 @@
 
 namespace net {
 
-inline constexpr std::size_t NET_SNAPSHOT_NBR = 32;
+inline constexpr std::size_t SNAPSHOT_NBR = 32;
+
+inline constexpr std::size_t SERVER_TIME_STEP = 6;
 
 /**
  * @brief Sync system abstract class.
@@ -138,7 +140,7 @@ protected:
 private:
     std::unique_ptr<net::manager::Udp> _nmu; ///< the udp net manager
 
-    std::array<SnapshotHistory, NET_SNAPSHOT_NBR>
+    std::array<SnapshotHistory, net::SNAPSHOT_NBR>
         _snapshots; ///< A vector of Snapshots
 
     std::size_t _rd_index; ///< The actual index to read the _snapshots
@@ -147,6 +149,10 @@ private:
 
     std::size_t _playerNumber; ///< Our player number, or 0 if server
     std::size_t _playerHash; ///< Our player hash, or 0 if server
+
+    std::size_t _lastSendedTick; ///< The last tick when the server sends data.
+
+    bool _isServer;
 };
 
 }
