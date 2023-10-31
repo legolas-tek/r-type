@@ -28,7 +28,7 @@ net::Sync::Sync(
     , _rd_index(0)
     , _playerNumber(playerNumber)
     , _playerHash(playerHash)
-    , _lastSendedTick(1)
+    , _lastSentTick(1)
     , _isServer(false)
 {
 }
@@ -44,7 +44,7 @@ net::Sync::Sync(
     , _rd_index(0)
     , _playerNumber(0)
     , _playerHash(0)
-    , _lastSendedTick(1)
+    , _lastSentTick(1)
     , _isServer(true)
 {
     for (auto &client : lobby) {
@@ -242,7 +242,7 @@ void net::Sync::operator()()
     }
 
     if (_isServer
-        and _registry.getTick() - _lastSendedTick < net::SERVER_TIME_STEP)
+        and _registry.getTick() - _lastSentTick < net::SERVER_TIME_STEP)
         return;
 
     auto &clients = _nmu->getOthers();
@@ -265,7 +265,7 @@ void net::Sync::operator()()
         _nmu->send(packet, *it);
     }
 
-    _lastSendedTick = _registry.getTick();
+    _lastSentTick = _registry.getTick();
 }
 
 net::manager::Client *net::Sync::getClientWithHash(std::size_t hash)
