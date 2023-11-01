@@ -11,6 +11,8 @@
 #include "Components/Drawable.hpp"
 #include "Components/LifeTime.hpp"
 
+#include "Events/Collision.hpp"
+
 System::DeathAnimationManager::DeathAnimationManager(
     SparseArray<Component::Position> &positions,
     SparseArray<Component::Health> &healths,
@@ -39,7 +41,6 @@ void System::DeathAnimationManager::operator()()
     }
 
     for (auto it = _collisions.begin(); it != _collisions.end(); it++) {
-        auto &collision = **it;
         auto id = it.get_entity();
         auto &pos = _positions[id];
         auto &damage = _damages[id];
@@ -47,7 +48,15 @@ void System::DeathAnimationManager::operator()()
         if (not pos.has_value() or not damage.has_value())
             continue;
 
-        if (collision._collidingEntity) {
+        for (auto const &event : _registry.events) {
+            if (event->getType() != Event::EventType::COLLISION)
+                continue;
+
+            auto &collisionEvent = (Event::Collision &) *event;
+
+            if (collisionEvent.entity != id)
+                continue;
+
             createExplosion(pos.value());
             _registry.erase_entity(id);
         }

@@ -20,7 +20,8 @@ namespace System {
 class CollisionsSystem : public ISystem {
 public:
     CollisionsSystem(
-        std::queue<IEvent> &events, SparseArray<Component::Position> &positions,
+        std::deque<std::unique_ptr<Event::IEvent>> &events,
+        SparseArray<Component::Position> &positions,
         SparseArray<Component::HitBox> &hitboxes,
         SparseArray<Component::Collision> &collisions
     );
@@ -29,10 +30,11 @@ public:
 
 private:
     void checkCollisions(size_t index);
+
+    std::deque<std::unique_ptr<Event::IEvent>> &_events;
     SparseArray<Component::Position> &_positions;
     SparseArray<Component::HitBox> &_hitboxes;
     SparseArray<Component::Collision> &_collisions;
-    std::queue<IEvent> &_events;
 };
 
 }

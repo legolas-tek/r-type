@@ -21,6 +21,11 @@ public:
         , y(y)
         , type(type) {};
 
+    [[nodiscard]] EventType getType() const override
+    {
+        return EventType::MOUSE;
+    }
+
     int x;
     int y;
     MouseEventType type;

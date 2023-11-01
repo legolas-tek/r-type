@@ -28,6 +28,7 @@
             reg.run_systems();
             elapsed_time = 0.0f;
             reg.incrementTick();
+            reg.events.clear();
         }
     }
 }

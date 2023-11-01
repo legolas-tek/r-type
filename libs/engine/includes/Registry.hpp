@@ -166,7 +166,7 @@ public:
 
     std::vector<std::string> _assets_paths;
 
-    std::queue<IEvent> events;
+    std::deque<std::unique_ptr<Event::IEvent>> events;
 
 private:
     /**

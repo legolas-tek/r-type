@@ -19,6 +19,11 @@ public:
         : entity(entity)
         , secondEntity(secondEntity) {};
 
+    [[nodiscard]] EventType getType() const override
+    {
+        return EventType::COLLISION;
+    };
+
     engine::Entity entity;
     engine::Entity secondEntity;
 };

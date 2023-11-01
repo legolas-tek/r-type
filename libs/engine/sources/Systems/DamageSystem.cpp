@@ -6,6 +6,7 @@
 */
 
 #include "Systems/DamageSystem.hpp"
+#include "Events/Collision.hpp"
 
 System::DamageSystem::DamageSystem(
     SparseArray<Component::Damage> &damages,
@@ -21,27 +22,20 @@ System::DamageSystem::DamageSystem(
 
 void System::DamageSystem::operator()()
 {
-    for (auto it = _collisions.begin(); it != _collisions.end(); it++) {
-        if ((*it)->_collidingEntity && isDamageCollision(it.get_entity())) {
-            damageEntity(it.get_entity());
-        }
+    for (auto &event : _registry.events) {
+        if (event->getType() != Event::EventType::COLLISION)
+            continue;
+
+        auto &collision = (Event::Collision &) *event;
+
+        if (not _healths[collision.entity]
+            or not _damages[collision.secondEntity])
+            continue;
+
+        if (_healths[collision.entity]->health <= 0)
+            continue;
+
+        _healths[collision.entity]->health
+            -= _damages[collision.secondEntity]->damages;
     }
-}
-
-bool System::DamageSystem::isDamageCollision(engine::Entity const collidedEntity
-)
-{
-    engine::Entity const collidingEntity
-        = _collisions[collidedEntity]->_collidingEntity.value();
-
-    return (_healths[collidedEntity] && _damages[collidingEntity]);
-}
-
-void System::DamageSystem::damageEntity(engine::Entity const collidedEntity)
-{
-    engine::Entity const collidingEntity
-        = _collisions[collidedEntity]->_collidingEntity.value();
-
-    if (_healths[collidedEntity]->health > 0)
-        _healths[collidedEntity]->health -= _damages[collidingEntity]->damages;
 }

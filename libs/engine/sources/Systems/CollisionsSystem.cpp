@@ -9,7 +9,8 @@
 #include "Events/Collision.hpp"
 
 System::CollisionsSystem::CollisionsSystem(
-    std::queue<IEvent> &events, SparseArray<Component::Position> &positions,
+    std::deque<std::unique_ptr<Event::IEvent>> &events,
+    SparseArray<Component::Position> &positions,
     SparseArray<Component::HitBox> &hitboxes,
     SparseArray<Component::Collision> &collisions
 )
@@ -56,29 +57,22 @@ void System::CollisionsSystem::checkCollisions(size_t index)
 
         auto &pos = _positions[i];
 
-        if (!pos.has_value())
+        if (not pos.has_value())
             continue;
 
         if (isColliding(
                 _positions[index].value(), _hitboxes[index].value(),
                 pos.value(), _collisions[i].value()
             )) {
-            // it->value()._collidingEntity = engine::Entity(index);
-            _events.push(Event::Collision { engine::Entity(index),
-                                            engine::Entity(i) });
+            _events.push_back(std::make_unique<Event::Collision>(
+                engine::Entity(index), engine::Entity(i)
+            ));
         }
     }
 }
 
-static void resetCollisions(SparseArray<Component::Collision> &collisions)
-{
-    for (auto &collision : collisions)
-        collision->_collidingEntity = std::nullopt;
-}
-
 void System::CollisionsSystem::operator()()
 {
-    resetCollisions(_collisions);
     for (auto it = _hitboxes.begin(); it != _hitboxes.end(); it++) {
         size_t index = it.get_entity();
         auto &pos = _positions[index];

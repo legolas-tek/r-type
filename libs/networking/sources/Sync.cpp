@@ -233,7 +233,7 @@ void net::Sync::operator()()
                 processAckPacket(deserializer, *client);
                 break;
             }
-        } catch (engine::Deserializer::DeserializerError &e) {
+        } catch (engine::Deserializer::DeserializerError &) {
         }
     }
 
