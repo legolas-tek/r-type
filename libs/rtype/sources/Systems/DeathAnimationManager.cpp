@@ -15,13 +15,16 @@ System::DeathAnimationManager::DeathAnimationManager(
     SparseArray<Component::Position> &positions,
     SparseArray<Component::Health> &healths,
     SparseArray<Component::Collision> &collisions,
-    SparseArray<Component::Damage> &damages, engine::Registry &reg
+    SparseArray<Component::Damage> &damages,
+    SparseArray<Component::Controllable> &controllables,
+    engine::Registry &reg
 )
     : _positions(positions)
     , _healths(healths)
     , _registry(reg)
     , _collisions(collisions)
     , _damages(damages)
+    , _controllables(controllables)
 {
 }
 
@@ -44,13 +47,11 @@ void System::DeathAnimationManager::operator()()
         auto id = it.get_entity();
         auto &pos = _positions[id];
         auto &damage = _damages[id];
-        auto &health = _healths[id];
-
-        if (not pos.has_value() or not damage.has_value() && health.has_value())
+        auto &controllable = _controllables[id];
+        if (not pos or not damage or controllable)
             continue;
 
-        if (collision._collidingEntity &&
-            _damages[collision._collidingEntity.value()]) {
+        if (collision._collidingEntity) {
             createExplosion(pos.value());
             _registry.erase_entity(id);
         }
