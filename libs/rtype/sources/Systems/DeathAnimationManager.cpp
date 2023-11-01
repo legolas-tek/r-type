@@ -48,13 +48,24 @@ void System::DeathAnimationManager::operator()()
         auto &pos = _positions[id];
         auto &damage = _damages[id];
         auto &controllable = _controllables[id];
-        if (not pos or not damage or controllable)
+        auto &health = _healths[id];
+
+        if (not pos or not damage or controllable
+            or not collision._collidingEntity)
             continue;
 
-        if (collision._collidingEntity) {
+        engine::Entity collidingEntity = collision._collidingEntity.value();
+
+        if (health and _controllables[collidingEntity]) {
             createExplosion(pos.value());
             _registry.erase_entity(id);
+            continue;
         }
+        if (health) {
+            continue;
+        }
+        createExplosion(pos.value());
+        _registry.erase_entity(id);
     }
 }
 
