@@ -27,7 +27,7 @@ void System::DeathSystem::operator()()
         int lifes = 0;
 
         if (_lifes[it.get_entity()])
-            auto life = _lifes[it.get_entity()]->lifes;
+            lifes = _lifes[it.get_entity()]->lifes;
 
         if (target != _toEraseEntityList.end()) {
             _reg.erase_entity(it.get_entity());
