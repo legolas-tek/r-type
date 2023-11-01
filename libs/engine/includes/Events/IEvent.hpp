@@ -10,12 +10,9 @@
 
 namespace Event {
 
-enum class EventType { COLLISION, CLOSE, MOUSE, UNDEFINED };
-
 class IEvent {
 public:
     virtual ~IEvent() = default;
-    [[nodiscard]] virtual EventType getType() const = 0;
 };
 
 }

@@ -23,19 +23,19 @@ System::DamageSystem::DamageSystem(
 void System::DamageSystem::operator()()
 {
     for (auto &event : _registry.events) {
-        if (event->getType() != Event::EventType::COLLISION)
+        auto collision = dynamic_cast<Event::Collision *>(event.get());
+
+        if (not collision)
             continue;
 
-        auto &collision = (Event::Collision &) *event;
-
-        if (not _healths[collision.entity]
-            or not _damages[collision.secondEntity])
+        if (not _healths[collision->entity]
+            or not _damages[collision->secondEntity])
             continue;
 
-        if (_healths[collision.entity]->health <= 0)
+        if (_healths[collision->entity]->health <= 0)
             continue;
 
-        _healths[collision.entity]->health
-            -= _damages[collision.secondEntity]->damages;
+        _healths[collision->entity]->health
+            -= _damages[collision->secondEntity]->damages;
     }
 }

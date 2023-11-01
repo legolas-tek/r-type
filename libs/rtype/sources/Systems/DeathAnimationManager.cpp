@@ -49,12 +49,9 @@ void System::DeathAnimationManager::operator()()
             continue;
 
         for (auto const &event : _registry.events) {
-            if (event->getType() != Event::EventType::COLLISION)
-                continue;
+            auto collisionEvent = dynamic_cast<Event::Collision *>(event.get());
 
-            auto &collisionEvent = (Event::Collision &) *event;
-
-            if (collisionEvent.entity != id)
+            if (not collisionEvent or collisionEvent->entity != id)
                 continue;
 
             createExplosion(pos.value());
