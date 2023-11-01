@@ -288,11 +288,11 @@ void RTypeGame::initScene(engine::Registry &reg)
         reg.get_components<Component::Position>().insert_at(
             player,
             Component::Position(
-                10.0f, 10.0f, -10.0f
-                // 150,
-                // int(rendering::system::SCREEN_HEIGHT / 2)
-                //     + (75.0 * (client.getPlayerNumber() - 2.5)),
-                // 1
+                // 10.0f, 10.0f, 0.0f
+                150,
+                int(rendering::system::SCREEN_HEIGHT / 2)
+                    + (75.0 * (client.getPlayerNumber() - 2.5)),
+                1
             )
         );
         reg.get_components<Component::Solid>().insert_at(
