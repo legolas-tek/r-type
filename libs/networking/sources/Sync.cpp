@@ -216,16 +216,24 @@ void net::Sync::operator()()
     auto received = _nmu->receive();
 
     for (auto &[buffer, endpoint] : received) {
+        if (not _isServer && _lastUpdate.empty()) {
+            _lastUpdate = std::move(buffer);
+            continue;
+        }
+
         try {
-            engine::Deserializer deserializer(buffer);
+            engine::Deserializer deserializer(_isServer ? buffer : _lastUpdate);
             std::size_t playerHash = 0;
+
             deserializer.deserializeTrivial(playerHash);
             auto *client = getClientWithHash(playerHash);
+
             if (not client)
                 continue;
             client->_endpoint = endpoint;
 
             std::uint8_t packetId = 0;
+
             deserializer.deserializeTrivial(packetId);
             switch (packetId) {
             case 0x01:
@@ -235,6 +243,9 @@ void net::Sync::operator()()
                 processAckPacket(deserializer, *client);
                 break;
             }
+
+            if (not _isServer)
+                _lastUpdate = std::move(buffer);
         } catch (engine::Deserializer::DeserializerError &e) {
         }
     }

@@ -147,6 +147,8 @@ private:
 
     net::Snapshot _dummy; ///< The dummy packet to use in special case
 
+    net::Buffer _lastUpdate;
+
     std::size_t _playerNumber; ///< Our player number, or 0 if server
     std::size_t _playerHash; ///< Our player hash, or 0 if server
 
