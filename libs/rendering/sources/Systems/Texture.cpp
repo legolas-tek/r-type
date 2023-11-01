@@ -25,8 +25,19 @@ rendering::system::Texture::Texture(
 
 rendering::system::Texture::~Texture()
 {
-    for (auto &texture : _cache)
-        UnloadTexture(texture);
+    for (auto &item : _cache) {
+        std::visit(
+            [](auto &&arg) {
+                using T = std::decay_t<decltype(arg)>;
+                if constexpr (std::is_same_v<T, Texture2D>) {
+                    UnloadTexture(arg);
+                } else if constexpr (std::is_same_v<T, Model>) {
+                    UnloadModel(arg);
+                }
+            },
+            item
+        );
+    }
 }
 
 void rendering::system::Texture::operator()()
@@ -48,21 +59,24 @@ void rendering::system::Texture::operator()()
         auto anim = _animations[entity];
         size_t textureIndex = _drawables[entity]->_index;
 
-        Texture2D texture = _cache[textureIndex];
-        Rectangle sourceRec
-            = { 0.0f, _drawables[entity]->_yOrigin, _drawables[entity]->_width,
-                _drawables[entity]->_height };
+        if (std::holds_alternative<Texture2D>(_cache[textureIndex])) {
+            Texture2D texture = std::get<Texture2D>(_cache[textureIndex]);
 
-        if (anim.has_value())
-            sourceRec.x = float(anim.value()._currentOffset);
+            Rectangle sourceRec
+                = { 0.0f, _drawables[entity]->_yOrigin,
+                    _drawables[entity]->_width, _drawables[entity]->_height };
 
-        auto scaledWidth = sourceRec.width * _drawables[entity]->_scale;
-        auto scaledHeight = sourceRec.height * _drawables[entity]->_scale;
+            if (anim.has_value())
+                sourceRec.x = float(anim.value()._currentOffset);
 
-        Rectangle destRec
-            = { pos->_x - scaledWidth / 2, pos->_y - scaledHeight / 2,
-                scaledWidth, scaledHeight };
+            auto scaledWidth = sourceRec.width * _drawables[entity]->_scale;
+            auto scaledHeight = sourceRec.height * _drawables[entity]->_scale;
 
-        DrawTexturePro(texture, sourceRec, destRec, { 0, 0 }, 0.0f, WHITE);
+            Rectangle destRec
+                = { pos->_x - scaledWidth / 2, pos->_y - scaledHeight / 2,
+                    scaledWidth, scaledHeight };
+
+            DrawTexturePro(texture, sourceRec, destRec, { 0, 0 }, 0.0f, WHITE);
+        }
     }
 }

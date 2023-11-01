@@ -44,7 +44,7 @@ private:
     SparseArray<Component::Drawable> &_drawables;
     SparseArray<Component::Animation> &_animations;
     SparseArray<Component::Position> &_positions;
-    std::vector<Texture2D> _cache;
+    std::vector<std::variant<Texture2D, Model>> _cache;
 };
 
 } // namespace rendering::system
