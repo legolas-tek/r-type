@@ -6,6 +6,7 @@
 */
 
 #include "Systems/DeathSystem.hpp"
+#include "Events/Death.hpp"
 
 System::DeathSystem::DeathSystem(
     SparseArray<Component::Health> &healths,
@@ -17,21 +18,31 @@ System::DeathSystem::DeathSystem(
 {
 }
 
+bool isEntityInDeathEvent(
+    engine::Entity entity, std::deque<std::unique_ptr<Event::IEvent>> &events
+)
+{
+    return std::ranges::any_of(events, [entity](auto &event) {
+        auto death = dynamic_cast<Event::Death *>(event.get());
+
+        if (not death)
+            return false;
+
+        return death->entity == entity;
+    });
+}
+
 void System::DeathSystem::operator()()
 {
     for (auto it = _healths.begin(); it != _healths.end(); it++) {
-        auto target = std::find(
-            _toEraseEntityList.begin(), _toEraseEntityList.end(),
-            it.get_entity()
-        );
-
-        if (target != _toEraseEntityList.end()) {
+        if (isEntityInDeathEvent(it.get_entity(), _reg.events)) {
             _reg.erase_entity(it.get_entity());
             continue;
         }
         if ((*it)->health <= 0 && _lifes[it.get_entity()]
             && _lifes[it.get_entity()]->lifes <= 0) {
-            _toEraseEntityList.push_back(it.get_entity());
+            _reg.events.push_back(std::make_unique<Event::Death>(it.get_entity()
+            ));
         }
     }
 }

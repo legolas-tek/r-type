@@ -7,6 +7,7 @@
 
 #include "Systems/DamageSystem.hpp"
 #include "Events/Collision.hpp"
+#include "Events/Death.hpp"
 
 System::DamageSystem::DamageSystem(
     SparseArray<Component::Damage> &damages,
