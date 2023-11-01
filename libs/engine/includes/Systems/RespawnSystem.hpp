@@ -17,6 +17,8 @@
 #include "Components/Health.hpp"
 #include "Components/Life.hpp"
 #include "Components/Velocity.hpp"
+#include "Components/Collision.hpp"
+#include "Components/HitBox.hpp"
 
 namespace System {
 
@@ -35,7 +37,9 @@ public:
         SparseArray<Component::Health> &healths,
         SparseArray<Component::Controllable> &controllables,
         SparseArray<Component::Drawable> &drawables,
-        SparseArray<Component::Velocity> &velocities, engine::Registry &reg,
+        SparseArray<Component::Velocity> &velocities,
+        SparseArray<Component::Collision> &collisions,
+        SparseArray<Component::HitBox> &hitboxes, engine::Registry &reg,
         int respawnCooldown = 150
     );
 
@@ -56,9 +60,15 @@ private:
     /// @brief An unordered map that stores copys of the Drawable components
     /// that we delete from our respawning entities
     std::unordered_map<size_t, Component::Drawable> _drawableComps;
+    /// @brief An unordered map that stores copys of the Collision components
+    /// that we delete from our respawning entities
+    std::unordered_map<size_t, Component::Collision> _collisionComps;
     /// @brief An unordered map that stores copys of the Controllable components
     /// that we delete from our respawning entities
     std::unordered_map<size_t, Component::Controllable> _controllableComps;
+    /// @brief An unordered map that stores copys of the Controllable components
+    /// that we delete from our respawning entities
+    std::unordered_map<size_t, Component::HitBox> _hitboxComps;
     /// @brief A reference to a Life components SparseArray
     SparseArray<Component::Life> &_lifes;
     /// @brief A reference to a Health components SparseArray
@@ -69,6 +79,10 @@ private:
     SparseArray<Component::Drawable> &_drawables;
     /// @brief A reference to a Velocity components SparseArray
     SparseArray<Component::Velocity> &_velocities;
+    /// @brief A reference to a Collision components SparseArray
+    SparseArray<Component::Collision> &_collisions;
+    /// @brief A reference to a HitBox components SparseArray
+    SparseArray<Component::HitBox> &_hitboxes;
     /// @brief a reference to the registry
     engine::Registry &_reg;
     /// @brief The ticks it takes for a unit to respawn
