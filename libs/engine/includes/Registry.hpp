@@ -116,7 +116,7 @@ public:
             erase_entity(Entity(i));
         }
         _entity_counter = 1;
-        while (!_freedEntities.empty()) {
+        while (not _freedEntities.empty()) {
             _freedEntities.pop();
         }
     }
@@ -155,7 +155,7 @@ public:
 
     size_t get_new_entity()
     {
-        if (!_freedEntities.empty()) {
+        if (not _freedEntities.empty()) {
             engine::Entity newEntity = _freedEntities.front();
 
             _freedEntities.pop();
