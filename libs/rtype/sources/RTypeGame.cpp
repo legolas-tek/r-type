@@ -51,7 +51,7 @@ void RTypeGame::registerAllComponents(engine::Registry &reg)
 void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
 {
     reg.add_system<System::CollisionsSystem>(
-        reg.get_components<Component::Position>(),
+        reg.events, reg.get_components<Component::Position>(),
         reg.get_components<Component::HitBox>(),
         reg.get_components<Component::Collision>()
     );

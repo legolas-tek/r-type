@@ -10,6 +10,7 @@
 
 #include "ComponentData.hpp"
 #include "Entity.hpp"
+#include "Events/IEvent.hpp"
 #include "ISystem.hpp"
 #include "Serialization/Deserializer.hpp"
 #include "Serialization/Serializer.hpp"
@@ -18,6 +19,7 @@
 #include <functional>
 #include <list>
 #include <memory>
+#include <queue>
 #include <typeindex>
 #include <unordered_map>
 #include <vector>
@@ -163,6 +165,8 @@ public:
     }
 
     std::vector<std::string> _assets_paths;
+
+    std::queue<IEvent> events;
 
 private:
     /**

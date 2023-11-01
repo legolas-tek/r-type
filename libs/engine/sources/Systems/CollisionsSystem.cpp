@@ -6,13 +6,15 @@
 */
 
 #include "Systems/CollisionsSystem.hpp"
+#include "Events/Collision.hpp"
 
 System::CollisionsSystem::CollisionsSystem(
-    SparseArray<Component::Position> &positions,
+    std::queue<IEvent> &events, SparseArray<Component::Position> &positions,
     SparseArray<Component::HitBox> &hitboxes,
     SparseArray<Component::Collision> &collisions
 )
-    : _positions(positions)
+    : _events(events)
+    , _positions(positions)
     , _hitboxes(hitboxes)
     , _collisions(collisions)
 {
@@ -61,7 +63,9 @@ void System::CollisionsSystem::checkCollisions(size_t index)
                 _positions[index].value(), _hitboxes[index].value(),
                 pos.value(), _collisions[i].value()
             )) {
-            it->value()._collidingEntity = engine::Entity(index);
+            // it->value()._collidingEntity = engine::Entity(index);
+            _events.push(Event::Collision { engine::Entity(index),
+                                            engine::Entity(i) });
         }
     }
 }

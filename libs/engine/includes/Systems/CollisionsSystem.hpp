@@ -20,7 +20,7 @@ namespace System {
 class CollisionsSystem : public ISystem {
 public:
     CollisionsSystem(
-        SparseArray<Component::Position> &positions,
+        std::queue<IEvent> &events, SparseArray<Component::Position> &positions,
         SparseArray<Component::HitBox> &hitboxes,
         SparseArray<Component::Collision> &collisions
     );
@@ -32,6 +32,7 @@ private:
     SparseArray<Component::Position> &_positions;
     SparseArray<Component::HitBox> &_hitboxes;
     SparseArray<Component::Collision> &_collisions;
+    std::queue<IEvent> &_events;
 };
 
 }
