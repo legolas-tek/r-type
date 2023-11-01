@@ -150,8 +150,6 @@ private:
     std::size_t _playerNumber; ///< Our player number, or 0 if server
     std::size_t _playerHash; ///< Our player hash, or 0 if server
 
-    std::size_t _lastSentTick; ///< The last tick when the server sends data.
-
     bool _isServer;
 };
 
