@@ -7,8 +7,6 @@
 
 #include "Systems/RespawnSystem.hpp"
 
-#include <iostream>
-
 System::RespawnSystem::RespawnSystem(
     SparseArray<Component::Life> &lifes,
     SparseArray<Component::Health> &healths,
