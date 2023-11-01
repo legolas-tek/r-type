@@ -56,12 +56,7 @@ void System::DeathAnimationManager::operator()()
 
         engine::Entity collidingEntity = collision._collidingEntity.value();
 
-        if (health and _controllables[collidingEntity]) {
-            createExplosion(pos.value());
-            _registry.erase_entity(id);
-            continue;
-        }
-        if (health) {
+        if (health and not _controllables[collidingEntity]) {
             continue;
         }
         createExplosion(pos.value());
