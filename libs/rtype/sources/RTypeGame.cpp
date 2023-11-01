@@ -30,6 +30,8 @@
 #include "NetworkClientSystem.hpp"
 #include "Rendering.hpp"
 
+#include <iostream>
+
 void RTypeGame::registerAllComponents(engine::Registry &reg)
 {
     reg.register_component<Component::Position>();
@@ -123,26 +125,41 @@ void RTypeGame::registerAdditionalSystems(engine::Registry &reg)
 
 void RTypeGame::initAssets(engine::Registry &reg)
 {
+    // 0
     reg._assets_paths.emplace_back(
         "./assets/images/cyberpunk_street_background.png"
     );
+    // 1
     reg._assets_paths.emplace_back(
         "./assets/images/cyberpunk_street_midground.png"
     );
+    // 2
     reg._assets_paths.emplace_back(
         "./assets/images/cyberpunk_street_foreground.png"
     );
+    // 3
     reg._assets_paths.emplace_back("./assets/images/space_ships.png");
+    // 4
     reg._assets_paths.emplace_back("./assets/images/Plasma_Beam.png");
+    // 5
     reg._assets_paths.emplace_back("./assets/images/impact_explosion.png");
+    // 6
     reg._assets_paths.emplace_back("./assets/images/basic_ennemy.png");
+    // 7
     reg._assets_paths.emplace_back("./assets/images/shooting_ennemy.png");
+    // 8
     reg._assets_paths.emplace_back(
         "./assets/images/first_level_bottom_borders.png"
     );
+    // 9
     reg._assets_paths.emplace_back("./assets/images/first_level_top_borders.png"
     );
+    // 10
     reg._assets_paths.emplace_back("./assets/images/big_explosion.png");
+    // 11
+    reg._assets_paths.emplace_back(
+        "./assets/images/turret_diffuse.png", "./assets/turret.obj"
+    );
 }
 
 void RTypeGame::initScene(engine::Registry &reg)
@@ -152,6 +169,7 @@ void RTypeGame::initScene(engine::Registry &reg)
     engine::Entity foreground(reg.get_new_entity());
     engine::Entity topBorder(reg.get_new_entity());
     engine::Entity bottomBorder(reg.get_new_entity());
+    engine::Entity entity_3d(reg.get_new_entity());
 
     // ==================== set positions ====================
     // background
@@ -190,6 +208,9 @@ void RTypeGame::initScene(engine::Registry &reg)
             float(rendering::system::SCREEN_HEIGHT) - float(BORDERS_H) / 2, -7
         )
     );
+    reg.get_components<Component::Position>().insert_at(
+        entity_3d, Component::Position(0, 0, -7)
+    );
 
     // ==================== set Drawable ====================
     // background
@@ -211,6 +232,9 @@ void RTypeGame::initScene(engine::Registry &reg)
     // bottomBorder
     reg.get_components<Component::Drawable>().insert_at(
         bottomBorder, Component::Drawable(BOT_BORDER_I, BORDERS_W, BORDERS_H, 3)
+    );
+    reg.get_components<Component::Drawable>().insert_at(
+        entity_3d, Component::Drawable(11, BORDERS_W, BORDERS_H, 3)
     );
 
     // ==================== set Animation ====================

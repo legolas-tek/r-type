@@ -7,6 +7,7 @@
 
 #include "Systems/Texture.hpp"
 #include <algorithm>
+#include <iostream>
 
 rendering::system::Texture::Texture(
     engine::Registry &registry, SparseArray<Component::Drawable> &drawables,
@@ -19,7 +20,14 @@ rendering::system::Texture::Texture(
     , _positions(positions)
 {
     for (auto asset : _registry._assets_paths) {
-        _cache.push_back(LoadTexture(asset.c_str()));
+        if (!asset.path_3d) {
+            _cache.push_back(LoadTexture(asset.path_2d.c_str()));
+        } else {
+            Model tower = LoadModel(asset.path_3d->c_str());
+            Texture2D texture = LoadTexture(asset.path_2d.c_str());
+            tower.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
+            _cache.push_back(tower);
+        }
     }
 }
 
@@ -77,6 +85,22 @@ void rendering::system::Texture::operator()()
                     scaledWidth, scaledHeight };
 
             DrawTexturePro(texture, sourceRec, destRec, { 0, 0 }, 0.0f, WHITE);
+        } else if (std::holds_alternative<Model>(_cache[textureIndex])) {
+            Vector3 towerPos = { 0.0f, 0.0f, 0.0f };
+
+            Camera camera = { 0 };
+            camera.position = (Vector3) { 20.0f, 20.0f, 20.0f };
+            camera.target = (Vector3) { 0.0f, 8.0f, 0.0f };
+            camera.up = (Vector3) { 0.0f, 1.6f, 0.0f };
+            camera.fovy = 45.0f;
+            camera.projection = CAMERA_PERSPECTIVE;
+
+            Model model3d = std::get<Model>(_cache[textureIndex]);
+
+            BeginMode3D(camera);
+
+            DrawModel(model3d, towerPos, 1.0f, WHITE);
+            EndMode3D();
         }
     }
 }
