@@ -158,7 +158,7 @@ void RTypeGame::initAssets(engine::Registry &reg)
     reg._assets_paths.emplace_back("./assets/images/big_explosion.png");
     // 11
     reg._assets_paths.emplace_back(
-        "./assets/images/turret_diffuse.png", "./assets/turret.obj"
+        "./assets/images/BODYMAINCOLORCG.png", "./assets/SU-27.obj"
     );
 }
 
@@ -169,7 +169,6 @@ void RTypeGame::initScene(engine::Registry &reg)
     engine::Entity foreground(reg.get_new_entity());
     engine::Entity topBorder(reg.get_new_entity());
     engine::Entity bottomBorder(reg.get_new_entity());
-    engine::Entity entity_3d(reg.get_new_entity());
 
     // ==================== set positions ====================
     // background
@@ -177,7 +176,7 @@ void RTypeGame::initScene(engine::Registry &reg)
         background,
         Component::Position(
             float(rendering::system::SCREEN_WIDTH) / 2,
-            float(rendering::system::SCREEN_HEIGHT) / 2, -10
+            float(rendering::system::SCREEN_HEIGHT) / 2, -100
         )
     );
     // midground
@@ -185,7 +184,7 @@ void RTypeGame::initScene(engine::Registry &reg)
         midground,
         Component::Position(
             float(rendering::system::SCREEN_WIDTH) / 2,
-            float(rendering::system::SCREEN_HEIGHT) / 2, -9
+            float(rendering::system::SCREEN_HEIGHT) / 2, -99
         )
     );
     // foreground
@@ -193,7 +192,7 @@ void RTypeGame::initScene(engine::Registry &reg)
         foreground,
         Component::Position(
             float(rendering::system::SCREEN_WIDTH) / 2,
-            float(rendering::system::SCREEN_HEIGHT) / 2, -8
+            float(rendering::system::SCREEN_HEIGHT) / 2, -98
         )
     );
     // topBorder
@@ -207,9 +206,6 @@ void RTypeGame::initScene(engine::Registry &reg)
             float(rendering::system::SCREEN_WIDTH) / 2,
             float(rendering::system::SCREEN_HEIGHT) - float(BORDERS_H) / 2, -7
         )
-    );
-    reg.get_components<Component::Position>().insert_at(
-        entity_3d, Component::Position(0, 0, -7)
     );
 
     // ==================== set Drawable ====================
@@ -232,9 +228,6 @@ void RTypeGame::initScene(engine::Registry &reg)
     // bottomBorder
     reg.get_components<Component::Drawable>().insert_at(
         bottomBorder, Component::Drawable(BOT_BORDER_I, BORDERS_W, BORDERS_H, 3)
-    );
-    reg.get_components<Component::Drawable>().insert_at(
-        entity_3d, Component::Drawable(11, BORDERS_W, BORDERS_H, 3)
     );
 
     // ==================== set Animation ====================
@@ -295,10 +288,11 @@ void RTypeGame::initScene(engine::Registry &reg)
         reg.get_components<Component::Position>().insert_at(
             player,
             Component::Position(
-                150,
-                int(rendering::system::SCREEN_HEIGHT / 2)
-                    + (75.0 * (client.getPlayerNumber() - 2.5)),
-                1
+                10.0f, 10.0f, -10.0f
+                // 150,
+                // int(rendering::system::SCREEN_HEIGHT / 2)
+                //     + (75.0 * (client.getPlayerNumber() - 2.5)),
+                // 1
             )
         );
         reg.get_components<Component::Solid>().insert_at(
@@ -310,7 +304,7 @@ void RTypeGame::initScene(engine::Registry &reg)
         reg.get_components<Component::Drawable>().insert_at(
             player,
             Component::Drawable(
-                SHIP_I, SHIP_W, SHIP_H, 3, 17 * (client.getPlayerNumber() - 1)
+                11, SHIP_W, SHIP_H, 3, 17 * (client.getPlayerNumber() - 1)
             )
         );
         reg.get_components<Component::Animation>().insert_at(

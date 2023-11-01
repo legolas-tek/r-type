@@ -26,16 +26,16 @@ void rendering::system::Key::operator()()
 {
     Component::Velocity velocity;
     if (IsKeyDown(KEY_W) || IsKeyDown(KEY_Z)) {
-        velocity._vy += -5.0f;
+        velocity._vy += 0.5f;
     }
     if (IsKeyDown(KEY_A) || IsKeyDown(KEY_Q)) {
-        velocity._vx += -5.0f;
+        velocity._vx -= 0.5f;
     }
     if (IsKeyDown(KEY_S)) {
-        velocity._vy += 5.0f;
+        velocity._vy -= 0.5f;
     }
     if (IsKeyDown(KEY_D)) {
-        velocity._vx += 5.0f;
+        velocity._vx += 0.5f;
     }
 
     for (auto it = _velocities.begin(); it != _velocities.end(); ++it) {

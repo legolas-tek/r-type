@@ -45,6 +45,7 @@ private:
     SparseArray<Component::Animation> &_animations;
     SparseArray<Component::Position> &_positions;
     std::vector<std::variant<Texture2D, Model>> _cache;
+    Camera _camera = { 0 };
 };
 
 } // namespace rendering::system

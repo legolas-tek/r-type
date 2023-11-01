@@ -29,6 +29,11 @@ rendering::system::Texture::Texture(
             _cache.push_back(tower);
         }
     }
+    _camera.position = (Vector3) { 0.0f, 20.0f, 30.0f };
+    _camera.target = (Vector3) { 0.0f, 8.0f, 0.0f };
+    _camera.up = (Vector3) { 0.0f, 1.6f, 0.0f };
+    _camera.fovy = 45.0f;
+    _camera.projection = CAMERA_PERSPECTIVE;
 }
 
 rendering::system::Texture::~Texture()
@@ -86,20 +91,18 @@ void rendering::system::Texture::operator()()
 
             DrawTexturePro(texture, sourceRec, destRec, { 0, 0 }, 0.0f, WHITE);
         } else if (std::holds_alternative<Model>(_cache[textureIndex])) {
-            Vector3 towerPos = { 0.0f, 0.0f, 0.0f };
-
-            Camera camera = { 0 };
-            camera.position = (Vector3) { 20.0f, 20.0f, 20.0f };
-            camera.target = (Vector3) { 0.0f, 8.0f, 0.0f };
-            camera.up = (Vector3) { 0.0f, 1.6f, 0.0f };
-            camera.fovy = 45.0f;
-            camera.projection = CAMERA_PERSPECTIVE;
-
+            Vector3 modelPos = { pos->_x, pos->_y, pos->_z };
             Model model3d = std::get<Model>(_cache[textureIndex]);
+            Vector3 rotationAxis = { 0.0f, 1.0f, 0.0f };
+            float rotationAngle = 90.0f;
+            Vector3 scale = { 0.5f, 0.5f, 0.5f };
 
-            BeginMode3D(camera);
+            BeginMode3D(_camera);
 
-            DrawModel(model3d, towerPos, 1.0f, WHITE);
+            DrawModelEx(
+                model3d, modelPos, rotationAxis, rotationAngle, scale, WHITE
+            );
+
             EndMode3D();
         }
     }
