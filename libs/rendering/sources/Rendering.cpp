@@ -15,7 +15,7 @@
 rendering::system::Rendering::Rendering(engine::Registry &registry)
     : _registry(registry)
 {
-    // SetTraceLogLevel(LOG_NONE);
+    SetTraceLogLevel(LOG_NONE);
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "raylib background scrolling");
 
     addSystem<rendering::system::Texture>(
