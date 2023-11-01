@@ -145,13 +145,13 @@ public:
     reference_type insert_at(size_type pos, Component const &comp)
     {
         _data[pos] = comp;
-        return _data[pos] = comp;
+        return _data[pos];
     }
 
     reference_type insert_at(size_type pos, Component &&comp)
     {
         _data[pos] = comp;
-        return _data[pos] = comp;
+        return _data[pos];
     }
 
     template <class... Params>
