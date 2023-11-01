@@ -34,8 +34,9 @@ void System::DeathAnimationManager::operator()()
         if (not pos.has_value())
             continue;
 
-        if (health.health == 0)
+        if (health.health == 0) {
             createBigExplosion(pos.value());
+        }
     }
 
     for (auto it = _collisions.begin(); it != _collisions.end(); it++) {
@@ -43,11 +44,13 @@ void System::DeathAnimationManager::operator()()
         auto id = it.get_entity();
         auto &pos = _positions[id];
         auto &damage = _damages[id];
+        auto &health = _healths[id];
 
-        if (not pos.has_value() or not damage.has_value())
+        if (not pos.has_value() or not damage.has_value() && health.has_value())
             continue;
 
-        if (collision._collidingEntity) {
+        if (collision._collidingEntity &&
+            _damages[collision._collidingEntity.value()]) {
             createExplosion(pos.value());
             _registry.erase_entity(id);
         }

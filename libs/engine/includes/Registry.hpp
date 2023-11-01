@@ -21,6 +21,7 @@
 #include <typeindex>
 #include <unordered_map>
 #include <vector>
+#include <queue>
 
 namespace engine {
 class Registry {
@@ -104,6 +105,7 @@ public:
         for (auto it : _component_ids) {
             erase_component(entity, it.second);
         }
+        _freedEntities.push(entity);
     }
 
     /// Remove all entities from the scene
@@ -113,6 +115,9 @@ public:
             erase_entity(Entity(i));
         }
         _entity_counter = 1;
+        while (not _freedEntities.empty()) {
+            _freedEntities.pop();
+        }
     }
 
     template <typename System, class... Params>
@@ -149,6 +154,12 @@ public:
 
     size_t get_new_entity()
     {
+        if (not _freedEntities.empty()) {
+            engine::Entity newEntity = _freedEntities.front();
+
+            _freedEntities.pop();
+            return newEntity;
+        }
         return _entity_counter++;
     }
 
@@ -165,6 +176,8 @@ public:
     std::vector<std::string> _assets_paths;
 
 private:
+    /// @brief This queue is here to reuse entities that we have deleted before
+    std::queue<Entity> _freedEntities;
     /**
      * Map of component type to component id
      */

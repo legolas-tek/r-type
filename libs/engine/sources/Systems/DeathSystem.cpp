@@ -24,13 +24,16 @@ void System::DeathSystem::operator()()
             _toEraseEntityList.begin(), _toEraseEntityList.end(),
             it.get_entity()
         );
+        int lifes = 0;
+
+        if (_lifes[it.get_entity()])
+            lifes = _lifes[it.get_entity()]->lifes;
 
         if (target != _toEraseEntityList.end()) {
             _reg.erase_entity(it.get_entity());
             continue;
         }
-        if ((*it)->health <= 0 && _lifes[it.get_entity()]
-            && _lifes[it.get_entity()]->lifes <= 0) {
+        if ((*it)->health <= 0 && lifes <= 0) {
             _toEraseEntityList.push_back(it.get_entity());
         }
     }

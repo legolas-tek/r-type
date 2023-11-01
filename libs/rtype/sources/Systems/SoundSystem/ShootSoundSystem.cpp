@@ -23,7 +23,7 @@ bool System::ShootSoundSystem::isAbleToAttack(Component::FireRate &fire_rate)
 
 void System::ShootSoundSystem::operator()()
 {
-    auto fireRateList = _register.get_components<Component::FireRate>();
+    auto &fireRateList = _register.get_components<Component::FireRate>();
 
     for (auto it = fireRateList.begin(); it != fireRateList.end(); it++) {
         if (isAbleToAttack(it->value())) {
