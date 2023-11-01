@@ -5,10 +5,11 @@
 ** Game
 */
 
+#include "DiffLogger.hpp"
 #include "Game.hpp"
 
-#include "Components/Text.hpp"
 #include "Components/Solid.hpp"
+#include "Components/Text.hpp"
 
 #include "Systems/AnimationSystem.hpp"
 #include "Systems/AttackSystem.hpp"
@@ -72,14 +73,17 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
         reg.get_components<Component::Position>(),
         reg.get_components<Component::Health>(),
         reg.get_components<Component::Collision>(),
-        reg.get_components<Component::Damage>(), reg
+        reg.get_components<Component::Damage>(),
+        reg.get_components<Component::Controllable>(), reg
     );
     reg.add_system<System::RespawnSystem>(
         reg.get_components<Component::Life>(),
         reg.get_components<Component::Health>(),
         reg.get_components<Component::Controllable>(),
         reg.get_components<Component::Drawable>(),
-        reg.get_components<Component::Velocity>(), reg
+        reg.get_components<Component::Velocity>(),
+        reg.get_components<Component::Collision>(),
+        reg.get_components<Component::HitBox>(), reg
     );
     reg.add_system<System::DeathSystem>(
         reg.get_components<Component::Health>(),
@@ -99,12 +103,15 @@ void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
         reg.get_components<Component::Velocity>(), _playerNumber
     );
     reg.add_system<net::system::NetworkClient>(
-        reg, 4242, _playerNumber, _playerHash
+        reg, _address, _port, _playerNumber, _playerHash
     );
 }
 
 void RTypeGame::registerAdditionalSystems(engine::Registry &reg)
 {
+#ifdef DEBUG_LOG_DIFF
+    reg.add_system<net::system::DiffLogger>(reg);
+#endif
     reg.add_system<System::FollowSystem>(
         reg.get_components<Component::Follow>(),
         reg.get_components<Component::Position>()
@@ -274,7 +281,7 @@ void RTypeGame::initScene(engine::Registry &reg)
             )
         );
         reg.get_components<Component::Solid>().insert_at(
-        player, Component::Solid()
+            player, Component::Solid()
         );
         reg.get_components<Component::Velocity>().insert_at(
             player, Component::Velocity()

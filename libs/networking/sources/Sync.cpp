@@ -18,30 +18,32 @@
 #endif
 
 net::Sync::Sync(
-    net::ClientNetManager, engine::Registry &registry, int port,
-    size_t playerNumber, size_t playerHash
+    net::ClientNetManager, engine::Registry &registry, std::string const &addr,
+    int port, size_t playerNumber, size_t playerHash
 )
     : _registry(registry)
     , _nmu(std::make_unique<net::manager::Udp>(
-          net::client_netmanager, "127.0.0.1", port
+          net::client_netmanager, addr, port
       ))
     , _rd_index(0)
     , _playerNumber(playerNumber)
     , _playerHash(playerHash)
+    , _isServer(false)
 {
 }
 
 net::Sync::Sync(
-    net::ServerNetManager, engine::Registry &registry, int port,
-    std::vector<net::lobby::RemoteClient> const &lobby
+    net::ServerNetManager, engine::Registry &registry, std::string const &addr,
+    int port, std::vector<net::lobby::RemoteClient> const &lobby
 )
     : _registry(registry)
     , _nmu(std::make_unique<net::manager::Udp>(
-          net::server_netmanager, "0.0.0.0", port
+          net::server_netmanager, addr, port
       ))
     , _rd_index(0)
     , _playerNumber(0)
     , _playerHash(0)
+    , _isServer(true)
 {
     for (auto &client : lobby) {
         _nmu->getOthers().emplace_back(
@@ -81,12 +83,16 @@ void net::Sync::sendAckPacket(
 }
 
 void net::Sync::processUpdatePacket(
-    engine::Deserializer &deserializer, net::manager::Client const &client
+    engine::Deserializer &deserializer, net::manager::Client &client
 )
 {
     uint32_t tickNumber;
     deserializer.deserializeTrivial(tickNumber);
 
+    if (tickNumber <= client._lastTick)
+        return;
+
+    client._lastTick = tickNumber;
     deserializer.skip(sizeof(uint32_t)); // skip the previous tick number
 
     while (not deserializer.isFinished()) {
@@ -130,7 +136,7 @@ void net::Sync::processUpdatePacket(
 }
 
 void net::Sync::processAckPacket(
-    engine::Deserializer &deserializer, net::manager::Client const &client
+    engine::Deserializer &deserializer, net::manager::Client &client
 )
 {
     uint32_t tick_number = 0;
@@ -157,8 +163,8 @@ void net::Sync::processAckPacket(
 
 net::Snapshot &net::Sync::find_last_ack(std::size_t client_index)
 {
-    for (int i = 0; i != net::NET_SNAPSHOT_NBR; ++i) {
-        unsigned int index = (_rd_index - i) % net::NET_SNAPSHOT_NBR;
+    for (int i = 0; i != net::SNAPSHOT_NBR; ++i) {
+        unsigned int index = (_rd_index - i) % net::SNAPSHOT_NBR;
 
         auto &snapshot = _snapshots[index];
 
@@ -198,11 +204,11 @@ static std::vector<std::byte> constructUpdatePacket(
 
 void net::Sync::updateSnapshotHistory(net::Snapshot &&current)
 {
-    SnapshotHistory &snap = _snapshots[_rd_index % NET_SNAPSHOT_NBR];
+    _rd_index = (_rd_index + 1) % net::SNAPSHOT_NBR;
 
+    SnapshotHistory &snap = _snapshots[_rd_index];
     snap.snapshot = std::move(current);
     snap.ack_mask = 0;
-    _rd_index = (_rd_index + 1) % NET_SNAPSHOT_NBR;
 }
 
 void net::Sync::operator()()
@@ -210,25 +216,31 @@ void net::Sync::operator()()
     auto received = _nmu->receive();
 
     for (auto &[buffer, endpoint] : received) {
-        engine::Deserializer deserializer(buffer);
-        std::size_t playerHash = 0;
-        deserializer.deserializeTrivial(playerHash);
-        auto *client = getClientWithHash(playerHash);
-        if (not client)
-            continue;
-        client->_endpoint = endpoint;
+        try {
+            engine::Deserializer deserializer(buffer);
+            std::size_t playerHash = 0;
+            deserializer.deserializeTrivial(playerHash);
+            auto *client = getClientWithHash(playerHash);
+            if (not client)
+                continue;
+            client->_endpoint = endpoint;
 
-        std::uint8_t packetId = 0;
-        deserializer.deserializeTrivial(packetId);
-        switch (packetId) {
-        case 0x01:
-            processUpdatePacket(deserializer, *client);
-            break;
-        case 0x02:
-            processAckPacket(deserializer, *client);
-            break;
+            std::uint8_t packetId = 0;
+            deserializer.deserializeTrivial(packetId);
+            switch (packetId) {
+            case 0x01:
+                processUpdatePacket(deserializer, *client);
+                break;
+            case 0x02:
+                processAckPacket(deserializer, *client);
+                break;
+            }
+        } catch (engine::Deserializer::DeserializerError &e) {
         }
     }
+
+    if (_isServer and _registry.getTick() % net::SERVER_TIME_STEP == 0)
+        return;
 
     auto &clients = _nmu->getOthers();
 
@@ -240,13 +252,13 @@ void net::Sync::operator()()
 
         if (packet.empty())
             continue;
-        updateSnapshotHistory(std::move(current));
 
 #ifdef DEBUG_NETWORK
         std::cout << "SyncSystem: sent " << packet.size()
-                  << " byte update packet for tick " << _registry.getTick()
-                  << std::endl;
+                  << " byte update packet for tick " << previous.tick << " -> "
+                  << _registry.getTick() << std::endl;
 #endif
+        updateSnapshotHistory(std::move(current));
         _nmu->send(packet, *it);
     }
 }

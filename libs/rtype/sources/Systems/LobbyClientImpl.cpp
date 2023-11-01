@@ -21,6 +21,8 @@ System::LobbyClientImpl::LobbyClientImpl(
     : net::LobbyClient(addr, port)
     , _game(game)
     , _registry(reg)
+    , _address(addr)
+    , _port(port)
 {
 }
 
@@ -30,7 +32,7 @@ void System::LobbyClientImpl::onJoinSuccess(
 {
     std::cout << "Join success: " << int(playerNumber) << " " << playerHash
               << std::endl;
-    _game.onJoinSuccess(playerNumber, playerHash);
+    _game.onJoinSuccess(playerNumber, playerHash, std::move(_address), _port);
     _game.initLobbyScene(_registry, *this);
 }
 
@@ -46,10 +48,10 @@ void System::LobbyClientImpl::onNewPlayer(
               << std::endl;
     engine::Entity nameEntity(_registry.get_new_entity());
 
-    _registry.get_components<Component::Position>().emplace_at(
+    _registry.get_components<Component::Position>().insert_at(
         nameEntity, Component::Position(25 + 150 * playerNumber, 200)
     );
-    _registry.get_components<Component::Text>().emplace_at(
+    _registry.get_components<Component::Text>().insert_at(
         nameEntity,
         Component::Text(
             std::move(playerName), "./assets/fonts/Over_There.ttf", 15, 5
@@ -57,14 +59,14 @@ void System::LobbyClientImpl::onNewPlayer(
     );
     engine::Entity iconEntity(_registry.get_new_entity());
 
-    _registry.get_components<Component::Position>().emplace_at(
+    _registry.get_components<Component::Position>().insert_at(
         iconEntity, Component::Position(25 + 150 * playerNumber, 100)
     );
-    _registry.get_components<Component::Drawable>().emplace_at(
+    _registry.get_components<Component::Drawable>().insert_at(
         iconEntity,
         Component::Drawable(0, SHIP_W, SHIP_H, 3, 17 * (playerNumber - 1))
     );
-    _registry.get_components<Component::Animation>().emplace_at(
+    _registry.get_components<Component::Animation>().insert_at(
         iconEntity,
         Component::Animation(
             SHIP_W * SHIP_F, SHIP_H, SHIP_W, SHIP_H, SHIP_W, 50

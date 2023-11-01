@@ -22,7 +22,9 @@
 
 namespace net {
 
-inline constexpr std::size_t NET_SNAPSHOT_NBR = 32;
+inline constexpr std::size_t SNAPSHOT_NBR = 32;
+
+inline constexpr std::size_t SERVER_TIME_STEP = 6;
 
 /**
  * @brief Sync system abstract class.
@@ -37,7 +39,7 @@ public:
      * @brief Using for the functions that process received packets.
      */
     using process_packet_t
-        = void(engine::Deserializer &, net::manager::Client const &);
+        = void(engine::Deserializer &, net::manager::Client &);
 
 public:
     /**
@@ -47,8 +49,9 @@ public:
      * @param port the server port to connect to
      */
     Sync(
-        net::ClientNetManager, engine::Registry &registry, int port,
-        size_t playerNumber, std::size_t playerHash
+        net::ClientNetManager, engine::Registry &registry,
+        std::string const &addr, int port, size_t playerNumber,
+        std::size_t playerHash
     );
     /**
      * @brief Construct a new Sync object for the server
@@ -57,7 +60,8 @@ public:
      * @param port the port use to expose the server
      */
     Sync(
-        net::ServerNetManager, engine::Registry &registry, int port,
+        net::ServerNetManager, engine::Registry &registry,
+        std::string const &addr, int port,
         std::vector<net::lobby::RemoteClient> const &lobby
     );
     /**
@@ -136,7 +140,7 @@ protected:
 private:
     std::unique_ptr<net::manager::Udp> _nmu; ///< the udp net manager
 
-    std::array<SnapshotHistory, NET_SNAPSHOT_NBR>
+    std::array<SnapshotHistory, net::SNAPSHOT_NBR>
         _snapshots; ///< A vector of Snapshots
 
     std::size_t _rd_index; ///< The actual index to read the _snapshots
@@ -145,6 +149,8 @@ private:
 
     std::size_t _playerNumber; ///< Our player number, or 0 if server
     std::size_t _playerHash; ///< Our player hash, or 0 if server
+
+    bool _isServer;
 };
 
 }

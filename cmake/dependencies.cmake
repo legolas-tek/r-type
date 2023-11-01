@@ -52,13 +52,13 @@ if (UNIX)
     )
 endif ()
 
-FetchContent_Declare(raylib
+FetchContent_Declare (raylib
     GIT_REPOSITORY "https://github.com/raysan5/raylib.git"
     GIT_TAG "master"
     GIT_PROGRESS TRUE
 )
 
-set(CUSTOMIZE_BUILD ON)
-set(BUILD_SHARED_LIBS ON CACHE INTERNAL "")
+set (CUSTOMIZE_BUILD ON)
+set (BUILD_SHARED_LIBS ON CACHE INTERNAL "")
 
-FetchContent_MakeAvailable(raylib)
+FetchContent_MakeAvailable (raylib)

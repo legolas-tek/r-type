@@ -73,6 +73,8 @@ RTypeLobby::~RTypeLobby()
 {
     _game._playerHash = _playerHash;
     _game._playerNumber = _playerNumber;
+    _game._address = std::move(_address);
+    _game._port = _port;
     if (_serverLobby)
         _game._serverClients = std::move(_serverLobby->get().getClients());
 }
@@ -95,19 +97,19 @@ static engine::Entity createField(
     engine::Entity labelEntity(reg.get_new_entity());
     engine::Entity valueEntity(reg.get_new_entity());
 
-    reg.get_components<Position>().emplace_at(labelEntity, Position(x, y));
-    reg.get_components<Text>().emplace_at(
+    reg.get_components<Position>().insert_at(labelEntity, Position(x, y));
+    reg.get_components<Text>().insert_at(
         labelEntity, Text(std::move(label), FONT, 20, 1)
     );
-    reg.get_components<Position>().emplace_at(
+    reg.get_components<Position>().insert_at(
         valueEntity, Position(x + 10, y + 30)
     );
-    reg.get_components<Text>().emplace_at(
+    reg.get_components<Text>().insert_at(
         valueEntity, Text(std::move(value), FONT, 20, 1)
     );
-    reg.get_components<Focusable>().emplace_at(valueEntity, Focusable());
-    reg.get_components<Editable>().emplace_at(valueEntity, Editable());
-    reg.get_components<HitBox>().emplace_at(valueEntity, HitBox(300, 50));
+    reg.get_components<Focusable>().insert_at(valueEntity, Focusable());
+    reg.get_components<Editable>().insert_at(valueEntity, Editable());
+    reg.get_components<HitBox>().insert_at(valueEntity, HitBox(300, 50));
     return valueEntity;
 }
 
@@ -117,12 +119,12 @@ createButton(engine::Registry &reg, std::string &&label, float x, float y)
     using namespace Component;
     engine::Entity button(reg.get_new_entity());
 
-    reg.get_components<Position>().emplace_at(button, Position(x, y));
-    reg.get_components<Text>().emplace_at(
+    reg.get_components<Position>().insert_at(button, Position(x, y));
+    reg.get_components<Text>().insert_at(
         button, Text(std::move(label), FONT, 40, 1)
     );
-    reg.get_components<Focusable>().emplace_at(button, Focusable());
-    reg.get_components<HitBox>().emplace_at(button, HitBox(200, 100));
+    reg.get_components<Focusable>().insert_at(button, Focusable());
+    reg.get_components<HitBox>().insert_at(button, HitBox(200, 100));
     return button;
 }
 
@@ -131,7 +133,7 @@ void RTypeLobby::initScene(engine::Registry &reg)
     using namespace Component;
     engine::Entity title(reg.get_new_entity());
 
-    reg.get_components<Position>().emplace_at(title, Position(125, 30));
+    reg.get_components<Position>().insert_at(title, Position(125, 30));
     reg.get_components<Text>().insert_at(title, Text("R-Type", FONT, 50, 10));
 
     _addressInput = createField(reg, "Address", "127.0.0.1", 100, 100);
@@ -141,11 +143,14 @@ void RTypeLobby::initScene(engine::Registry &reg)
 }
 
 void RTypeLobby::onJoinSuccess(
-    std::uint8_t playerNumber, std::uint64_t playerHash
+    std::uint8_t playerNumber, std::uint64_t playerHash, std::string address,
+    std::size_t port
 )
 {
     _playerNumber = playerNumber;
     _playerHash = playerHash;
+    _address = std::move(address);
+    _port = port;
 }
 
 void RTypeLobby::initLobbyScene(

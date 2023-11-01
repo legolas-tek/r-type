@@ -15,13 +15,16 @@ System::DeathAnimationManager::DeathAnimationManager(
     SparseArray<Component::Position> &positions,
     SparseArray<Component::Health> &healths,
     SparseArray<Component::Collision> &collisions,
-    SparseArray<Component::Damage> &damages, engine::Registry &reg
+    SparseArray<Component::Damage> &damages,
+    SparseArray<Component::Controllable> &controllables,
+    engine::Registry &reg
 )
     : _positions(positions)
     , _healths(healths)
     , _registry(reg)
     , _collisions(collisions)
     , _damages(damages)
+    , _controllables(controllables)
 {
 }
 
@@ -34,8 +37,9 @@ void System::DeathAnimationManager::operator()()
         if (not pos.has_value())
             continue;
 
-        if (health.health == 0)
+        if (health.health == 0) {
             createBigExplosion(pos.value());
+        }
     }
 
     for (auto it = _collisions.begin(); it != _collisions.end(); it++) {
@@ -43,14 +47,20 @@ void System::DeathAnimationManager::operator()()
         auto id = it.get_entity();
         auto &pos = _positions[id];
         auto &damage = _damages[id];
+        auto &controllable = _controllables[id];
+        auto &health = _healths[id];
 
-        if (not pos.has_value() or not damage.has_value())
+        if (not pos or not damage or controllable
+            or not collision._collidingEntity)
             continue;
 
-        if (collision._collidingEntity) {
-            createExplosion(pos.value());
-            _registry.erase_entity(id);
+        engine::Entity collidingEntity = collision._collidingEntity.value();
+
+        if (health and not _controllables[collidingEntity]) {
+            continue;
         }
+        createExplosion(pos.value());
+        _registry.erase_entity(id);
     }
 }
 
