@@ -28,8 +28,8 @@ if (DEBUG_NETWORK)
 endif (DEBUG_NETWORK)
 
 target_include_directories (networking
-    PUBLIC  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/includes>
-            $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/>
+    PUBLIC
+    ./includes
 )
 
 target_sources (networking
