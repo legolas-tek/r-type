@@ -10,6 +10,7 @@
 #include "SpawnEnemySystem.hpp"
 
 #include "Game.hpp"
+#include <iostream>
 
 System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
     : _register(reg)
@@ -24,9 +25,10 @@ System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
                             .offset = RTypeGame::SHOOT_ENNEMY_W,
                             .frameDuration = 50,
                             .scale = 1.5,
+                            .velocity = {-3, 0},
                             .damage = 1,
                             .lifeTime = 200,
-                            .fireRate = std::nullopt
+                            .fireRate = 100
                              };
     EntityInfo scourge = { .textureIndex = RTypeGame::BASIC_ENNEMY_I,
                            .textureWidth = RTypeGame::BASIC_ENNEMY_W
@@ -38,6 +40,7 @@ System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
                            .offset = RTypeGame::BASIC_ENNEMY_W,
                            .frameDuration = 50,
                            .scale = 1.5,
+                           .velocity = {-10, 0},
                            .damage = 1,
                            .lifeTime = 200,
                            .fireRate = std::nullopt
@@ -52,11 +55,12 @@ void System::WaveManagerSystem::operator()()
     size_t tick = _register.getTick();
     size_t maxWave = WAVE_START_TICK_TABLE.size();
 
-    if (_waveNum == maxWave) {
-        return;
-    }
+    // if (_waveNum == maxWave) {
+    //     return;
+    // }
     if (tick == WAVE_START_TICK_TABLE[_waveNum]) {
         _waveNum++;
+        std::cout << "next wave" << std::endl;
         if (_waveNum == 1) {
             add_system<System::SpawnEnemySystem>(
                 _register, _entityList[0], tick, secondsToTick(1), 832, 832, 40,
@@ -64,10 +68,14 @@ void System::WaveManagerSystem::operator()()
             );
         }
         if (_waveNum == 2) {
+            _systems.clear();
             add_system<System::SpawnEnemySystem>(
                 _register, _entityList[1], tick, secondsToTick(1), 832, 832, 40,
                 344 - _entityList[1].entityHeight
             );
+        }
+        if (_waveNum == 3) {
+            _systems.clear();
         }
     }
     run_systems();

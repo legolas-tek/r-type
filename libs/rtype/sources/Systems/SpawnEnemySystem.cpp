@@ -67,7 +67,7 @@ void System::SpawnEnemySystem::operator()()
         )
     );
     _register.get_components<Component::Velocity>().insert_at(
-        enemy, Component::Velocity(-5, 0)
+        enemy, _entityInfo.velocity
     );
     _register.get_components<Component::HitBox>().insert_at(
         enemy,
@@ -84,7 +84,7 @@ void System::SpawnEnemySystem::operator()()
         )
     );
     _register.get_components<Component::Health>().insert_at(
-        enemy, Component::Health(1, 1)
+        enemy, Component::Health(_entityInfo.health, _entityInfo.health)
     );
     if (_entityInfo.lifeTime) {
         _register.get_components<Component::LifeTime>().insert_at(

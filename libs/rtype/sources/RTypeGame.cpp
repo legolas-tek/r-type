@@ -218,13 +218,13 @@ void RTypeGame::initScene(engine::Registry &reg)
 
     // ==================== set Animation ====================
     reg.get_components<Component::Animation>().insert_at(
-        background, Component::Animation(1024, 192, 512, 192, 1, 1)
+        background, Component::Animation(1024, 192, 512, 192, 1, 10)
     );
     reg.get_components<Component::Animation>().insert_at(
-        midground, Component::Animation(1024, 192, 512, 192, 3, 1)
+        midground, Component::Animation(1024, 192, 512, 192, 3, 10)
     );
     reg.get_components<Component::Animation>().insert_at(
-        foreground, Component::Animation(1408, 192, 704, 192, 5, 1)
+        foreground, Component::Animation(1408, 192, 704, 192, 5, 10)
     );
     reg.get_components<Component::Animation>().insert_at(
         topBorder,

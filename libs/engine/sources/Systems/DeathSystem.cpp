@@ -17,6 +17,8 @@ System::DeathSystem::DeathSystem(
 {
 }
 
+#include <iostream>
+
 void System::DeathSystem::operator()()
 {
     for (auto it = _healths.begin(); it != _healths.end(); it++) {
@@ -31,6 +33,7 @@ void System::DeathSystem::operator()()
 
         if (target != _toEraseEntityList.end()) {
             _reg.erase_entity(it.get_entity());
+            _toEraseEntityList.erase(target);
             continue;
         }
         if ((*it)->health <= 0 && lifes <= 0) {
