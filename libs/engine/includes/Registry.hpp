@@ -26,16 +26,16 @@
 
 namespace engine {
 struct TextureWrapper {
-    std::string path_2d;
-    std::optional<std::string> path_3d;
+    std::string path2d;
+    std::optional<std::string> path3d;
 
     // Constructor
     TextureWrapper(
         std::string const path2d,
         std::optional<std::string> const path3d = std::nullopt
     )
-        : path_2d(path2d)
-        , path_3d(path3d)
+        : path2d(path2d)
+        , path3d(path3d)
     {
     }
 };

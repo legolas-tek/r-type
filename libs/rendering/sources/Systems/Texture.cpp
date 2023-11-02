@@ -20,11 +20,11 @@ rendering::system::Texture::Texture(
     , _positions(positions)
 {
     for (auto asset : _registry._assets_paths) {
-        if (!asset.path_3d) {
-            _cache.push_back(LoadTexture(asset.path_2d.c_str()));
+        if (!asset.path3d) {
+            _cache.push_back(LoadTexture(asset.path2d.c_str()));
         } else {
-            Model tower = LoadModel(asset.path_3d->c_str());
-            Texture2D texture = LoadTexture(asset.path_2d.c_str());
+            Model tower = LoadModel(asset.path3d->c_str());
+            Texture2D texture = LoadTexture(asset.path2d.c_str());
             tower.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
             _cache.push_back(tower);
         }
