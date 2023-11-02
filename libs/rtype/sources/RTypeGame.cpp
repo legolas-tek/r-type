@@ -212,15 +212,15 @@ void RTypeGame::initScene(engine::Registry &reg)
     // ==================== set Drawable ====================
     // background
     reg.get_components<Component::Drawable>().insert_at(
-        background, Component::Drawable(0, 512.0f, 192.0f, 2.0f)
+        background, Component::Drawable(0, 512.0f, 192.0f, 3.8f)
     );
     // midground
     reg.get_components<Component::Drawable>().insert_at(
-        midground, Component::Drawable(1, 512.0f, 192.0f, 2.0f)
+        midground, Component::Drawable(1, 512.0f, 192.0f, 3.8f)
     );
     // foreground
     reg.get_components<Component::Drawable>().insert_at(
-        foreground, Component::Drawable(2, 512.0f, 192.0f, 2.0f)
+        foreground, Component::Drawable(2, 512.0f, 192.0f, 3.8f)
     );
     // topBorder
     reg.get_components<Component::Drawable>().insert_at(
@@ -293,7 +293,7 @@ void RTypeGame::initScene(engine::Registry &reg)
                 150,
                 int(rendering::system::SCREEN_HEIGHT / 2)
                     + (75.0 * (client.getPlayerNumber() - 2.5)),
-                1
+                -30
             )
         );
         reg.get_components<Component::Solid>().insert_at(

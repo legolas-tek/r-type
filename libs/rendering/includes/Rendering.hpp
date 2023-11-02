@@ -21,12 +21,12 @@ namespace rendering::system {
 /*!
  * \brief Constant integer value representing the screen width.
  */
-inline constexpr int SCREEN_WIDTH = 800;
+inline constexpr int SCREEN_WIDTH = 1280;
 
 /*!
  * \brief Constant integer value representing the screen height.
  */
-inline constexpr int SCREEN_HEIGHT = 384;
+inline constexpr int SCREEN_HEIGHT = 720;
 
 /*!
  * \class Rendering
