@@ -30,8 +30,6 @@
 #include "NetworkClientSystem.hpp"
 #include "Rendering.hpp"
 
-#include <iostream>
-
 void RTypeGame::registerAllComponents(engine::Registry &reg)
 {
     reg.register_component<Component::Position>();

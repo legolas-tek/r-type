@@ -8,7 +8,6 @@
 #include "Systems/Texture.hpp"
 #include <algorithm>
 #include <cmath>
-#include <iostream>
 
 rendering::system::Texture::Texture(
     engine::Registry &registry, SparseArray<Component::Drawable> &drawables,
