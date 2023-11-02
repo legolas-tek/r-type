@@ -13,12 +13,22 @@
 #include "Components/Position.hpp"
 #include "ISystem.hpp"
 #include "Registry.hpp"
+#include "Rendering.hpp"
 #include "SparseArray.hpp"
 
 #include "raylib.h"
 #include <unordered_map>
+#include <variant>
 
 namespace rendering::system {
+
+struct CameraInfo {
+    Vector3 pos;
+    Vector3 target;
+    Vector3 up;
+    float fovy;
+    int projection;
+};
 
 /// @brief A system for redering textures.
 struct Texture : public ISystem {
@@ -30,7 +40,7 @@ struct Texture : public ISystem {
     Texture(
         engine::Registry &registry, SparseArray<Component::Drawable> &drawables,
         SparseArray<Component::Animation> &animations,
-        SparseArray<Component::Position> &positions
+        SparseArray<Component::Position> &positions, CameraInfo cameraInfo
     );
 
     /// @brief Destructor for the Texture system.
@@ -44,7 +54,8 @@ private:
     SparseArray<Component::Drawable> &_drawables;
     SparseArray<Component::Animation> &_animations;
     SparseArray<Component::Position> &_positions;
-    std::vector<Texture2D> _cache;
+    std::vector<std::variant<Texture2D, Model>> _cache;
+    Camera _camera = { 0 };
 };
 
 } // namespace rendering::system

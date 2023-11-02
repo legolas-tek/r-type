@@ -14,6 +14,15 @@ set_target_properties (rtype PROPERTIES
     FRAMEWORK TRUE
 )
 
+option (DEBUG_LOG_DIFF "Enable logging component diffs to a file" OFF)
+
+if (DEBUG_LOG_DIFF)
+    target_compile_definitions (rtype
+        PRIVATE
+        DEBUG_LOG_DIFF
+    )
+endif (DEBUG_LOG_DIFF)
+
 target_link_libraries (rtype
     PUBLIC
     engine

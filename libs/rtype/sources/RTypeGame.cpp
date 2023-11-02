@@ -5,10 +5,11 @@
 ** Game
 */
 
+#include "DiffLogger.hpp"
 #include "Game.hpp"
 
-#include "Components/Text.hpp"
 #include "Components/Solid.hpp"
+#include "Components/Text.hpp"
 
 #include "Systems/AnimationSystem.hpp"
 #include "Systems/AttackSystem.hpp"
@@ -72,14 +73,17 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
         reg.get_components<Component::Position>(),
         reg.get_components<Component::Health>(),
         reg.get_components<Component::Collision>(),
-        reg.get_components<Component::Damage>(), reg
+        reg.get_components<Component::Damage>(),
+        reg.get_components<Component::Controllable>(), reg
     );
     reg.add_system<System::RespawnSystem>(
         reg.get_components<Component::Life>(),
         reg.get_components<Component::Health>(),
         reg.get_components<Component::Controllable>(),
         reg.get_components<Component::Drawable>(),
-        reg.get_components<Component::Velocity>(), reg
+        reg.get_components<Component::Velocity>(),
+        reg.get_components<Component::Collision>(),
+        reg.get_components<Component::HitBox>(), reg
     );
     reg.add_system<System::DeathSystem>(
         reg.get_components<Component::Health>(),
@@ -105,6 +109,9 @@ void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
 
 void RTypeGame::registerAdditionalSystems(engine::Registry &reg)
 {
+#ifdef DEBUG_LOG_DIFF
+    reg.add_system<net::system::DiffLogger>(reg);
+#endif
     reg.add_system<System::FollowSystem>(
         reg.get_components<Component::Follow>(),
         reg.get_components<Component::Position>()
@@ -119,26 +126,41 @@ void RTypeGame::registerAdditionalSystems(engine::Registry &reg)
 
 void RTypeGame::initAssets(engine::Registry &reg)
 {
+    // 0
     reg._assets_paths.emplace_back(
         "./assets/images/cyberpunk_street_background.png"
     );
+    // 1
     reg._assets_paths.emplace_back(
         "./assets/images/cyberpunk_street_midground.png"
     );
+    // 2
     reg._assets_paths.emplace_back(
         "./assets/images/cyberpunk_street_foreground.png"
     );
+    // 3
     reg._assets_paths.emplace_back("./assets/images/space_ships.png");
+    // 4
     reg._assets_paths.emplace_back("./assets/images/Plasma_Beam.png");
+    // 5
     reg._assets_paths.emplace_back("./assets/images/impact_explosion.png");
+    // 6
     reg._assets_paths.emplace_back("./assets/images/basic_ennemy.png");
+    // 7
     reg._assets_paths.emplace_back("./assets/images/shooting_ennemy.png");
+    // 8
     reg._assets_paths.emplace_back(
         "./assets/images/first_level_bottom_borders.png"
     );
+    // 9
     reg._assets_paths.emplace_back("./assets/images/first_level_top_borders.png"
     );
+    // 10
     reg._assets_paths.emplace_back("./assets/images/big_explosion.png");
+    // 11
+    reg._assets_paths.emplace_back(
+        "./assets/images/BODYMAINCOLORCG.png", "./assets/SU-27.obj"
+    );
 }
 
 void RTypeGame::initScene(engine::Registry &reg)
@@ -155,7 +177,7 @@ void RTypeGame::initScene(engine::Registry &reg)
         background,
         Component::Position(
             float(rendering::system::SCREEN_WIDTH) / 2,
-            float(rendering::system::SCREEN_HEIGHT) / 2, -10
+            float(rendering::system::SCREEN_HEIGHT) / 2, -100
         )
     );
     // midground
@@ -163,7 +185,7 @@ void RTypeGame::initScene(engine::Registry &reg)
         midground,
         Component::Position(
             float(rendering::system::SCREEN_WIDTH) / 2,
-            float(rendering::system::SCREEN_HEIGHT) / 2, -9
+            float(rendering::system::SCREEN_HEIGHT) / 2, -99
         )
     );
     // foreground
@@ -171,7 +193,7 @@ void RTypeGame::initScene(engine::Registry &reg)
         foreground,
         Component::Position(
             float(rendering::system::SCREEN_WIDTH) / 2,
-            float(rendering::system::SCREEN_HEIGHT) / 2, -8
+            float(rendering::system::SCREEN_HEIGHT) / 2, -98
         )
     );
     // topBorder
@@ -267,6 +289,7 @@ void RTypeGame::initScene(engine::Registry &reg)
         reg.get_components<Component::Position>().insert_at(
             player,
             Component::Position(
+                // 10.0f, 10.0f, 0.0f
                 150,
                 int(rendering::system::SCREEN_HEIGHT / 2)
                     + (75.0 * (client.getPlayerNumber() - 2.5)),
@@ -274,7 +297,7 @@ void RTypeGame::initScene(engine::Registry &reg)
             )
         );
         reg.get_components<Component::Solid>().insert_at(
-        player, Component::Solid()
+            player, Component::Solid()
         );
         reg.get_components<Component::Velocity>().insert_at(
             player, Component::Velocity()

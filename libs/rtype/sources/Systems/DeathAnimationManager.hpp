@@ -13,6 +13,7 @@
 #include "SparseArray.hpp"
 
 #include "Components/Collision.hpp"
+#include "Components/Controllable.hpp"
 #include "Components/Damage.hpp"
 #include "Components/Health.hpp"
 #include "Components/Position.hpp"
@@ -49,7 +50,9 @@ public:
         SparseArray<Component::Position> &positions,
         SparseArray<Component::Health> &healths,
         SparseArray<Component::Collision> &collisions,
-        SparseArray<Component::Damage> &damages, engine::Registry &reg
+        SparseArray<Component::Damage> &damages,
+        SparseArray<Component::Controllable> &controllables,
+        engine::Registry &reg
     );
 
     /// @brief applys the system logic
@@ -74,6 +77,8 @@ private:
     SparseArray<Component::Health> &_healths;
     /// @brief A ref to a Hitbox components SparseArray
     SparseArray<Component::Collision> &_collisions;
+    /// @brief A ref to a Controllable components SparseArray
+    SparseArray<Component::Controllable> &_controllables;
     /// @brief A ref to the registry
     engine::Registry &_registry;
 };

@@ -8,10 +8,10 @@
 #ifndef MOVE_SYSTEM_HPP_
 #define MOVE_SYSTEM_HPP_
 
-#include "Components/Position.hpp"
-#include "Components/Velocity.hpp"
 #include "Components/Collision.hpp"
+#include "Components/Position.hpp"
 #include "Components/Solid.hpp"
+#include "Components/Velocity.hpp"
 
 #include "ISystem.hpp"
 #include "SparseArray.hpp"
