@@ -9,7 +9,7 @@
 #include "Events/Collision.hpp"
 
 System::MoveSystem::MoveSystem(
-    std::deque<std::unique_ptr<Event::IEvent>> const &events,
+    Event::EventQueue const &events,
     SparseArray<Component::Position> &positions,
     SparseArray<Component::Velocity> const &velocities,
     SparseArray<Component::Solid> const &solids,

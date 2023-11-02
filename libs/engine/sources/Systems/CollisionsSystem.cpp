@@ -9,7 +9,7 @@
 #include "Events/Collision.hpp"
 
 System::CollisionsSystem::CollisionsSystem(
-    std::deque<std::unique_ptr<Event::IEvent>> &events,
+    Event::EventQueue &events,
     SparseArray<Component::Position> &positions,
     SparseArray<Component::HitBox> &hitboxes,
     SparseArray<Component::Collision> &collisions
@@ -64,9 +64,7 @@ void System::CollisionsSystem::checkCollisions(size_t index)
                 _positions[index].value(), _hitboxes[index].value(),
                 pos.value(), _collisions[i].value()
             )) {
-            _events.push_back(std::make_unique<Event::Collision>(
-                engine::Entity(index), engine::Entity(i)
-            ));
+            _events.addEvent<Event::Collision>(engine::Entity(index), engine::Entity(i));
         }
     }
 }

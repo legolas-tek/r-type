@@ -19,17 +19,18 @@ System::DeathSystem::DeathSystem(
 }
 
 bool isEntityInDeathEvent(
-    engine::Entity entity, std::deque<std::unique_ptr<Event::IEvent>> &events
+    engine::Entity entity
 )
 {
-    return std::ranges::any_of(events, [entity](auto &event) {
-        auto death = dynamic_cast<Event::Death *>(event.get());
+    // return std::ranges::any_of(events, [entity](auto &event) {
+    //     auto death = dynamic_cast<Event::Death *>(event.get());
 
-        if (not death)
-            return false;
+    //     if (not death)
+    //         return false;
 
-        return death->entity == entity;
-    });
+    //     return death->entity == entity;
+    // });
+    return false;
 }
 
 void System::DeathSystem::operator()()

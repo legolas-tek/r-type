@@ -8,14 +8,16 @@
 #ifndef MOVE_SYSTEM_HPP_
 #define MOVE_SYSTEM_HPP_
 
-#include "Events/IEvent.hpp"
+#include <memory>
 #include <deque>
+
+#include "Events/IEvent.hpp"
+#include "Events/EventQueue.hpp"
 
 #include "Components/Collision.hpp"
 #include "Components/Position.hpp"
 #include "Components/Solid.hpp"
 #include "Components/Velocity.hpp"
-#include <memory>
 
 #include "ISystem.hpp"
 #include "SparseArray.hpp"
@@ -33,7 +35,7 @@ public:
     /// @param solids A const ref to a Position component SparseArray
     /// @param collisions A const ref to a Collision component SparseArray
     MoveSystem(
-        std::deque<std::unique_ptr<Event::IEvent>> const &events,
+        Event::EventQueue const &events,
         SparseArray<Component::Position> &positions,
         SparseArray<Component::Velocity> const &velocities,
         SparseArray<Component::Solid> const &solids,
@@ -61,7 +63,7 @@ private:
     );
 
     /// @brief A const ref to a Event deque
-    std::deque<std::unique_ptr<Event::IEvent>> const &_events;
+    Event::EventQueue const &_events;
     /// @brief A ref to a Position component SparseArray
     SparseArray<Component::Position> &_positions;
     /// @brief A const ref to a Velocity component SparseArray

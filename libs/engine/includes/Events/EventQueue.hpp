@@ -15,6 +15,8 @@
 #include "Entity.hpp"
 #include "IEvent.hpp"
 
+#include <iostream>
+
 namespace Event {
 
 class EventQueue {
@@ -48,11 +50,9 @@ public:
         eventsIterator &operator++()
         {
             _m_ptr++;
-            _iterations++;
             while (_m_ptr != _end_ptr
                    && not dynamic_cast<Event *>(_m_ptr->get())) {
                 _m_ptr++;
-                _iterations++;
             }
             return *this;
         }
@@ -78,7 +78,6 @@ public:
     private:
         pointerType _m_ptr;
         pointerType _end_ptr;
-        size_t _iterations = 0;
     };
 
 public:
@@ -86,8 +85,10 @@ public:
     {
         eventsIterator<Event> it(&_events[0], &_events[_events.size()]);
 
-        if (it != end())
+        if (it != eventIteratorEnd<Event>() && not dynamic_cast<Event *>(it->get())) {
+            std::cout << "forward" << std::endl;
             it++;
+        }
         return it;
     }
 
@@ -106,9 +107,9 @@ public:
         }
     }
 
-    template <class Event> void addEvent(Event const &event) noexcept
+    template <class Event, class... Params> void addEvent(Params &&...params)
     {
-        _events.push_back(std::make_unique<Event>(event));
+        _events.push_back(std::make_unique<Event>(std::forward<Params>(params)...));
     }
 
     template <class Event> void eraseEvent(Event event) noexcept
