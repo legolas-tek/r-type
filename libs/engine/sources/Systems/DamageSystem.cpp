@@ -26,20 +26,18 @@ System::DamageSystem::DamageSystem(
 void System::DamageSystem::operator()()
 {
     for (auto it =
-        _registry.events.eventIteratorBegin<std::unique_ptr<Event::Collision>>();
-        it != _registry.events.eventIteratorEnd<std::unique_ptr<Event::Collision>>(); it++
+        _registry.events.eventIteratorBegin<Event::Collision>();
+        it != _registry.events.eventIteratorEnd<Event::Collision>(); it++
         ) {
         auto collision = dynamic_cast<Event::Collision *>(it->get());
 
         if (not collision)
             continue;
 
-        std::cout << "found damage" << std::endl;
         if (not _healths[collision->entity]
             or not _damages[collision->secondEntity])
             continue;
 
-        std::cout << "found health" << std::endl;
         if (_healths[collision->entity]->health <= 0)
             continue;
 

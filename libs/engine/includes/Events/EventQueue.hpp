@@ -85,10 +85,8 @@ public:
     {
         eventsIterator<Event> it(&_events[0], &_events[_events.size()]);
 
-        if (it != eventIteratorEnd<Event>() && not dynamic_cast<Event *>(it->get())) {
-            std::cout << "forward" << std::endl;
+        if (it != eventIteratorEnd<Event>() && !dynamic_cast<Event *>(it->get()))
             it++;
-        }
         return it;
     }
 
