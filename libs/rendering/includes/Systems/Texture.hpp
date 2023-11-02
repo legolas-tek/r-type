@@ -18,6 +18,7 @@
 
 #include "raylib.h"
 #include <unordered_map>
+#include <variant>
 
 namespace rendering::system {
 
