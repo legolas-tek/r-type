@@ -98,13 +98,8 @@ void rendering::system::Texture::operator()()
             float rotationAngle = 90.0f;
             Vector3 scale = { 0.5f, 0.5f, 0.5f };
 
-            // double root = sqrt(x);
-            // double distance = sqrt(pow(_camera.position.x - pos->_x, 2) +
-            // pow(_camera.position.y - pos->_y, 2) + pow(_camera.position.z -
-            // pos->_z, 2)); double diffAngle = _camera.fovy / SCREEN_WIDTH;
-
-            double NDC_X = (2 * pos->_x / SCREEN_WIDTH) - 1;
-            double NDC_Y = 1 - (2 * pos->_y / SCREEN_HEIGHT);
+            double ndcX = (2 * pos->_x / SCREEN_WIDTH) - 1;
+            double ndcY = 1 - (2 * pos->_y / SCREEN_HEIGHT);
 
             double distance = _camera.position.z - pos->_z;
 
@@ -112,12 +107,11 @@ void rendering::system::Texture::operator()()
                 = 2 * distance * tan((_camera.fovy * M_PI / 180.0) / 2);
             double planeWidth = planeHeight * (SCREEN_WIDTH / SCREEN_HEIGHT);
 
-            double worldX = NDC_X * planeWidth / 2;
-            double worldY = NDC_Y * planeHeight / 2;
+            double worldX = ndcX * planeWidth / 2;
+            double worldY = ndcY * planeHeight / 2;
             modelPos.x = worldX;
             modelPos.y = worldY;
 
-            // pow()
             BeginMode3D(_camera);
 
             DrawModelEx(
