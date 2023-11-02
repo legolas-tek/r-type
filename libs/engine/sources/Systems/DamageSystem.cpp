@@ -23,7 +23,9 @@ System::DamageSystem::DamageSystem(
 
 void System::DamageSystem::operator()()
 {
-    for (auto &event : _registry.events) {
+    for (auto it
+         = _registry.events
+               .eventIteratorBegin<std::unique_ptr<Event::Collision>>()) {
         auto collision = dynamic_cast<Event::Collision *>(event.get());
 
         if (not collision)

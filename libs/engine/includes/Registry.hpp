@@ -10,6 +10,7 @@
 
 #include "ComponentData.hpp"
 #include "Entity.hpp"
+#include "Events/EventQueue.hpp"
 #include "Events/IEvent.hpp"
 #include "ISystem.hpp"
 #include "Serialization/Deserializer.hpp"
@@ -176,7 +177,7 @@ public:
 
     std::vector<std::string> _assets_paths;
 
-    std::deque<std::unique_ptr<Event::IEvent>> events;
+    Event::EventQueue events;
 
 private:
     /// @brief This queue is here to reuse entities that we have deleted before
