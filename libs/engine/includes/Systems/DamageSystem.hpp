@@ -29,33 +29,19 @@ public:
     /// @param collisions A ref to a Collision components SparseArray
     DamageSystem(
         SparseArray<Component::Damage> &damages,
-        SparseArray<Component::Health> &healths,
-        SparseArray<Component::Collision> &collisions,
-        engine::Registry &registry
+        SparseArray<Component::Health> &healths, Event::EventQueue &event
     );
 
     /// @brief applies the logic of the system
     void operator()() override;
 
 private:
-    /// @brief this functions determines wether the collision
-    /// deals damage or not
-    /// @return returns true if the collision deals damage
-    bool isDamageCollision(engine::Entity collidedEntity);
-
-    /// @brief This function damage the collided entity life component
-    /// with the colliding entity damages component
-    /// @param collidedEntity the entity wich receives the damages
-    void damageEntity(engine::Entity collidedEntity);
-
     /// @brief A ref to a Damage components SparseArray
     SparseArray<Component::Damage> &_damages;
     /// @brief A ref to a LifeTime components SparseArray
     SparseArray<Component::Health> &_healths;
-    /// @brief A ref to a Collision components SparseArray
-    SparseArray<Component::Collision> &_collisions;
-    /// @brief A ref to the registry
-    engine::Registry &_registry;
+    /// @brief A ref to the EventQueue
+    Event::EventQueue &_events;
 };
 
 }

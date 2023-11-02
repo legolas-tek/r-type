@@ -26,7 +26,7 @@ public:
     using iterator = container::iterator;
     using const_iterator = container::const_iterator;
     using pointerType = valueType *;
-    using reference_type = valueType &;
+    using referenceType = valueType &;
 
 public:
     template <class Event> struct eventsIterator {
@@ -38,7 +38,7 @@ public:
         {
         }
 
-        reference_type operator*() const
+        referenceType operator*() const
         {
             return *_m_ptr;
         }
@@ -81,16 +81,16 @@ public:
     };
 
 public:
-    template <class Event> eventsIterator<Event> eventIteratorBegin()
+    template <class Event> eventsIterator<Event> beginIterator()
     {
         eventsIterator<Event> it(&_events[0], &_events[_events.size()]);
 
-        if (it != eventIteratorEnd<Event>() && !dynamic_cast<Event *>(it->get()))
+        if (it != endIterator<Event>() and not dynamic_cast<Event *>(it->get()))
             it++;
         return it;
     }
 
-    template <class Event> eventsIterator<Event> eventIteratorEnd()
+    template <class Event> eventsIterator<Event> endIterator()
     {
         return eventsIterator<Event>(&_events[_events.size()]);
     }
