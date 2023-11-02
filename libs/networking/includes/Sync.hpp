@@ -94,6 +94,7 @@ private:
         uint8_t component_id, engine::Deserializer deser
     );
 
+    virtual bool canSend(engine::Entity entity, uint8_t component_id);
     /**
      * @brief Function to process the received update packet
      *

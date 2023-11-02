@@ -18,6 +18,10 @@
 namespace net {
 
 struct Snapshot {
+
+    using can_send_t
+        = std::function<bool(engine::Entity entity, uint8_t component_id)>;
+
     /**
      * The tick the snapshot was taken
      */
@@ -51,7 +55,8 @@ std::vector<std::byte>
 diffSnapshots(Snapshot const &previous, Snapshot const &current);
 
 void diffSnapshots(
-    engine::Serializer &diff, Snapshot const &previous, Snapshot const &current
+    engine::Serializer &diff, Snapshot const &previous, Snapshot const &current,
+    net::Snapshot::can_send_t canSend
 );
 }
 

@@ -27,3 +27,10 @@ bool rtype::NetworkServerSystem::canUpdate(
     // TODO: attack etc
     return false;
 }
+
+bool rtype::NetworkClientSystem::canSend(
+    engine::Entity entity, uint8_t component_id
+)
+{
+    return true;
+}
