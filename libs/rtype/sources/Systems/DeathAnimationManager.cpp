@@ -16,8 +16,7 @@ System::DeathAnimationManager::DeathAnimationManager(
     SparseArray<Component::Health> &healths,
     SparseArray<Component::Collision> &collisions,
     SparseArray<Component::Damage> &damages,
-    SparseArray<Component::Controllable> &controllables,
-    engine::Registry &reg
+    SparseArray<Component::Controllable> &controllables, engine::Registry &reg
 )
     : _positions(positions)
     , _healths(healths)

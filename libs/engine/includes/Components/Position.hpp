@@ -38,7 +38,7 @@ struct Position : engine::Serializable<Position> {
     /**
      * @brief The z-coordinate of the position.
      */
-    int _z = 0;
+    float _z = 0;
 
     /**
      * @brief Default constructor for the Position structure.
@@ -58,7 +58,7 @@ struct Position : engine::Serializable<Position> {
      * @param y The y-coordinate of the position.
      * @param z The z-coordinate of the position.
      */
-    Position(float x, float y, int z = 0)
+    Position(float x, float y, float z = 0)
         : _x(x)
         , _y(y)
         , _z(z)

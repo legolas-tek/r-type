@@ -18,12 +18,27 @@
 #include <functional>
 #include <list>
 #include <memory>
+#include <optional>
+#include <queue>
 #include <typeindex>
 #include <unordered_map>
 #include <vector>
-#include <queue>
 
 namespace engine {
+struct TextureWrapper {
+    std::string path2d;
+    std::optional<std::string> path3d;
+
+    // Constructor
+    TextureWrapper(
+        std::string const path2d,
+        std::optional<std::string> const path3d = std::nullopt
+    )
+        : path2d(path2d)
+        , path3d(path3d)
+    {
+    }
+};
 class Registry {
 public:
     template <class Component> SparseArray<Component> &register_component()
@@ -173,7 +188,7 @@ public:
         return _tick;
     }
 
-    std::vector<std::string> _assets_paths;
+    std::vector<TextureWrapper> _assets_paths;
 
 private:
     /// @brief This queue is here to reuse entities that we have deleted before

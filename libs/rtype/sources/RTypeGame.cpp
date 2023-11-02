@@ -126,26 +126,41 @@ void RTypeGame::registerAdditionalSystems(engine::Registry &reg)
 
 void RTypeGame::initAssets(engine::Registry &reg)
 {
+    // 0
     reg._assets_paths.emplace_back(
         "./assets/images/cyberpunk_street_background.png"
     );
+    // 1
     reg._assets_paths.emplace_back(
         "./assets/images/cyberpunk_street_midground.png"
     );
+    // 2
     reg._assets_paths.emplace_back(
         "./assets/images/cyberpunk_street_foreground.png"
     );
+    // 3
     reg._assets_paths.emplace_back("./assets/images/space_ships.png");
+    // 4
     reg._assets_paths.emplace_back("./assets/images/Plasma_Beam.png");
+    // 5
     reg._assets_paths.emplace_back("./assets/images/impact_explosion.png");
+    // 6
     reg._assets_paths.emplace_back("./assets/images/basic_ennemy.png");
+    // 7
     reg._assets_paths.emplace_back("./assets/images/shooting_ennemy.png");
+    // 8
     reg._assets_paths.emplace_back(
         "./assets/images/first_level_bottom_borders.png"
     );
+    // 9
     reg._assets_paths.emplace_back("./assets/images/first_level_top_borders.png"
     );
+    // 10
     reg._assets_paths.emplace_back("./assets/images/big_explosion.png");
+    // 11
+    reg._assets_paths.emplace_back(
+        "./assets/images/BODYMAINCOLORCG.png", "./assets/SU-27.obj"
+    );
 }
 
 void RTypeGame::initScene(engine::Registry &reg)
@@ -162,7 +177,7 @@ void RTypeGame::initScene(engine::Registry &reg)
         background,
         Component::Position(
             float(rendering::system::SCREEN_WIDTH) / 2,
-            float(rendering::system::SCREEN_HEIGHT) / 2, -10
+            float(rendering::system::SCREEN_HEIGHT) / 2, -100
         )
     );
     // midground
@@ -170,7 +185,7 @@ void RTypeGame::initScene(engine::Registry &reg)
         midground,
         Component::Position(
             float(rendering::system::SCREEN_WIDTH) / 2,
-            float(rendering::system::SCREEN_HEIGHT) / 2, -9
+            float(rendering::system::SCREEN_HEIGHT) / 2, -99
         )
     );
     // foreground
@@ -178,7 +193,7 @@ void RTypeGame::initScene(engine::Registry &reg)
         foreground,
         Component::Position(
             float(rendering::system::SCREEN_WIDTH) / 2,
-            float(rendering::system::SCREEN_HEIGHT) / 2, -8
+            float(rendering::system::SCREEN_HEIGHT) / 2, -98
         )
     );
     // topBorder
@@ -274,6 +289,7 @@ void RTypeGame::initScene(engine::Registry &reg)
         reg.get_components<Component::Position>().insert_at(
             player,
             Component::Position(
+                // 10.0f, 10.0f, 0.0f
                 150,
                 int(rendering::system::SCREEN_HEIGHT / 2)
                     + (75.0 * (client.getPlayerNumber() - 2.5)),

@@ -12,13 +12,13 @@
 #include "Registry.hpp"
 #include "SparseArray.hpp"
 
+#include "Components/Collision.hpp"
 #include "Components/Controllable.hpp"
 #include "Components/Drawable.hpp"
 #include "Components/Health.hpp"
+#include "Components/HitBox.hpp"
 #include "Components/Life.hpp"
 #include "Components/Velocity.hpp"
-#include "Components/Collision.hpp"
-#include "Components/HitBox.hpp"
 
 namespace System {
 
