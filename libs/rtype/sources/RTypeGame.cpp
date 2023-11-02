@@ -305,7 +305,7 @@ void RTypeGame::initScene(engine::Registry &reg)
         reg.get_components<Component::Drawable>().insert_at(
             player,
             Component::Drawable(
-                11, SHIP_W, SHIP_H, 3, 17 * (client.getPlayerNumber() - 1)
+                SHIP_I, SHIP_W, SHIP_H, 3, 17 * (client.getPlayerNumber() - 1)
             )
         );
         reg.get_components<Component::Animation>().insert_at(
