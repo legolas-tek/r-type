@@ -167,4 +167,4 @@ private:
 
 }
 
-#endif // R_TYPE_EVENTQUEUE_HPP
+#endif // !R_TYPE_EVENT_HPP
