@@ -13,44 +13,44 @@ System::DeathSystem::DeathSystem(
     SparseArray<Component::Life> &lifes, engine::Registry &reg
 )
     : _healths(healths)
-    , _reg(reg)
+    , _registry(reg)
     , _lifes(lifes)
 {
 }
 
-bool isEntityInDeathEvent(
-    engine::Entity entity
-)
+bool isEntityInDeathEvent(engine::Entity entity, Event::EventQueue const &queue)
 {
-    // return std::ranges::any_of(events, [entity](auto &event) {
-    //     auto death = dynamic_cast<Event::Death *>(event.get());
+    return std::ranges::any_of(queue, [entity](auto &event) {
+        auto death = dynamic_cast<Event::Death *>(event.get());
 
-    //     if (not death)
-    //         return false;
+        if (not death)
+            return false;
 
-    //     return death->entity == entity;
-    // });
-    return false;
+        return death->entity == entity;
+    });
 }
 
 void System::DeathSystem::operator()()
 {
+    // Tant qu'il n'y a pas de réseau sur les events, on ne peut pas erase sur
+    // la meme frame
+    /*for (auto it = _events.beginIterator<Event::Death>();
+         it != _events.endIterator<Event::Death>(); it++) {
+        auto death = dynamic_cast<Event::Death *>(it->get());
+        _registry.erase_entity(death->entity);
+    }*/
     for (auto it = _healths.begin(); it != _healths.end(); it++) {
-        auto target = std::find(
-            _toEraseEntityList.begin(), _toEraseEntityList.end(),
-            it.get_entity()
-        );
         int lifes = 0;
 
         if (_lifes[it.get_entity()])
             lifes = _lifes[it.get_entity()]->lifes;
 
-        if (target != _toEraseEntityList.end()) {
-            _reg.erase_entity(it.get_entity());
+        if (isEntityInDeathEvent(it.get_entity(), _events)) {
+            _registry.erase_entity(it.get_entity());
             continue;
         }
-        if ((*it)->health <= 0 && lifes <= 0) {
-            _toEraseEntityList.push_back(it.get_entity());
-        }
+
+        if ((*it)->health <= 0 && lifes <= 0)
+            _events.addEvent<Event::Death>(it.get_entity());
     }
 }

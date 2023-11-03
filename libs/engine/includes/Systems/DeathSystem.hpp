@@ -39,9 +39,12 @@ private:
     SparseArray<Component::Health> &_healths;
     /// @brief lifes A ref to a Life components SparseArray
     SparseArray<Component::Life> &_lifes;
-    engine::Registry &_reg;
+    /// @brief A ref to the registry
+    engine::Registry &_registry;
     /// @brief A vector of entity to erase
     std::vector<engine::Entity> _toEraseEntityList;
+    /// @brief A ref to the EventQueue
+    Event::EventQueue &_events = _registry.events;
 };
 
 }
