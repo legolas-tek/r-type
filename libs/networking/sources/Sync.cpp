@@ -205,8 +205,7 @@ std::vector<std::byte> net::Sync::constructUpdatePacket(
     serializer.serializeTrivial(std::uint32_t(previous.tick));
 
     size_t size = serializer.getSize();
-    std::cout << _playerNumber << std::endl;
-    net::diffSnapshots(_playerNumber, serializer, previous, current, canSend);
+    net::diffSnapshots(serializer, previous, current, canSend);
     if (serializer.getSize() == size && previous.tick != 0) {
         return {}; // no update
     }
@@ -261,10 +260,9 @@ void net::Sync::operator()()
 
         auto packet = constructUpdatePacket(
             previous, current,
-            [this](
-                std::size_t clientNumber, engine::Entity entity,
-                uint8_t component_id
-            ) { return this->canSend(clientNumber, entity, component_id); }
+            [this](engine::Entity entity, uint8_t component_id) {
+                return this->canSend(this->_playerNumber, entity, component_id);
+            }
         );
 
         if (packet.empty())

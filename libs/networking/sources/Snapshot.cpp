@@ -28,12 +28,12 @@ using ComponentId = uint8_t;
 using UpdateType = bool;
 
 static void diffAdd(
-    engine::Serializer &diff, std::size_t clientNumber,
+    engine::Serializer &diff,
     std::vector<ComponentData>::const_iterator const &it,
     net::Snapshot::CanSend const &canSend
 )
 {
-    if (not canSend(clientNumber, it->entity, it->componentId))
+    if (not canSend(it->entity, it->componentId))
         return;
 
     diff.serializeTrivial(EntityNumber(it->entity));
@@ -53,9 +53,8 @@ static void diffRemove(
 }
 
 void net::diffSnapshots(
-    std::size_t clientNumber, engine::Serializer &diff,
-    net::Snapshot const &previous, net::Snapshot const &current,
-    net::Snapshot::CanSend const &canSend
+    engine::Serializer &diff, net::Snapshot const &previous,
+    net::Snapshot const &current, net::Snapshot::CanSend const &canSend
 )
 {
     auto previousIt = previous.data.begin();
@@ -63,14 +62,14 @@ void net::diffSnapshots(
     for (auto currentIt = current.data.begin(); currentIt != current.data.end();
          ++currentIt) {
         if (previousIt == previous.data.end()) {
-            diffAdd(diff, clientNumber, currentIt, canSend);
+            diffAdd(diff, currentIt, canSend);
             continue;
         }
         if (previousIt->componentId == currentIt->componentId
             && previousIt->entity == currentIt->entity) {
             if (previousIt->data != currentIt->data) {
                 // modified, send again
-                diffAdd(diff, clientNumber, currentIt, canSend);
+                diffAdd(diff, currentIt, canSend);
             } // else, unchanged, skip
             ++previousIt;
             continue;
@@ -89,7 +88,7 @@ void net::diffSnapshots(
             }
         }
         // current does not exist in previous, so it was added
-        diffAdd(diff, clientNumber, currentIt, canSend);
+        diffAdd(diff, currentIt, canSend);
     }
     // all remaining components in previous are removals
     for (auto it = previousIt; it != previous.data.end(); ++it) {
@@ -103,9 +102,8 @@ net::diffSnapshots(net::Snapshot const &previous, net::Snapshot const &current)
     engine::Serializer diff;
 
     diffSnapshots(
-        0, diff, previous, current,
-        []([[maybe_unused]] std::size_t clientNumber,
-           [[maybe_unused]] engine::Entity entity,
+        diff, previous, current,
+        []([[maybe_unused]] engine::Entity entity,
            [[maybe_unused]] uint8_t component_id) { return true; }
     );
     return diff.finalize();
