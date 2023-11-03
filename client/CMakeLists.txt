@@ -15,7 +15,7 @@ target_link_libraries (r-type_client
     engine
     networking
     rendering
-    rtype
+    mario
 )
 
 target_sources (r-type_client
