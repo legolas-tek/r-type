@@ -14,7 +14,6 @@
 #include <functional>
 #include <optional>
 
-#include <iostream>
 #ifdef DEBUG_NETWORK
     #include <iostream>
 #endif
