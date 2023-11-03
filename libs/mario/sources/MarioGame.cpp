@@ -45,12 +45,17 @@ void MarioGame::initAssets(engine::Registry &reg)
     reg._assets_paths.emplace_back("./assets/mario/images/mario_floor.png");
     reg._assets_paths.emplace_back("./assets/mario/images/mario_background.png"
     );
+    reg._assets_paths.emplace_back("./assets/mario/images/mario.png");
 }
 
 void MarioGame::initScene(engine::Registry &reg)
 {
     engine::Entity floor(reg.get_new_entity());
     engine::Entity background(reg.get_new_entity());
+    engine::Entity mario_player(reg.get_new_entity());
+
+    // one box is 16 * 16
+    float oneUnit = 16.0f;
 
     float scaleRatio
         = static_cast<float>(rendering::system::SCREEN_HEIGHT) / 224.0;
@@ -60,10 +65,14 @@ void MarioGame::initScene(engine::Registry &reg)
     reg.get_components<Component::Drawable>().insert_at(
         floor, Component::Drawable(0, 1564.0f, 24.0f, scaleRatio)
     );
-    std::cout << "test " << scaleRatio << std::endl;
     // background
     reg.get_components<Component::Drawable>().insert_at(
         background, Component::Drawable(1, 1564.0f, 200.0f, scaleRatio)
+    );
+    // mario_player
+    reg.get_components<Component::Drawable>().insert_at(
+        mario_player,
+        Component::Drawable(2, 150.0f, 160.0f, oneUnit / 160.0f * scaleRatio)
     );
 
     // ==================== set positions ====================
@@ -78,6 +87,17 @@ void MarioGame::initScene(engine::Registry &reg)
     // background
     reg.get_components<Component::Position>().insert_at(
         background, Component::Position(0.0, 0.0f, 0)
+    );
+    std::cout << oneUnit / 160.0f * scaleRatio << std::endl;
+    // mario_player
+    reg.get_components<Component::Position>().insert_at(
+        mario_player,
+        Component::Position(
+            0.0,
+            float(rendering::system::SCREEN_HEIGHT) - (24.0 * scaleRatio)
+                - (160.0f * oneUnit / 160.0f * scaleRatio),
+            0
+        )
     );
 }
 
