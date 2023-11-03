@@ -8,8 +8,8 @@
 #ifndef R_TYPE_ENGINE_COMPONENTS_SOLID_HPP_
 #define R_TYPE_ENGINE_COMPONENTS_SOLID_HPP_
 
-#include "Serialization/Serializable.hpp"
 #include "Entity.hpp"
+#include "Serialization/Serializable.hpp"
 
 namespace Component {
 

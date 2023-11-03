@@ -92,7 +92,7 @@ public:
         : _data(container_t(500))
     {
     }
-    SparseArray(SparseArray const &) = default;
+    SparseArray(SparseArray const &other) = default;
     SparseArray(SparseArray &&) noexcept = default;
 
     ~SparseArray() = default;
@@ -111,8 +111,9 @@ public:
 
     reference_type operator[](size_t idx)
     {
-        if (idx >= _data.size())
+        if (idx >= _data.size()) {
             _data.resize(idx + 1);
+        }
         return _data[idx];
     }
     const_reference_type operator[](size_t idx) const
@@ -143,24 +144,32 @@ public:
 
     reference_type insert_at(size_type pos, Component const &comp)
     {
-        return emplace_at(pos, comp);
+        if (pos >= _data.size()) {
+            _data.resize(pos + 100);
+        }
+        _data[pos] = comp;
+        return _data[pos];
     }
 
     reference_type insert_at(size_type pos, Component &&comp)
     {
-        return emplace_at(pos, std::move(comp));
+        if (pos >= _data.size()) {
+            _data.resize(pos + 100);
+        }
+        _data[pos] = comp;
+        return _data[pos];
     }
 
     template <class... Params>
     reference_type emplace_at(size_type pos, Params &&...args)
     {
-        if (pos >= _data.size())
-            _data.resize(pos + 1);
+        if (pos >= _data.size()) {
+            _data.resize(pos + 100);
+        }
         if (_data[pos])
             _data[pos].reset();
-        return *_data.emplace(
-            _data.begin() + pos, std::forward<Params>(args)...
-        );
+        _data[pos] = Component(std::forward<Params>(args)...);
+        return _data[pos];
     }
 
     void erase(size_type pos)

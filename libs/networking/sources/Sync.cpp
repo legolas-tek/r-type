@@ -11,6 +11,7 @@
 #include "UdpNetManager.hpp"
 
 #include "Sync.hpp"
+#include <functional>
 #include <optional>
 
 #ifdef DEBUG_NETWORK
@@ -60,6 +61,14 @@ bool net::Sync::canUpdate(
     [[maybe_unused]] engine::Entity entity,
     [[maybe_unused]] uint8_t component_id,
     [[maybe_unused]] engine::Deserializer deser
+)
+{
+    return true;
+}
+
+bool net::Sync::canSend(
+    [[maybe_unused]] engine::Entity entity,
+    [[maybe_unused]] uint8_t component_id
 )
 {
     return true;
@@ -182,9 +191,9 @@ net::Snapshot &net::Sync::find_last_ack(std::size_t client_index)
     return _dummy;
 }
 
-static std::vector<std::byte> constructUpdatePacket(
-    size_t _playerHash, net::Snapshot const &previous,
-    net::Snapshot const &current
+std::vector<std::byte> net::Sync::constructUpdatePacket(
+    net::Snapshot const &previous, net::Snapshot const &current,
+    net::Snapshot::CanSend canSend
 )
 {
     engine::Serializer serializer;
@@ -195,7 +204,7 @@ static std::vector<std::byte> constructUpdatePacket(
     serializer.serializeTrivial(std::uint32_t(previous.tick));
 
     size_t size = serializer.getSize();
-    net::diffSnapshots(serializer, previous, current);
+    net::diffSnapshots(serializer, previous, current, canSend);
     if (serializer.getSize() == size && previous.tick != 0) {
         return {}; // no update
     }
@@ -259,7 +268,12 @@ void net::Sync::operator()()
         Snapshot &previous = find_last_ack(it - clients.begin());
         Snapshot current(_registry.getTick(), _registry);
 
-        auto packet = constructUpdatePacket(_playerHash, previous, current);
+        auto packet = constructUpdatePacket(
+            previous, current,
+            [this](engine::Entity entity, uint8_t component_id) {
+                return this->canSend(entity, component_id);
+            }
+        );
 
         if (packet.empty())
             continue;
