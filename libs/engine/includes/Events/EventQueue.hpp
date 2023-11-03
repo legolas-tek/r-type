@@ -33,7 +33,7 @@ public:
 
     public:
         explicit eventsIterator(iterator it, iterator end)
-            : _it(_it)
+            : _it(it)
             , _end(end)
         {
         }
@@ -107,7 +107,9 @@ public:
 
     template <class Event, class... Params> void addEvent(Params &&...params)
     {
-        _events.push_back(std::make_unique<Event>(std::forward<Params>(params)...));
+        _eventsToAdd.push_back(
+            std::make_unique<Event>(std::forward<Params>(params)...)
+        );
     }
 
     template <class Event> void eraseEvent(Event event) noexcept
@@ -161,8 +163,17 @@ public:
         _events.clear();
     }
 
+    void update() noexcept
+    {
+        for (auto &event : _eventsToAdd) {
+            _events.push_back(std::move(event));
+        }
+        _eventsToAdd.clear();
+    }
+
 private:
     std::deque<std::unique_ptr<IEvent>> _events;
+    std::deque<std::unique_ptr<IEvent>> _eventsToAdd;
 };
 
 }

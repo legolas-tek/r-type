@@ -78,5 +78,6 @@ void System::CollisionsSystem::operator()()
         if (pos.has_value()) {
             checkCollisions(index);
         }
+        _events.update();
     }
 }

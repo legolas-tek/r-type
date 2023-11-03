@@ -23,10 +23,8 @@ System::DamageOnCollisionSystem::DamageOnCollisionSystem(
 
 void System::DamageOnCollisionSystem::operator()()
 {
-    std::cout << "DamageOnCollisionSystem" << std::endl;
     for (auto it = _events.beginIterator<Event::Collision>();
          it != _events.endIterator<Event::Collision>(); it++) {
-        std::cout << "collision found" << std::endl;
         auto collision = dynamic_cast<Event::Collision *>(it->get());
 
         if (not _healths[collision->entity]
@@ -40,4 +38,5 @@ void System::DamageOnCollisionSystem::operator()()
             collision->entity, _damages[collision->secondEntity]->damages
         );
     }
+    _events.update();
 }
