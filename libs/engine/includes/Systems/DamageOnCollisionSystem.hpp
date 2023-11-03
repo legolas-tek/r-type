@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** r-type
 ** File description:
-** DamageSystem
+** DamageOnCollisionSystem
 */
 
 #ifndef DAMAGESYSTEM_HPP_
@@ -20,14 +20,14 @@ namespace System {
 
 /// @brief This system allows entity with the component damage to deal damage
 /// on collision to entitys with the component life
-class DamageSystem : public ISystem {
+class DamageOnCollisionSystem : public ISystem {
 
 public:
-    /// @brief constructs an instance of a DamageSystem class
+    /// @brief constructs an instance of a DamageOnCollisionSystem class
     /// @param damages A ref to a Damage components SparseArray
     /// @param lifes A ref to a LifeTime components SparseArray
     /// @param collisions A ref to a Collision components SparseArray
-    DamageSystem(
+    DamageOnCollisionSystem(
         SparseArray<Component::Damage> &damages,
         SparseArray<Component::Health> &healths, Event::EventQueue &event
     );

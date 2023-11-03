@@ -2,16 +2,16 @@
 ** EPITECH PROJECT, 2023
 ** r-type
 ** File description:
-** DamageSystem
+** DamageOnCollisionSystem
 */
 
-#include "Systems/DamageSystem.hpp"
 #include "Events/Collision.hpp"
-#include "Events/Death.hpp"
+#include "Events/Damage.hpp"
+#include "Systems/DamageOnCollisionSystem.hpp"
 
 #include <iostream>
 
-System::DamageSystem::DamageSystem(
+System::DamageOnCollisionSystem::DamageOnCollisionSystem(
     SparseArray<Component::Damage> &damages,
     SparseArray<Component::Health> &healths, Event::EventQueue &eventQueue
 )
@@ -21,10 +21,12 @@ System::DamageSystem::DamageSystem(
 {
 }
 
-void System::DamageSystem::operator()()
+void System::DamageOnCollisionSystem::operator()()
 {
+    std::cout << "DamageOnCollisionSystem" << std::endl;
     for (auto it = _events.beginIterator<Event::Collision>();
          it != _events.endIterator<Event::Collision>(); it++) {
+        std::cout << "collision found" << std::endl;
         auto collision = dynamic_cast<Event::Collision *>(it->get());
 
         if (not _healths[collision->entity]
@@ -34,7 +36,8 @@ void System::DamageSystem::operator()()
         if (_healths[collision->entity]->health <= 0)
             continue;
 
-        _healths[collision->entity]->health
-            -= _damages[collision->secondEntity]->damages;
+        _events.addEvent<Event::Damage>(
+            collision->entity, _damages[collision->secondEntity]->damages
+        );
     }
 }

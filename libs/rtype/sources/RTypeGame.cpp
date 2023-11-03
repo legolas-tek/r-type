@@ -14,7 +14,8 @@
 #include "Systems/AnimationSystem.hpp"
 #include "Systems/AttackSystem.hpp"
 #include "Systems/CollisionsSystem.hpp"
-#include "Systems/DamageSystem.hpp"
+#include "Systems/DamageHandler.hpp"
+#include "Systems/DamageOnCollisionSystem.hpp"
 #include "Systems/DeathAnimationManager.hpp"
 #include "Systems/DeathSystem.hpp"
 #include "Systems/FollowSystem.hpp"
@@ -64,10 +65,12 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
     reg.add_system<System::LifeTimeSystem>(
         reg.get_components<Component::LifeTime>(), reg
     );
-    reg.add_system<System::DamageSystem>(
+    reg.add_system<System::DamageOnCollisionSystem>(
         reg.get_components<Component::Damage>(),
-        reg.get_components<Component::Health>(),
-        reg.get_components<Component::Collision>(), reg
+        reg.get_components<Component::Health>(), reg.events
+    );
+    reg.add_system<System::DamageHandler>(
+        reg.get_components<Component::Health>(), reg.events
     );
     reg.add_system<System::DeathAnimationManager>(
         reg.get_components<Component::Position>(),
