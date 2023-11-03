@@ -9,8 +9,6 @@
 
 #include "GameLoop.hpp"
 
-#include <iostream>
-
 [[noreturn]] void gameLoop(engine::Registry &reg)
 {
     auto previous_time = std::chrono::high_resolution_clock::now();
