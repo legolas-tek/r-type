@@ -162,9 +162,8 @@ public:
         }
         if (_data[pos])
             _data[pos].reset();
-        return *_data.emplace(
-            _data.begin() + pos, std::forward<Params>(args)...
-        );
+        _data[pos] = Component(std::forward<Params>(args)...);
+        return _data[pos];
     }
 
     void erase(size_type pos)

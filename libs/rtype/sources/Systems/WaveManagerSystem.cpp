@@ -9,6 +9,8 @@
 #include "SoundManagerSystem.hpp"
 #include "SpawnEnemySystem.hpp"
 
+#include "Rendering.hpp"
+
 #include "Game.hpp"
 #include <iostream>
 
@@ -50,6 +52,18 @@ System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
     _entityList.push_back(mutalisk);
 }
 
+void System::WaveManagerSystem::createBoss()
+{
+    engine::Entity boss(_register.get_new_entity());
+
+    _register.get_components<Component::Position>().emplace_at(
+        boss, rendering::system::SCREEN_WIDTH + 300, 0, 0
+    );
+    _register.get_components<Component::Drawable>().emplace_at(
+        boss, RTypeGame::FIRST_BOSS_I, RTypeGame::FIRST_BOSS_W, RTypeGame::FIRST_BOSS_H, 1.5
+    );
+}
+
 void System::WaveManagerSystem::operator()()
 {
     size_t tick = _register.getTick();
@@ -76,6 +90,7 @@ void System::WaveManagerSystem::operator()()
         }
         if (_waveNum == 3) {
             _systems.clear();
+            createBoss();
         }
     }
     run_systems();

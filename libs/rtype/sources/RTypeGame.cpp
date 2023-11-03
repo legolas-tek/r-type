@@ -146,6 +146,8 @@ void RTypeGame::initAssets(engine::Registry &reg)
     reg._assets_paths.emplace_back("./assets/images/first_level_top_borders.png"
     );
     reg._assets_paths.emplace_back("./assets/images/big_explosion.png");
+    reg._assets_paths.emplace_back("./assets/images/small_turret.png");
+    reg._assets_paths.emplace_back("./assets/images/first_boss.png");
 }
 
 void RTypeGame::initScene(engine::Registry &reg)
@@ -218,13 +220,13 @@ void RTypeGame::initScene(engine::Registry &reg)
 
     // ==================== set Animation ====================
     reg.get_components<Component::Animation>().insert_at(
-        background, Component::Animation(1024, 192, 512, 192, 1, 10)
+        background, Component::Animation(1024, 192, 512, 192, 1, 2)
     );
     reg.get_components<Component::Animation>().insert_at(
-        midground, Component::Animation(1024, 192, 512, 192, 3, 10)
+        midground, Component::Animation(1024, 192, 512, 192, 3, 2)
     );
     reg.get_components<Component::Animation>().insert_at(
-        foreground, Component::Animation(1408, 192, 704, 192, 5, 10)
+        foreground, Component::Animation(1408, 192, 704, 192, 5, 1)
     );
     reg.get_components<Component::Animation>().insert_at(
         topBorder,

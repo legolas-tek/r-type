@@ -52,6 +52,24 @@ public:
     /// @brief The Health a shoot enemy should have
     static inline constexpr int SHOOT_ENNEMY_HEALTH = 3;
 
+    /// @brief The Width of the first boss sprite
+    static inline constexpr int FIRST_BOSS_W = 162;
+    /// @brief The Height of the first boss sprite
+    static inline constexpr int FIRST_BOSS_H = 207;
+    /// @brief The number of frames for the first boss animation
+    static inline constexpr int FIRST_BOSS_F = 3;
+    /// @brief The index to find the first boss sprite
+    static inline constexpr int FIRST_BOSS_I = 12;
+    /// @brief The Health a first boss should have
+    static inline constexpr int FIRST_BOSS_HEALTH = 20;
+
+    /// @brief The Width of the small turret sprite
+    static inline constexpr int SMALL_TURRET_W = 32;
+    /// @brief The Height of the small turret sprite
+    static inline constexpr int SMALL_TURRET_H = 15;
+    /// @brief The index to find the small turret sprite
+    static inline constexpr int SMALL_TURRET_I = 19;
+
     /// @brief The Width of the borders sprite
     static inline constexpr int BORDERS_W = 960;
     /// @brief The Height of the borders sprite
