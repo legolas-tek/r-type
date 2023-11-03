@@ -15,6 +15,15 @@ public:
     // MarioGame();
     // ~MarioGame();
 
+    // a basic size of a unit in pixel
+    static inline constexpr float ONE_UNIT = 16.0f;
+    static inline constexpr float WIDNOW_SPRITE_WIDTH = 1564.0f;
+    static inline constexpr float WIDNOW_SPRITE_HEIGHT = 224.0f;
+    static inline constexpr float FLOOR_SPRITE_HEIGHT = 24.0f;
+    static inline constexpr float BACKGROUND_SPRITE_HEIGHT = 200.0f;
+    static inline constexpr float MARIO_ONE_SPRITE_WIDTH = 150.0f;
+    static inline constexpr float MARIO_ONE_SPRITE_HEIGHT = 160.0f;
+
     void registerAllComponents(engine::Registry &reg) override;
 
     void registerAdditionalServerSystems(engine::Registry &reg) override;

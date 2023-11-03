@@ -10,9 +10,11 @@
 #include "Components/Animation.hpp"
 #include "Components/Drawable.hpp"
 #include "Components/Position.hpp"
+#include "Components/Solid.hpp"
 #include "Components/Text.hpp"
-
 #include "Rendering.hpp"
+
+#include "Systems/CollisionsSystem.hpp"
 
 #include <iostream>
 
@@ -29,6 +31,11 @@ void MarioGame::registerAllComponents(engine::Registry &reg)
 
 void MarioGame::registerAdditionalServerSystems(engine::Registry &reg)
 {
+    // reg.add_system<System::CollisionsSystem>(
+    //     reg.events, reg.get_components<Component::Position>(),
+    //     reg.get_components<Component::HitBox>(),
+    //     reg.get_components<Component::Collision>()
+    // );
 }
 
 void MarioGame::registerAdditionalClientSystems(engine::Registry &reg)
@@ -55,24 +62,33 @@ void MarioGame::initScene(engine::Registry &reg)
     engine::Entity mario_player(reg.get_new_entity());
 
     // one box is 16 * 16
-    float oneUnit = 16.0f;
+    float oneUnit = ONE_UNIT;
 
-    float scaleRatio
-        = static_cast<float>(rendering::system::SCREEN_HEIGHT) / 224.0;
+    float scaleRatio = static_cast<float>(rendering::system::SCREEN_HEIGHT)
+        / WIDNOW_SPRITE_HEIGHT;
 
     // ==================== set Drawable ====================
     // floor
     reg.get_components<Component::Drawable>().insert_at(
-        floor, Component::Drawable(0, 1564.0f, 24.0f, scaleRatio)
+        floor,
+        Component::Drawable(
+            0, WIDNOW_SPRITE_WIDTH, FLOOR_SPRITE_HEIGHT, scaleRatio
+        )
     );
     // background
     reg.get_components<Component::Drawable>().insert_at(
-        background, Component::Drawable(1, 1564.0f, 200.0f, scaleRatio)
+        background,
+        Component::Drawable(
+            1, WIDNOW_SPRITE_WIDTH, BACKGROUND_SPRITE_HEIGHT, scaleRatio
+        )
     );
     // mario_player
     reg.get_components<Component::Drawable>().insert_at(
         mario_player,
-        Component::Drawable(2, 150.0f, 160.0f, oneUnit / 160.0f * scaleRatio)
+        Component::Drawable(
+            2, MARIO_ONE_SPRITE_WIDTH, MARIO_ONE_SPRITE_HEIGHT,
+            oneUnit / MARIO_ONE_SPRITE_HEIGHT * scaleRatio
+        )
     );
 
     // ==================== set positions ====================
@@ -80,7 +96,9 @@ void MarioGame::initScene(engine::Registry &reg)
     reg.get_components<Component::Position>().insert_at(
         floor,
         Component::Position(
-            0.0, float(rendering::system::SCREEN_HEIGHT) - (24.0 * scaleRatio),
+            0.0,
+            float(rendering::system::SCREEN_HEIGHT)
+                - (FLOOR_SPRITE_HEIGHT * scaleRatio),
             0
         )
     );
@@ -88,17 +106,31 @@ void MarioGame::initScene(engine::Registry &reg)
     reg.get_components<Component::Position>().insert_at(
         background, Component::Position(0.0, 0.0f, 0)
     );
-    std::cout << oneUnit / 160.0f * scaleRatio << std::endl;
     // mario_player
     reg.get_components<Component::Position>().insert_at(
         mario_player,
         Component::Position(
             0.0,
-            float(rendering::system::SCREEN_HEIGHT) - (24.0 * scaleRatio)
-                - (160.0f * oneUnit / 160.0f * scaleRatio),
+            float(rendering::system::SCREEN_HEIGHT)
+                - (FLOOR_SPRITE_HEIGHT * scaleRatio)
+                - (MARIO_ONE_SPRITE_HEIGHT * oneUnit / MARIO_ONE_SPRITE_HEIGHT
+                   * scaleRatio),
             0
         )
     );
+    // ==================== set Collision ====================
+    // reg.get_components<Component::HitBox>().insert_at(
+    //     mario_player, Component::HitBox(SHIP_W * 2, SHIP_H * 2)
+    // );
+    // ==================== set Collision ====================
+    // reg.get_components<Component::Collision>().insert_at(
+    //     floor, Component::Collision(WIDNOW_SPRITE_WIDTH * scaleRatio,
+    //     FLOOR_SPRITE_HEIGHT * scaleRatio)
+    // );
+    // ==================== set Collision ====================
+    // reg.get_components<Component::Solid>().insert_at(
+    //     floor, Component::Solid()
+    // );
 }
 
 engine::IGame *createGame()
