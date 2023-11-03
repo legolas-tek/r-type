@@ -323,7 +323,7 @@ void RTypeGame::initScene(engine::Registry &reg)
             player, Component::Health(2, 2)
         );
         reg.get_components<Component::Life>().insert_at(
-            player, Component::Life(1)
+            player, Component::Life(3)
         );
 
         engine::Entity name(reg.get_new_entity());

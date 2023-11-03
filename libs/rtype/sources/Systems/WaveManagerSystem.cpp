@@ -135,25 +135,22 @@ void System::WaveManagerSystem::operator()()
     size_t tick = _register.getTick();
     size_t maxWave = WAVE_START_TICK_TABLE.size();
 
-    // if (_waveNum == maxWave) {
-    //     return;
-    // }
     if (tick == WAVE_START_TICK_TABLE[_waveNum]) {
         _waveNum++;
-        // if (_waveNum == 1) {
-        //     add_system<System::SpawnEnemySystem>(
-        //         _register, _entityList[0], tick, secondsToTick(1), 832, 832, 40,
-        //         344 - _entityList[0].entityHeight
-        //     );
-        // }
-        // if (_waveNum == 2) {
-        //     _systems.clear();
-        //     add_system<System::SpawnEnemySystem>(
-        //         _register, _entityList[1], tick, secondsToTick(1), 832, 832, 40,
-        //         344 - _entityList[1].entityHeight
-        //     );
-        // }
         if (_waveNum == 1) {
+            add_system<System::SpawnEnemySystem>(
+                _register, _entityList[0], tick, secondsToTick(1), 832, 832, 40,
+                344 - _entityList[0].entityHeight
+            );
+        }
+        if (_waveNum == 2) {
+            _systems.clear();
+            add_system<System::SpawnEnemySystem>(
+                _register, _entityList[1], tick, secondsToTick(1), 832, 832, 40,
+                344 - _entityList[1].entityHeight
+            );
+        }
+        if (_waveNum == 3) {
             _systems.clear();
             createBoss();
         }
