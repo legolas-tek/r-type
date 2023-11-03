@@ -20,12 +20,6 @@ public:
         std::vector<net::lobby::RemoteClient> const &lobby
     );
     ~NetworkServer() override;
-
-private:
-    bool canUpdate(
-        net::manager::Client const &client, engine::Entity entity,
-        uint8_t component_id, engine::Deserializer deser
-    ) override;
 };
 
 }

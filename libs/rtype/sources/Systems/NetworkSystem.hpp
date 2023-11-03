@@ -8,6 +8,7 @@
 #ifndef R_TYPE_NETWORKSYSTEM_HPP
 #define R_TYPE_NETWORKSYSTEM_HPP
 
+#include "NetworkClientSystem.hpp"
 #include "NetworkServerSystem.hpp"
 
 namespace rtype {
@@ -23,6 +24,13 @@ private:
     ) override;
 };
 
+class NetworkClientSystem : public net::system::NetworkClient {
+public:
+    using net::system::NetworkClient::NetworkClient;
+
+private:
+    bool canSend(engine::Entity entity, uint8_t component_id) override;
+};
 }
 
 #endif /* !R_TYPE_NETWORKSYSTEM_HPP */
