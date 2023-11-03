@@ -39,6 +39,7 @@ struct TextureWrapper {
     {
     }
 };
+
 class Registry {
 public:
     template <class Component> SparseArray<Component> &register_component()
@@ -163,8 +164,11 @@ public:
 
     void run_systems()
     {
-        for (auto &system : _systems)
-            (*system)();
+        for (auto &system : _systems) {
+            if (_tick % system->_refreshRate == 0) {
+                (*system)();
+            }
+        }
     }
 
     size_t get_new_entity()
