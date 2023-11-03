@@ -31,7 +31,8 @@ void System::MoveSystem::operator()()
         engine::Entity collidingEntity
             = getCollidingSolidEntity(it.get_entity());
 
-        if (vel && canMove(collidingEntity, vel.value(), pos)) {
+        if (vel
+            && canMove(it.get_entity(), collidingEntity, vel.value(), pos)) {
             pos._x += vel->_vx;
             pos._y += vel->_vy;
         }
@@ -59,13 +60,14 @@ engine::Entity System::MoveSystem::getCollidingSolidEntity(
 }
 
 bool System::MoveSystem::canMove(
-    engine::Entity collidingEntity, Component::Velocity const &velocity,
-    Component::Position &position
+    engine::Entity entity, engine::Entity collidingEntity,
+    Component::Velocity const &velocity, Component::Position &position
 )
 {
-    if (collidingEntity == 0 || !_positions[collidingEntity]
-        || !_solids[collidingEntity])
+    if (collidingEntity == 0 or not _positions[collidingEntity]
+        or not _solids[collidingEntity] or not _collisions[entity])
         return true;
+
     auto collidingEntityPos = _positions[collidingEntity].value();
 
     if (position._x < collidingEntityPos._x && velocity._vx > 0)

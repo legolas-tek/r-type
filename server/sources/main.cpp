@@ -19,8 +19,8 @@ void runGame(std::unique_ptr<engine::IGame> _game)
     game->initAssets(reg);
     if (not game->isClientScene())
         game->initScene(reg);
-    game->registerAdditionalSystems(reg);
     game->registerAdditionalServerSystems(reg);
+    game->registerAdditionalSystems(reg);
 
     gameLoop(reg);
 }

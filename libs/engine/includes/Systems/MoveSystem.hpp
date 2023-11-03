@@ -54,12 +54,13 @@ private:
 
     /// @brief This methos checks whether the owner can move or if it's blocked
     /// by a solid entity
+    /// @param entity The entity which we want to check if it can move
     /// @param collidingEntity The entity who colids with the owner and has a
     /// solid component
     /// @return returns true if it can move and false if it can't
     bool canMove(
-        engine::Entity collidingEntity, Component::Velocity const &velocity,
-        Component::Position &position
+        engine::Entity entity, engine::Entity collidingEntity,
+        Component::Velocity const &velocity, Component::Position &position
     );
 
     /// @brief A const ref to a Event deque
