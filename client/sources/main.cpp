@@ -9,8 +9,6 @@
 #include "IGame.hpp"
 #include <memory>
 
-#include <iostream>
-
 void runGame(std::unique_ptr<engine::IGame> _game)
 {
     // make sure the game is destroyed before the registry
