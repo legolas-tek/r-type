@@ -173,99 +173,80 @@ void RTypeGame::initScene(engine::Registry &reg)
 
     // ==================== set positions ====================
     // background
-    reg.get_components<Component::Position>().insert_at(
-        background,
-        Component::Position(
-            float(rendering::system::SCREEN_WIDTH) / 2,
-            float(rendering::system::SCREEN_HEIGHT) / 2, -100
-        )
+    reg.get_components<Component::Position>().emplace_at(
+        background, float(rendering::system::SCREEN_WIDTH) / 2,
+        float(rendering::system::SCREEN_HEIGHT) / 2, -100
     );
     // midground
-    reg.get_components<Component::Position>().insert_at(
-        midground,
-        Component::Position(
-            float(rendering::system::SCREEN_WIDTH) / 2,
-            float(rendering::system::SCREEN_HEIGHT) / 2, -99
-        )
+    reg.get_components<Component::Position>().emplace_at(
+        midground, float(rendering::system::SCREEN_WIDTH) / 2,
+        float(rendering::system::SCREEN_HEIGHT) / 2, -99
     );
     // foreground
-    reg.get_components<Component::Position>().insert_at(
-        foreground,
-        Component::Position(
-            float(rendering::system::SCREEN_WIDTH) / 2,
-            float(rendering::system::SCREEN_HEIGHT) / 2, -98
-        )
+    reg.get_components<Component::Position>().emplace_at(
+        foreground, float(rendering::system::SCREEN_WIDTH) / 2,
+        float(rendering::system::SCREEN_HEIGHT) / 2, -98
     );
     // topBorder
-    reg.get_components<Component::Position>().insert_at(
-        topBorder, Component::Position(0, 0, -7)
-    );
+    reg.get_components<Component::Position>().emplace_at(topBorder, 0, 0, -7);
     // bottomBorder
-    reg.get_components<Component::Position>().insert_at(
-        bottomBorder,
-        Component::Position(
-            float(rendering::system::SCREEN_WIDTH) / 2,
-            float(rendering::system::SCREEN_HEIGHT) - float(BORDERS_H) / 2, -7
-        )
+    reg.get_components<Component::Position>().emplace_at(
+        bottomBorder, float(rendering::system::SCREEN_WIDTH) / 2,
+        float(rendering::system::SCREEN_HEIGHT) - float(BORDERS_H) / 2, -7
     );
 
     // ==================== set Drawable ====================
     // background
-    reg.get_components<Component::Drawable>().insert_at(
-        background, Component::Drawable(0, 512.0f, 192.0f, 2.0f)
+    reg.get_components<Component::Drawable>().emplace_at(
+        background, 0, 512.0f, 192.0f, 2.0f
     );
     // midground
-    reg.get_components<Component::Drawable>().insert_at(
-        midground, Component::Drawable(1, 512.0f, 192.0f, 2.0f)
+    reg.get_components<Component::Drawable>().emplace_at(
+        midground, 1, 512.0f, 192.0f, 2.0f
     );
     // foreground
-    reg.get_components<Component::Drawable>().insert_at(
-        foreground, Component::Drawable(2, 512.0f, 192.0f, 2.0f)
+    reg.get_components<Component::Drawable>().emplace_at(
+        foreground, 2, 512.0f, 192.0f, 2.0f
     );
     // topBorder
-    reg.get_components<Component::Drawable>().insert_at(
-        topBorder, Component::Drawable(TOP_BORDER_I, BORDERS_W, BORDERS_H, 3)
+    reg.get_components<Component::Drawable>().emplace_at(
+        topBorder, TOP_BORDER_I, BORDERS_W, BORDERS_H, 3
     );
     // bottomBorder
-    reg.get_components<Component::Drawable>().insert_at(
-        bottomBorder, Component::Drawable(BOT_BORDER_I, BORDERS_W, BORDERS_H, 3)
+    reg.get_components<Component::Drawable>().emplace_at(
+        bottomBorder, BOT_BORDER_I, BORDERS_W, BORDERS_H, 3
     );
 
     // ==================== set Animation ====================
-    reg.get_components<Component::Animation>().insert_at(
-        background, Component::Animation(1024, 192, 512, 192, 1, 1)
+    reg.get_components<Component::Animation>().emplace_at(
+        background, 1024, 192, 512, 192, 1, 1
     );
-    reg.get_components<Component::Animation>().insert_at(
-        midground, Component::Animation(1024, 192, 512, 192, 3, 1)
+    reg.get_components<Component::Animation>().emplace_at(
+        midground, 1024, 192, 512, 192, 3, 1
     );
-    reg.get_components<Component::Animation>().insert_at(
-        foreground, Component::Animation(1408, 192, 704, 192, 5, 1)
+    reg.get_components<Component::Animation>().emplace_at(
+        foreground, 1408, 192, 704, 192, 5, 1
     );
-    reg.get_components<Component::Animation>().insert_at(
-        topBorder,
-        Component::Animation(
-            BORDERS_F * BORDERS_W, BORDERS_H, BORDERS_W, BORDERS_H, 1, 1
-        )
+    reg.get_components<Component::Animation>().emplace_at(
+        topBorder, BORDERS_F * BORDERS_W, BORDERS_H, BORDERS_W, BORDERS_H, 1, 1
     );
-    reg.get_components<Component::Animation>().insert_at(
-        bottomBorder,
-        Component::Animation(
-            BORDERS_F * BORDERS_W, BORDERS_H, BORDERS_W, BORDERS_H, 1, 1
-        )
+    reg.get_components<Component::Animation>().emplace_at(
+        bottomBorder, BORDERS_F * BORDERS_W, BORDERS_H, BORDERS_W, BORDERS_H, 1,
+        1
     );
 
     // ==================== set Collision ====================
-    reg.get_components<Component::Collision>().insert_at(
-        topBorder, Component::Collision(BORDERS_W, BORDERS_H * 3)
+    reg.get_components<Component::Collision>().emplace_at(
+        topBorder, BORDERS_W, BORDERS_H * 3
     );
-    reg.get_components<Component::Collision>().insert_at(
-        bottomBorder, Component::Collision(BORDERS_W, BORDERS_H * 3)
+    reg.get_components<Component::Collision>().emplace_at(
+        bottomBorder, BORDERS_W, BORDERS_H * 3
     );
-    reg.get_components<Component::HitBox>().insert_at(
-        topBorder, Component::HitBox(BORDERS_W * 3, BORDERS_H * 3)
+    reg.get_components<Component::HitBox>().emplace_at(
+        topBorder, BORDERS_W * 3, BORDERS_H * 3
     );
-    reg.get_components<Component::HitBox>().insert_at(
-        bottomBorder, Component::HitBox(BORDERS_W * 3, BORDERS_H * 3)
+    reg.get_components<Component::HitBox>().emplace_at(
+        bottomBorder, BORDERS_W * 3, BORDERS_H * 3
     );
 
     // ==================== set LifeTime ====================
@@ -277,80 +258,60 @@ void RTypeGame::initScene(engine::Registry &reg)
 
     // ==================== set Text ====================
 
-    reg.get_components<Component::Solid>().insert_at(
-        topBorder, Component::Solid()
-    );
-    reg.get_components<Component::Solid>().insert_at(
-        bottomBorder, Component::Solid()
-    );
+    reg.get_components<Component::Solid>().emplace_at(topBorder);
+    reg.get_components<Component::Solid>().emplace_at( bottomBorder);
     // ==================== PLAYER ====================
     for (auto &client : this->_serverClients) {
         engine::Entity player(reg.get_new_entity());
-        reg.get_components<Component::Position>().insert_at(
+        reg.get_components<Component::Position>().emplace_at(
             player,
-            Component::Position(
-                // 10.0f, 10.0f, 0.0f
-                150,
-                int(rendering::system::SCREEN_HEIGHT / 2)
-                    + (75.0 * (client.getPlayerNumber() - 2.5)),
-                1
-            )
+            // 10.0f, 10.0f, 0.0f
+            150,
+            int(rendering::system::SCREEN_HEIGHT / 2)
+                + (75.0 * (client.getPlayerNumber() - 2.5)),
+            1
         );
-        reg.get_components<Component::Solid>().insert_at(
-            player, Component::Solid()
+        reg.get_components<Component::Solid>().emplace_at(
+            player
         );
-        reg.get_components<Component::Velocity>().insert_at(
-            player, Component::Velocity()
+        reg.get_components<Component::Velocity>().emplace_at(
+            player
         );
-        reg.get_components<Component::Drawable>().insert_at(
-            player,
-            Component::Drawable(
-                SHIP_I, SHIP_W, SHIP_H, 3, 17 * (client.getPlayerNumber() - 1)
-            )
+        reg.get_components<Component::Drawable>().emplace_at(
+            player, SHIP_I, SHIP_W, SHIP_H, 3,
+            17 * (client.getPlayerNumber() - 1)
         );
-        reg.get_components<Component::Animation>().insert_at(
-            player,
-            Component::Animation(
-                SHIP_W * SHIP_F, SHIP_H, SHIP_W, SHIP_H, SHIP_W, 50
-            )
+        reg.get_components<Component::Animation>().emplace_at(
+            player, SHIP_W * SHIP_F, SHIP_H, SHIP_W, SHIP_H, SHIP_W, 50
         );
-        reg.get_components<Component::Collision>().insert_at(
-            player, Component::Collision(SHIP_W * 2, SHIP_H * 2)
+        reg.get_components<Component::Collision>().emplace_at(
+            player, SHIP_W * 2, SHIP_H* 2
         );
-        reg.get_components<Component::HitBox>().insert_at(
-            player, Component::HitBox(SHIP_W * 2, SHIP_H * 2)
+        reg.get_components<Component::HitBox>().emplace_at(
+            player, SHIP_W * 2, SHIP_H * 2
         );
-        reg.get_components<Component::FireRate>().insert_at(
-            player, Component::FireRate(50)
+        reg.get_components<Component::FireRate>().emplace_at(
+            player, 50
         );
-        reg.get_components<Component::Controllable>().insert_at(
+        reg.get_components<Component::Controllable>().emplace_at(
             player, client.getPlayerNumber()
         );
-        reg.get_components<Component::Health>().insert_at(
-            player, Component::Health(2, 2)
+        reg.get_components<Component::Health>().emplace_at(
+            player, 2, 2
         );
-        reg.get_components<Component::Life>().insert_at(
-            player, Component::Life(1)
+        reg.get_components<Component::Life>().emplace_at(
+            player, 1
         );
 
         engine::Entity name(reg.get_new_entity());
-        reg.get_components<Component::Position>().insert_at(
-            name, Component::Position()
-        );
+        reg.get_components<Component::Position>().emplace_at(name);
         std::string playerName = client.getPlayerName();
-        reg.get_components<Component::Text>().insert_at(
-            name,
-            Component::Text(
-                std::move(playerName), "./assets/fonts/Over_There.ttf", 15, 5,
-                0xFFFFFFFF
-            )
+        reg.get_components<Component::Text>().emplace_at(
+            name, std::move(playerName), "./assets/fonts/Over_There.ttf", 15, 5,
+            0xFFFFFFFF
         );
-        reg.get_components<Component::Velocity>().insert_at(
-            name, Component::Velocity()
-        );
-        reg.get_components<Component::Follow>().insert_at(
-            name, Component::Follow(player, 0, 50)
-        );
+        reg.get_components<Component::Velocity>().emplace_at(name);
+        reg.get_components<Component::Follow>().emplace_at(name, player, 0, 50);
     }
 }
 
