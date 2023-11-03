@@ -177,7 +177,7 @@ void RTypeGame::initScene(engine::Registry &reg)
         background,
         Component::Position(
             float(rendering::system::SCREEN_WIDTH) / 2,
-            float(rendering::system::SCREEN_HEIGHT) / 2, -100
+            float(rendering::system::SCREEN_HEIGHT) / 2, -9999
         )
     );
     // midground
@@ -185,7 +185,7 @@ void RTypeGame::initScene(engine::Registry &reg)
         midground,
         Component::Position(
             float(rendering::system::SCREEN_WIDTH) / 2,
-            float(rendering::system::SCREEN_HEIGHT) / 2, -99
+            float(rendering::system::SCREEN_HEIGHT) / 2, -9998
         )
     );
     // foreground
@@ -193,7 +193,7 @@ void RTypeGame::initScene(engine::Registry &reg)
         foreground,
         Component::Position(
             float(rendering::system::SCREEN_WIDTH) / 2,
-            float(rendering::system::SCREEN_HEIGHT) / 2, -98
+            float(rendering::system::SCREEN_HEIGHT) / 2, -9997
         )
     );
     // topBorder
@@ -293,7 +293,7 @@ void RTypeGame::initScene(engine::Registry &reg)
                 150,
                 int(rendering::system::SCREEN_HEIGHT / 2)
                     + (75.0 * (client.getPlayerNumber() - 2.5)),
-                -30
+                0
             )
         );
         reg.get_components<Component::Solid>().insert_at(
@@ -305,7 +305,7 @@ void RTypeGame::initScene(engine::Registry &reg)
         reg.get_components<Component::Drawable>().insert_at(
             player,
             Component::Drawable(
-                SHIP_I, SHIP_W, SHIP_H, 3, 17 * (client.getPlayerNumber() - 1)
+                SHIP_I, SHIP_W, SHIP_H, 0.3, 17 * (client.getPlayerNumber() - 1)
             )
         );
         reg.get_components<Component::Animation>().insert_at(

@@ -99,7 +99,8 @@ void rendering::system::Texture::operator()()
             Model model3d = std::get<Model>(_cache[textureIndex]);
             Vector3 rotationAxis = { 0.0f, 1.0f, 0.0f };
             float rotationAngle = 90.0f;
-            Vector3 scale = { 0.5f, 0.5f, 0.5f };
+            float scaleNum = _drawables[entity]->_scale;
+            Vector3 scale = { scaleNum, scaleNum, scaleNum };
 
             double ndcX = (2 * pos->_x / SCREEN_WIDTH) - 1;
             double ndcY = 1 - (2 * pos->_y / SCREEN_HEIGHT);
