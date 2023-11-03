@@ -9,6 +9,7 @@
 #define NETWORKING_SNAPSHOT_HPP_
 
 #include "Entity.hpp"
+#include "Net.hpp"
 #include "Registry.hpp"
 #include "Serialization/Serializer.hpp"
 
@@ -19,8 +20,9 @@ namespace net {
 
 struct Snapshot {
 
-    using can_send_t
-        = std::function<bool(engine::Entity entity, uint8_t component_id)>;
+    using CanSend = std::function<bool(
+        std::size_t clientNumber, engine::Entity entity, uint8_t component_id
+    )>;
 
     /**
      * The tick the snapshot was taken
@@ -55,8 +57,9 @@ std::vector<std::byte>
 diffSnapshots(Snapshot const &previous, Snapshot const &current);
 
 void diffSnapshots(
-    engine::Serializer &diff, Snapshot const &previous, Snapshot const &current,
-    net::Snapshot::can_send_t canSend
+    std::size_t clientNumber, engine::Serializer &diff,
+    Snapshot const &previous, Snapshot const &current,
+    net::Snapshot::CanSend const &canSend
 );
 }
 

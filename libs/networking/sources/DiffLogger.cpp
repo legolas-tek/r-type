@@ -31,11 +31,7 @@ void net::system::DiffLogger::operator()()
 {
     Snapshot currentSnapshot(_registry.getTick(), _registry);
     engine::Serializer serializer;
-    diffSnapshots(
-        serializer, _lastSnapshot, currentSnapshot,
-        [](engine::Entity entity, uint8_t component_id) { return true; }
-    );
-    auto buffer = serializer.finalize();
+    auto buffer = diffSnapshots(_lastSnapshot, currentSnapshot);
 
     if (buffer.empty())
         return; // No diff

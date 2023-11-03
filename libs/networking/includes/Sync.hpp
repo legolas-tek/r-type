@@ -94,7 +94,9 @@ private:
         uint8_t component_id, engine::Deserializer deser
     );
 
-    virtual bool canSend(engine::Entity entity, uint8_t component_id);
+    virtual bool canSend(
+        std::size_t clientNumber, engine::Entity entity, uint8_t component_id
+    );
     /**
      * @brief Function to process the received update packet
      *
@@ -134,6 +136,11 @@ private:
      * @return net::manager::Client* a pointer to the client, or nullptr if none
      */
     manager::Client *getClientWithHash(std::size_t hash);
+
+    std::vector<std::byte> constructUpdatePacket(
+        net::Snapshot const &previous, net::Snapshot const &current,
+        net::Snapshot::CanSend canSend
+    );
 
 protected:
     engine::Registry &_registry; ///< the engine registry

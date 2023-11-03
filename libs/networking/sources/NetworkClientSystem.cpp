@@ -18,10 +18,3 @@ net::system::NetworkClient::NetworkClient(
 }
 
 net::system::NetworkClient::~NetworkClient() = default;
-
-bool net::system::NetworkClient::canSend(
-    engine::Entity entity, uint8_t component_id
-)
-{
-    return true;
-}

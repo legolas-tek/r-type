@@ -14,6 +14,7 @@
 #include <functional>
 #include <optional>
 
+#include <iostream>
 #ifdef DEBUG_NETWORK
     #include <iostream>
 #endif
@@ -67,6 +68,7 @@ bool net::Sync::canUpdate(
 }
 
 bool net::Sync::canSend(
+    [[maybe_unused]] std::size_t clientNumber,
     [[maybe_unused]] engine::Entity entity,
     [[maybe_unused]] uint8_t component_id
 )
@@ -191,9 +193,9 @@ net::Snapshot &net::Sync::find_last_ack(std::size_t client_index)
     return _dummy;
 }
 
-static std::vector<std::byte> constructUpdatePacket(
-    size_t _playerHash, net::Snapshot const &previous,
-    net::Snapshot const &current, net::Snapshot::can_send_t canSend
+std::vector<std::byte> net::Sync::constructUpdatePacket(
+    net::Snapshot const &previous, net::Snapshot const &current,
+    net::Snapshot::CanSend canSend
 )
 {
     engine::Serializer serializer;
@@ -204,7 +206,8 @@ static std::vector<std::byte> constructUpdatePacket(
     serializer.serializeTrivial(std::uint32_t(previous.tick));
 
     size_t size = serializer.getSize();
-    net::diffSnapshots(serializer, previous, current, canSend);
+    std::cout << _playerNumber << std::endl;
+    net::diffSnapshots(_playerNumber, serializer, previous, current, canSend);
     if (serializer.getSize() == size && previous.tick != 0) {
         return {}; // no update
     }
@@ -258,10 +261,11 @@ void net::Sync::operator()()
         Snapshot current(_registry.getTick(), _registry);
 
         auto packet = constructUpdatePacket(
-            _playerHash, previous, current,
-            [this](engine::Entity entity, uint8_t component_id) {
-                return this->canSend(entity, component_id);
-            }
+            previous, current,
+            [this](
+                std::size_t clientNumber, engine::Entity entity,
+                uint8_t component_id
+            ) { return this->canSend(clientNumber, entity, component_id); }
         );
 
         if (packet.empty())

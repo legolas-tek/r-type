@@ -22,9 +22,6 @@ public:
         size_t playerNumber, size_t playerHash
     );
     ~NetworkClient() override;
-
-private:
-    bool canSend(engine::Entity entity, uint8_t component_id) override;
 };
 
 }
