@@ -9,12 +9,15 @@
 
 #include "GameLoop.hpp"
 
+#include <iostream>
+
 [[noreturn]] void gameLoop(engine::Registry &reg)
 {
     auto previous_time = std::chrono::high_resolution_clock::now();
     float target_delta_time = 1.0f / 60.0f;
     float elapsed_time = 0.0f;
 
+    std::cout << "asd" << std::endl;
     while (true) {
         auto current_time = std::chrono::high_resolution_clock::now();
         auto time_difference = current_time - previous_time;
@@ -26,6 +29,7 @@
 
         if (elapsed_time >= target_delta_time) {
             reg.run_systems();
+
             elapsed_time = 0.0f;
             reg.incrementTick();
         }

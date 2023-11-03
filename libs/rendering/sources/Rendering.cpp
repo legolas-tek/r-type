@@ -12,6 +12,8 @@
 #include "Systems/Text.hpp"
 #include "Systems/Texture.hpp"
 
+#include "GameLoop.hpp"
+
 rendering::system::Rendering::Rendering(engine::Registry &registry)
     : _registry(registry)
 {
@@ -41,6 +43,9 @@ rendering::system::Rendering::~Rendering()
 
 void rendering::system::Rendering::operator()()
 {
+    if (WindowShouldClose()) {
+        throw GameEndException();
+    }
     BeginDrawing();
     ClearBackground(RAYWHITE);
 
