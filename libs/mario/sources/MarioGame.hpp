@@ -24,6 +24,11 @@ public:
     void initAssets(engine::Registry &reg) override;
     void initScene(engine::Registry &reg) override;
 
+    bool isClientScene() const override
+    {
+        return true;
+    }
+
 protected:
 private:
 };
