@@ -43,7 +43,7 @@ void System::AttackSystem::createLaserEntity(engine::Entity const attacker_index
 {
     if (_healths[attacker_index] && _healths[attacker_index]->health <= 0)
         return;
-    Component::Velocity velocity(15, 0);
+    Component::Velocity velocity(30, 0);
     engine::Entity attack_entity(_register.get_new_entity());
     Component::Position &attacker_pos = _positions[attacker_index].value();
     std::optional<Component::Collision> attacker_collision
@@ -56,9 +56,13 @@ void System::AttackSystem::createLaserEntity(engine::Entity const attacker_index
     }
     if (!_register.get_components<Component::Controllable>()[attacker_index]
         && attacker_collision) {
-        velocity._vx = -15;
+        velocity._vx = -30;
         attack_entity_pos._x = attacker_pos._x
             - (attacker_collision->_width / 2) - (LASER_WIDTH + 1);
+    }
+    if (!_register.get_components<Component::Controllable>()[attacker_index]
+        && !attacker_collision) {
+        velocity._vx = -30;
     }
     _positions.insert_at(attack_entity, attack_entity_pos);
     _register.get_components<Component::Velocity>().insert_at(

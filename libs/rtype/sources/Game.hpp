@@ -68,7 +68,7 @@ public:
     /// @brief The Height of the small turret sprite
     static inline constexpr int SMALL_TURRET_H = 15;
     /// @brief The index to find the small turret sprite
-    static inline constexpr int SMALL_TURRET_I = 19;
+    static inline constexpr int SMALL_TURRET_I = 11;
 
     /// @brief The Width of the borders sprite
     static inline constexpr int BORDERS_W = 960;

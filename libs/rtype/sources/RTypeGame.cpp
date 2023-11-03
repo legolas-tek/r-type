@@ -25,6 +25,7 @@
 #include "Systems/SoundManagerSystem.hpp"
 #include "Systems/SpawnEnemySystem.hpp"
 #include "Systems/WaveManagerSystem.hpp"
+#include "Systems/FloatingSystem.hpp"
 
 #include "Key.hpp"
 #include "NetworkClientSystem.hpp"
@@ -47,6 +48,7 @@ void RTypeGame::registerAllComponents(engine::Registry &reg)
     reg.register_component<Component::Follow>();
     reg.register_component<Component::Text>();
     reg.register_component<Component::Solid>();
+    reg.register_component<Component::Floating>();
 }
 
 void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
@@ -90,6 +92,11 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
         reg.get_components<Component::Life>(), reg
     );
     reg.add_system<System::WaveManagerSystem>(reg);
+    reg.add_system<System::FloatingSystem>(
+        reg.get_components<Component::Position>(),
+        reg.get_components<Component::Velocity>(),
+        reg.get_components<Component::Floating>()
+    );
     reg.add_system<rtype::NetworkServerSystem>(reg, 4242, _serverClients);
 }
 
@@ -112,15 +119,15 @@ void RTypeGame::registerAdditionalSystems(engine::Registry &reg)
 #ifdef DEBUG_LOG_DIFF
     reg.add_system<net::system::DiffLogger>(reg);
 #endif
-    reg.add_system<System::FollowSystem>(
-        reg.get_components<Component::Follow>(),
-        reg.get_components<Component::Position>()
-    );
     reg.add_system<System::MoveSystem>(
         reg.get_components<Component::Position>(),
         reg.get_components<Component::Velocity>(),
         reg.get_components<Component::Solid>(),
         reg.get_components<Component::Collision>()
+    );
+    reg.add_system<System::FollowSystem>(
+        reg.get_components<Component::Follow>(),
+        reg.get_components<Component::Position>()
     );
 }
 
