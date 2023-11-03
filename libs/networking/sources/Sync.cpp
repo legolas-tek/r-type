@@ -67,7 +67,6 @@ bool net::Sync::canUpdate(
 }
 
 bool net::Sync::canSend(
-    [[maybe_unused]] std::size_t clientNumber,
     [[maybe_unused]] engine::Entity entity,
     [[maybe_unused]] uint8_t component_id
 )
@@ -261,7 +260,7 @@ void net::Sync::operator()()
         auto packet = constructUpdatePacket(
             previous, current,
             [this](engine::Entity entity, uint8_t component_id) {
-                return this->canSend(this->_playerNumber, entity, component_id);
+                return this->canSend(entity, component_id);
             }
         );
 

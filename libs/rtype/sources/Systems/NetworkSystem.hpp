@@ -29,9 +29,7 @@ public:
     using net::system::NetworkClient::NetworkClient;
 
 private:
-    bool canSend(
-        std::size_t clientNumber, engine::Entity entity, uint8_t component_id
-    ) override;
+    bool canSend(engine::Entity entity, uint8_t component_id) override;
 };
 }
 

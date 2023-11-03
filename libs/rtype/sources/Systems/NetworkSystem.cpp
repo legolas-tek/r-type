@@ -29,19 +29,17 @@ bool rtype::NetworkServerSystem::canUpdate(
 }
 
 bool rtype::NetworkClientSystem::canSend(
-    std::size_t clientNumber, engine::Entity entity, uint8_t component_id
+    engine::Entity entity, uint8_t component_id
 )
 {
     auto &controllable
         = _registry.get_components<Component::Controllable>()[entity];
     if (not controllable)
         return false;
-    if (clientNumber != controllable->_id)
+    if (_playerNumber != controllable->_id)
         return false;
     if (component_id == _registry.get_component_id<Component::Velocity>())
         return true;
     // TODO: attack etc
     return false;
-
-    return true;
 }

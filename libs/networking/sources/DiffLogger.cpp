@@ -30,7 +30,6 @@ net::system::DiffLogger::DiffLogger(engine::Registry &registry)
 void net::system::DiffLogger::operator()()
 {
     Snapshot currentSnapshot(_registry.getTick(), _registry);
-    engine::Serializer serializer;
     auto buffer = diffSnapshots(_lastSnapshot, currentSnapshot);
 
     if (buffer.empty())
