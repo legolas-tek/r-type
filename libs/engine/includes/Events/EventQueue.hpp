@@ -32,27 +32,27 @@ public:
     template <class Event> struct eventsIterator {
 
     public:
-        explicit eventsIterator(pointerType ptr, pointerType end_ptr = nullptr)
-            : _m_ptr(ptr)
-            , _end_ptr(end_ptr)
+        explicit eventsIterator(iterator it, iterator end)
+            : _it(_it)
+            , _end(end)
         {
         }
 
         referenceType operator*() const
         {
-            return *_m_ptr;
+            return *_it;
         }
         pointerType operator->()
         {
-            return _m_ptr;
+            return _it.operator->();
         }
 
         eventsIterator &operator++()
         {
-            _m_ptr++;
-            while (_m_ptr != _end_ptr
-                   && not dynamic_cast<Event *>(_m_ptr->get())) {
-                _m_ptr++;
+            _it++;
+            while (_it != _end
+                   && not dynamic_cast<Event *>(_it->get())) {
+                _it++;
             }
             return *this;
         }
@@ -67,23 +67,23 @@ public:
 
         friend bool operator==(eventsIterator const &a, eventsIterator const &b)
         {
-            return a._m_ptr == b._m_ptr;
+            return a._it == b._it;
         };
 
         friend bool operator!=(eventsIterator const &a, eventsIterator const &b)
         {
-            return a._m_ptr != b._m_ptr;
+            return a._it != b._it;
         };
 
     private:
-        pointerType _m_ptr;
-        pointerType _end_ptr;
+        iterator _it;
+        iterator _end;
     };
 
 public:
     template <class Event> eventsIterator<Event> beginIterator()
     {
-        eventsIterator<Event> it(&_events[0], &_events[_events.size()]);
+        eventsIterator<Event> it(_events.begin(), _events.end());
 
         if (it != endIterator<Event>() and not dynamic_cast<Event *>(it->get()))
             it++;
@@ -92,7 +92,7 @@ public:
 
     template <class Event> eventsIterator<Event> endIterator()
     {
-        return eventsIterator<Event>(&_events[_events.size()]);
+        return eventsIterator<Event>(_events.end(), _events.end());
     }
 
     template <class Event> Event const &getEvent()
