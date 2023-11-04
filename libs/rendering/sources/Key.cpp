@@ -22,6 +22,8 @@ rendering::system::Key::Key(
 
 rendering::system::Key::~Key() = default;
 
+#include <iostream>
+
 void rendering::system::Key::operator()()
 {
     Component::Velocity velocity;

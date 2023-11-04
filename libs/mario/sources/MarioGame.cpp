@@ -8,15 +8,17 @@
 #include "MarioGame.hpp"
 
 #include "Components/Animation.hpp"
+#include "Components/Controllable.hpp"
 #include "Components/Drawable.hpp"
 #include "Components/Position.hpp"
 #include "Components/Solid.hpp"
 #include "Components/Text.hpp"
 #include "Components/Velocity.hpp"
-#include "Systems/MoveSystem.hpp"
 
 #include "Systems/CollisionsSystem.hpp"
+#include "Systems/MoveSystem.hpp"
 
+#include "Key.hpp"
 #include "Rendering.hpp"
 
 #include <iostream>
@@ -37,6 +39,7 @@ void MarioGame::registerAllComponents(engine::Registry &reg)
     reg.register_component<Component::Solid>();
     // physics
     reg.register_component<Component::Velocity>();
+    reg.register_component<Component::Controllable>();
 }
 
 void MarioGame::registerAdditionalServerSystems(engine::Registry &reg)
@@ -56,6 +59,10 @@ void MarioGame::registerAdditionalClientSystems(engine::Registry &reg)
         reg.get_components<Component::Velocity>(),
         reg.get_components<Component::Solid>(),
         reg.get_components<Component::Collision>()
+    );
+    reg.add_system<rendering::system::Key>(
+        reg.get_components<Component::Controllable>(),
+        reg.get_components<Component::Velocity>(), 0
     );
 }
 
@@ -154,6 +161,8 @@ void MarioGame::initScene(engine::Registry &reg)
     reg.get_components<Component::Velocity>().insert_at(
         mario_player, Component::Velocity(1, 1)
     );
+    // ==================== set Controllable ====================
+    reg.get_components<Component::Controllable>().insert_at(mario_player, 0);
 }
 
 engine::IGame *createGame()
