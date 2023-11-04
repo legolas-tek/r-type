@@ -31,6 +31,7 @@ void System::DeathSystem::operator()()
 
         if (target != _toEraseEntityList.end()) {
             _reg.erase_entity(it.get_entity());
+            _toEraseEntityList.erase(target);
             continue;
         }
         if ((*it)->health <= 0 && lifes <= 0) {
