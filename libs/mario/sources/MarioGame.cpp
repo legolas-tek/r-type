@@ -13,6 +13,7 @@
 #include "Components/Gravity.hpp"
 #include "Components/Jump.hpp"
 #include "Components/Position.hpp"
+#include "Components/Rail.hpp"
 #include "Components/Solid.hpp"
 #include "Components/Text.hpp"
 #include "Components/Velocity.hpp"
@@ -22,6 +23,7 @@
 #include "Systems/JumpSystem.hpp"
 #include "Systems/KeyHandleSystem.hpp"
 #include "Systems/MoveSystem.hpp"
+#include "Systems/RailSystem.hpp"
 
 #include "Key.hpp"
 #include "Rendering.hpp"
@@ -47,6 +49,7 @@ void MarioGame::registerAllComponents(engine::Registry &reg)
     reg.register_component<Component::Controllable>();
     reg.register_component<Component::Jump>();
     reg.register_component<Component::Gravity>();
+    reg.register_component<Component::Rail>();
 }
 
 void MarioGame::registerAdditionalServerSystems(engine::Registry &reg)
@@ -61,12 +64,6 @@ void MarioGame::registerAdditionalClientSystems(engine::Registry &reg)
         reg.get_components<Component::Collision>()
     );
     reg.add_system<rendering::system::Rendering>(reg);
-    reg.add_system<System::MoveSystem>(
-        reg.events, reg.get_components<Component::Position>(),
-        reg.get_components<Component::Velocity>(),
-        reg.get_components<Component::Solid>(),
-        reg.get_components<Component::Collision>()
-    );
     reg.add_system<rendering::system::Key>(
         reg.events, reg.get_components<Component::Controllable>(),
         reg.get_components<Component::Velocity>(), 0
@@ -80,6 +77,16 @@ void MarioGame::registerAdditionalClientSystems(engine::Registry &reg)
     reg.add_system<System::GravitySystem>(
         reg.get_components<Component::Gravity>(),
         reg.get_components<Component::Velocity>()
+    );
+    reg.add_system<System::RailSystem>(
+        reg.get_components<Component::Rail>(),
+        reg.get_components<Component::Velocity>()
+    );
+    reg.add_system<System::MoveSystem>(
+        reg.events, reg.get_components<Component::Position>(),
+        reg.get_components<Component::Velocity>(),
+        reg.get_components<Component::Solid>(),
+        reg.get_components<Component::Collision>()
     );
 }
 
@@ -183,6 +190,12 @@ void MarioGame::initScene(engine::Registry &reg)
     reg.get_components<Component::Velocity>().insert_at(
         mario_player, Component::Velocity(1, 1)
     );
+    reg.get_components<Component::Velocity>().insert_at(
+        background, Component::Velocity(0, 0)
+    );
+    reg.get_components<Component::Velocity>().insert_at(
+        floor, Component::Velocity(0, 0)
+    );
     // ==================== set Controllable ====================
     reg.get_components<Component::Controllable>().insert_at(mario_player, 0);
     reg.get_components<Component::Jump>().insert_at(
@@ -192,6 +205,19 @@ void MarioGame::initScene(engine::Registry &reg)
     reg.get_components<Component::Gravity>().insert_at(
         mario_player, Component::Gravity()
     );
+    // ==================== set Gravity ====================
+    reg.get_components<Component::Rail>().insert_at(
+        floor, Component::Rail(Component::RailType::DYNAMIC)
+    );
+    std::cout << "floor: " << floor << std::endl; // 1
+    reg.get_components<Component::Rail>().insert_at(
+        background, Component::Rail(Component::RailType::DYNAMIC)
+    );
+    std::cout << "background: " << background << std::endl; // 2
+    reg.get_components<Component::Rail>().insert_at(
+        mario_player, Component::Rail(Component::RailType::SATIC)
+    );
+    std::cout << "mario_player: " << mario_player << std::endl; // 3
 }
 
 engine::IGame *createGame()

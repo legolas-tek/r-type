@@ -41,6 +41,7 @@ target_sources ( mario
     ./sources/MarioGame.cpp
     ./sources/Systems/KeyHandleSystem.cpp
     ./sources/Systems/JumpSystem.cpp
+    ./sources/Systems/RailSystem.cpp
 )
 
 install(TARGETS  mario
