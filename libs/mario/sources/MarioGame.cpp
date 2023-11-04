@@ -12,9 +12,12 @@
 #include "Components/Position.hpp"
 #include "Components/Solid.hpp"
 #include "Components/Text.hpp"
-#include "Rendering.hpp"
+#include "Components/Velocity.hpp"
+#include "Systems/MoveSystem.hpp"
 
 #include "Systems/CollisionsSystem.hpp"
+
+#include "Rendering.hpp"
 
 #include <iostream>
 
@@ -27,20 +30,33 @@ void MarioGame::registerAllComponents(engine::Registry &reg)
     reg.register_component<Component::Text>();
     // to use system rendering -> texture & text
     reg.register_component<Component::Position>();
+
+    // collisionn
+    reg.register_component<Component::HitBox>();
+    reg.register_component<Component::Collision>();
+    reg.register_component<Component::Solid>();
+    // physics
+    reg.register_component<Component::Velocity>();
 }
 
 void MarioGame::registerAdditionalServerSystems(engine::Registry &reg)
 {
-    // reg.add_system<System::CollisionsSystem>(
-    //     reg.events, reg.get_components<Component::Position>(),
-    //     reg.get_components<Component::HitBox>(),
-    //     reg.get_components<Component::Collision>()
-    // );
 }
 
 void MarioGame::registerAdditionalClientSystems(engine::Registry &reg)
 {
+    reg.add_system<System::CollisionsSystem>(
+        reg.events, reg.get_components<Component::Position>(),
+        reg.get_components<Component::HitBox>(),
+        reg.get_components<Component::Collision>()
+    );
     reg.add_system<rendering::system::Rendering>(reg);
+    reg.add_system<System::MoveSystem>(
+        reg.events, reg.get_components<Component::Position>(),
+        reg.get_components<Component::Velocity>(),
+        reg.get_components<Component::Solid>(),
+        reg.get_components<Component::Collision>()
+    );
 }
 
 void MarioGame::registerAdditionalSystems(engine::Registry &reg)
@@ -67,6 +83,8 @@ void MarioGame::initScene(engine::Registry &reg)
     float scaleRatio = static_cast<float>(rendering::system::SCREEN_HEIGHT)
         / WIDNOW_SPRITE_HEIGHT;
 
+    float marioScale = oneUnit / MARIO_ONE_SPRITE_HEIGHT * scaleRatio;
+
     // ==================== set Drawable ====================
     // floor
     reg.get_components<Component::Drawable>().insert_at(
@@ -86,11 +104,9 @@ void MarioGame::initScene(engine::Registry &reg)
     reg.get_components<Component::Drawable>().insert_at(
         mario_player,
         Component::Drawable(
-            2, MARIO_ONE_SPRITE_WIDTH, MARIO_ONE_SPRITE_HEIGHT,
-            oneUnit / MARIO_ONE_SPRITE_HEIGHT * scaleRatio
+            2, MARIO_ONE_SPRITE_WIDTH, MARIO_ONE_SPRITE_HEIGHT, marioScale
         )
     );
-
     // ==================== set positions ====================
     // floor
     reg.get_components<Component::Position>().insert_at(
@@ -112,25 +128,32 @@ void MarioGame::initScene(engine::Registry &reg)
         Component::Position(
             0.0,
             float(rendering::system::SCREEN_HEIGHT)
-                - (FLOOR_SPRITE_HEIGHT * scaleRatio)
-                - (MARIO_ONE_SPRITE_HEIGHT * oneUnit / MARIO_ONE_SPRITE_HEIGHT
-                   * scaleRatio),
+                - (FLOOR_SPRITE_HEIGHT * scaleRatio) - (oneUnit * scaleRatio)
+                - 10,
             0
         )
     );
     // ==================== set Collision ====================
-    // reg.get_components<Component::HitBox>().insert_at(
-    //     mario_player, Component::HitBox(SHIP_W * 2, SHIP_H * 2)
-    // );
+    reg.get_components<Component::HitBox>().insert_at(
+        mario_player,
+        Component::HitBox(
+            MARIO_ONE_SPRITE_WIDTH * marioScale,
+            MARIO_ONE_SPRITE_HEIGHT * marioScale
+        )
+    );
     // ==================== set Collision ====================
-    // reg.get_components<Component::Collision>().insert_at(
-    //     floor, Component::Collision(WIDNOW_SPRITE_WIDTH * scaleRatio,
-    //     FLOOR_SPRITE_HEIGHT * scaleRatio)
-    // );
+    reg.get_components<Component::Collision>().insert_at(
+        floor,
+        Component::Collision(
+            WIDNOW_SPRITE_WIDTH * scaleRatio, FLOOR_SPRITE_HEIGHT * scaleRatio
+        )
+    );
     // ==================== set Collision ====================
-    // reg.get_components<Component::Solid>().insert_at(
-    //     floor, Component::Solid()
-    // );
+    reg.get_components<Component::Solid>().insert_at(floor, Component::Solid());
+    // ==================== set Velocity ====================
+    reg.get_components<Component::Velocity>().insert_at(
+        mario_player, Component::Velocity(1, 1)
+    );
 }
 
 engine::IGame *createGame()
