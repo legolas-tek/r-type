@@ -116,6 +116,8 @@ void MarioGame::initScene(engine::Registry &reg)
 
     float marioScale = oneUnit / MARIO_ONE_SPRITE_HEIGHT * scaleRatio;
 
+    std::cout << "scaleRatio: " << scaleRatio << std::endl;
+    std::cout << "marioScale: " << marioScale << std::endl;
     // ==================== set Drawable ====================
     // floor
     reg.get_components<Component::Drawable>().insert_at(

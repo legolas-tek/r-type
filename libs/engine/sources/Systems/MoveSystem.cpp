@@ -8,6 +8,8 @@
 #include "Systems/MoveSystem.hpp"
 #include "Events/Collision.hpp"
 
+#include <iostream>
+
 System::MoveSystem::MoveSystem(
     event::EventQueue &events, SparseArray<Component::Position> &positions,
     SparseArray<Component::Velocity> const &velocities,
@@ -24,16 +26,25 @@ System::MoveSystem::MoveSystem(
 
 void System::MoveSystem::operator()()
 {
+    // std::cout << "====================" << std::endl;
     for (auto it = _positions.begin(); it != _positions.end(); ++it) {
         auto &pos = **it;
         auto &vel = _velocities[it.get_entity()];
         engine::Entity collidingEntity
             = getCollidingSolidEntity(it.get_entity());
 
-        if (vel
-            && canMove(it.get_entity(), collidingEntity, vel.value(), pos)) {
+        // std::cout << "pos of " << it.get_entity() << " and " <<
+        // collidingEntity << std::endl;
+
+        if (vel && canMoveX(it.get_entity(), collidingEntity)) {
             pos._x += vel->_vx;
+            // std::cout << "entity " << it.get_entity() << " move x" <<
+            // std::endl;
+        }
+        if (vel && canMoveY(it.get_entity(), collidingEntity)) {
             pos._y += vel->_vy;
+            // std::cout << "entity " << it.get_entity() << " move y" <<
+            // std::endl;
         }
     }
 }
@@ -52,24 +63,104 @@ engine::Entity System::MoveSystem::getCollidingSolidEntity(engine::Entity entity
     return engine::Entity(0);
 }
 
-bool System::MoveSystem::canMove(
-    engine::Entity entity, engine::Entity collidingEntity,
-    Component::Velocity const &velocity, Component::Position &position
+bool System::MoveSystem::canMoveX(
+    engine::Entity entity, engine::Entity collidingEntity
 )
 {
     if (collidingEntity == 0 or not _positions[collidingEntity]
         or not _solids[collidingEntity] or not _collisions[entity])
         return true;
 
-    auto collidingEntityPos = _positions[collidingEntity].value();
+    Component::Position &entityPos = _positions[entity].value();
+    Component::Position &collidingEntityPos
+        = _positions[collidingEntity].value();
 
-    if (position._x < collidingEntityPos._x && velocity._vx > 0)
+    Component::Collision const &entityCollision = _collisions[entity].value();
+    Component::Collision const &collidingEntityCollision
+        = _collisions[collidingEntity].value();
+
+    Component::Velocity const &entityVelocity = _velocities[entity].value();
+    Component::Velocity const &collidingEntityVelocity
+        = _velocities[collidingEntity].value();
+
+    float entityPosTop = entityPos._y - entityCollision._height / 2;
+    float entityPosBottom = entityPos._y + entityCollision._height / 2;
+
+    float collidingEntityPosTop
+        = collidingEntityPos._y - collidingEntityCollision._height / 2;
+    float collidingEntityPosBottom
+        = collidingEntityPos._y + collidingEntityCollision._height / 2;
+
+    bool isInY1 = entityPosTop < collidingEntityPosTop
+        && collidingEntityPosTop < entityPosBottom;
+    bool isInY2 = entityPosTop < collidingEntityPosBottom
+        && collidingEntityPosBottom < entityPosBottom;
+
+    // if Y don't overlap, can go X
+    if (isInY1 || isInY2) {
+        return true;
+    }
+
+    float entityLeft = entityPos._x - (entityCollision._width / 2);
+    float entityRight = entityPos._x + (entityCollision._width / 2);
+
+    float collidingEntityLeft
+        = collidingEntityPos._x - (collidingEntityCollision._width / 2);
+    float collidingEntityRight
+        = collidingEntityPos._x + (collidingEntityCollision._width / 2);
+    if (entityRight < collidingEntityLeft && 0 < entityVelocity._vx) {
+        // std::cout << "entity " << entity << " 111" << std::endl;
         return false;
-    if (position._x > collidingEntityPos._x && velocity._vx < 0)
+    }
+    if (collidingEntityRight < entityLeft && entityVelocity._vx < 0) {
+        // std::cout << "entity " << entity << " 222" << std::endl;
         return false;
-    if (position._y < collidingEntityPos._y && velocity._vy > 0)
+    }
+    return true;
+}
+
+bool System::MoveSystem::canMoveY(
+    engine::Entity entity, engine::Entity collidingEntity
+)
+{
+    if (collidingEntity == 0 or not _positions[collidingEntity]
+        or not _solids[collidingEntity] or not _collisions[entity])
+        return true;
+
+    Component::Position &entityPos = _positions[entity].value();
+    Component::Position &collidingEntityPos
+        = _positions[collidingEntity].value();
+
+    Component::Collision const &entityCollision = _collisions[entity].value();
+    Component::Collision const &collidingEntityCollision
+        = _collisions[collidingEntity].value();
+
+    Component::Velocity const &entityVelocity = _velocities[entity].value();
+    Component::Velocity const &collidingEntityVelocity
+        = _velocities[collidingEntity].value();
+
+    float entityPosLeft = entityPos._x - entityCollision._width / 2;
+    float entityPosRight = entityPos._x + entityCollision._width / 2;
+
+    float collidingEntityPosLeft
+        = collidingEntityPos._x - collidingEntityCollision._width / 2;
+    float collidingEntityPosRight
+        = collidingEntityPos._x + collidingEntityCollision._width / 2;
+
+    bool isInX1 = entityPosLeft < collidingEntityPosLeft
+        && collidingEntityPosLeft < entityPosRight;
+    bool isInX2 = entityPosLeft < collidingEntityPosRight
+        && collidingEntityPosRight < entityPosRight;
+
+    if (isInX1 || isInX2) {
+        return true;
+    }
+
+    if (entityPos._y < collidingEntityPos._y && 0 < entityVelocity._vy) {
         return false;
-    if (position._y > collidingEntityPos._y && velocity._vy < 0)
+    }
+    if (entityPos._y > collidingEntityPos._y && 0 < entityVelocity._vy) {
         return false;
+    }
     return true;
 }
