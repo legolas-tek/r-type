@@ -10,6 +10,7 @@
 #include "SpawnEnemySystem.hpp"
 
 #include "Rendering.hpp"
+#include "Game.hpp"
 
 #include "Components/Floating.hpp"
 #include "Components/Velocity.hpp"
@@ -18,9 +19,6 @@
 #include "Components/Collision.hpp"
 #include "Components/HitBox.hpp"
 #include "Components/Health.hpp"
-
-#include "Game.hpp"
-#include <iostream>
 
 System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
     : _register(reg)

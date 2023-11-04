@@ -17,8 +17,6 @@ System::DeathSystem::DeathSystem(
 {
 }
 
-#include <iostream>
-
 void System::DeathSystem::operator()()
 {
     for (auto it = _healths.begin(); it != _healths.end(); it++) {

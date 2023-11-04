@@ -37,20 +37,20 @@ void System::FloatingSystem::adaptVelocity(
     Component::Floating &floating
 )
 {
-    if (velocity._vx > 0 and position._x > floating.maxX) {
-        velocity._vx = floating.speed * -1;
+    if (velocity._vx >= 0 and position._x >= floating.maxX) {
+        velocity._vx = -floating.speed;
     }
-    if (velocity._vx < 0 and position._x < floating.minX) {
+    if (velocity._vx <= 0 and position._x <= floating.minX) {
         velocity._vx = floating.speed;
     }
-    if (velocity._vy > 0 and position._y > floating.maxY) {
-        velocity._vy = floating.speed * -1;
+    if (velocity._vy >= 0 and position._y >= floating.maxY) {
+        velocity._vy = -floating.speed;
     }
-    if (velocity._vy < 0 and position._y < floating.minY) {
+    if (velocity._vy <= 0 and position._y <= floating.minY) {
         velocity._vy = floating.speed;
     }
-    if (velocity._vx == 0 and velocity._vy == 0) {
-        velocity._vx = floating.speed;
-        velocity._vy = floating.speed;
-    }
+    // if (velocity._vx == 0 and velocity._vy == 0) {
+    //     velocity._vx = floating.speed;
+    //     velocity._vy = floating.speed;
+    // }
 }

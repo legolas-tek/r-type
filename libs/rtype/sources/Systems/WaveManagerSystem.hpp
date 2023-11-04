@@ -56,8 +56,8 @@ private:
     // better to have a multiple of 4 sec (4 % 0.016 = 0)
     static inline constexpr std::array<size_t, 3> WAVE_START_TICK_TABLE = {
         secondsToTick(3), // wave 1 start sec
-        secondsToTick(13), // wave 2 start sec
-        secondsToTick(23) // wave 3 start sec
+        secondsToTick(23), // wave 2 start sec
+        secondsToTick(43) // wave 3 start sec
     };
 };
 }
