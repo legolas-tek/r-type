@@ -46,62 +46,47 @@ void System::SpawnEnemySystem::operator()()
     auto randomY = distribY(_gen);
 
     // set position
-    _register.get_components<Component::Position>().insert_at(
-        enemy, Component::Position(randomX, randomY, 0)
+    _register.get_components<Component::Position>().emplace_at(
+        enemy, randomX, randomY, 0
     );
     // set Drawable
-    _register.get_components<Component::Drawable>().insert_at(
-        enemy,
-        Component::Drawable(
-            _entityInfo.textureIndex, _entityInfo.entityWidth,
-            _entityInfo.entityHeight, _entityInfo.scale
-        )
+    _register.get_components<Component::Drawable>().emplace_at(
+        enemy, _entityInfo.textureIndex, _entityInfo.entityWidth,
+        _entityInfo.entityHeight, _entityInfo.scale
     );
     // set Animation
-    _register.get_components<Component::Animation>().insert_at(
-        enemy,
-        Component::Animation(
-            _entityInfo.textureWidth, _entityInfo.textureHeight,
-            _entityInfo.entityWidth, _entityInfo.entityHeight,
-            _entityInfo.offset, _entityInfo.frameDuration
-        )
+    _register.get_components<Component::Animation>().emplace_at(
+        enemy, _entityInfo.textureWidth, _entityInfo.textureHeight,
+        _entityInfo.entityWidth, _entityInfo.entityHeight, _entityInfo.offset,
+        _entityInfo.frameDuration
     );
     _register.get_components<Component::Velocity>().insert_at(
         enemy, _entityInfo.velocity
     );
-    _register.get_components<Component::HitBox>().insert_at(
-        enemy,
-        Component::HitBox(
-            _entityInfo.entityWidth * _entityInfo.scale,
-            _entityInfo.entityHeight * _entityInfo.scale
-        )
+    _register.get_components<Component::HitBox>().emplace_at(
+        enemy, _entityInfo.entityWidth * _entityInfo.scale,
+        _entityInfo.entityHeight * _entityInfo.scale
     );
-    _register.get_components<Component::Collision>().insert_at(
-        enemy,
-        Component::Collision(
-            _entityInfo.entityWidth * _entityInfo.scale,
-            _entityInfo.entityHeight * _entityInfo.scale
-        )
+    _register.get_components<Component::Collision>().emplace_at(
+        enemy, _entityInfo.entityWidth * _entityInfo.scale,
+        _entityInfo.entityHeight * _entityInfo.scale
     );
-    _register.get_components<Component::Health>().insert_at(
-        enemy, Component::Health(_entityInfo.health, _entityInfo.health)
+    _register.get_components<Component::Health>().emplace_at(
+        enemy, _entityInfo.health, _entityInfo.health
     );
     if (_entityInfo.lifeTime) {
-        _register.get_components<Component::LifeTime>().insert_at(
-            enemy, Component::LifeTime(
-                _entityInfo.lifeTime.value(),
-                _register.getTick()
-                )
+        _register.get_components<Component::LifeTime>().emplace_at(
+            enemy, _entityInfo.lifeTime.value(), _register.getTick()
         );
     }
     if (_entityInfo.damage) {
-        _register.get_components<Component::Damage>().insert_at(
-            enemy, Component::Damage(_entityInfo.damage.value())
+        _register.get_components<Component::Damage>().emplace_at(
+            enemy, _entityInfo.damage.value()
         );
     }
     if (_entityInfo.fireRate) {
-        _register.get_components<Component::FireRate>().insert_at(
-            enemy, Component::FireRate(_entityInfo.fireRate.value())
+        _register.get_components<Component::FireRate>().emplace_at(
+            enemy, _entityInfo.fireRate.value()
         );
     }
 }

@@ -26,8 +26,8 @@ void System::MoveSystem::operator()()
         auto &pos = **it;
         auto &vel = _velocities[it.get_entity()];
         auto &solid = _solids[it.get_entity()];
-        engine::Entity collidingEntity =
-            getCollidingSolidEntity(it.get_entity());
+        engine::Entity collidingEntity
+            = getCollidingSolidEntity(it.get_entity());
 
         if (vel && canMove(collidingEntity, vel.value(), pos)) {
             pos._x += vel->_vx;
@@ -36,12 +36,11 @@ void System::MoveSystem::operator()()
     }
 }
 
-engine::Entity System::MoveSystem::getCollidingSolidEntity(
-    engine::Entity entity
+engine::Entity System::MoveSystem::getCollidingSolidEntity(engine::Entity entity
 )
 {
-    if (!_solids[entity] || !_collisions[entity] ||
-        !_collisions[entity]->_collidingEntity)
+    if (!_solids[entity] || !_collisions[entity]
+        || !_collisions[entity]->_collidingEntity)
         return engine::Entity(0);
     return _collisions[entity]->_collidingEntity.value();
 }

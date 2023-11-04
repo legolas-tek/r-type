@@ -94,6 +94,7 @@ private:
         uint8_t component_id, engine::Deserializer deser
     );
 
+    virtual bool canSend(engine::Entity entity, uint8_t component_id);
     /**
      * @brief Function to process the received update packet
      *
@@ -134,8 +135,14 @@ private:
      */
     manager::Client *getClientWithHash(std::size_t hash);
 
+    std::vector<std::byte> constructUpdatePacket(
+        net::Snapshot const &previous, net::Snapshot const &current,
+        net::Snapshot::CanSend canSend
+    );
+
 protected:
     engine::Registry &_registry; ///< the engine registry
+    std::size_t _playerNumber; ///< Our player number, or 0 if server
 
 private:
     std::unique_ptr<net::manager::Udp> _nmu; ///< the udp net manager
@@ -147,7 +154,6 @@ private:
 
     net::Snapshot _dummy; ///< The dummy packet to use in special case
 
-    std::size_t _playerNumber; ///< Our player number, or 0 if server
     std::size_t _playerHash; ///< Our player hash, or 0 if server
 
     bool _isServer;

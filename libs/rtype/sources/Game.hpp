@@ -26,7 +26,7 @@ public:
     /// @brief The number of frames for the ship animation
     static inline constexpr int SHIP_F = 4;
     /// @brief The index to find the ship sprite
-    static inline constexpr int SHIP_I = 3;
+    static inline constexpr int SHIP_I = 11;
     /// @brief The Health a ship should have
     static inline constexpr int SHIP_HEALTH = 3;
 
@@ -59,7 +59,7 @@ public:
     /// @brief The number of frames for the first boss animation
     static inline constexpr int FIRST_BOSS_F = 3;
     /// @brief The index to find the first boss sprite
-    static inline constexpr int FIRST_BOSS_I = 12;
+    static inline constexpr int FIRST_BOSS_I = 13;
     /// @brief The Health a first boss should have
     static inline constexpr int FIRST_BOSS_HEALTH = 20;
 
@@ -68,7 +68,7 @@ public:
     /// @brief The Height of the small turret sprite
     static inline constexpr int SMALL_TURRET_H = 15;
     /// @brief The index to find the small turret sprite
-    static inline constexpr int SMALL_TURRET_I = 11;
+    static inline constexpr int SMALL_TURRET_I = 12;
 
     /// @brief The Width of the borders sprite
     static inline constexpr int BORDERS_W = 960;

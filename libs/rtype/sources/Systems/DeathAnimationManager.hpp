@@ -13,10 +13,10 @@
 #include "SparseArray.hpp"
 
 #include "Components/Collision.hpp"
+#include "Components/Controllable.hpp"
 #include "Components/Damage.hpp"
 #include "Components/Health.hpp"
 #include "Components/Position.hpp"
-#include "Components/Controllable.hpp"
 
 namespace System {
 

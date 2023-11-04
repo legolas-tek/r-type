@@ -10,6 +10,14 @@
 
 #include "Registry.hpp"
 
+class GameEndException : public std::exception {
+public:
+    [[nodiscard]] char const *what() const noexcept override
+    {
+        return "End of game";
+    }
+};
+
 [[noreturn]] void gameLoop(engine::Registry &reg);
 
 #endif /* !GAMELOOP_HPP_ */

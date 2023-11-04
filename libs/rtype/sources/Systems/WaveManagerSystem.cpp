@@ -35,7 +35,7 @@ System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
                             .scale = 1.5,
                             .velocity = {-3, 0},
                             .damage = 1,
-                            .lifeTime = 300,
+                            .lifeTime = 500,
                             .fireRate = 100
                              };
     EntityInfo scourge = { .textureIndex = RTypeGame::BASIC_ENNEMY_I,
@@ -50,7 +50,7 @@ System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
                            .scale = 1.5,
                            .velocity = {-10, 0},
                            .damage = 1,
-                           .lifeTime = 200,
+                           .lifeTime = 300,
                            .fireRate = std::nullopt
                            };
 
@@ -137,15 +137,19 @@ void System::WaveManagerSystem::operator()()
         _waveNum++;
         if (_waveNum == 1) {
             add_system<System::SpawnEnemySystem>(
-                _register, _entityList[0], tick, secondsToTick(1), 832, 832, 40,
-                344 - _entityList[0].entityHeight
+                _register, _entityList[0], tick, secondsToTick(1),
+                rendering::system::SCREEN_WIDTH + _entityList[0].entityWidth,
+                rendering::system::SCREEN_WIDTH + _entityList[0].entityWidth, 40,
+                rendering::system::SCREEN_HEIGHT - _entityList[0].entityHeight
             );
         }
         if (_waveNum == 2) {
             _systems.clear();
             add_system<System::SpawnEnemySystem>(
-                _register, _entityList[1], tick, secondsToTick(1), 832, 832, 40,
-                344 - _entityList[1].entityHeight
+                _register, _entityList[1], tick, secondsToTick(1),
+                rendering::system::SCREEN_WIDTH + _entityList[1].entityWidth,
+                rendering::system::SCREEN_WIDTH + _entityList[1].entityWidth, 40,
+                rendering::system::SCREEN_HEIGHT - _entityList[1].entityHeight
             );
         }
         if (_waveNum == 3) {
