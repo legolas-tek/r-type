@@ -45,6 +45,9 @@ public:
 
 protected:
 private:
+    /// @brief Creates a boss entity with turrets entities on it
+    void createBoss();
+
     engine::Registry &_register;
     size_t _waveNum = 0;
     std::vector<std::unique_ptr<ISystem>> _systems;
@@ -52,9 +55,9 @@ private:
 
     // better to have a multiple of 4 sec (4 % 0.016 = 0)
     static inline constexpr std::array<size_t, 3> WAVE_START_TICK_TABLE = {
-        secondsToTick(0), // wave 1 start sec
-        secondsToTick(4), // wave 1 start sec
-        secondsToTick(8) // wave 1 start sec
+        secondsToTick(3), // wave 1 start sec
+        secondsToTick(23), // wave 2 start sec
+        secondsToTick(43) // wave 3 start sec
     };
 };
 }

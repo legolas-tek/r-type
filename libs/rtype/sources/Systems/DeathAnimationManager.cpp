@@ -75,21 +75,15 @@ void System::DeathAnimationManager::createExplosion(
     engine::Entity explosion(_registry.get_new_entity());
 
     _positions.insert_at(explosion, pos);
-    _registry.get_components<Component::Drawable>().insert_at(
-        explosion,
-        Component::Drawable(
-            EXPLOSION_INDEX, EXPLOSION_WIDTH, EXPLOSION_HEIGHT, 3
-        )
+    _registry.get_components<Component::Drawable>().emplace_at(
+        explosion, EXPLOSION_INDEX, EXPLOSION_WIDTH, EXPLOSION_HEIGHT, 3
     );
-    _registry.get_components<Component::Animation>().insert_at(
-        explosion,
-        Component::Animation(
-            EXPLOSION_WIDTH * EXPLOSION_FRAMES, EXPLOSION_HEIGHT,
-            EXPLOSION_WIDTH, EXPLOSION_HEIGHT, EXPLOSION_WIDTH, 10
-        )
+    _registry.get_components<Component::Animation>().emplace_at(
+        explosion, EXPLOSION_WIDTH * EXPLOSION_FRAMES, EXPLOSION_HEIGHT,
+        EXPLOSION_WIDTH, EXPLOSION_HEIGHT, EXPLOSION_WIDTH, 10
     );
-    _registry.get_components<Component::LifeTime>().insert_at(
-        explosion, Component::LifeTime(40, _registry.getTick())
+    _registry.get_components<Component::LifeTime>().emplace_at(
+        explosion, 40, _registry.getTick()
     );
 }
 
@@ -97,19 +91,15 @@ void System::DeathAnimationManager::createBigExplosion(Component::Position pos)
 {
     engine::Entity explosion(_registry.get_new_entity());
 
-    _positions.insert_at(explosion, pos);
-    _registry.get_components<Component::Drawable>().insert_at(
-        explosion,
-        Component::Drawable(BIG_EX_INDEX, BIG_EX_WIDTH, BIG_EX_HEIGHT, 2)
+    _positions.emplace_at(explosion, pos);
+    _registry.get_components<Component::Drawable>().emplace_at(
+        explosion, BIG_EX_INDEX, BIG_EX_WIDTH, BIG_EX_HEIGHT, 2
     );
-    _registry.get_components<Component::Animation>().insert_at(
-        explosion,
-        Component::Animation(
-            BIG_EX_WIDTH * BIG_EX_FRAMES, BIG_EX_HEIGHT, BIG_EX_WIDTH,
-            BIG_EX_HEIGHT, BIG_EX_WIDTH, 10
-        )
+    _registry.get_components<Component::Animation>().emplace_at(
+        explosion, BIG_EX_WIDTH * BIG_EX_FRAMES, BIG_EX_HEIGHT, BIG_EX_WIDTH,
+        BIG_EX_HEIGHT, BIG_EX_WIDTH, 10
     );
-    _registry.get_components<Component::LifeTime>().insert_at(
-        explosion, Component::LifeTime(40, _registry.getTick())
+    _registry.get_components<Component::LifeTime>().emplace_at(
+        explosion, 40, _registry.getTick()
     );
 }
