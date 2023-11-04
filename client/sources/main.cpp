@@ -9,7 +9,7 @@
 #include "IGame.hpp"
 #include <memory>
 
-void runGame(std::unique_ptr<engine::IGame> _game)
+std::unique_ptr<engine::IGame> runGame(std::unique_ptr<engine::IGame> _game)
 {
     // make sure the game is destroyed before the registry
     engine::Registry reg;
@@ -22,23 +22,18 @@ void runGame(std::unique_ptr<engine::IGame> _game)
     game->registerAdditionalSystems(reg);
     game->registerAdditionalClientSystems(reg);
 
-    gameLoop(reg);
+    try {
+        gameLoop(reg);
+    } catch (engine::IGame::StartGameException const &) {
+        return game->createNextGame();
+    }
 }
 
 int main()
 {
     std::unique_ptr<engine::IGame> game(createGame());
 
-    try {
-        try {
-            std::unique_ptr<engine::IGame> lobby(game->createLobby());
-            if (lobby)
-                runGame(std::move(lobby));
-        } catch (engine::IGame::StartGameException const &) {
-            // run the game:
-        }
-        runGame(std::move(game));
-    } catch (GameEndException exept) {
-        return 0;
+    while (game) {
+        game = runGame(std::move(game));
     }
 }
