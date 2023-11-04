@@ -18,10 +18,10 @@ System::DeathSystem::DeathSystem(
 {
 }
 
-bool isEntityInDeathEvent(engine::Entity entity, Event::EventQueue &queue)
+bool isEntityInDeathEvent(engine::Entity entity, event::EventQueue &queue)
 {
-    for (auto death = queue.beginIterator<Event::Death>();
-         death != queue.endIterator<Event::Death>(); death++) {
+    for (auto death = queue.beginIterator<event::Death>();
+         death != queue.endIterator<event::Death>(); death++) {
         if (death->entity == entity)
             return true;
     }
@@ -49,6 +49,6 @@ void System::DeathSystem::operator()()
         }
 
         if ((*it)->health <= 0 && lifes <= 0)
-            _events.addEvent<Event::Death>(it.get_entity());
+            _events.addEvent<event::Death>(it.get_entity());
     }
 }

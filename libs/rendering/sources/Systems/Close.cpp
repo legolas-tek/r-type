@@ -8,13 +8,13 @@
 #include "Systems/Close.hpp"
 #include "GameLoop.hpp"
 
-rendering::system::Close::Close(Event::EventQueue &events)
+rendering::system::Close::Close(event::EventQueue &events)
     : _events(events)
 {
 }
 
 void rendering::system::Close::operator()()
 {
-    for (auto close : _events.getEvents<Event::Close>())
+    for (auto close : _events.getEvents<event::Close>())
         throw GameEndException();
 }

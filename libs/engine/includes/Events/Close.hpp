@@ -10,7 +10,7 @@
 
 #include "IEvent.hpp"
 
-namespace Event {
+namespace event {
 
 class Close : public IEvent { };
 }

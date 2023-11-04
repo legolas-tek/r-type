@@ -18,14 +18,14 @@ namespace System {
 class DamageHandler : public ISystem {
 public:
     DamageHandler(
-        SparseArray<Component::Health> &healths, Event::EventQueue &events
+        SparseArray<Component::Health> &healths, event::EventQueue &events
     );
 
     void operator()() override;
 
 private:
     SparseArray<Component::Health> &_healths;
-    Event::EventQueue &_events;
+    event::EventQueue &_events;
 };
 
 }

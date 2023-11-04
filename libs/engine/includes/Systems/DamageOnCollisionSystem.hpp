@@ -29,7 +29,7 @@ public:
     /// @param collisions A ref to a Collision components SparseArray
     DamageOnCollisionSystem(
         SparseArray<Component::Damage> &damages,
-        SparseArray<Component::Health> &healths, Event::EventQueue &event
+        SparseArray<Component::Health> &healths, event::EventQueue &event
     );
 
     /// @brief applies the logic of the system
@@ -41,7 +41,7 @@ private:
     /// @brief A ref to a LifeTime components SparseArray
     SparseArray<Component::Health> &_healths;
     /// @brief A ref to the EventQueue
-    Event::EventQueue &_events;
+    event::EventQueue &_events;
 };
 
 }

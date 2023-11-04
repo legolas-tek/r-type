@@ -10,7 +10,7 @@
 
 #include "IEvent.hpp"
 
-namespace Event {
+namespace event {
 
 enum class MouseEventType { RIGHT, LEFT, MIDDLE };
 

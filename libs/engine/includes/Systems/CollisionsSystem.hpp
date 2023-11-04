@@ -22,8 +22,7 @@ namespace System {
 class CollisionsSystem : public ISystem {
 public:
     CollisionsSystem(
-        Event::EventQueue &events,
-        SparseArray<Component::Position> &positions,
+        event::EventQueue &events, SparseArray<Component::Position> &positions,
         SparseArray<Component::HitBox> &hitboxes,
         SparseArray<Component::Collision> &collisions
     );
@@ -33,7 +32,7 @@ public:
 private:
     void checkCollisions(size_t index);
 
-    Event::EventQueue &_events;
+    event::EventQueue &_events;
     SparseArray<Component::Position> &_positions;
     SparseArray<Component::HitBox> &_hitboxes;
     SparseArray<Component::Collision> &_collisions;

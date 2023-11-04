@@ -25,7 +25,7 @@ struct Focusable : public ISystem {
     /// @param hitboxes A reference to the hitboxes component storage.
     /// @param positions A reference to the positions component storage.
     Focusable(
-        Event::EventQueue &events,
+        event::EventQueue &events,
         SparseArray<Component::Focusable> &focusables,
         SparseArray<Component::HitBox> &hitboxes,
         SparseArray<Component::Position> &positions
@@ -38,7 +38,7 @@ struct Focusable : public ISystem {
     void operator()() override;
 
 private:
-    Event::EventQueue &_events;
+    event::EventQueue &_events;
     SparseArray<Component::Focusable> &_focusables;
     SparseArray<Component::HitBox> &_hitboxes;
     SparseArray<Component::Position> &_positions;

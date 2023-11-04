@@ -33,7 +33,7 @@ System::DeathAnimationManager::DeathAnimationManager(
 void System::DeathAnimationManager::operator()()
 {
     for (auto &event : _registry.events) {
-        auto death = dynamic_cast<Event::Death *>(event.get());
+        auto death = dynamic_cast<event::Death *>(event.get());
 
         if (not death)
             continue;

@@ -9,7 +9,7 @@
 #include "Events/Collision.hpp"
 
 System::MoveSystem::MoveSystem(
-    Event::EventQueue &events, SparseArray<Component::Position> &positions,
+    event::EventQueue &events, SparseArray<Component::Position> &positions,
     SparseArray<Component::Velocity> const &velocities,
     SparseArray<Component::Solid> const &solids,
     SparseArray<Component::Collision> const &collisions
@@ -44,8 +44,8 @@ engine::Entity System::MoveSystem::getCollidingSolidEntity(engine::Entity entity
     if (not _solids[entity] or not _collisions[entity])
         return engine::Entity(0);
 
-    for (auto it = _events.beginIterator<Event::Collision>();
-         it != _events.endIterator<Event::Collision>(); it++) {
+    for (auto it = _events.beginIterator<event::Collision>();
+         it != _events.endIterator<event::Collision>(); it++) {
         auto collision = it;
 
         if (collision->entity == entity)

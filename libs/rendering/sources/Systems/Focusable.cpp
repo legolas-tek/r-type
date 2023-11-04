@@ -10,7 +10,7 @@
 #include "raylib.h"
 
 rendering::system::Focusable::Focusable(
-    Event::EventQueue &events, SparseArray<Component::Focusable> &focusables,
+    event::EventQueue &events, SparseArray<Component::Focusable> &focusables,
     SparseArray<Component::HitBox> &hitboxes,
     SparseArray<Component::Position> &positions
 )
@@ -25,8 +25,8 @@ rendering::system::Focusable::~Focusable() = default;
 
 void rendering::system::Focusable::operator()()
 {
-    for (auto click = _events.beginIterator<Event::Mouse>();
-         click != _events.endIterator<Event::Mouse>(); ++click) {
+    for (auto click = _events.beginIterator<event::Mouse>();
+         click != _events.endIterator<event::Mouse>(); ++click) {
         for (auto it = _focusables.begin(); it != _focusables.end(); ++it) {
             size_t index = it.get_entity();
 

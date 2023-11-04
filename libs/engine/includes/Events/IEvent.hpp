@@ -8,7 +8,7 @@
 #ifndef R_TYPE_INTERFACE_EVENT_HPP
 #define R_TYPE_INTERFACE_EVENT_HPP
 
-namespace Event {
+namespace event {
 
 class IEvent {
 public:

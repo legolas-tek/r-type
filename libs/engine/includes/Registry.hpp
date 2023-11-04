@@ -192,7 +192,7 @@ public:
 
     std::vector<TextureWrapper> _assets_paths;
 
-    Event::EventQueue events;
+    event::EventQueue events;
 
 private:
     /// @brief This queue is here to reuse entities that we have deleted before

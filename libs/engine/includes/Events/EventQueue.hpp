@@ -17,7 +17,7 @@
 
 #include <utility>
 
-namespace Event {
+namespace event {
 
 class EventQueue {
 public:
@@ -84,7 +84,7 @@ public:
 public:
     template <class T> class EventsView {
     public:
-        explicit EventsView(Event::EventQueue &events)
+        explicit EventsView(event::EventQueue &events)
             : _events(events)
         {
         }

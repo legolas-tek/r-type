@@ -44,7 +44,7 @@ private:
     /// @brief A vector of entity to erase
     std::vector<engine::Entity> _toEraseEntityList;
     /// @brief A ref to the EventQueue
-    Event::EventQueue &_events = _registry.events;
+    event::EventQueue &_events = _registry.events;
 };
 
 }

@@ -36,7 +36,7 @@ public:
     /// @param solids A const ref to a Position component SparseArray
     /// @param collisions A const ref to a Collision component SparseArray
     MoveSystem(
-        Event::EventQueue &events, SparseArray<Component::Position> &positions,
+        event::EventQueue &events, SparseArray<Component::Position> &positions,
         SparseArray<Component::Velocity> const &velocities,
         SparseArray<Component::Solid> const &solids,
         SparseArray<Component::Collision> const &collisions
@@ -64,7 +64,7 @@ private:
     );
 
     /// @brief A const ref to a Event deque
-    Event::EventQueue &_events;
+    event::EventQueue &_events;
     /// @brief A ref to a Position component SparseArray
     SparseArray<Component::Position> &_positions;
     /// @brief A const ref to a Velocity component SparseArray

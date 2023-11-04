@@ -16,11 +16,11 @@
 namespace rendering::system {
 
 struct Close : public ISystem {
-    explicit Close(Event::EventQueue &events);
+    explicit Close(event::EventQueue &events);
     void operator()() override;
 
 private:
-    Event::EventQueue &_events;
+    event::EventQueue &_events;
 };
 
 }

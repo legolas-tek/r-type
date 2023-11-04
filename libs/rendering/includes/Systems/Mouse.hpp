@@ -15,11 +15,11 @@ namespace rendering::system {
 
 struct Mouse : public ISystem {
 
-    Mouse(Event::EventQueue &events);
+    Mouse(event::EventQueue &events);
     void operator()() override;
 
 private:
-    Event::EventQueue &_events;
+    event::EventQueue &_events;
 };
 
 }

@@ -45,7 +45,7 @@ rendering::system::Rendering::~Rendering()
 void rendering::system::Rendering::operator()()
 {
     if (WindowShouldClose()) {
-        _registry.events.addEvent<Event::Close>();
+        _registry.events.addEvent<event::Close>();
         _registry.events.update();
     }
     BeginDrawing();

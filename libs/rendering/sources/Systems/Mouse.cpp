@@ -9,7 +9,7 @@
 #include "Events/Mouse.hpp"
 #include "raylib.h"
 
-rendering::system::Mouse::Mouse(Event::EventQueue &events)
+rendering::system::Mouse::Mouse(event::EventQueue &events)
     : _events(events)
 {
 }
@@ -17,19 +17,19 @@ rendering::system::Mouse::Mouse(Event::EventQueue &events)
 void rendering::system::Mouse::operator()()
 {
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-        _events.addEvent<Event::Mouse>(
+        _events.addEvent<event::Mouse>(
             GetMousePosition().x, GetMousePosition().y,
-            Event::MouseEventType::LEFT
+            event::MouseEventType::LEFT
         );
     else if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
-        _events.addEvent<Event::Mouse>(
+        _events.addEvent<event::Mouse>(
             GetMousePosition().x, GetMousePosition().y,
-            Event::MouseEventType::RIGHT
+            event::MouseEventType::RIGHT
         );
     else if (IsMouseButtonPressed(MOUSE_MIDDLE_BUTTON))
-        _events.addEvent<Event::Mouse>(
+        _events.addEvent<event::Mouse>(
             GetMousePosition().x, GetMousePosition().y,
-            Event::MouseEventType::MIDDLE
+            event::MouseEventType::MIDDLE
         );
     _events.update();
 }

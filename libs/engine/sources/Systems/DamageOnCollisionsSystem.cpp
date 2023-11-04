@@ -11,7 +11,7 @@
 
 System::DamageOnCollisionSystem::DamageOnCollisionSystem(
     SparseArray<Component::Damage> &damages,
-    SparseArray<Component::Health> &healths, Event::EventQueue &eventQueue
+    SparseArray<Component::Health> &healths, event::EventQueue &eventQueue
 )
     : _damages(damages)
     , _healths(healths)
@@ -21,8 +21,8 @@ System::DamageOnCollisionSystem::DamageOnCollisionSystem(
 
 void System::DamageOnCollisionSystem::operator()()
 {
-    for (auto it = _events.beginIterator<Event::Collision>();
-         it != _events.endIterator<Event::Collision>(); it++) {
+    for (auto it = _events.beginIterator<event::Collision>();
+         it != _events.endIterator<event::Collision>(); it++) {
         auto collision = it;
 
         if (not _healths[collision->entity]
@@ -32,7 +32,7 @@ void System::DamageOnCollisionSystem::operator()()
         if (_healths[collision->entity]->health <= 0)
             continue;
 
-        _events.addEvent<Event::Damage>(
+        _events.addEvent<event::Damage>(
             collision->entity, _damages[collision->secondEntity]->damages
         );
     }

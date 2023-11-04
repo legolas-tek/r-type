@@ -9,7 +9,7 @@
 #include "Events/Damage.hpp"
 
 System::DamageHandler::DamageHandler(
-    SparseArray<Component::Health> &healths, Event::EventQueue &events
+    SparseArray<Component::Health> &healths, event::EventQueue &events
 )
     : _healths(healths)
     , _events(events)
@@ -18,8 +18,8 @@ System::DamageHandler::DamageHandler(
 
 void System::DamageHandler::operator()()
 {
-    for (auto it = _events.beginIterator<Event::Damage>();
-         it != _events.endIterator<Event::Damage>(); it++) {
+    for (auto it = _events.beginIterator<event::Damage>();
+         it != _events.endIterator<event::Damage>(); it++) {
         auto damage = it;
 
         if (not _healths[damage->entity])

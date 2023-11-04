@@ -11,7 +11,7 @@
 #include "Entity.hpp"
 #include "IEvent.hpp"
 
-namespace Event {
+namespace event {
 
 class Collision : public IEvent {
 public:
