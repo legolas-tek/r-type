@@ -31,11 +31,11 @@ void System::KeyHandleSystem::operator()()
             auto &jumpCompList = _reg.get_components<Component::Jump>();
             for (auto it = jumpCompList.begin(); it != jumpCompList.end();
                  ++it) {
-                if ((*it)->isJumping == false) {
+                if ((*it)->canJump == true) {
+                    (*it)->canJump = false;
                     (*it)->isJumping = true;
                     (*it)->startJumpTick = _reg.getTick();
-                    (*it)->jumpForTick = 50;
-                    std::cout << "start jump" << std::endl;
+                    (*it)->jumpForTick = 10;
                 }
             }
         }

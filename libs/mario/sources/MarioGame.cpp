@@ -74,7 +74,8 @@ void MarioGame::registerAdditionalClientSystems(engine::Registry &reg)
     reg.add_system<System::KeyHandleSystem>(reg, reg.events);
     reg.add_system<System::JumpSystem>(
         reg, reg.get_components<Component::Jump>(),
-        reg.get_components<Component::Gravity>()
+        reg.get_components<Component::Gravity>(),
+        reg.get_components<Component::Velocity>()
     );
     reg.add_system<System::GravitySystem>(
         reg.get_components<Component::Gravity>(),

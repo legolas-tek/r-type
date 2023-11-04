@@ -14,6 +14,7 @@
 
 #include "Components/Gravity.hpp"
 #include "Components/Jump.hpp"
+#include "Components/Velocity.hpp"
 
 namespace System {
 
@@ -21,7 +22,8 @@ class JumpSystem : public ISystem {
 public:
     JumpSystem(
         engine::Registry &reg, SparseArray<Component::Jump> &jump,
-        SparseArray<Component::Gravity> &gravities
+        SparseArray<Component::Gravity> &gravities,
+        SparseArray<Component::Velocity> &velocities
     );
     // ~JumpSystem();
 
@@ -29,9 +31,11 @@ public:
 
 protected:
 private:
+    bool isOnSolid(engine::Entity jumpentity);
     engine::Registry &_reg;
     SparseArray<Component::Jump> &_jumps;
     SparseArray<Component::Gravity> &_gravities;
+    SparseArray<Component::Velocity> &_velocities;
 };
 }
 #endif /* !JUMPSYSTEM_HPP_ */
