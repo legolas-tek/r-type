@@ -86,7 +86,7 @@ void System::WaveManagerSystem::createBoss()
         0 + RTypeGame::FIRST_BOSS_W + RTypeGame::SHIP_W * 3,
         3
     );
-    _register.get_components<Component::Velocity>().emplace_at(boss, -3, -3);
+    _register.get_components<Component::Velocity>().emplace_at(boss, 0, 0);
     _register.get_components<Component::Position>().emplace_at(
         firstTurret, 0, 1
     );

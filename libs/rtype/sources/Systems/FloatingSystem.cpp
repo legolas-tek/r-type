@@ -49,8 +49,4 @@ void System::FloatingSystem::adaptVelocity(
     if (velocity._vy <= 0 and position._y <= floating.minY) {
         velocity._vy = floating.speed;
     }
-    // if (velocity._vx == 0 and velocity._vy == 0) {
-    //     velocity._vx = floating.speed;
-    //     velocity._vy = floating.speed;
-    // }
 }
