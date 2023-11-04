@@ -80,7 +80,9 @@ void MarioGame::registerAdditionalClientSystems(engine::Registry &reg)
     );
     reg.add_system<System::RailSystem>(
         reg.get_components<Component::Rail>(),
-        reg.get_components<Component::Velocity>()
+        reg.get_components<Component::Velocity>(),
+        reg.get_components<Component::Position>(),
+        reg.get_components<Component::Drawable>()
     );
     reg.add_system<System::MoveSystem>(
         reg.events, reg.get_components<Component::Position>(),
@@ -164,7 +166,7 @@ void MarioGame::initScene(engine::Registry &reg)
     reg.get_components<Component::Position>().insert_at(
         mario_player,
         Component::Position(
-            MARIO_ONE_SPRITE_WIDTH * marioScale,
+            MARIO_ONE_SPRITE_WIDTH * marioScale + 100,
             float(rendering::system::SCREEN_HEIGHT)
                 - (FLOOR_SPRITE_HEIGHT * scaleRatio)
                 - (MARIO_ONE_SPRITE_HEIGHT * marioScale / 2) - 100,
@@ -209,11 +211,11 @@ void MarioGame::initScene(engine::Registry &reg)
     );
     // ==================== set Gravity ====================
     reg.get_components<Component::Rail>().insert_at(
-        floor, Component::Rail(Component::RailType::DYNAMIC)
+        floor, Component::Rail(Component::RailType::DYNAMIC_BACKGROUND)
     );
     std::cout << "floor: " << floor << std::endl; // 1
     reg.get_components<Component::Rail>().insert_at(
-        background, Component::Rail(Component::RailType::DYNAMIC)
+        background, Component::Rail(Component::RailType::DYNAMIC_BACKGROUND)
     );
     std::cout << "background: " << background << std::endl; // 2
     reg.get_components<Component::Rail>().insert_at(
