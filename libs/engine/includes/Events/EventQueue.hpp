@@ -133,20 +133,6 @@ public:
         }
     }
 
-    template <class Event> Event const &popEvent()
-    {
-        for (auto it = _events.begin(); it != _events.end(); it++) {
-            auto ptr = dynamic_cast<Event *>(it->get());
-
-            if (ptr) {
-                Event event = *ptr;
-                _events.erase(it);
-                return event;
-            }
-        }
-        throw std::runtime_error("EventQueue not found");
-    }
-
     Iterator begin() noexcept
     {
         return _events.begin();
