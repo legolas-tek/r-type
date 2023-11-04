@@ -32,14 +32,8 @@ System::DeathAnimationManager::DeathAnimationManager(
 
 void System::DeathAnimationManager::operator()()
 {
-    for (auto &event : _registry.events) {
-        auto death = dynamic_cast<event::Death *>(event.get());
-
-        if (not death)
-            continue;
-
-        auto id = death->entity;
-        auto &pos = _positions[id];
+    for (auto &death : _registry.events.getEvents<event::Death>()) {
+        auto &pos = _positions[death.entity];
 
         if (not pos)
             continue;

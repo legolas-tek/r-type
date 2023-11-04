@@ -21,9 +21,7 @@ System::DamageOnCollisionSystem::DamageOnCollisionSystem(
 
 void System::DamageOnCollisionSystem::operator()()
 {
-    for (auto &it : _events.getEvents<event::Collision>()) {
-        auto collision = it;
-
+    for (auto &collision : _events.getEvents<event::Collision>()) {
         if (not _healths[collision.entity]
             or not _damages[collision.secondEntity])
             continue;
