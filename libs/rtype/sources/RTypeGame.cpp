@@ -27,6 +27,7 @@
 #include "Systems/SpawnEnemySystem.hpp"
 #include "Systems/WaveManagerSystem.hpp"
 
+#include "Interpolate.hpp"
 #include "Key.hpp"
 #include "NetworkClientSystem.hpp"
 #include "Rendering.hpp"
@@ -112,6 +113,7 @@ void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
     reg.add_system<rtype::NetworkClientSystem>(
         reg, _address, _port, _playerNumber, _playerHash
     );
+    reg.add_system<net::Interpolate>(reg.get_components<Component::Velocity>());
 }
 
 void RTypeGame::registerAdditionalSystems(engine::Registry &reg)

@@ -36,12 +36,12 @@ struct Velocity {
     /**
      * @brief The past x-component of the velocity.
      */
-    float _pastVx = 0;
+    float _futurVx = 0;
 
     /**
      * @brief The past y-component of the velocity.
      */
-    float _pastVy = 0;
+    float _futurVy = 0;
 
     /**
      * @brief Default constructor for the Velocity structure.
@@ -71,13 +71,16 @@ struct Velocity {
 
     void deserialize(engine::Deserializer &deser)
     {
-        float pastVx = _vx;
-        float pastVy = _vy;
+        float futurVx = _futurVx;
+        float futurVy = _futurVy;
 
         deser.deserializeTrivial<Velocity>(*this);
 
-        _pastVx = pastVx;
-        _pastVy = pastVy;
+        _futurVx = _vx;
+        _futurVy = _vy;
+
+        _vx = futurVx;
+        _vy = futurVy;
     }
 };
 }
