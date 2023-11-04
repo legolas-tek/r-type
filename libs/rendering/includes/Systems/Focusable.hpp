@@ -11,6 +11,7 @@
 #include "Components/Focusable.hpp"
 #include "Components/HitBox.hpp"
 #include "Components/Position.hpp"
+#include "Events/EventQueue.hpp"
 #include "ISystem.hpp"
 #include "SparseArray.hpp"
 
@@ -19,10 +20,12 @@ namespace rendering::system {
 /// @brief A system for handling focusable components.
 struct Focusable : public ISystem {
     /// @brief Constructor for the Focusable system.
+    /// @param events A reference to the event queue.
     /// @param focusables A reference to the focusables component storage.
     /// @param hitboxes A reference to the hitboxes component storage.
     /// @param positions A reference to the positions component storage.
     Focusable(
+        Event::EventQueue &events,
         SparseArray<Component::Focusable> &focusables,
         SparseArray<Component::HitBox> &hitboxes,
         SparseArray<Component::Position> &positions
@@ -35,6 +38,7 @@ struct Focusable : public ISystem {
     void operator()() override;
 
 private:
+    Event::EventQueue &_events;
     SparseArray<Component::Focusable> &_focusables;
     SparseArray<Component::HitBox> &_hitboxes;
     SparseArray<Component::Position> &_positions;

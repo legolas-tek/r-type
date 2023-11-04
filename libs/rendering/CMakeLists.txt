@@ -35,6 +35,7 @@ target_sources (rendering
     ./sources/Systems/Editable.cpp
     ./sources/Systems/Texture.cpp
     ./sources/Systems/Close.cpp
+    ./sources/Systems/Mouse.cpp
 )
 
 install(TARGETS rendering

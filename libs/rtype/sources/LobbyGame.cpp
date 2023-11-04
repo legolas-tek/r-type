@@ -43,7 +43,7 @@ void RTypeLobby::registerAdditionalClientSystems(engine::Registry &reg)
     reg.add_system<System::AnimationSystem>(reg);
     reg.add_system<rendering::system::Rendering>(reg);
     reg.add_system<rendering::system::Focusable>(
-        reg.get_components<Component::Focusable>(),
+        reg.events, reg.get_components<Component::Focusable>(),
         reg.get_components<Component::HitBox>(),
         reg.get_components<Component::Position>()
     );

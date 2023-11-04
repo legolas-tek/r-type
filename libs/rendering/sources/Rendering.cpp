@@ -9,10 +9,9 @@
 #include "Rendering.hpp"
 
 #include "Systems/Close.hpp"
+#include "Systems/Mouse.hpp"
 #include "Systems/Text.hpp"
 #include "Systems/Texture.hpp"
-
-#include "GameLoop.hpp"
 
 rendering::system::Rendering::Rendering(engine::Registry &registry)
     : _registry(registry)
@@ -34,6 +33,7 @@ rendering::system::Rendering::Rendering(engine::Registry &registry)
         _registry.get_components<Component::Text>(),
         _registry.get_components<Component::Position>()
     );
+    addSystem<rendering::system::Mouse>(_registry.events);
     addSystem<rendering::system::Close>(_registry.events);
 }
 

@@ -16,13 +16,13 @@ enum class MouseEventType { RIGHT, LEFT, MIDDLE };
 
 class Mouse : public IEvent {
 public:
-    Mouse(int x, int y, MouseEventType type)
+    Mouse(float x, float y, MouseEventType type)
         : x(x)
         , y(y)
         , type(type) {};
 
-    int x;
-    int y;
+    float x;
+    float y;
     MouseEventType type;
 };
 
