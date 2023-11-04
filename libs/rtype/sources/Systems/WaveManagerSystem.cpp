@@ -126,7 +126,7 @@ void System::WaveManagerSystem::operator()()
     size_t tick = _register.getTick();
     size_t maxWave = WAVE_START_TICK_TABLE.size();
 
-    if (tick == WAVE_START_TICK_TABLE[_waveNum]) {
+    if (_waveNum < maxWave and tick == WAVE_START_TICK_TABLE[_waveNum]) {
         _waveNum++;
         if (_waveNum == 1) {
             add_system<System::SpawnEnemySystem>(

@@ -18,16 +18,14 @@ System::DeathSystem::DeathSystem(
 {
 }
 
-bool isEntityInDeathEvent(engine::Entity entity, Event::EventQueue const &queue)
+bool isEntityInDeathEvent(engine::Entity entity, Event::EventQueue &queue)
 {
-    return std::ranges::any_of(queue, [entity](auto &event) {
-        auto death = dynamic_cast<Event::Death *>(event.get());
-
-        if (not death)
-            return false;
-
-        return death->entity == entity;
-    });
+    for (auto death = queue.beginIterator<Event::Death>();
+         death != queue.endIterator<Event::Death>(); death++) {
+        if (death->entity == entity)
+            return true;
+    }
+    return false;
 }
 
 void System::DeathSystem::operator()()
