@@ -40,6 +40,7 @@ target_sources ( mario
     PRIVATE
     ./sources/MarioGame.cpp
     ./sources/Systems/KeyHandleSystem.cpp
+    ./sources/Systems/JumpSystem.cpp
 )
 
 install(TARGETS  mario

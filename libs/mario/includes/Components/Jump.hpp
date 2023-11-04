@@ -17,6 +17,8 @@ public:
     Jump() = default;
 
     bool isJumping = false;
+    size_t startJumpTick = 0;
+    size_t jumpForTick = 0;
 
 private:
 };

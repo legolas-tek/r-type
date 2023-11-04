@@ -17,6 +17,7 @@
 #include "Components/Velocity.hpp"
 
 #include "Systems/CollisionsSystem.hpp"
+#include "Systems/JumpSystem.hpp"
 #include "Systems/KeyHandleSystem.hpp"
 #include "Systems/MoveSystem.hpp"
 
@@ -68,6 +69,9 @@ void MarioGame::registerAdditionalClientSystems(engine::Registry &reg)
         reg.get_components<Component::Velocity>(), 0
     );
     reg.add_system<System::KeyHandleSystem>(reg, reg.events);
+    reg.add_system<System::JumpSystem>(
+        reg, reg.get_components<Component::Jump>()
+    );
 }
 
 void MarioGame::registerAdditionalSystems(engine::Registry &reg)

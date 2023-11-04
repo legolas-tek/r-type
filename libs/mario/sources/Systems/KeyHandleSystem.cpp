@@ -33,6 +33,8 @@ void System::KeyHandleSystem::operator()()
                  ++it) {
                 if ((*it)->isJumping == false) {
                     (*it)->isJumping = true;
+                    (*it)->startJumpTick = _reg.getTick();
+                    (*it)->jumpForTick = 10;
                     std::cout << "start jump" << std::endl;
                 }
             }
