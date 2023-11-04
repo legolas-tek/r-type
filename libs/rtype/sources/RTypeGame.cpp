@@ -173,28 +173,19 @@ void RTypeGame::initScene(engine::Registry &reg)
 
     // ==================== set positions ====================
     // background
-    reg.get_components<Component::Position>().insert_at(
-        background,
-        Component::Position(
-            float(rendering::system::SCREEN_WIDTH) / 2,
-            float(rendering::system::SCREEN_HEIGHT) / 2, -9999
-        )
+    reg.get_components<Component::Position>().emplace_at(
+        background, float(rendering::system::SCREEN_WIDTH) / 2,
+        float(rendering::system::SCREEN_HEIGHT) / 2, -9999
     );
     // midground
-    reg.get_components<Component::Position>().insert_at(
-        midground,
-        Component::Position(
-            float(rendering::system::SCREEN_WIDTH) / 2,
-            float(rendering::system::SCREEN_HEIGHT) / 2, -9998
-        )
+    reg.get_components<Component::Position>().emplace_at(
+        midground, float(rendering::system::SCREEN_WIDTH) / 2,
+        float(rendering::system::SCREEN_HEIGHT) / 2, -9998
     );
     // foreground
-    reg.get_components<Component::Position>().insert_at(
-        foreground,
-        Component::Position(
-            float(rendering::system::SCREEN_WIDTH) / 2,
-            float(rendering::system::SCREEN_HEIGHT) / 2, -9997
-        )
+    reg.get_components<Component::Position>().emplace_at(
+        foreground, float(rendering::system::SCREEN_WIDTH) / 2,
+        float(rendering::system::SCREEN_HEIGHT) / 2, -9997
     );
     // topBorder
     reg.get_components<Component::Position>().emplace_at(topBorder, 0, 0, -7);
@@ -206,16 +197,16 @@ void RTypeGame::initScene(engine::Registry &reg)
 
     // ==================== set Drawable ====================
     // background
-    reg.get_components<Component::Drawable>().insert_at(
-        background, Component::Drawable(0, 512.0f, 192.0f, 3.8f)
+    reg.get_components<Component::Drawable>().emplace_at(
+        background, 0, 512.0f, 192.0f, 3.8f
     );
     // midground
-    reg.get_components<Component::Drawable>().insert_at(
-        midground, Component::Drawable(1, 512.0f, 192.0f, 3.8f)
+    reg.get_components<Component::Drawable>().emplace_at(
+        midground, 1, 512.0f, 192.0f, 3.8f
     );
     // foreground
-    reg.get_components<Component::Drawable>().insert_at(
-        foreground, Component::Drawable(2, 512.0f, 192.0f, 3.8f)
+    reg.get_components<Component::Drawable>().emplace_at(
+        foreground, 2, 512.0f, 192.0f, 3.8f
     );
     // topBorder
     reg.get_components<Component::Drawable>().emplace_at(
@@ -274,21 +265,17 @@ void RTypeGame::initScene(engine::Registry &reg)
         engine::Entity player(reg.get_new_entity());
         reg.get_components<Component::Position>().emplace_at(
             player,
-            Component::Position(
                 // 10.0f, 10.0f, 0.0f
                 150,
                 int(rendering::system::SCREEN_HEIGHT / 2)
                     + (75.0 * (client.getPlayerNumber() - 2.5)),
                 0
-            )
         );
         reg.get_components<Component::Solid>().emplace_at(player);
         reg.get_components<Component::Velocity>().emplace_at(player);
         reg.get_components<Component::Drawable>().emplace_at(
-            player,
-            Component::Drawable(
-                SHIP_I, SHIP_W, SHIP_H, 0.3, 17 * (client.getPlayerNumber() - 1)
-            )
+            player, SHIP_I, SHIP_W, SHIP_H, 0.3,
+            17 * (client.getPlayerNumber() - 1)
         );
         reg.get_components<Component::Animation>().emplace_at(
             player, SHIP_W * SHIP_F, SHIP_H, SHIP_W, SHIP_H, SHIP_W, 50
