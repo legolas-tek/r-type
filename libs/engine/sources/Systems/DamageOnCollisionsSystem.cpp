@@ -9,8 +9,6 @@
 #include "Events/Damage.hpp"
 #include "Systems/DamageOnCollisionSystem.hpp"
 
-#include <iostream>
-
 System::DamageOnCollisionSystem::DamageOnCollisionSystem(
     SparseArray<Component::Damage> &damages,
     SparseArray<Component::Health> &healths, Event::EventQueue &eventQueue
@@ -25,7 +23,7 @@ void System::DamageOnCollisionSystem::operator()()
 {
     for (auto it = _events.beginIterator<Event::Collision>();
          it != _events.endIterator<Event::Collision>(); it++) {
-        auto collision = dynamic_cast<Event::Collision *>(it->get());
+        auto collision = it;
 
         if (not _healths[collision->entity]
             or not _damages[collision->secondEntity])
