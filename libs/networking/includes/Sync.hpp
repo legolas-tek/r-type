@@ -128,6 +128,13 @@ private:
     net::Snapshot &find_last_ack(std::size_t client_index);
 
     /**
+     * @brief Fill a Snapshot using the last received update
+     *
+     * @param snap the snapshot to fill
+     */
+    void fillInterpolationSnapshot(Snapshot &snap);
+
+    /**
      * @brief Get a Client object, from its hash
      *
      * @param hash the hash of the client
@@ -154,7 +161,7 @@ private:
 
     net::Snapshot _dummy; ///< The dummy packet to use in special case
 
-    net::Buffer _lastUpdate;
+    net::Buffer _lastUpdate; ///< The last received update
 
     std::size_t _playerHash; ///< Our player hash, or 0 if server
 

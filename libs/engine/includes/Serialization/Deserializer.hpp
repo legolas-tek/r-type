@@ -53,6 +53,11 @@ public:
         return _offset;
     }
 
+    std::vector<std::byte> const &getData() const
+    {
+        return _data;
+    }
+
     void skip(std::size_t size)
     {
         if (_offset + size > _data.size())

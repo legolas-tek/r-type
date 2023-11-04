@@ -49,6 +49,7 @@ target_sources (networking
     ./sources/LobbyRemoteClient.cpp
     ./sources/Lobby.cpp
     ./sources/DiffLogger.cpp
+    ./sources/Interpolate.cpp
 )
 
 install(TARGETS networking

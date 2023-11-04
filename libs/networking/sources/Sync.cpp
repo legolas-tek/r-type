@@ -5,6 +5,8 @@
 ** Network Sync abstract class
 */
 
+#include "Components/Velocity.hpp"
+
 #include "Serialization/Deserializer.hpp"
 #include "Serialization/Serializer.hpp"
 #include "Snapshot.hpp"
@@ -89,6 +91,52 @@ void net::Sync::sendAckPacket(
     std::cout << "SyncSystem: sent ack packet for tick " << tickNumber
               << std::endl;
 #endif
+}
+
+void net::Sync::fillInterpolationSnapshot(net::Snapshot &snap)
+{
+    engine::Deserializer deserializer(_lastUpdate);
+    std::size_t velocityComponentId
+        = _registry.get_component_id<Component::Velocity>();
+
+    deserializer.skip(
+        sizeof(std::size_t) + sizeof(uint8_t) + (sizeof(uint32_t) * 2)
+    );
+
+    while (not deserializer.isFinished()) {
+        uint32_t entity_nbr = 0;
+        deserializer.deserializeTrivial(entity_nbr);
+
+        if (entity_nbr >= 500)
+            // invalid entity number
+            return;
+
+        engine::Entity entity(entity_nbr);
+
+        uint8_t component_id = 0;
+        deserializer.deserializeTrivial(component_id);
+
+        bool updateType = false;
+        deserializer.deserializeTrivial(updateType);
+
+        if (updateType) {
+            if (component_id != velocityComponentId) {
+                _registry.apply_data(
+                    engine::Entity(0), component_id, deserializer
+                );
+                continue;
+            }
+
+            // apply the update
+            net::Buffer data(
+                deserializer.getData().begin() + deserializer.getOffset(),
+                deserializer.getData().begin() + deserializer.getOffset()
+                    + sizeof(_registry.get_components<Component::Velocity>())
+            );
+
+            snap.data.push_back(ComponentData { entity, component_id, data });
+        }
+    }
 }
 
 void net::Sync::processUpdatePacket(
