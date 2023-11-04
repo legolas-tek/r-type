@@ -65,7 +65,8 @@ void System::AttackSystem::createLaserEntity(engine::Entity const attacker_index
         velocity._vx = -30;
     }
     _positions.emplace_at(attack_entity, attack_entity_pos);
-    _register.get_components<Component::Velocity>().insert_at(attack_entity, velocity
+    _register.get_components<Component::Velocity>().insert_at(
+        attack_entity, velocity
     );
     _register.get_components<Component::HitBox>().emplace_at(
         attack_entity, LASER_WIDTH, LASER_HEIGHT
@@ -83,9 +84,7 @@ void System::AttackSystem::createLaserEntity(engine::Entity const attacker_index
     _register.get_components<Component::LifeTime>().emplace_at(
         attack_entity, 200, _register.getTick()
     );
-    _register.get_components<Component::Damage>().emplace_at(
-        attack_entity, 1
-    );
+    _register.get_components<Component::Damage>().emplace_at(attack_entity, 1);
 }
 
 bool System::AttackSystem::isAbleToAttack(Component::FireRate &fire_rate)

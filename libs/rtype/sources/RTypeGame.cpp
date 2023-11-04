@@ -14,9 +14,11 @@
 #include "Systems/AnimationSystem.hpp"
 #include "Systems/AttackSystem.hpp"
 #include "Systems/CollisionsSystem.hpp"
-#include "Systems/DamageSystem.hpp"
+#include "Systems/DamageHandler.hpp"
+#include "Systems/DamageOnCollisionSystem.hpp"
 #include "Systems/DeathAnimationManager.hpp"
 #include "Systems/DeathSystem.hpp"
+#include "Systems/FloatingSystem.hpp"
 #include "Systems/FollowSystem.hpp"
 #include "Systems/LifeTimeSystem.hpp"
 #include "Systems/MoveSystem.hpp"
@@ -25,10 +27,8 @@
 #include "Systems/SoundManagerSystem.hpp"
 #include "Systems/SpawnEnemySystem.hpp"
 #include "Systems/WaveManagerSystem.hpp"
-#include "Systems/FloatingSystem.hpp"
 
 #include "Key.hpp"
-#include "NetworkClientSystem.hpp"
 #include "Rendering.hpp"
 
 void RTypeGame::registerAllComponents(engine::Registry &reg)
@@ -53,11 +53,6 @@ void RTypeGame::registerAllComponents(engine::Registry &reg)
 
 void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
 {
-    reg.add_system<System::CollisionsSystem>(
-        reg.get_components<Component::Position>(),
-        reg.get_components<Component::HitBox>(),
-        reg.get_components<Component::Collision>()
-    );
     reg.add_system<System::AttackSystem>(
         reg.get_components<Component::FireRate>(),
         reg.get_components<Component::Health>(),
@@ -66,10 +61,12 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
     reg.add_system<System::LifeTimeSystem>(
         reg.get_components<Component::LifeTime>(), reg
     );
-    reg.add_system<System::DamageSystem>(
+    reg.add_system<System::DamageOnCollisionSystem>(
         reg.get_components<Component::Damage>(),
-        reg.get_components<Component::Health>(),
-        reg.get_components<Component::Collision>(), reg
+        reg.get_components<Component::Health>(), reg.events
+    );
+    reg.add_system<System::DamageHandler>(
+        reg.get_components<Component::Health>(), reg.events
     );
     reg.add_system<System::DeathAnimationManager>(
         reg.get_components<Component::Position>(),
@@ -119,8 +116,13 @@ void RTypeGame::registerAdditionalSystems(engine::Registry &reg)
 #ifdef DEBUG_LOG_DIFF
     reg.add_system<net::system::DiffLogger>(reg);
 #endif
+    reg.add_system<System::CollisionsSystem>(
+        reg.events, reg.get_components<Component::Position>(),
+        reg.get_components<Component::HitBox>(),
+        reg.get_components<Component::Collision>()
+    );
     reg.add_system<System::MoveSystem>(
-        reg.get_components<Component::Position>(),
+        reg.events, reg.get_components<Component::Position>(),
         reg.get_components<Component::Velocity>(),
         reg.get_components<Component::Solid>(),
         reg.get_components<Component::Collision>()
@@ -276,11 +278,11 @@ void RTypeGame::initScene(engine::Registry &reg)
         engine::Entity player(reg.get_new_entity());
         reg.get_components<Component::Position>().emplace_at(
             player,
-                // 10.0f, 10.0f, 0.0f
-                150,
-                int(rendering::system::SCREEN_HEIGHT / 2)
-                    + (75.0 * (client.getPlayerNumber() - 2.5)),
-                0
+            // 10.0f, 10.0f, 0.0f
+            150,
+            int(rendering::system::SCREEN_HEIGHT / 2)
+                + (75.0 * (client.getPlayerNumber() - 2.5)),
+            0
         );
         reg.get_components<Component::Solid>().emplace_at(player);
         reg.get_components<Component::Velocity>().emplace_at(player);

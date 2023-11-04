@@ -6,13 +6,15 @@
 */
 
 #include "Systems/CollisionsSystem.hpp"
+#include "Events/Collision.hpp"
 
 System::CollisionsSystem::CollisionsSystem(
-    SparseArray<Component::Position> &positions,
+    event::EventQueue &events, SparseArray<Component::Position> &positions,
     SparseArray<Component::HitBox> &hitboxes,
     SparseArray<Component::Collision> &collisions
 )
-    : _positions(positions)
+    : _events(events)
+    , _positions(positions)
     , _hitboxes(hitboxes)
     , _collisions(collisions)
 {
@@ -54,27 +56,22 @@ void System::CollisionsSystem::checkCollisions(size_t index)
 
         auto &pos = _positions[i];
 
-        if (!pos.has_value())
+        if (not pos.has_value())
             continue;
 
         if (isColliding(
                 _positions[index].value(), _hitboxes[index].value(),
                 pos.value(), _collisions[i].value()
             )) {
-            it->value()._collidingEntity = engine::Entity(index);
+            _events.addEvent<event::Collision>(
+                engine::Entity(index), engine::Entity(i)
+            );
         }
     }
 }
 
-static void resetCollisions(SparseArray<Component::Collision> &collisions)
-{
-    for (auto &collision : collisions)
-        collision->_collidingEntity = std::nullopt;
-}
-
 void System::CollisionsSystem::operator()()
 {
-    resetCollisions(_collisions);
     for (auto it = _hitboxes.begin(); it != _hitboxes.end(); it++) {
         size_t index = it.get_entity();
         auto &pos = _positions[index];
@@ -82,5 +79,6 @@ void System::CollisionsSystem::operator()()
         if (pos.has_value()) {
             checkCollisions(index);
         }
+        _events.update();
     }
 }

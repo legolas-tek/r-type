@@ -2,7 +2,7 @@
 ** EPITECH PROJECT, 2023
 ** r-type
 ** File description:
-** DamageSystem
+** DamageOnCollisionSystem
 */
 
 #ifndef DAMAGESYSTEM_HPP_
@@ -20,42 +20,28 @@ namespace System {
 
 /// @brief This system allows entity with the component damage to deal damage
 /// on collision to entitys with the component life
-class DamageSystem : public ISystem {
+class DamageOnCollisionSystem : public ISystem {
 
 public:
-    /// @brief constructs an instance of a DamageSystem class
+    /// @brief constructs an instance of a DamageOnCollisionSystem class
     /// @param damages A ref to a Damage components SparseArray
     /// @param lifes A ref to a LifeTime components SparseArray
     /// @param collisions A ref to a Collision components SparseArray
-    DamageSystem(
+    DamageOnCollisionSystem(
         SparseArray<Component::Damage> &damages,
-        SparseArray<Component::Health> &healths,
-        SparseArray<Component::Collision> &collisions,
-        engine::Registry &registry
+        SparseArray<Component::Health> &healths, event::EventQueue &event
     );
 
     /// @brief applies the logic of the system
     void operator()() override;
 
 private:
-    /// @brief this functions determines wether the collision
-    /// deals damage or not
-    /// @return returns true if the collision deals damage
-    bool isDamageCollision(engine::Entity collidedEntity);
-
-    /// @brief This function damage the collided entity life component
-    /// with the colliding entity damages component
-    /// @param collidedEntity the entity wich receives the damages
-    void damageEntity(engine::Entity collidedEntity);
-
     /// @brief A ref to a Damage components SparseArray
     SparseArray<Component::Damage> &_damages;
     /// @brief A ref to a LifeTime components SparseArray
     SparseArray<Component::Health> &_healths;
-    /// @brief A ref to a Collision components SparseArray
-    SparseArray<Component::Collision> &_collisions;
-    /// @brief A ref to the registry
-    engine::Registry &_registry;
+    /// @brief A ref to the EventQueue
+    event::EventQueue &_events;
 };
 
 }

@@ -11,6 +11,9 @@
 #include "Components/Drawable.hpp"
 #include "Components/LifeTime.hpp"
 
+#include "Events/Collision.hpp"
+#include "Events/Death.hpp"
+
 System::DeathAnimationManager::DeathAnimationManager(
     SparseArray<Component::Position> &positions,
     SparseArray<Component::Health> &healths,
@@ -29,20 +32,16 @@ System::DeathAnimationManager::DeathAnimationManager(
 
 void System::DeathAnimationManager::operator()()
 {
-    for (auto it = _healths.begin(); it != _healths.end(); it++) {
-        auto &health = **it;
-        auto &pos = _positions[it.get_entity()];
+    for (auto &death : _registry.events.getEvents<event::Death>()) {
+        auto &pos = _positions[death.entity];
 
-        if (not pos.has_value())
+        if (not pos)
             continue;
 
-        if (health.health == 0) {
-            createBigExplosion(pos.value());
-        }
+        createBigExplosion(pos.value());
     }
 
-    for (auto it = _collisions.begin(); it != _collisions.end(); it++) {
-        auto &collision = **it;
+    /*for (auto it = _collisions.begin(); it != _collisions.end(); it++) {
         auto id = it.get_entity();
         auto &pos = _positions[id];
         auto &damage = _damages[id];
@@ -60,7 +59,7 @@ void System::DeathAnimationManager::operator()()
         }
         createExplosion(pos.value());
         _registry.erase_entity(id);
-    }
+    }*/
 }
 
 void System::DeathAnimationManager::createExplosion(

@@ -10,11 +10,11 @@
 
 #include "Components/Collision.hpp"
 #include "Components/Damage.hpp"
+#include "Components/FireRate.hpp"
 #include "Components/Health.hpp"
 #include "Components/HitBox.hpp"
 #include "Components/LifeTime.hpp"
 #include "Components/Velocity.hpp"
-#include "Components/FireRate.hpp"
 
 System::SpawnEnemySystem::SpawnEnemySystem(
     engine::Registry &reg, EntityInfo entityInfo, size_t startTick,

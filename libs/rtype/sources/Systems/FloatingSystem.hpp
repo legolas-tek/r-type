@@ -11,9 +11,9 @@
 #include "ISystem.hpp"
 #include "SparseArray.hpp"
 
+#include "Components/Floating.hpp"
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
-#include "Components/Floating.hpp"
 
 namespace System {
 

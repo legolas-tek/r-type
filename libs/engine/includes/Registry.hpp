@@ -10,6 +10,8 @@
 
 #include "ComponentData.hpp"
 #include "Entity.hpp"
+#include "Events/EventQueue.hpp"
+#include "Events/IEvent.hpp"
 #include "ISystem.hpp"
 #include "Serialization/Deserializer.hpp"
 #include "Serialization/Serializer.hpp"
@@ -189,6 +191,8 @@ public:
     }
 
     std::vector<TextureWrapper> _assets_paths;
+
+    event::EventQueue events;
 
 private:
     /// @brief This queue is here to reuse entities that we have deleted before

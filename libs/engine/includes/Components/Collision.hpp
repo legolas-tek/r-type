@@ -56,33 +56,16 @@ struct Collision {
      */
     float _height = 0;
 
-    /**
-     * @brief The entity colliding with this collision.
-     */
-    std::optional<engine::Entity> _collidingEntity = std::nullopt;
-
     void serialize(engine::Serializer &serializer) const
     {
         serializer.serializeTrivial(_width);
         serializer.serializeTrivial(_height);
-        serializer.serializeTrivial(_collidingEntity.has_value());
-        if (_collidingEntity.has_value())
-            serializer.serializeTrivial(_collidingEntity.value());
     }
 
     void deserialize(engine::Deserializer &deserializer)
     {
         deserializer.deserializeTrivial(_width);
         deserializer.deserializeTrivial(_height);
-        bool hasCollidingEntity;
-        deserializer.deserializeTrivial(hasCollidingEntity);
-        if (hasCollidingEntity) {
-            engine::Entity collidingEntity { 0 };
-            deserializer.deserializeTrivial(collidingEntity);
-            _collidingEntity = collidingEntity;
-        } else {
-            _collidingEntity = std::nullopt;
-        }
     }
 };
 }

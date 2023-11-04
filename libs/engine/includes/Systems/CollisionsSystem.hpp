@@ -11,6 +11,8 @@
 #include "ISystem.hpp"
 #include "Registry.hpp"
 
+#include "Events/EventQueue.hpp"
+
 #include "Components/Collision.hpp"
 #include "Components/HitBox.hpp"
 #include "Components/Position.hpp"
@@ -20,7 +22,7 @@ namespace System {
 class CollisionsSystem : public ISystem {
 public:
     CollisionsSystem(
-        SparseArray<Component::Position> &positions,
+        event::EventQueue &events, SparseArray<Component::Position> &positions,
         SparseArray<Component::HitBox> &hitboxes,
         SparseArray<Component::Collision> &collisions
     );
@@ -29,6 +31,8 @@ public:
 
 private:
     void checkCollisions(size_t index);
+
+    event::EventQueue &_events;
     SparseArray<Component::Position> &_positions;
     SparseArray<Component::HitBox> &_hitboxes;
     SparseArray<Component::Collision> &_collisions;

@@ -9,16 +9,16 @@
 #include "SoundManagerSystem.hpp"
 #include "SpawnEnemySystem.hpp"
 
-#include "Rendering.hpp"
 #include "Game.hpp"
+#include "Rendering.hpp"
 
-#include "Components/Floating.hpp"
-#include "Components/Velocity.hpp"
-#include "Components/Follow.hpp"
-#include "Components/FireRate.hpp"
 #include "Components/Collision.hpp"
-#include "Components/HitBox.hpp"
+#include "Components/FireRate.hpp"
+#include "Components/Floating.hpp"
+#include "Components/Follow.hpp"
 #include "Components/Health.hpp"
+#include "Components/HitBox.hpp"
+#include "Components/Velocity.hpp"
 
 System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
     : _register(reg)
@@ -33,11 +33,10 @@ System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
                             .offset = RTypeGame::SHOOT_ENNEMY_W,
                             .frameDuration = 50,
                             .scale = 1.5,
-                            .velocity = {-3, 0},
+                            .velocity = { -3, 0 },
                             .damage = 1,
                             .lifeTime = 500,
-                            .fireRate = 100
-                             };
+                            .fireRate = 100 };
     EntityInfo scourge = { .textureIndex = RTypeGame::BASIC_ENNEMY_I,
                            .textureWidth = RTypeGame::BASIC_ENNEMY_W
                                * RTypeGame::BASIC_ENNEMY_F,
@@ -48,11 +47,10 @@ System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
                            .offset = RTypeGame::BASIC_ENNEMY_W,
                            .frameDuration = 50,
                            .scale = 1.5,
-                           .velocity = {-10, 0},
+                           .velocity = { -10, 0 },
                            .damage = 1,
                            .lifeTime = 300,
-                           .fireRate = std::nullopt
-                           };
+                           .fireRate = std::nullopt };
 
     _entityList.push_back(scourge);
     _entityList.push_back(mutalisk);
@@ -79,12 +77,11 @@ void System::WaveManagerSystem::createBoss()
     );
     _register.get_components<Component::Floating>().emplace_at(
         boss,
-        rendering::system::SCREEN_HEIGHT - RTypeGame::BORDERS_H / 2 -
-        RTypeGame::FIRST_BOSS_H / 2,
+        rendering::system::SCREEN_HEIGHT - RTypeGame::BORDERS_H / 2
+            - RTypeGame::FIRST_BOSS_H / 2,
         rendering::system::SCREEN_WIDTH - RTypeGame::FIRST_BOSS_W / 2,
         0 + RTypeGame::BORDERS_H / 2 + RTypeGame::FIRST_BOSS_H / 2,
-        0 + RTypeGame::FIRST_BOSS_W + RTypeGame::SHIP_W * 3,
-        3
+        0 + RTypeGame::FIRST_BOSS_W + RTypeGame::SHIP_W * 3, 3
     );
     _register.get_components<Component::Velocity>().emplace_at(boss, 0, 0);
     _register.get_components<Component::Position>().emplace_at(
@@ -97,9 +94,7 @@ void System::WaveManagerSystem::createBoss()
     _register.get_components<Component::Follow>().emplace_at(
         firstTurret, boss, 7, 2
     );
-    _register.get_components<Component::FireRate>().emplace_at(
-        firstTurret, 75
-    );
+    _register.get_components<Component::FireRate>().emplace_at(firstTurret, 75);
     _register.get_components<Component::Position>().emplace_at(
         secondTurret, 0, 1
     );
@@ -113,9 +108,7 @@ void System::WaveManagerSystem::createBoss()
     _register.get_components<Component::FireRate>().emplace_at(
         secondTurret, 75
     );
-    _register.get_components<Component::Position>().emplace_at(
-        bossHead, 0, 0
-    );
+    _register.get_components<Component::Position>().emplace_at(bossHead, 0, 0);
     _register.get_components<Component::Follow>().emplace_at(
         bossHead, boss, 0, -80
     );
@@ -133,13 +126,14 @@ void System::WaveManagerSystem::operator()()
     size_t tick = _register.getTick();
     size_t maxWave = WAVE_START_TICK_TABLE.size();
 
-    if (tick == WAVE_START_TICK_TABLE[_waveNum]) {
+    if (_waveNum < maxWave and tick == WAVE_START_TICK_TABLE[_waveNum]) {
         _waveNum++;
         if (_waveNum == 1) {
             add_system<System::SpawnEnemySystem>(
                 _register, _entityList[0], tick, secondsToTick(1),
                 rendering::system::SCREEN_WIDTH + _entityList[0].entityWidth,
-                rendering::system::SCREEN_WIDTH + _entityList[0].entityWidth, 40,
+                rendering::system::SCREEN_WIDTH + _entityList[0].entityWidth,
+                40,
                 rendering::system::SCREEN_HEIGHT - _entityList[0].entityHeight
             );
         }
@@ -148,7 +142,8 @@ void System::WaveManagerSystem::operator()()
             add_system<System::SpawnEnemySystem>(
                 _register, _entityList[1], tick, secondsToTick(1),
                 rendering::system::SCREEN_WIDTH + _entityList[1].entityWidth,
-                rendering::system::SCREEN_WIDTH + _entityList[1].entityWidth, 40,
+                rendering::system::SCREEN_WIDTH + _entityList[1].entityWidth,
+                40,
                 rendering::system::SCREEN_HEIGHT - _entityList[1].entityHeight
             );
         }
