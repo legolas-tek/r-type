@@ -48,6 +48,7 @@ target_sources (rtype
     ./sources/Systems/JoinButton.cpp
     ./sources/Systems/StartGameButton.cpp
     ./sources/Systems/LobbyClientImpl.cpp
+    ./sources/Systems/FloatingSystem.cpp
     ./sources/Systems/SoundSystem/ShootSoundSystem.cpp
     ./sources/Systems/SoundSystem/ExplosionSoundSystem.cpp
 )

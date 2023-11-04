@@ -25,6 +25,7 @@
 #include "Systems/SoundManagerSystem.hpp"
 #include "Systems/SpawnEnemySystem.hpp"
 #include "Systems/WaveManagerSystem.hpp"
+#include "Systems/FloatingSystem.hpp"
 
 #include "Key.hpp"
 #include "NetworkClientSystem.hpp"
@@ -47,6 +48,7 @@ void RTypeGame::registerAllComponents(engine::Registry &reg)
     reg.register_component<Component::Follow>();
     reg.register_component<Component::Text>();
     reg.register_component<Component::Solid>();
+    reg.register_component<Component::Floating>();
 }
 
 void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
@@ -90,6 +92,11 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
         reg.get_components<Component::Life>(), reg
     );
     reg.add_system<System::WaveManagerSystem>(reg);
+    reg.add_system<System::FloatingSystem>(
+        reg.get_components<Component::Position>(),
+        reg.get_components<Component::Velocity>(),
+        reg.get_components<Component::Floating>()
+    );
     reg.add_system<rtype::NetworkServerSystem>(reg, 4242, _serverClients);
 }
 
@@ -112,15 +119,15 @@ void RTypeGame::registerAdditionalSystems(engine::Registry &reg)
 #ifdef DEBUG_LOG_DIFF
     reg.add_system<net::system::DiffLogger>(reg);
 #endif
-    reg.add_system<System::FollowSystem>(
-        reg.get_components<Component::Follow>(),
-        reg.get_components<Component::Position>()
-    );
     reg.add_system<System::MoveSystem>(
         reg.get_components<Component::Position>(),
         reg.get_components<Component::Velocity>(),
         reg.get_components<Component::Solid>(),
         reg.get_components<Component::Collision>()
+    );
+    reg.add_system<System::FollowSystem>(
+        reg.get_components<Component::Follow>(),
+        reg.get_components<Component::Position>()
     );
 }
 
@@ -161,6 +168,10 @@ void RTypeGame::initAssets(engine::Registry &reg)
     reg._assets_paths.emplace_back(
         "./assets/images/BODYMAINCOLORCG.png", "./assets/SU-27.obj"
     );
+    // 12
+    reg._assets_paths.emplace_back("./assets/images/small_turret.png");
+    // 13
+    reg._assets_paths.emplace_back("./assets/images/first_boss.png");
 }
 
 void RTypeGame::initScene(engine::Registry &reg)
@@ -218,11 +229,11 @@ void RTypeGame::initScene(engine::Registry &reg)
     );
 
     // ==================== set Animation ====================
-    reg.get_components<Component::Animation>().emplace_at(
-        background, 1024, 192, 512, 192, 1, 1
+    reg.get_components<Component::Animation>().insert_at(
+        background, Component::Animation(1024, 192, 512, 192, 1, 2)
     );
-    reg.get_components<Component::Animation>().emplace_at(
-        midground, 1024, 192, 512, 192, 3, 1
+    reg.get_components<Component::Animation>().insert_at(
+        midground, Component::Animation(1024, 192, 512, 192, 3, 2)
     );
     reg.get_components<Component::Animation>().emplace_at(
         foreground, 1408, 192, 704, 192, 5, 1
@@ -291,7 +302,7 @@ void RTypeGame::initScene(engine::Registry &reg)
             player, client.getPlayerNumber()
         );
         reg.get_components<Component::Health>().emplace_at(player, 2, 2);
-        reg.get_components<Component::Life>().emplace_at(player, 1);
+        reg.get_components<Component::Life>().emplace_at(player, 3);
 
         engine::Entity name(reg.get_new_entity());
         reg.get_components<Component::Position>().emplace_at(name);
