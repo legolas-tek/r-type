@@ -10,12 +10,14 @@
 #include "Components/Animation.hpp"
 #include "Components/Controllable.hpp"
 #include "Components/Drawable.hpp"
+#include "Components/Jump.hpp"
 #include "Components/Position.hpp"
 #include "Components/Solid.hpp"
 #include "Components/Text.hpp"
 #include "Components/Velocity.hpp"
 
 #include "Systems/CollisionsSystem.hpp"
+#include "Systems/KeyHandleSystem.hpp"
 #include "Systems/MoveSystem.hpp"
 
 #include "Key.hpp"
@@ -40,6 +42,7 @@ void MarioGame::registerAllComponents(engine::Registry &reg)
     // physics
     reg.register_component<Component::Velocity>();
     reg.register_component<Component::Controllable>();
+    reg.register_component<Component::Jump>();
 }
 
 void MarioGame::registerAdditionalServerSystems(engine::Registry &reg)
@@ -61,9 +64,10 @@ void MarioGame::registerAdditionalClientSystems(engine::Registry &reg)
         reg.get_components<Component::Collision>()
     );
     reg.add_system<rendering::system::Key>(
-        reg.get_components<Component::Controllable>(),
+        reg.events, reg.get_components<Component::Controllable>(),
         reg.get_components<Component::Velocity>(), 0
     );
+    reg.add_system<System::KeyHandleSystem>(reg.events);
 }
 
 void MarioGame::registerAdditionalSystems(engine::Registry &reg)
@@ -168,6 +172,9 @@ void MarioGame::initScene(engine::Registry &reg)
     );
     // ==================== set Controllable ====================
     reg.get_components<Component::Controllable>().insert_at(mario_player, 0);
+    reg.get_components<Component::Jump>().insert_at(
+        mario_player, Component::Jump()
+    );
 }
 
 engine::IGame *createGame()

@@ -33,11 +33,13 @@ target_link_libraries ( mario
 target_include_directories ( mario
     PRIVATE
     ./sources/
+    ./includes/
 )
 
 target_sources ( mario
     PRIVATE
     ./sources/MarioGame.cpp
+    ./sources/Systems/KeyHandleSystem.cpp
 )
 
 install(TARGETS  mario

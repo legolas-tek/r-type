@@ -112,7 +112,7 @@ void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
     reg.add_system<System::AnimationSystem>(reg);
     reg.add_system<rendering::system::Rendering>(reg);
     reg.add_system<rendering::system::Key>(
-        reg.get_components<Component::Controllable>(),
+        reg.events, reg.get_components<Component::Controllable>(),
         reg.get_components<Component::Velocity>(), _playerNumber
     );
     reg.add_system<rtype::NetworkClientSystem>(
