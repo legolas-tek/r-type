@@ -16,8 +16,9 @@ struct Jump : engine::Serializable<Jump> {
 public:
     Jump() = default;
 
-private:
     bool isJumping = false;
+
+private:
 };
 }
 #endif /* !JUMP_HPP_ */

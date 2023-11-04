@@ -12,14 +12,17 @@
 
 #include "Events/EventQueue.hpp"
 
+#include "Registry.hpp"
+
 namespace System {
 class KeyHandleSystem : public ISystem {
 public:
-    KeyHandleSystem(Event::EventQueue &events);
+    KeyHandleSystem(engine::Registry &reg, Event::EventQueue &events);
 
     void operator()() override;
 
 private:
+    engine::Registry &_reg;
     Event::EventQueue &_events;
 };
 }

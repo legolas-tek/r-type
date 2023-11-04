@@ -67,7 +67,7 @@ void MarioGame::registerAdditionalClientSystems(engine::Registry &reg)
         reg.events, reg.get_components<Component::Controllable>(),
         reg.get_components<Component::Velocity>(), 0
     );
-    reg.add_system<System::KeyHandleSystem>(reg.events);
+    reg.add_system<System::KeyHandleSystem>(reg, reg.events);
 }
 
 void MarioGame::registerAdditionalSystems(engine::Registry &reg)
