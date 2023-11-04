@@ -93,7 +93,7 @@ void net::Sync::sendAckPacket(
 #endif
 }
 
-void net::Sync::fillInterpolationSnapshot(net::Snapshot &snap)
+void net::Sync::applyInterpolationNeededUpdates()
 {
     engine::Deserializer deserializer(_lastUpdate);
     std::size_t velocityComponentId
@@ -124,17 +124,10 @@ void net::Sync::fillInterpolationSnapshot(net::Snapshot &snap)
                 _registry.apply_data(
                     engine::Entity(0), component_id, deserializer
                 );
+                _registry.erase_component(engine::Entity(0), component_id);
                 continue;
             }
-
-            // apply the update
-            net::Buffer data(
-                deserializer.getData().begin() + deserializer.getOffset(),
-                deserializer.getData().begin() + deserializer.getOffset()
-                    + sizeof(_registry.get_components<Component::Velocity>())
-            );
-
-            snap.data.push_back(ComponentData { entity, component_id, data });
+            _registry.apply_data(entity, component_id, deserializer);
         }
     }
 }
@@ -183,6 +176,9 @@ void net::Sync::processUpdatePacket(
             _registry.erase_component(entity, component_id);
         }
     }
+
+    if (not _isServer)
+        applyInterpolationNeededUpdates();
 
 #ifdef DEBUG_NETWORK
     std::cout << "SyncSystem: received " << deserializer.getOffset()

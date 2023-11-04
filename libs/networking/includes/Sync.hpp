@@ -128,11 +128,10 @@ private:
     net::Snapshot &find_last_ack(std::size_t client_index);
 
     /**
-     * @brief Fill a Snapshot using the last received update
-     *
-     * @param snap the snapshot to fill
+     * @brief Apply any interpolation needed updates using the last received
+     * update
      */
-    void fillInterpolationSnapshot(Snapshot &snap);
+    void applyInterpolationNeededUpdates();
 
     /**
      * @brief Get a Client object, from its hash

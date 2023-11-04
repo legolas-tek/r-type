@@ -71,7 +71,13 @@ struct Velocity {
 
     void deserialize(engine::Deserializer &deser)
     {
+        float pastVx = _vx;
+        float pastVy = _vy;
+
         deser.deserializeTrivial<Velocity>(*this);
+
+        _pastVx = pastVx;
+        _pastVy = pastVy;
     }
 };
 }
