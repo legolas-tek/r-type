@@ -44,12 +44,9 @@ engine::Entity System::MoveSystem::getCollidingSolidEntity(engine::Entity entity
     if (not _solids[entity] or not _collisions[entity])
         return engine::Entity(0);
 
-    for (auto it = _events.beginIterator<event::Collision>();
-         it != _events.endIterator<event::Collision>(); it++) {
-        auto collision = it;
-
-        if (collision->entity == entity)
-            return collision->secondEntity;
+    for (auto &collision : _events.getEvents<event::Collision>()) {
+        if (collision.entity == entity)
+            return collision.secondEntity;
     }
 
     return engine::Entity(0);

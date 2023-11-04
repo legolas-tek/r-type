@@ -20,9 +20,8 @@ System::DeathSystem::DeathSystem(
 
 bool isEntityInDeathEvent(engine::Entity entity, event::EventQueue &queue)
 {
-    for (auto death = queue.beginIterator<event::Death>();
-         death != queue.endIterator<event::Death>(); death++) {
-        if (death->entity == entity)
+    for (auto &death : queue.getEvents<event::Death>()) {
+        if (death.entity == entity)
             return true;
     }
     return false;
@@ -32,10 +31,8 @@ void System::DeathSystem::operator()()
 {
     // Tant qu'il n'y a pas de réseau sur les events, on ne peut pas erase sur
     // la meme frame
-    /*for (auto it = _events.beginIterator<Event::Death>();
-         it != _events.endIterator<Event::Death>(); it++) {
-        auto death = dynamic_cast<Event::Death *>(it->get());
-        _registry.erase_entity(death->entity);
+    /*for (auto &death : _events.getEvents<event::Death>()) {
+        _registry.erase_entity(death.entity);
     }*/
     for (auto it = _healths.begin(); it != _healths.end(); it++) {
         int lifes = 0;

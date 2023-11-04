@@ -21,19 +21,18 @@ System::DamageOnCollisionSystem::DamageOnCollisionSystem(
 
 void System::DamageOnCollisionSystem::operator()()
 {
-    for (auto it = _events.beginIterator<event::Collision>();
-         it != _events.endIterator<event::Collision>(); it++) {
+    for (auto &it : _events.getEvents<event::Collision>()) {
         auto collision = it;
 
-        if (not _healths[collision->entity]
-            or not _damages[collision->secondEntity])
+        if (not _healths[collision.entity]
+            or not _damages[collision.secondEntity])
             continue;
 
-        if (_healths[collision->entity]->health <= 0)
+        if (_healths[collision.entity]->health <= 0)
             continue;
 
         _events.addEvent<event::Damage>(
-            collision->entity, _damages[collision->secondEntity]->damages
+            collision.entity, _damages[collision.secondEntity]->damages
         );
     }
     _events.update();

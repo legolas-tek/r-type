@@ -18,13 +18,11 @@ System::DamageHandler::DamageHandler(
 
 void System::DamageHandler::operator()()
 {
-    for (auto it = _events.beginIterator<event::Damage>();
-         it != _events.endIterator<event::Damage>(); it++) {
-        auto damage = it;
+    for (auto &damage : _events.getEvents<event::Damage>()) {
 
-        if (not _healths[damage->entity])
+        if (not _healths[damage.entity])
             continue;
 
-        _healths[damage->entity]->health -= damage->damages;
+        _healths[damage.entity]->health -= damage.damages;
     }
 }
