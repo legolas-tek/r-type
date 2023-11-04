@@ -96,6 +96,7 @@ bool System::MoveSystem::canMoveX(
     bool isInY2 = entityPosTop < collidingEntityPosBottom
         && collidingEntityPosBottom < entityPosBottom;
 
+    // TODO: 오른쪽 맨 끝이면 / 왼쪽 맨 끝이면
     // if Y don't overlap, can go X
     if (isInY1 || isInY2) {
         return true;

@@ -18,6 +18,7 @@
 #include "Components/Text.hpp"
 #include "Components/Velocity.hpp"
 
+#include "Systems/AnimationSystem.hpp"
 #include "Systems/CollisionsSystem.hpp"
 #include "Systems/GravitySystem.hpp"
 #include "Systems/JumpSystem.hpp"
@@ -50,6 +51,7 @@ void MarioGame::registerAllComponents(engine::Registry &reg)
     reg.register_component<Component::Jump>();
     reg.register_component<Component::Gravity>();
     reg.register_component<Component::Rail>();
+    reg.register_component<Component::Animation>();
 }
 
 void MarioGame::registerAdditionalServerSystems(engine::Registry &reg)
@@ -90,6 +92,7 @@ void MarioGame::registerAdditionalClientSystems(engine::Registry &reg)
         reg.get_components<Component::Solid>(),
         reg.get_components<Component::Collision>()
     );
+    reg.add_system<System::AnimationSystem>(reg);
 }
 
 void MarioGame::registerAdditionalSystems(engine::Registry &reg)
@@ -209,7 +212,7 @@ void MarioGame::initScene(engine::Registry &reg)
     reg.get_components<Component::Gravity>().insert_at(
         mario_player, Component::Gravity()
     );
-    // ==================== set Gravity ====================
+    // ==================== set Rail ====================
     reg.get_components<Component::Rail>().insert_at(
         floor, Component::Rail(Component::RailType::DYNAMIC_BACKGROUND)
     );
@@ -222,6 +225,10 @@ void MarioGame::initScene(engine::Registry &reg)
         mario_player, Component::Rail(Component::RailType::SATIC)
     );
     std::cout << "mario_player: " << mario_player << std::endl; // 3
+    // ==================== set Animation ====================
+    reg.get_components<Component::Animation>().emplace_at(
+        mario_player, 350, 160, 150, 160, 150, 10
+    );
 }
 
 engine::IGame *createGame()
