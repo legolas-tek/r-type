@@ -34,6 +34,11 @@ int main()
     std::unique_ptr<engine::IGame> game(createGame());
 
     while (game) {
-        game = runGame(std::move(game));
+        try {
+            game = runGame(std::move(game));
+        } catch (GameEndException &) {
+            // restart at the lobby :)
+            game = std::unique_ptr<engine::IGame>(createGame());
+        }
     }
 }
