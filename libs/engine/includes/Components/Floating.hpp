@@ -8,6 +8,8 @@
 #ifndef R_TYPE_FLOATING_HPP_
 #define R_TYPE_FLOATING_HPP_
 
+#include "Serialization/Serializable.hpp"
+
 namespace Component {
 /// @brief This component allows our entity to float up and down on the screen
 struct Floating : engine::Serializable<Floating> {
