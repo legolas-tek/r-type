@@ -10,6 +10,7 @@
 #include "Components/Animation.hpp"
 #include "Components/Controllable.hpp"
 #include "Components/Drawable.hpp"
+#include "Components/Gravity.hpp"
 #include "Components/Jump.hpp"
 #include "Components/Position.hpp"
 #include "Components/Solid.hpp"
@@ -17,6 +18,7 @@
 #include "Components/Velocity.hpp"
 
 #include "Systems/CollisionsSystem.hpp"
+#include "Systems/GravitySystem.hpp"
 #include "Systems/JumpSystem.hpp"
 #include "Systems/KeyHandleSystem.hpp"
 #include "Systems/MoveSystem.hpp"
@@ -44,6 +46,7 @@ void MarioGame::registerAllComponents(engine::Registry &reg)
     reg.register_component<Component::Velocity>();
     reg.register_component<Component::Controllable>();
     reg.register_component<Component::Jump>();
+    reg.register_component<Component::Gravity>();
 }
 
 void MarioGame::registerAdditionalServerSystems(engine::Registry &reg)
@@ -70,7 +73,12 @@ void MarioGame::registerAdditionalClientSystems(engine::Registry &reg)
     );
     reg.add_system<System::KeyHandleSystem>(reg, reg.events);
     reg.add_system<System::JumpSystem>(
-        reg, reg.get_components<Component::Jump>()
+        reg, reg.get_components<Component::Jump>(),
+        reg.get_components<Component::Gravity>()
+    );
+    reg.add_system<System::GravitySystem>(
+        reg.get_components<Component::Gravity>(),
+        reg.get_components<Component::Velocity>()
     );
 }
 
@@ -149,7 +157,7 @@ void MarioGame::initScene(engine::Registry &reg)
             MARIO_ONE_SPRITE_WIDTH * marioScale,
             float(rendering::system::SCREEN_HEIGHT)
                 - (FLOOR_SPRITE_HEIGHT * scaleRatio)
-                - (MARIO_ONE_SPRITE_HEIGHT * marioScale / 2),
+                - (MARIO_ONE_SPRITE_HEIGHT * marioScale / 2) - 100,
             0
         )
     );
@@ -178,6 +186,10 @@ void MarioGame::initScene(engine::Registry &reg)
     reg.get_components<Component::Controllable>().insert_at(mario_player, 0);
     reg.get_components<Component::Jump>().insert_at(
         mario_player, Component::Jump()
+    );
+    // ==================== set Gravity ====================
+    reg.get_components<Component::Gravity>().insert_at(
+        mario_player, Component::Gravity()
     );
 }
 

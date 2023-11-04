@@ -34,7 +34,7 @@ void System::KeyHandleSystem::operator()()
                 if ((*it)->isJumping == false) {
                     (*it)->isJumping = true;
                     (*it)->startJumpTick = _reg.getTick();
-                    (*it)->jumpForTick = 10;
+                    (*it)->jumpForTick = 50;
                     std::cout << "start jump" << std::endl;
                 }
             }
