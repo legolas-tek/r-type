@@ -17,7 +17,9 @@ class Collision : public IEvent {
 public:
     Collision(engine::Entity entity, engine::Entity secondEntity)
         : entity(entity)
-        , secondEntity(secondEntity) {};
+        , secondEntity(secondEntity)
+    {
+    }
 
     engine::Entity entity;
     engine::Entity secondEntity;

@@ -30,13 +30,13 @@ namespace System {
 class MoveSystem : public ISystem {
 public:
     /// @brief Constructs an instance of a MoveSystem class
+    /// @param events A ref to a Event deque
     /// @param positions A ref to a Position component SparseArray
     /// @param velocities A const ref to a Velocity component SparseArray
     /// @param solids A const ref to a Position component SparseArray
     /// @param collisions A const ref to a Collision component SparseArray
     MoveSystem(
-        Event::EventQueue const &events,
-        SparseArray<Component::Position> &positions,
+        Event::EventQueue &events, SparseArray<Component::Position> &positions,
         SparseArray<Component::Velocity> const &velocities,
         SparseArray<Component::Solid> const &solids,
         SparseArray<Component::Collision> const &collisions
@@ -64,7 +64,7 @@ private:
     );
 
     /// @brief A const ref to a Event deque
-    Event::EventQueue const &_events;
+    Event::EventQueue &_events;
     /// @brief A ref to a Position component SparseArray
     SparseArray<Component::Position> &_positions;
     /// @brief A const ref to a Velocity component SparseArray

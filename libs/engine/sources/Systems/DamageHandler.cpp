@@ -20,7 +20,7 @@ void System::DamageHandler::operator()()
 {
     for (auto it = _events.beginIterator<Event::Damage>();
          it != _events.endIterator<Event::Damage>(); it++) {
-        auto damage = dynamic_cast<Event::Damage *>(it->get());
+        auto damage = it;
 
         if (not _healths[damage->entity])
             continue;

@@ -16,83 +16,81 @@
 #include "IEvent.hpp"
 
 #include <iostream>
+#include <utility>
 
 namespace Event {
 
 class EventQueue {
 public:
-    using valueType = std::unique_ptr<IEvent>;
-    using container = std::deque<valueType>;
-    using iterator = container::iterator;
-    using const_iterator = container::const_iterator;
-    using pointerType = valueType *;
-    using referenceType = valueType &;
+    using ValueType = std::unique_ptr<IEvent>;
+    using Container = std::deque<ValueType>;
+    using Iterator = Container::iterator;
+    using ConstIterator = Container::const_iterator;
 
 public:
-    template <class Event> struct eventsIterator {
+    template <class Event> struct EventsIterator {
 
     public:
-        explicit eventsIterator(iterator it, iterator end)
-            : _it(it)
-            , _end(end)
+        explicit EventsIterator(Iterator it, Iterator end)
+            : _it(std::move(it))
+            , _end(std::move(end))
         {
+            while (_it != _end && not dynamic_cast<Event *>(_it->get())) {
+                _it++;
+            }
         }
 
-        referenceType operator*() const
+        Event &operator*() const
         {
-            return *_it;
-        }
-        pointerType operator->()
-        {
-            return _it.operator->();
+            return dynamic_cast<Event &>(*_it);
         }
 
-        eventsIterator &operator++()
+        Event *operator->()
+        {
+            return dynamic_cast<Event *>(_it->get());
+        }
+
+        EventsIterator &operator++()
         {
             _it++;
-            while (_it != _end
-                   && not dynamic_cast<Event *>(_it->get())) {
+            while (_it != _end && not dynamic_cast<Event *>(_it->get())) {
                 _it++;
             }
             return *this;
         }
 
-        eventsIterator operator++(int)
+        EventsIterator operator++(int)
         {
-            eventsIterator tmp = *this;
+            EventsIterator tmp = *this;
 
             ++(*this);
             return tmp;
         }
 
-        friend bool operator==(eventsIterator const &a, eventsIterator const &b)
+        friend bool operator==(EventsIterator const &a, EventsIterator const &b)
         {
             return a._it == b._it;
         };
 
-        friend bool operator!=(eventsIterator const &a, eventsIterator const &b)
+        friend bool operator!=(EventsIterator const &a, EventsIterator const &b)
         {
             return a._it != b._it;
         };
 
     private:
-        iterator _it;
-        iterator _end;
+        Iterator _it;
+        Iterator _end;
     };
 
 public:
-    template <class Event> eventsIterator<Event> beginIterator()
+    template <class Event> EventsIterator<Event> beginIterator()
     {
-        eventsIterator<Event> it(_events.begin(), _events.end());
-
-        if (it != endIterator<Event>() and not dynamic_cast<Event *>(it->get()))
-            it++;
-        return it;
+        return EventsIterator<Event>(_events.begin(), _events.end());
     }
 
-    template <class Event> eventsIterator<Event> endIterator()
+    template <class Event> EventsIterator<Event> endIterator()
     {
-        return eventsIterator<Event>(_events.end(), _events.end());
+        return EventsIterator<Event>(_events.end(), _events.end());
     }
 
     template <class Event> Event const &getEvent()
@@ -138,22 +136,22 @@ public:
         throw std::runtime_error("EventQueue not found");
     }
 
-    iterator begin() noexcept
+    Iterator begin() noexcept
     {
         return _events.begin();
     }
 
-    iterator end() noexcept
+    Iterator end() noexcept
     {
         return _events.end();
     }
 
-    [[nodiscard]] const_iterator begin() const noexcept
+    [[nodiscard]] ConstIterator begin() const noexcept
     {
         return _events.begin();
     }
 
-    [[nodiscard]] const_iterator end() const noexcept
+    [[nodiscard]] ConstIterator end() const noexcept
     {
         return _events.end();
     }
