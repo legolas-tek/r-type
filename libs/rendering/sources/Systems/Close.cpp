@@ -15,6 +15,6 @@ rendering::system::Close::Close(Event::EventQueue &events)
 
 void rendering::system::Close::operator()()
 {
-    if (_events.hasEvent<Event::Close>())
+    for (auto close : _events.getEvents<Event::Close>())
         throw GameEndException();
 }

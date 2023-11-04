@@ -15,7 +15,6 @@
 #include "Entity.hpp"
 #include "IEvent.hpp"
 
-#include <iostream>
 #include <utility>
 
 namespace Event {
@@ -42,7 +41,7 @@ public:
 
         Event &operator*() const
         {
-            return dynamic_cast<Event &>(*_it);
+            return dynamic_cast<Event &>(*_it->get());
         }
 
         Event *operator->()
@@ -83,6 +82,28 @@ public:
     };
 
 public:
+    template <class T> class EventsView {
+    public:
+        explicit EventsView(Event::EventQueue &events)
+            : _events(events)
+        {
+        }
+
+        EventsIterator<T> begin()
+        {
+            return _events.beginIterator<T>();
+        }
+
+        EventsIterator<T> end()
+        {
+            return _events.endIterator<T>();
+        }
+
+    private:
+        EventQueue &_events;
+    };
+
+public:
     template <class Event> EventsIterator<Event> beginIterator()
     {
         return EventsIterator<Event>(_events.begin(), _events.end());
@@ -93,16 +114,6 @@ public:
         return EventsIterator<Event>(_events.end(), _events.end());
     }
 
-    template <class Event> Event const &getEvent()
-    {
-        for (auto &event : _events) {
-            auto ptr = dynamic_cast<Event *>(event.get());
-
-            if (ptr)
-                return *ptr;
-        }
-    }
-
     template <class Event, class... Params> void addEvent(Params &&...params)
     {
         _eventsToAdd.push_back(
@@ -110,12 +121,12 @@ public:
         );
     }
 
-    template <class Event> void eraseEvent(Event event) noexcept
+    template <class Event> void eraseEvent(Event &event) noexcept
     {
         for (auto it = _events.begin(); it != _events.end(); it++) {
             auto ptr = dynamic_cast<Event *>(it->get());
 
-            if (ptr && *ptr == event) {
+            if (ptr && ptr == &event) {
                 _events.erase(it);
                 return;
             }
@@ -172,6 +183,11 @@ public:
     template <class Event> bool hasEvent() noexcept
     {
         return this->beginIterator<Event>() != this->endIterator<Event>();
+    }
+
+    template <class Event> EventsView<Event> getEvents()
+    {
+        return EventsView<Event>(*this);
     }
 
 private:
