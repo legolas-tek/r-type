@@ -144,12 +144,18 @@ public:
 
     reference_type insert_at(size_type pos, Component const &comp)
     {
+        if (pos >= _data.size()) {
+            _data.resize(pos + 100);
+        }
         _data[pos] = comp;
         return _data[pos];
     }
 
     reference_type insert_at(size_type pos, Component &&comp)
     {
+        if (pos >= _data.size()) {
+            _data.resize(pos + 100);
+        }
         _data[pos] = comp;
         return _data[pos];
     }
@@ -158,13 +164,12 @@ public:
     reference_type emplace_at(size_type pos, Params &&...args)
     {
         if (pos >= _data.size()) {
-            _data.resize(pos + 1);
+            _data.resize(pos + 100);
         }
         if (_data[pos])
             _data[pos].reset();
-        return *_data.emplace(
-            _data.begin() + pos, std::forward<Params>(args)...
-        );
+        _data[pos] = Component(std::forward<Params>(args)...);
+        return _data[pos];
     }
 
     void erase(size_type pos)

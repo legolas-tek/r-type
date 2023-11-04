@@ -38,8 +38,7 @@ void System::MoveSystem::operator()()
     }
 }
 
-engine::Entity System::MoveSystem::getCollidingSolidEntity(
-    engine::Entity entity
+engine::Entity System::MoveSystem::getCollidingSolidEntity(engine::Entity entity
 )
 {
     if (not _solids[entity] or not _collisions[entity])

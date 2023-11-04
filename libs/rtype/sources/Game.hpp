@@ -26,7 +26,7 @@ public:
     /// @brief The number of frames for the ship animation
     static inline constexpr int SHIP_F = 4;
     /// @brief The index to find the ship sprite
-    static inline constexpr int SHIP_I = 3;
+    static inline constexpr int SHIP_I = 11;
     /// @brief The Health a ship should have
     static inline constexpr int SHIP_HEALTH = 3;
 

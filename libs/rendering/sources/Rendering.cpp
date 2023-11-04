@@ -12,16 +12,23 @@
 #include "Systems/Text.hpp"
 #include "Systems/Texture.hpp"
 
+#include "GameLoop.hpp"
+
 rendering::system::Rendering::Rendering(engine::Registry &registry)
     : _registry(registry)
 {
     SetTraceLogLevel(LOG_NONE);
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "raylib background scrolling");
 
+    CameraInfo cameraInfo = { .pos = { 0.0f, 0.0f, 30.0f },
+                              .target = { 0.0f, 0.0f, 20.0f },
+                              .up = { 0.0f, 1.0f, 0.0f },
+                              .fovy = 45.0f,
+                              .projection = CAMERA_PERSPECTIVE };
     addSystem<rendering::system::Texture>(
         registry, _registry.get_components<Component::Drawable>(),
         _registry.get_components<Component::Animation>(),
-        _registry.get_components<Component::Position>()
+        _registry.get_components<Component::Position>(), cameraInfo
     );
     addSystem<rendering::system::Text>(
         _registry.get_components<Component::Text>(),
@@ -36,6 +43,9 @@ rendering::system::Rendering::~Rendering()
 
 void rendering::system::Rendering::operator()()
 {
+    if (WindowShouldClose()) {
+        throw GameEndException();
+    }
     BeginDrawing();
     ClearBackground(RAYWHITE);
 

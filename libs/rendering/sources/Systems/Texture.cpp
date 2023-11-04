@@ -7,11 +7,16 @@
 
 #include "Systems/Texture.hpp"
 #include <algorithm>
+#include <cmath>
+
+#ifndef M_PI
+    #define M_PI 3.14159265358979323846264338327950288
+#endif
 
 rendering::system::Texture::Texture(
     engine::Registry &registry, SparseArray<Component::Drawable> &drawables,
     SparseArray<Component::Animation> &animations,
-    SparseArray<Component::Position> &positions
+    SparseArray<Component::Position> &positions, CameraInfo cameraInfo
 )
     : _registry(registry)
     , _drawables(drawables)
@@ -19,14 +24,37 @@ rendering::system::Texture::Texture(
     , _positions(positions)
 {
     for (auto asset : _registry._assets_paths) {
-        _cache.push_back(LoadTexture(asset.c_str()));
+        if (!asset.path3d) {
+            _cache.push_back(LoadTexture(asset.path2d.c_str()));
+        } else {
+            Model tower = LoadModel(asset.path3d->c_str());
+            Texture2D texture = LoadTexture(asset.path2d.c_str());
+            tower.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
+            _cache.push_back(tower);
+        }
     }
+    _camera.position = cameraInfo.pos;
+    _camera.target = cameraInfo.target;
+    _camera.up = cameraInfo.up;
+    _camera.fovy = cameraInfo.fovy;
+    _camera.projection = cameraInfo.projection;
 }
 
 rendering::system::Texture::~Texture()
 {
-    for (auto &texture : _cache)
-        UnloadTexture(texture);
+    for (auto &item : _cache) {
+        std::visit(
+            [](auto &&arg) {
+                using T = std::decay_t<decltype(arg)>;
+                if constexpr (std::is_same_v<T, Texture2D>) {
+                    UnloadTexture(arg);
+                } else if constexpr (std::is_same_v<T, Model>) {
+                    UnloadModel(arg);
+                }
+            },
+            item
+        );
+    }
 }
 
 void rendering::system::Texture::operator()()
@@ -48,21 +76,53 @@ void rendering::system::Texture::operator()()
         auto anim = _animations[entity];
         size_t textureIndex = _drawables[entity]->_index;
 
-        Texture2D texture = _cache[textureIndex];
-        Rectangle sourceRec
-            = { 0.0f, _drawables[entity]->_yOrigin, _drawables[entity]->_width,
-                _drawables[entity]->_height };
+        if (std::holds_alternative<Texture2D>(_cache[textureIndex])) {
+            Texture2D texture = std::get<Texture2D>(_cache[textureIndex]);
 
-        if (anim.has_value())
-            sourceRec.x = float(anim.value()._currentOffset);
+            Rectangle sourceRec
+                = { 0.0f, _drawables[entity]->_yOrigin,
+                    _drawables[entity]->_width, _drawables[entity]->_height };
 
-        auto scaledWidth = sourceRec.width * _drawables[entity]->_scale;
-        auto scaledHeight = sourceRec.height * _drawables[entity]->_scale;
+            if (anim.has_value())
+                sourceRec.x = float(anim.value()._currentOffset);
 
-        Rectangle destRec
-            = { pos->_x - scaledWidth / 2, pos->_y - scaledHeight / 2,
-                scaledWidth, scaledHeight };
+            auto scaledWidth = sourceRec.width * _drawables[entity]->_scale;
+            auto scaledHeight = sourceRec.height * _drawables[entity]->_scale;
 
-        DrawTexturePro(texture, sourceRec, destRec, { 0, 0 }, 0.0f, WHITE);
+            Rectangle destRec
+                = { pos->_x - scaledWidth / 2, pos->_y - scaledHeight / 2,
+                    scaledWidth, scaledHeight };
+
+            DrawTexturePro(texture, sourceRec, destRec, { 0, 0 }, 0.0f, WHITE);
+        } else if (std::holds_alternative<Model>(_cache[textureIndex])) {
+            Vector3 modelPos = { pos->_x, pos->_y, pos->_z };
+            Model model3d = std::get<Model>(_cache[textureIndex]);
+            Vector3 rotationAxis = { 0.0f, 1.0f, 0.0f };
+            float rotationAngle = 90.0f;
+            float scaleNum = _drawables[entity]->_scale;
+            Vector3 scale = { scaleNum, scaleNum, scaleNum };
+
+            double ndcX = (2 * pos->_x / SCREEN_WIDTH) - 1;
+            double ndcY = 1 - (2 * pos->_y / SCREEN_HEIGHT);
+
+            double distance = _camera.position.z - pos->_z;
+
+            double planeHeight
+                = 2 * distance * tan((_camera.fovy * M_PI / 180.0) / 2);
+            double planeWidth = planeHeight * (SCREEN_WIDTH / SCREEN_HEIGHT);
+
+            double worldX = ndcX * planeWidth / 2;
+            double worldY = ndcY * planeHeight / 2;
+            modelPos.x = worldX;
+            modelPos.y = worldY;
+
+            BeginMode3D(_camera);
+
+            DrawModelEx(
+                model3d, modelPos, rotationAxis, rotationAngle, scale, WHITE
+            );
+
+            EndMode3D();
+        }
     }
 }
