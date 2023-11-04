@@ -119,24 +119,29 @@ void MarioGame::initScene(engine::Registry &reg)
     reg.get_components<Component::Position>().insert_at(
         floor,
         Component::Position(
-            0.0,
+            WIDNOW_SPRITE_WIDTH * scaleRatio / 2,
             float(rendering::system::SCREEN_HEIGHT)
-                - (FLOOR_SPRITE_HEIGHT * scaleRatio),
+                - (FLOOR_SPRITE_HEIGHT * scaleRatio)
+                + FLOOR_SPRITE_HEIGHT * scaleRatio / 2,
             0
         )
     );
     // background
     reg.get_components<Component::Position>().insert_at(
-        background, Component::Position(0.0, 0.0f, 0)
+        background,
+        Component::Position(
+            WIDNOW_SPRITE_WIDTH * scaleRatio / 2,
+            BACKGROUND_SPRITE_HEIGHT * scaleRatio / 2, 0
+        )
     );
     // mario_player
     reg.get_components<Component::Position>().insert_at(
         mario_player,
         Component::Position(
-            0.0,
+            MARIO_ONE_SPRITE_WIDTH * marioScale,
             float(rendering::system::SCREEN_HEIGHT)
-                - (FLOOR_SPRITE_HEIGHT * scaleRatio) - (oneUnit * scaleRatio)
-                - 10,
+                - (FLOOR_SPRITE_HEIGHT * scaleRatio)
+                - (MARIO_ONE_SPRITE_HEIGHT * marioScale / 2),
             0
         )
     );
