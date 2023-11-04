@@ -169,6 +169,11 @@ public:
         _eventsToAdd.clear();
     }
 
+    template <class Event> bool hasEvent() noexcept
+    {
+        return this->beginIterator<Event>() != this->endIterator<Event>();
+    }
+
 private:
     std::deque<std::unique_ptr<IEvent>> _events;
     std::deque<std::unique_ptr<IEvent>> _eventsToAdd;

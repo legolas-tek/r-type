@@ -8,7 +8,7 @@
 
 #include "Rendering.hpp"
 
-#include "Systems/Focusable.hpp"
+#include "Systems/Close.hpp"
 #include "Systems/Text.hpp"
 #include "Systems/Texture.hpp"
 
@@ -34,6 +34,7 @@ rendering::system::Rendering::Rendering(engine::Registry &registry)
         _registry.get_components<Component::Text>(),
         _registry.get_components<Component::Position>()
     );
+    addSystem<rendering::system::Close>(_registry.events);
 }
 
 rendering::system::Rendering::~Rendering()
@@ -44,7 +45,8 @@ rendering::system::Rendering::~Rendering()
 void rendering::system::Rendering::operator()()
 {
     if (WindowShouldClose()) {
-        throw GameEndException();
+        _registry.events.addEvent<Event::Close>();
+        _registry.events.update();
     }
     BeginDrawing();
     ClearBackground(RAYWHITE);

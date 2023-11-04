@@ -34,6 +34,7 @@ target_sources (rendering
     ./sources/Systems/Focusable.cpp
     ./sources/Systems/Editable.cpp
     ./sources/Systems/Texture.cpp
+    ./sources/Systems/Close.cpp
 )
 
 install(TARGETS rendering

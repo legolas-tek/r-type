@@ -28,7 +28,6 @@
 #include "Systems/WaveManagerSystem.hpp"
 
 #include "Key.hpp"
-#include "NetworkClientSystem.hpp"
 #include "Rendering.hpp"
 
 void RTypeGame::registerAllComponents(engine::Registry &reg)
