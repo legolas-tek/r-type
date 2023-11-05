@@ -38,7 +38,7 @@ System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
                             .frameDuration = 50,
                             .scale = 1.5,
                             .velocity = { -3, 0 },
-                            .damage = 2,
+                            .damage = 1,
                             .lifeTime = 500,
                             .fireRate = 100,
                             .solid = true };
