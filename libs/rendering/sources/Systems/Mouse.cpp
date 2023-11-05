@@ -31,5 +31,4 @@ void rendering::system::Mouse::operator()()
             GetMousePosition().x, GetMousePosition().y,
             event::MouseEventType::MIDDLE
         );
-    _events.update();
 }

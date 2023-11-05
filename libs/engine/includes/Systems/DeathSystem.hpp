@@ -14,6 +14,8 @@
 
 #include "Components/Health.hpp"
 #include "Components/Life.hpp"
+#include "Components/Dependent.hpp"
+#include "Components/Follow.hpp"
 
 namespace System {
 
@@ -28,17 +30,27 @@ public:
     /// @param reg A ref to the registry
     DeathSystem(
         SparseArray<Component::Health> &healths,
-        SparseArray<Component::Life> &lifes, engine::Registry &reg
+        SparseArray<Component::Life> &lifes,
+        SparseArray<Component::Dependent> &dependents,
+        SparseArray<Component::Follow> &follows, engine::Registry &reg
     );
 
     /// @brief applys the logic of the system
     void operator()() override;
 
 private:
-    /// @brief lifes A ref to a Health components SparseArray
+    /// @brief erase all the entity that depends on the entity given in param
+    /// @param entity the entity on which others entity should depend to die
+    void eraseDependentsEntities(engine::Entity entity);
+
+    /// @brief A ref to a Health components SparseArray
     SparseArray<Component::Health> &_healths;
-    /// @brief lifes A ref to a Life components SparseArray
+    /// @brief A ref to a Life components SparseArray
     SparseArray<Component::Life> &_lifes;
+    /// @brief A ref to a Dependent components SparseArray
+    SparseArray<Component::Dependent> &_dependents;
+    /// @brief A ref to a Follow components SparseArray
+    SparseArray<Component::Follow> &_follows;
     /// @brief A ref to the registry
     engine::Registry &_registry;
     /// @brief A vector of entity to erase
