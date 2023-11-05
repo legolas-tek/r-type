@@ -81,6 +81,13 @@ public:
     /// @brief The index to find the bonus sprite
     static inline constexpr int BONUS_I = 13;
 
+    /// @brief The Width of the life sprite
+    static inline constexpr int LIFE_W = 225;
+    /// @brief The Height of the life sprite
+    static inline constexpr int LIFE_H = 225;
+    /// @brief The index to find the life sprite
+    static inline constexpr int LIFE_I = 14;
+
     /// @brief The Width of the borders sprite
     static inline constexpr int BORDERS_W = 960;
     /// @brief The Height of the borders sprite

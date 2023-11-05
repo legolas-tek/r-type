@@ -78,7 +78,7 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
 {
     reg.add_system<System::LootDropManager>(
         reg.get_components<Component::Loot>(),
-        reg.get_components<Component::Position>(), reg, 5
+        reg.get_components<Component::Position>(), reg, 10
     );
     reg.add_system<System::DeathOnCollisions>(
         reg.get_components<Component::Solid>(),
@@ -223,6 +223,8 @@ void RTypeGame::initAssets(engine::Registry &reg)
     reg._assets_paths.emplace_back("./assets/images/first_boss.png");
     // 13
     reg._assets_paths.emplace_back("./assets/images/Spinning-orb.png");
+    // 14
+    reg._assets_paths.emplace_back("./assets/images/wrench.png");
 }
 
 void RTypeGame::initScene(engine::Registry &reg)

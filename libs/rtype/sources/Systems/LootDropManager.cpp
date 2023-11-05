@@ -53,28 +53,47 @@ bool System::LootDropManager::canCreateBonus(engine::Entity entity)
 void System::LootDropManager::createBonus(Component::Position &position)
 {
     engine::Entity bonus(_reg.get_new_entity());
-    std::uniform_real_distribution<float> distrib(0, 2);
-    float random = distrib(_gen);
+    std::uniform_int_distribution<int> distrib(0, 1);
+    int random = distrib(_gen);
 
     _reg.get_components<Component::Position>().emplace_at(
         bonus, position._x, position._y, -1
     );
-    _reg.get_components<Component::Drawable>().emplace_at(
-        bonus, RTypeGame::BONUS_I, RTypeGame::BONUS_W, RTypeGame::BONUS_H, 0.15
-    );
-    _reg.get_components<Component::Animation>().emplace_at(
-        bonus, RTypeGame::BONUS_W * RTypeGame::BONUS_F, RTypeGame::BONUS_H,
-        RTypeGame::BONUS_W, RTypeGame::BONUS_H, RTypeGame::BONUS_W, 10
-    );
+    if (random == Component::Bonus::WEAPON) {
+        _reg.get_components<Component::Drawable>().emplace_at(
+            bonus, RTypeGame::BONUS_I, RTypeGame::BONUS_W, RTypeGame::BONUS_H,
+            0.15
+        );
+        _reg.get_components<Component::Animation>().emplace_at(
+            bonus, RTypeGame::BONUS_W * RTypeGame::BONUS_F, RTypeGame::BONUS_H,
+            RTypeGame::BONUS_W, RTypeGame::BONUS_H, RTypeGame::BONUS_W, 10
+        );
+    }
+    if (random == Component::Bonus::LIFE) {
+        _reg.get_components<Component::Drawable>().emplace_at(
+            bonus, RTypeGame::LIFE_I, RTypeGame::LIFE_W, RTypeGame::LIFE_H,
+            0.2
+        );
+    }
     _reg.get_components<Component::Bonus>().emplace_at(
         bonus, Component::Bonus::BonusTypes(random)
     );
-    _reg.get_components<Component::HitBox>().emplace_at(
-        bonus, RTypeGame::BONUS_W * 0.15, RTypeGame::BONUS_H * 0.15
-    );
-    _reg.get_components<Component::Collision>().emplace_at(
-        bonus, RTypeGame::BONUS_W * 0.15, RTypeGame::BONUS_H * 0.15
-    );
+    if (random == Component::Bonus::WEAPON) {
+        _reg.get_components<Component::HitBox>().emplace_at(
+            bonus, RTypeGame::BONUS_W * 0.15, RTypeGame::BONUS_H * 0.15
+        );
+        _reg.get_components<Component::Collision>().emplace_at(
+            bonus, RTypeGame::BONUS_W * 0.15, RTypeGame::BONUS_H * 0.15
+        );
+    }
+    if (random == Component::Bonus::LIFE) {
+        _reg.get_components<Component::HitBox>().emplace_at(
+            bonus, RTypeGame::LIFE_W * 0.2, RTypeGame::LIFE_H * 0.2
+        );
+        _reg.get_components<Component::Collision>().emplace_at(
+            bonus, RTypeGame::LIFE_W * 0.2, RTypeGame::LIFE_H * 0.2
+        );
+    }
     _reg.get_components<Component::LifeTime>().emplace_at(
         bonus, System::secondsToTick(5), _reg.getTick()
     );
