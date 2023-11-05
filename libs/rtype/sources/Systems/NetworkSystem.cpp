@@ -22,16 +22,20 @@ bool rtype::NetworkServerSystem::canUpdate(
         = _registry.get_components<Component::Controllable>()[entity];
     auto &modifiable
         = _registry.get_components<Component::ChatModifiableText>()[entity];
-    auto &texts = _registry.get_components<Component::Text>()[entity];
 
-    if (not controllable or not modifiable or not texts)
-        return false;
-    if (_playerNumber != controllable->_id or _playerNumber != modifiable->id
-        or not texts)
-        return false;
-    if (component_id == _registry.get_component_id<Component::Velocity>()
-        or component_id == _registry.get_component_id<Component::Text>())
+    if (modifiable
+        and component_id == _registry.get_component_id<Component::Text>()
+        and modifiable->id == getPlayerNumber(client)) {
         return true;
+    }
+    if (not controllable)
+        return false;
+    if (getPlayerNumber(client) != controllable->_id)
+        return false;
+    if (component_id == _registry.get_component_id<Component::Velocity>())
+        return true;
+    // TODO: attack etc
+    return false;
 }
 
 bool rtype::NetworkClientSystem::canSend(
@@ -42,15 +46,17 @@ bool rtype::NetworkClientSystem::canSend(
         = _registry.get_components<Component::Controllable>()[entity];
     auto &modifiable
         = _registry.get_components<Component::ChatModifiableText>()[entity];
-    auto &texts = _registry.get_components<Component::Text>()[entity];
 
-    if (not controllable or not modifiable or not texts)
+    if (modifiable
+        and component_id == _registry.get_component_id<Component::Text>()
+        and modifiable->id == _playerNumber) {
+        return true;
+    }
+    if (not controllable)
         return false;
-    if (_playerNumber != controllable->_id or _playerNumber != modifiable->id
-        or not texts)
+    if (_playerNumber != controllable->_id)
         return false;
-    if (component_id == _registry.get_component_id<Component::Velocity>()
-        or component_id == _registry.get_component_id<Component::Text>())
+    if (component_id == _registry.get_component_id<Component::Velocity>())
         return true;
     // TODO: attack etc
     return false;
