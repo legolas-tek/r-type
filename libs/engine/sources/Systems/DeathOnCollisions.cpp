@@ -21,8 +21,6 @@ System::DeathOnCollisions::DeathOnCollisions(
 {
 }
 
-#include <iostream>
-
 void System::DeathOnCollisions::operator()()
 {
     for (auto &collision : _events.getEvents<event::Collision>()) {
@@ -30,7 +28,6 @@ void System::DeathOnCollisions::operator()()
             _solids[collision.secondEntity] and
             not isAlreadyInDeathEvent(collision.entity)) {
             _events.addEvent<event::Death>(collision.entity);
-            std::cout << "killed entity : " << collision.entity << std::endl;
         }
     }
 }

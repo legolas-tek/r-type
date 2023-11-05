@@ -155,9 +155,9 @@ void System::WaveManagerSystem::operator()()
                 _register, _entityList[0], tick, secondsToTick(1),
                 rendering::system::SCREEN_WIDTH + _entityList[0].entityWidth,
                 rendering::system::SCREEN_WIDTH + _entityList[0].entityWidth,
-                RTypeGame::BORDERS_H + _entityList[0].entityHeight / 2,
+                RTypeGame::BORDERS_H + _entityList[0].entityHeight / 2 + 5,
                 rendering::system::SCREEN_HEIGHT - _entityList[0].entityHeight /
-                    2 - RTypeGame::BORDERS_H
+                    2 - RTypeGame::BORDERS_H - 5
             );
         }
         if (_waveNum == 2) {
@@ -166,9 +166,9 @@ void System::WaveManagerSystem::operator()()
                 _register, _entityList[1], tick, secondsToTick(1),
                 rendering::system::SCREEN_WIDTH + _entityList[1].entityWidth,
                 rendering::system::SCREEN_WIDTH + _entityList[1].entityWidth,
-                RTypeGame::BORDERS_H + _entityList[1].entityHeight / 2,
+                RTypeGame::BORDERS_H + _entityList[1].entityHeight / 2 + 5,
                 rendering::system::SCREEN_HEIGHT - _entityList[1].entityHeight /
-                    2 - RTypeGame::BORDERS_H
+                    2 - RTypeGame::BORDERS_H - 5
             );
         }
         if (_waveNum == 3) {
