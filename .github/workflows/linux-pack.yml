@@ -14,6 +14,21 @@ jobs:
 
       - run: mkdir -p "./generated_packages/"
 
+      - name: "Install dependencies"
+        run: |
+          sudo apt update
+          sudo apt install \
+          libxrandr-dev \
+          libxinerama-dev \
+          libxcursor-dev \
+          libudev-dev \
+          libxi-dev \
+          libfreetype-dev \
+          libopenal-dev \
+          libflac-dev \
+          libvorbis-dev \
+          libgl1-mesa-dev
+
       - name: "Configure the project using cmake"
         run: "cmake -Bbuild --preset linux-amd64 -DCMAKE_PROJECT_VERSION='${{  github.ref_name }}'"
 
