@@ -25,6 +25,14 @@ void net::LobbyClient::sendJoinRequest(std::string const &playerName)
     _network->write(serializer.finalize());
 }
 
+void net::LobbyClient::sendSpectateRequest()
+{
+    engine::Serializer serializer;
+
+    serializer.serializeTrivial(std::byte(0x03));
+    _network->write(serializer.finalize());
+}
+
 void net::LobbyClient::sendStartRequest()
 {
     engine::Serializer serializer;
@@ -74,6 +82,13 @@ void net::LobbyClient::parsePacket()
         std::string playerName(playerNameSize, '\0');
         buffer.readInto(playerName.data(), playerNameSize);
         onNewPlayer(playerId, std::move(playerName));
+        break;
+    }
+    case std::byte(0x03): {
+        // Spectate success
+        uint64_t playerHash;
+        buffer.readInto(&playerHash, sizeof(playerHash));
+        onSpectateSuccess(playerHash);
         break;
     }
     case std::byte(0x08): {

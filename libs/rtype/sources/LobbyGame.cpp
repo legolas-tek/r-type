@@ -20,6 +20,7 @@
 #include "Systems/Focusable.hpp"
 #include "Systems/JoinButton.hpp"
 #include "Systems/LobbyClientImpl.hpp"
+#include "Systems/SpectateButton.hpp"
 #include "Systems/StartGameButton.hpp"
 #include "Systems/Text.hpp"
 
@@ -58,6 +59,9 @@ void RTypeLobby::registerAdditionalClientSystems(engine::Registry &reg)
     );
     reg.add_system<System::JoinButton>(
         *this, reg, _joinButton, _addressInput, _portInput, _nameInput
+    );
+    reg.add_system<System::SpectateButton>(
+        *this, reg, _spectateButton, _addressInput, _portInput
     );
 #ifdef DEBUG_LOG_EVENT
     reg.add_system<System::EventLogger>("lobby", reg.tick(), reg.events);
@@ -142,6 +146,7 @@ void RTypeLobby::initScene(engine::Registry &reg)
     _portInput = createField(reg, "Port", "4242", 100, 200);
     _nameInput = createField(reg, "Name", "Player", 100, 300);
     _joinButton = createButton(reg, "Join", 500, 200);
+    _spectateButton = createButton(reg, "Spectate", 500, 300);
 }
 
 void RTypeLobby::onJoinSuccess(
