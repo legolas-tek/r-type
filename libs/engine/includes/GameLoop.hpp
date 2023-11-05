@@ -18,6 +18,14 @@ public:
     }
 };
 
+class GameRestartException : public std::exception {
+public:
+    [[nodiscard]] char const *what() const noexcept override
+    {
+        return "Restart game";
+    }
+};
+
 [[noreturn]] void gameLoop(engine::Registry &reg);
 
 #endif /* !GAMELOOP_HPP_ */

@@ -33,7 +33,8 @@ void System::DeathSystem::operator()()
         if (_lifes[it.get_entity()])
             lifes = _lifes[it.get_entity()]->lifes;
 
-        if ((*it)->health <= 0 && lifes <= 0) {
+        if ((*it)->health <= 0 and lifes <= 0
+            and not isAlreadyInDeathEvent(it.get_entity())) {
             _events.addEvent<event::Death>(it.get_entity());
             eraseDependentsEntities(it.get_entity());
         }
@@ -52,4 +53,14 @@ void System::DeathSystem::eraseDependentsEntities(engine::Entity entity)
             _registry.events.addEvent<event::Death>(it.get_entity());
         }
     }
+}
+
+bool System::DeathSystem::isAlreadyInDeathEvent(engine::Entity entity) const
+{
+    for (auto &death : _registry.events.getEvents<event::Death>()) {
+        if (death.entity == entity) {
+            return true;
+        }
+    }
+    return false;
 }

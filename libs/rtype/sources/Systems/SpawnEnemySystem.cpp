@@ -13,7 +13,9 @@
 #include "Components/FireRate.hpp"
 #include "Components/Health.hpp"
 #include "Components/HitBox.hpp"
+#include "Components/KillOnCollision.hpp"
 #include "Components/LifeTime.hpp"
+#include "Components/Solid.hpp"
 #include "Components/Velocity.hpp"
 
 System::SpawnEnemySystem::SpawnEnemySystem(
@@ -74,6 +76,7 @@ void System::SpawnEnemySystem::operator()()
     _register.get_components<Component::Health>().emplace_at(
         enemy, _entityInfo.health, _entityInfo.health
     );
+    _register.get_components<Component::KillOnCollision>().emplace_at(enemy);
     if (_entityInfo.lifeTime) {
         _register.get_components<Component::LifeTime>().emplace_at(
             enemy, _entityInfo.lifeTime.value(), _register.getTick()
@@ -88,5 +91,8 @@ void System::SpawnEnemySystem::operator()()
         _register.get_components<Component::FireRate>().emplace_at(
             enemy, _entityInfo.fireRate.value()
         );
+    }
+    if (_entityInfo.solid) {
+        _register.get_components<Component::Solid>().emplace_at(enemy);
     }
 }

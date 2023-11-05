@@ -7,6 +7,8 @@
 
 #include "Game.hpp"
 
+#include "Components/Focusable.hpp"
+#include "Components/RestartOnClick.hpp"
 #include "Components/Solid.hpp"
 #include "Components/Text.hpp"
 
@@ -16,14 +18,19 @@
 #include "Systems/DamageHandler.hpp"
 #include "Systems/DamageOnCollisionSystem.hpp"
 #include "Systems/DeathAnimationManager.hpp"
+#include "Systems/DeathOnCollisions.hpp"
 #include "Systems/DeathSystem.hpp"
+#include "Systems/End.hpp"
+#include "Systems/EndGameSystem.hpp"
 #include "Systems/FloatingSystem.hpp"
+#include "Systems/Focusable.hpp"
 #include "Systems/FollowSystem.hpp"
 #include "Systems/LifeTimeSystem.hpp"
 #include "Systems/MoveSystem.hpp"
 #include "Systems/NetworkSystem.hpp"
 #include "Systems/ProcessKeyDownEvents.hpp"
 #include "Systems/RespawnSystem.hpp"
+#include "Systems/Restart.hpp"
 #include "Systems/SoundManagerSystem.hpp"
 #include "Systems/SpawnEnemySystem.hpp"
 #include "Systems/WaveManagerSystem.hpp"
@@ -57,10 +64,27 @@ void RTypeGame::registerAllComponents(engine::Registry &reg)
     reg.register_component<Component::Solid>();
     reg.register_component<Component::Floating>();
     reg.register_component<Component::Dependent>();
+    reg.register_component<Component::RestartOnClick>();
+    reg.register_component<Component::Focusable>();
+    reg.register_component<Component::KillOnCollision>();
 }
 
 void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
 {
+    reg.add_system<System::DeathOnCollisions>(
+        reg.get_components<Component::Solid>(),
+        reg.get_components<Component::KillOnCollision>(), reg.events
+    );
+    reg.add_system<System::DeathAnimationManager>(
+        reg.get_components<Component::Position>(),
+        reg.get_components<Component::Health>(), reg
+    );
+    reg.add_system<System::DeathSystem>(
+        reg.get_components<Component::Health>(),
+        reg.get_components<Component::Life>(),
+        reg.get_components<Component::Dependent>(),
+        reg.get_components<Component::Follow>(), reg
+    );
     reg.add_system<System::AttackSystem>(
         reg.get_components<Component::FireRate>(),
         reg.get_components<Component::Health>(),
@@ -76,13 +100,6 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
     reg.add_system<System::DamageHandler>(
         reg.get_components<Component::Health>(), reg.events
     );
-    reg.add_system<System::DeathAnimationManager>(
-        reg.get_components<Component::Position>(),
-        reg.get_components<Component::Health>(),
-        reg.get_components<Component::Collision>(),
-        reg.get_components<Component::Damage>(),
-        reg.get_components<Component::Controllable>(), reg
-    );
     reg.add_system<System::RespawnSystem>(
         reg.get_components<Component::Life>(),
         reg.get_components<Component::Health>(),
@@ -92,23 +109,26 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
         reg.get_components<Component::Collision>(),
         reg.get_components<Component::HitBox>(), reg
     );
-    reg.add_system<System::DeathSystem>(
-        reg.get_components<Component::Health>(),
-        reg.get_components<Component::Life>(),
-        reg.get_components<Component::Dependent>(),
-        reg.get_components<Component::Follow>(), reg
-    );
     reg.add_system<System::WaveManagerSystem>(reg);
     reg.add_system<System::FloatingSystem>(
         reg.get_components<Component::Position>(),
         reg.get_components<Component::Velocity>(),
         reg.get_components<Component::Floating>()
     );
+    reg.add_system<System::End>(
+        reg.events, reg.get_components<Component::Controllable>()
+    );
+    reg.add_system<System::EndGameSystem>(reg.events, reg);
     reg.add_system<rtype::NetworkServerSystem>(reg, 4242, _serverClients);
 }
 
 void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
 {
+    reg.add_system<rendering::system::Focusable>(
+        reg.events, reg.get_components<Component::Focusable>(),
+        reg.get_components<Component::HitBox>(),
+        reg.get_components<Component::Position>()
+    );
     reg.add_system<System::SoundManagerSystem>(reg);
     reg.add_system<System::AnimationSystem>(reg);
     reg.add_system<rendering::system::Rendering>(reg);
@@ -119,6 +139,10 @@ void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
         reg.get_components<Component::Velocity>(), _playerNumber
     );
 
+    reg.add_system<System::Restart>(
+        reg.events, reg.get_components<Component::RestartOnClick>(),
+        reg.get_components<Component::Focusable>()
+    );
     reg.add_system<rtype::NetworkClientSystem>(
         reg, _address, _port, _playerNumber, _playerHash
     );
@@ -333,5 +357,6 @@ void RTypeGame::initScene(engine::Registry &reg)
         );
         reg.get_components<Component::Velocity>().emplace_at(name);
         reg.get_components<Component::Follow>().emplace_at(name, player, 0, 50);
+        reg.get_components<Component::Damage>().emplace_at(player, 2);
     }
 }
