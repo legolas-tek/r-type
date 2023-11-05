@@ -16,11 +16,7 @@ namespace Component {
 /// entity that collides with itself
 struct Bonus : engine::Serializable<Bonus> {
     /// @brief An enum that defines all the types of bonus an entity can have
-    enum BonusTypes {
-        LIFE,
-        WEAPON,
-        NONE
-    };
+    enum BonusTypes { LIFE, WEAPON, NONE };
 
     /// @brief Constructs an instance of a Bonus component and sets the
     /// type of bonus it grants

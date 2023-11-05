@@ -48,7 +48,6 @@ private:
     /// @param position A copy of the component position of the dying entity
     void createBonus(Component::Position &position);
 
-
     /// @brief A ref to a Loot components SparseArray
     SparseArray<Component::Loot> &_loots;
     /// @brief A ref to a Position components SparseArray

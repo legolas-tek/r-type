@@ -36,7 +36,6 @@ public:
     void operator()() override;
 
 private:
-
     /// @brief handles the process of granting the bonus to the player
     /// @param player the entity that represents the player that should
     /// receive the bonus

@@ -6,16 +6,16 @@
 */
 
 #include "Systems/LootDropManager.hpp"
-#include "Systems/WaveManagerSystem.hpp"
 #include "Game.hpp"
+#include "Systems/WaveManagerSystem.hpp"
 
 #include "Events/Death.hpp"
 
-#include "Components/Drawable.hpp"
 #include "Components/Animation.hpp"
-#include "Components/Collision.hpp"
-#include "Components/HitBox.hpp"
 #include "Components/Bonus.hpp"
+#include "Components/Collision.hpp"
+#include "Components/Drawable.hpp"
+#include "Components/HitBox.hpp"
 #include "Components/LifeTime.hpp"
 
 System::LootDropManager::LootDropManager(
@@ -71,8 +71,7 @@ void System::LootDropManager::createBonus(Component::Position &position)
     }
     if (random == Component::Bonus::LIFE) {
         _reg.get_components<Component::Drawable>().emplace_at(
-            bonus, RTypeGame::LIFE_I, RTypeGame::LIFE_W, RTypeGame::LIFE_H,
-            0.2
+            bonus, RTypeGame::LIFE_I, RTypeGame::LIFE_W, RTypeGame::LIFE_H, 0.2
         );
     }
     _reg.get_components<Component::Bonus>().emplace_at(

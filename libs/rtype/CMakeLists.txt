@@ -47,6 +47,7 @@ target_sources (rtype
     PRIVATE
     ./sources/RTypeGame.cpp
     ./sources/LobbyGame.cpp
+    ./sources/ScoreManager.cpp
     ./sources/Systems/AttackSystem.cpp
     ./sources/Systems/SpawnEnemySystem.cpp
     ./sources/Systems/SoundManagerSystem.cpp
@@ -63,6 +64,7 @@ target_sources (rtype
     ./sources/Systems/End.cpp
     ./sources/Systems/EndGameSystem.cpp
     ./sources/Systems/Restart.cpp
+    ./sources/Systems/ScoreOnDeath.cpp
     ./sources/Systems/SoundSystem/ShootSoundSystem.cpp
     ./sources/Systems/SoundSystem/ExplosionSoundSystem.cpp
     ./sources/Systems/ProcessKeyDownEvents.cpp
