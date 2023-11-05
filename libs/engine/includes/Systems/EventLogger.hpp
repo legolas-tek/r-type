@@ -12,6 +12,7 @@
 #include "ISystem.hpp"
 
 #include <fstream>
+#include <string>
 
 namespace System {
 
