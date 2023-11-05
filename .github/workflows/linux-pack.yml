@@ -1,0 +1,32 @@
+name: 🐧 Linux Pack
+
+on:
+  workflow_call:
+
+jobs:
+  pack_project:
+    name: "Pack Linux"
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: "actions/checkout@v3"
+        with:
+          fetch-depth: 0
+
+      - run: mkdir -p "./generated_packages/"
+
+      - name: "Configure the project using cmake"
+        run: "cmake -Bbuild --preset linux-amd64 -DCMAKE_PROJECT_VERSION='${{  github.ref_name }}'"
+
+      - name: "Compile the code"
+        run: "cmake --build build"
+
+      - name: "Pack the code"
+        run: "cd build; make package"
+
+      - name: "Move the generated installer to the dir"
+        run: "mv build/R-Type-${{  github.ref_name }}-Linux.sh generated_packages/"
+
+      - uses: actions/upload-artifact@master
+        with:
+          name: linux-installer
+          path: "./generated_packages/"

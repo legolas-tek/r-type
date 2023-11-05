@@ -1,0 +1,19 @@
+name: 🎁 Release
+on:
+  push:
+    tags:
+      - "**"
+
+jobs:
+  windows-pack:
+    name: 🏁 Windows
+    uses: ./.github/workflows/windows-pack.yml
+
+  linux-pack:
+    name: 🐧 Linux
+    uses: ./.github/workflows/linux-pack.yml
+
+  release:
+    name: 🚀 Release
+    needs: [windows-pack, linux-pack]
+    uses: ./.github/workflows/release.yml
