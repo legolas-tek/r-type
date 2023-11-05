@@ -7,20 +7,22 @@
 
 #include "Interpolate.hpp"
 
-#include <iostream>
-
-net::Interpolate::Interpolate(SparseArray<Component::Velocity> &velocities)
+net::Interpolate::Interpolate(
+    SparseArray<Component::Velocity> &velocities,
+    SparseArray<Component::Position> &positions
+)
     : _velocities(velocities)
+    , _positions(positions)
 {
 }
 
 void net::Interpolate::operator()()
 {
-    for (auto &it : _velocities) {
-        if (it->_futurVx == 0 or it->_futurVy == 0)
-            continue;
+    for (auto it = _positions.begin(); it != _positions.end(); ++it) {
+        auto &pos = **it;
+        auto &vel = _velocities[it.get_entity()];
 
-        it->_vx += (it->_futurVx / 8);
-        it->_vy += (it->_futurVy / 8);
+        vel->_vx = pos._futurX - pos._x / 2;
+        vel->_vy = pos._futurY - pos._y / 2;
     }
 }

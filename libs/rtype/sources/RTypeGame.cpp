@@ -113,7 +113,10 @@ void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
     reg.add_system<rtype::NetworkClientSystem>(
         reg, _address, _port, _playerNumber, _playerHash
     );
-    reg.add_system<net::Interpolate>(reg.get_components<Component::Velocity>());
+    reg.add_system<net::Interpolate>(
+        reg.get_components<Component::Velocity>(),
+        reg.get_components<Component::Position>()
+    );
 }
 
 void RTypeGame::registerAdditionalSystems(engine::Registry &reg)

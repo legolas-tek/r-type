@@ -24,7 +24,7 @@ namespace Component {
  * This structure is used to represent a 2D position with x and y coordinates.
  * It can be used as a component to store the position of an entity.
  */
-struct Position : engine::Serializable<Position> {
+struct Position {
     /**
      * @brief The x-coordinate of the position.
      */
@@ -39,6 +39,21 @@ struct Position : engine::Serializable<Position> {
      * @brief The z-coordinate of the position.
      */
     float _z = 0;
+
+    /**
+     * @brief The futur x-coordinate of the position.
+     */
+    float _futurX = 0;
+
+    /**
+     * @brief The futur y-coordinate of the position.
+     */
+    float _futurY = 0;
+
+    /**
+     * @brief The futur z-coordinate of the position.
+     */
+    float _futurZ = 0;
 
     /**
      * @brief Default constructor for the Position structure.
@@ -63,6 +78,32 @@ struct Position : engine::Serializable<Position> {
         , _y(y)
         , _z(z)
     {
+    }
+
+    void serialize(engine::Serializer &ser) const
+    {
+        ser.serializeTrivial<float>(_x);
+        ser.serializeTrivial<float>(_y);
+        ser.serializeTrivial<float>(_z);
+    }
+
+    void deserialize(engine::Deserializer &deser)
+    {
+        deser.deserializeTrivial<float>(_x);
+        deser.deserializeTrivial<float>(_y);
+        deser.deserializeTrivial<float>(_z);
+
+        float futurX = _x;
+        float futurY = _y;
+        float futurZ = _z;
+
+        _x = _futurX;
+        _y = _futurY;
+        _z = _futurZ;
+
+        _futurX = futurX;
+        _futurY = futurY;
+        _futurY = futurY;
     }
 };
 }

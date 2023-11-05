@@ -22,7 +22,7 @@ namespace Component {
  * This structure is used to represent a velocity with x and y components.
  * It can be used as a component to store the velocity of an entity.
  */
-struct Velocity {
+struct Velocity : public engine::Serializable<Component::Velocity> {
     /**
      * @brief The x-component of the velocity.
      */
@@ -32,16 +32,6 @@ struct Velocity {
      * @brief The y-component of the velocity.
      */
     float _vy = 0;
-
-    /**
-     * @brief The past x-component of the velocity.
-     */
-    float _futurVx = 0;
-
-    /**
-     * @brief The past y-component of the velocity.
-     */
-    float _futurVy = 0;
 
     /**
      * @brief Default constructor for the Velocity structure.
@@ -62,25 +52,6 @@ struct Velocity {
         : _vx(vx)
         , _vy(vy)
     {
-    }
-
-    void serialize(engine::Serializer &ser) const
-    {
-        ser.serializeTrivial<Velocity>(*this);
-    }
-
-    void deserialize(engine::Deserializer &deser)
-    {
-        float futurVx = _futurVx;
-        float futurVy = _futurVy;
-
-        deser.deserializeTrivial<Velocity>(*this);
-
-        _futurVx = _vx;
-        _futurVy = _vy;
-
-        _vx = futurVx;
-        _vy = futurVy;
     }
 };
 }

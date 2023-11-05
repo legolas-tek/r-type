@@ -12,6 +12,7 @@
 #include "Net.hpp"
 #include "SparseArray.hpp"
 
+#include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
 
 namespace net {
@@ -24,12 +25,16 @@ namespace net {
 class Interpolate : public ISystem {
 
 public:
-    Interpolate(SparseArray<Component::Velocity> &velocities);
+    Interpolate(
+        SparseArray<Component::Velocity> &velocities,
+        SparseArray<Component::Position> &positions
+    );
 
     void operator()() override;
 
 private:
     SparseArray<Component::Velocity> &_velocities;
+    SparseArray<Component::Position> &_positions;
 };
 
 }

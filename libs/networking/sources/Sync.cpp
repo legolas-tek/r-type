@@ -5,7 +5,7 @@
 ** Network Sync abstract class
 */
 
-#include "Components/Velocity.hpp"
+#include "Components/Position.hpp"
 
 #include "Serialization/Deserializer.hpp"
 #include "Serialization/Serializer.hpp"
@@ -97,7 +97,7 @@ void net::Sync::applyInterpolationNeededUpdates()
 {
     engine::Deserializer deserializer(_lastUpdate);
     std::size_t velocityComponentId
-        = _registry.get_component_id<Component::Velocity>();
+        = _registry.get_component_id<Component::Position>();
 
     deserializer.skip(
         sizeof(std::size_t) + sizeof(uint8_t) + (sizeof(uint32_t) * 2)
