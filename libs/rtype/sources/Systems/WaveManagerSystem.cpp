@@ -20,6 +20,9 @@
 #include "Components/HitBox.hpp"
 #include "Components/Velocity.hpp"
 #include "Components/Dependent.hpp"
+#include "Components/Damage.hpp"
+#include "Components/Solid.hpp"
+
 
 System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
     : _register(reg)
@@ -35,9 +38,10 @@ System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
                             .frameDuration = 50,
                             .scale = 1.5,
                             .velocity = { -3, 0 },
-                            .damage = 1,
+                            .damage = 2,
                             .lifeTime = 500,
-                            .fireRate = 100 };
+                            .fireRate = 100,
+                            .solid = true };
     EntityInfo scourge = { .textureIndex = RTypeGame::BASIC_ENNEMY_I,
                            .textureWidth = RTypeGame::BASIC_ENNEMY_W
                                * RTypeGame::BASIC_ENNEMY_F,
@@ -51,7 +55,8 @@ System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
                            .velocity = { -10, 0 },
                            .damage = 1,
                            .lifeTime = 300,
-                           .fireRate = std::nullopt };
+                           .fireRate = std::nullopt,
+                           .solid = true };
 
     _entityList.push_back(scourge);
     _entityList.push_back(mutalisk);
@@ -116,6 +121,8 @@ void System::WaveManagerSystem::createBoss()
     _register.get_components<Component::Collision>().emplace_at(
         bossHead, 113, 83
     );
+    _register.get_components<Component::Damage>().emplace_at(bossHead, 3);
+    _register.get_components<Component::Solid>().emplace_at(bossHead);
     _register.get_components<Component::HitBox>().emplace_at(bossHead, 113, 83);
     _register.get_components<Component::Health>().emplace_at(bossHead, 10, 10);
     _register.get_components<Component::Dependent>().emplace_at(
@@ -126,6 +133,13 @@ void System::WaveManagerSystem::createBoss()
     );
     _register.get_components<Component::Dependent>().emplace_at(
         secondTurret, bossHead
+    );
+    _register.get_components<Component::Health>().emplace_at(bossBody, 10, 10);
+    _register.get_components<Component::Health>().emplace_at(
+        firstTurret, 10, 10
+    );
+    _register.get_components<Component::Health>().emplace_at(
+        secondTurret, 10, 10
     );
 }
 
@@ -141,8 +155,9 @@ void System::WaveManagerSystem::operator()()
                 _register, _entityList[0], tick, secondsToTick(1),
                 rendering::system::SCREEN_WIDTH + _entityList[0].entityWidth,
                 rendering::system::SCREEN_WIDTH + _entityList[0].entityWidth,
-                40,
-                rendering::system::SCREEN_HEIGHT - _entityList[0].entityHeight
+                RTypeGame::BORDERS_H + _entityList[0].entityHeight / 2,
+                rendering::system::SCREEN_HEIGHT - _entityList[0].entityHeight /
+                    2 - RTypeGame::BORDERS_H
             );
         }
         if (_waveNum == 2) {
@@ -151,8 +166,9 @@ void System::WaveManagerSystem::operator()()
                 _register, _entityList[1], tick, secondsToTick(1),
                 rendering::system::SCREEN_WIDTH + _entityList[1].entityWidth,
                 rendering::system::SCREEN_WIDTH + _entityList[1].entityWidth,
-                40,
-                rendering::system::SCREEN_HEIGHT - _entityList[1].entityHeight
+                RTypeGame::BORDERS_H + _entityList[1].entityHeight / 2,
+                rendering::system::SCREEN_HEIGHT - _entityList[1].entityHeight /
+                    2 - RTypeGame::BORDERS_H
             );
         }
         if (_waveNum == 3) {

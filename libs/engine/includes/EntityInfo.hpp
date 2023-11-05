@@ -26,5 +26,6 @@ struct EntityInfo {
     std::optional<int> damage;
     std::optional<size_t> lifeTime;
     std::optional<int> fireRate;
+    bool solid;
 };
 #endif /* !ENTITYINFO_HPP_ */

@@ -8,7 +8,6 @@
 #ifndef R_TYPE_DEPENDENT_HPP_
 #define R_TYPE_DEPENDENT_HPP_
 
-
 #include "Serialization/Serializable.hpp"
 #include "Entity.hpp"
 
