@@ -37,7 +37,7 @@ int main()
         try {
             game = runGame(std::move(game));
         } catch (GameEndException &) {
-            game = std::unique_ptr<engine::IGame>(createGame());
+            return 0;
         } catch (GameRestartException &e) {
             game = std::unique_ptr<engine::IGame>(createGame());
         }
