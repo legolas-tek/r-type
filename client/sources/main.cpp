@@ -33,11 +33,13 @@ int main()
 {
     std::unique_ptr<engine::IGame> game(createGame());
 
-    try {
-        while (game) {
+    while (game) {
+        try {
             game = runGame(std::move(game));
+        } catch (GameEndException &) {
+            return 0;
+        } catch (GameRestartException &e) {
+            game = std::unique_ptr<engine::IGame>(createGame());
         }
-    } catch (GameEndException &) {
-        return 0;
     }
 }

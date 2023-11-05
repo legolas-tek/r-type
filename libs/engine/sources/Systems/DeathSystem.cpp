@@ -33,8 +33,8 @@ void System::DeathSystem::operator()()
         if (_lifes[it.get_entity()])
             lifes = _lifes[it.get_entity()]->lifes;
 
-        if ((*it)->health <= 0 and lifes <= 0 and
-            not isAlreadyInDeathEvent(it.get_entity())) {
+        if ((*it)->health <= 0 and lifes <= 0
+            and not isAlreadyInDeathEvent(it.get_entity())) {
             _events.addEvent<event::Death>(it.get_entity());
             eraseDependentsEntities(it.get_entity());
         }

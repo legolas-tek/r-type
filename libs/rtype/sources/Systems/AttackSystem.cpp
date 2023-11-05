@@ -13,10 +13,10 @@
 #include "Components/Damage.hpp"
 #include "Components/Drawable.hpp"
 #include "Components/HitBox.hpp"
+#include "Components/KillOnCollision.hpp"
 #include "Components/LifeTime.hpp"
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
-#include "Components/KillOnCollision.hpp"
 
 System::AttackSystem::AttackSystem(
     SparseArray<Component::FireRate> &fireRates,

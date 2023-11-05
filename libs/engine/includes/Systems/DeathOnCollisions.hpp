@@ -12,8 +12,8 @@
 #include "Registry.hpp"
 #include "SparseArray.hpp"
 
-#include "Components/Solid.hpp"
 #include "Components/KillOnCollision.hpp"
+#include "Components/Solid.hpp"
 
 namespace System {
 
