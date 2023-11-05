@@ -9,6 +9,8 @@
 
 #include "ProcessKeyDownEvents.hpp"
 
+#include <iostream>
+
 System::ProcessKeyDownEvents::ProcessKeyDownEvents(
     event::EventQueue &events, SparseArray<Component::Velocity> &velocities
 )
@@ -19,6 +21,8 @@ System::ProcessKeyDownEvents::ProcessKeyDownEvents(
 
 void System::ProcessKeyDownEvents::operator()()
 {
+    Component::Velocity res;
+
     for (auto &keyDown : _events.getEvents<event::KeyDown>()) {
         auto &velocities = _velocities[keyDown.entity];
 
@@ -26,17 +30,18 @@ void System::ProcessKeyDownEvents::operator()()
             continue;
 
         if (keyDown.key == 'W' or keyDown.key == 'Z')
-            velocities->_vy -= 5.0f;
-        else if (keyDown.key == 'S')
-            velocities->_vy += 5.0f;
-        else
-            velocities->_vy = 0;
+            res._vy -= 5.0f;
+
+        if (keyDown.key == 'S')
+            res._vy += 5.0f;
 
         if (keyDown.key == 'A' or keyDown.key == 'Q')
-            velocities->_vx -= 5.0f;
-        else if (keyDown.key == 'D')
-            velocities->_vx += 5.0f;
-        else
-            velocities->_vx = 0;
+            res._vx -= 5.0f;
+
+        if (keyDown.key == 'D')
+            res._vx += 5.0f;
+
+        velocities = res;
+        keyDown.key = 0;
     }
 }
