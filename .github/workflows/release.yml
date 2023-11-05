@@ -26,3 +26,4 @@ jobs:
         with:
           artifacts: "./generated_packages/R-Type-${{  github.ref_name }}-win64.exe, ./generated_packages/R-Type-${{  github.ref_name }}-Linux.sh"
           generateReleaseNotes: true
+          tag: "v${{  github.ref_name }}-stable"
