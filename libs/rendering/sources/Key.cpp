@@ -27,15 +27,9 @@ rendering::system::Key::~Key() = default;
 
 void rendering::system::Key::operator()()
 {
-    // for (char keyPressed = GetKeyPressed(); keyPressed != 0;) {
-    //_events.addEvent<event::KeyPressed>(
-    // keyPressed
-    //);
-    //}
-
-    for (int i = 0; i != 6; ++i) {
-        if (IsKeyDown(HANDLED_KEY[i])) {
-            _events.addEvent<event::KeyDown>(HANDLED_KEY[i]);
+    for (char key : HANDLED_KEY) {
+        if (IsKeyDown(key)) {
+            _events.addEvent<event::KeyDown>(key);
         }
     }
 }

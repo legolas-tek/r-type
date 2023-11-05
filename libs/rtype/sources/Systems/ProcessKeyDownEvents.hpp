@@ -5,8 +5,8 @@
 ** ProcessKeyDownEvents
 */
 
-#ifndef PROCESSKEYDOWNEVENTSSYSTEM_HPP_
-#define PROCESSKEYDOWNEVENTSSYSTEM_HPP_
+#ifndef R_TYPE_PROCESS_KEYDOWN_EVENTS_SYSTEM_HPP_
+#define R_TYPE_PROCESS_KEYDOWN_EVENTS_SYSTEM_HPP_
 
 #include "ISystem.hpp"
 #include "SparseArray.hpp"
@@ -40,4 +40,4 @@ private:
 
 }
 
-#endif /* PROCESSKEYDOWNEVENTSSYSTEM_HPP_ */
+#endif /* PROCESS_KEYDOWN_EVENTS_SYSTEM_HPP_ */
