@@ -13,16 +13,17 @@
 #include "Rendering.hpp"
 
 #include "Components/Collision.hpp"
+#include "Components/Damage.hpp"
+#include "Components/Dependent.hpp"
 #include "Components/FireRate.hpp"
 #include "Components/Floating.hpp"
 #include "Components/Follow.hpp"
 #include "Components/Health.hpp"
 #include "Components/HitBox.hpp"
-#include "Components/Velocity.hpp"
-#include "Components/Dependent.hpp"
-#include "Components/Damage.hpp"
 #include "Components/Solid.hpp"
+#include "Components/Velocity.hpp"
 
+#include "Events/FinalBoss.hpp"
 
 System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
     : _register(reg)
@@ -69,6 +70,7 @@ void System::WaveManagerSystem::createBoss()
     engine::Entity secondTurret(_register.get_new_entity());
     engine::Entity bossHead(_register.get_new_entity());
 
+    _register.events.addEvent<event::FinalBoss>(bossHead);
     _register.get_components<Component::Position>().emplace_at(
         bossBody, rendering::system::SCREEN_WIDTH + 300, 0, 0
     );
@@ -156,8 +158,8 @@ void System::WaveManagerSystem::operator()()
                 rendering::system::SCREEN_WIDTH + _entityList[0].entityWidth,
                 rendering::system::SCREEN_WIDTH + _entityList[0].entityWidth,
                 RTypeGame::BORDERS_H + _entityList[0].entityHeight / 2 + 5,
-                rendering::system::SCREEN_HEIGHT - _entityList[0].entityHeight /
-                    2 - RTypeGame::BORDERS_H - 5
+                rendering::system::SCREEN_HEIGHT
+                    - _entityList[0].entityHeight / 2 - RTypeGame::BORDERS_H - 5
             );
         }
         if (_waveNum == 2) {
@@ -167,8 +169,8 @@ void System::WaveManagerSystem::operator()()
                 rendering::system::SCREEN_WIDTH + _entityList[1].entityWidth,
                 rendering::system::SCREEN_WIDTH + _entityList[1].entityWidth,
                 RTypeGame::BORDERS_H + _entityList[1].entityHeight / 2 + 5,
-                rendering::system::SCREEN_HEIGHT - _entityList[1].entityHeight /
-                    2 - RTypeGame::BORDERS_H - 5
+                rendering::system::SCREEN_HEIGHT
+                    - _entityList[1].entityHeight / 2 - RTypeGame::BORDERS_H - 5
             );
         }
         if (_waveNum == 3) {

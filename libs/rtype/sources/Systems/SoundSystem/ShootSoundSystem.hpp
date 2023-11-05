@@ -20,7 +20,7 @@ namespace System {
 class ShootSoundSystem : public ISystem {
 public:
     ShootSoundSystem(engine::Registry &reg);
-    ~ShootSoundSystem() = default;
+    ~ShootSoundSystem();
 
     void operator()() override;
 

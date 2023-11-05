@@ -25,6 +25,8 @@ System::SoundManagerSystem::SoundManagerSystem(engine::Registry &reg)
 
 System::SoundManagerSystem::~SoundManagerSystem()
 {
+    UnloadMusicStream(_music);
+    CloseAudioDevice();
 }
 
 void System::SoundManagerSystem::operator()()
