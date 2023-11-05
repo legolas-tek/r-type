@@ -320,13 +320,3 @@ void RTypeGame::initScene(engine::Registry &reg)
         reg.get_components<Component::Follow>().emplace_at(name, player, 0, 50);
     }
 }
-
-std::unique_ptr<engine::IGame> RTypeGame::createLobby()
-{
-    return std::make_unique<RTypeLobby>(*this);
-}
-
-engine::IGame *createGame()
-{
-    return new RTypeGame();
-}

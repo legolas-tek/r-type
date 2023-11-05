@@ -64,22 +64,19 @@ void RTypeLobby::registerAdditionalServerSystems(engine::Registry &reg)
     );
 }
 
-RTypeLobby::RTypeLobby(RTypeGame &game)
-    : _game(game)
+std::unique_ptr<engine::IGame> RTypeLobby::createNextGame()
 {
-}
-
-RTypeLobby::~RTypeLobby()
-{
-    _game._playerHash = _playerHash;
-    _game._playerNumber = _playerNumber;
-    _game._address = std::move(_address);
-    _game._port = _port;
+    auto game = std::make_unique<RTypeGame>();
+    game->_playerHash = _playerHash;
+    game->_playerNumber = _playerNumber;
+    game->_address = std::move(_address);
+    game->_port = _port;
     if (_serverLobby)
-        _game._serverClients = std::move(_serverLobby->get().getClients());
+        game->_serverClients = std::move(_serverLobby->get().getClients());
+    return game;
 }
 
-void RTypeLobby::registerAdditionalSystems(engine::Registry &reg)
+void RTypeLobby::registerAdditionalSystems(engine::Registry &)
 {
 }
 
@@ -160,4 +157,9 @@ void RTypeLobby::initLobbyScene(
     reg.add_system<System::StartGameButton>(
         client, reg.get_components<Component::Focusable>()[button].value()
     );
+}
+
+engine::IGame *createGame()
+{
+    return new RTypeLobby();
 }
