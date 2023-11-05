@@ -31,8 +31,6 @@ public:
 
     void operator()() override;
 
-    // void addEnemy();
-
 private:
     engine::Registry &_register;
     EntityInfo _entityInfo;

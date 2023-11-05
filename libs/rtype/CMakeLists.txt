@@ -53,7 +53,9 @@ target_sources (rtype
     ./sources/Systems/WaveManagerSystem.cpp
     ./sources/Systems/NetworkSystem.cpp
     ./sources/Systems/DeathAnimationManager.cpp
+    ./sources/Systems/LootDropManager.cpp
     ./sources/Systems/JoinButton.cpp
+    ./sources/Systems/TriggerBonus.cpp
     ./sources/Systems/SpectateButton.cpp
     ./sources/Systems/StartGameButton.cpp
     ./sources/Systems/LobbyClientImpl.cpp

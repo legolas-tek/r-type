@@ -29,6 +29,8 @@ public:
     static inline constexpr int SHIP_I = 3;
     /// @brief The Health a ship should have
     static inline constexpr int SHIP_HEALTH = 3;
+    /// @brief The rate at wich the ship should fire
+    static inline constexpr int SHIP_FIRE_RATE = 50;
 
     /// @brief The Width of the basic ennemy sprite
     static inline constexpr int BASIC_ENNEMY_W = 32;
@@ -59,7 +61,7 @@ public:
     /// @brief The number of frames for the first boss animation
     static inline constexpr int FIRST_BOSS_F = 3;
     /// @brief The index to find the first boss sprite
-    static inline constexpr int FIRST_BOSS_I = 13;
+    static inline constexpr int FIRST_BOSS_I = 12;
     /// @brief The Health a first boss should have
     static inline constexpr int FIRST_BOSS_HEALTH = 20;
 
@@ -68,7 +70,23 @@ public:
     /// @brief The Height of the small turret sprite
     static inline constexpr int SMALL_TURRET_H = 15;
     /// @brief The index to find the small turret sprite
-    static inline constexpr int SMALL_TURRET_I = 12;
+    static inline constexpr int SMALL_TURRET_I = 11;
+
+    /// @brief The Width of the bonus sprite
+    static inline constexpr int BONUS_W = 318;
+    /// @brief The Height of the bonus sprite
+    static inline constexpr int BONUS_H = 318;
+    /// @brief The number of frames for the bonus animation
+    static inline constexpr int BONUS_F = 6;
+    /// @brief The index to find the bonus sprite
+    static inline constexpr int BONUS_I = 13;
+
+    /// @brief The Width of the life sprite
+    static inline constexpr int LIFE_W = 225;
+    /// @brief The Height of the life sprite
+    static inline constexpr int LIFE_H = 225;
+    /// @brief The index to find the life sprite
+    static inline constexpr int LIFE_I = 14;
 
     /// @brief The Width of the borders sprite
     static inline constexpr int BORDERS_W = 960;
