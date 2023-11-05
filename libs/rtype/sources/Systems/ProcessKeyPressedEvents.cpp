@@ -40,8 +40,9 @@ void System::ProcessKeyPressedEvents::operator()()
 
     for (auto it = _texts.begin(); it != _texts.end(); ++it) {
         auto &modifiable = _modifiables[it.get_entity()];
+        bool isModifiable = modifiable && modifiable->id == _playerNumber;
 
-        if (not modifiable and modifiable->id == _playerNumber)
+        if (not isModifiable)
             continue;
 
         if ((*it)->_text != reaction and reaction != "")
