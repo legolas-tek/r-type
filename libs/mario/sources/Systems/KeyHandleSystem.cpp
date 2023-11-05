@@ -8,7 +8,7 @@
 #include "Systems/KeyHandleSystem.hpp"
 
 #include "Events/Key.hpp"
-
+#include "Events/KeyDown.hpp"
 #include "raylib.h"
 
 #include "Components/Jump.hpp"
@@ -23,9 +23,9 @@ System::KeyHandleSystem::KeyHandleSystem(
 
 void System::KeyHandleSystem::operator()()
 {
-    for (auto it = _events.beginIterator<Event::Key>();
-         it != _events.endIterator<Event::Key>(); it++) {
-        if (it->key == KEY_SPACE) {
+    for (auto &keyDown : _events.getEvents<event::KeyDown>()) {
+        if (keyDown.key == KEY_SPACE) {
+            std::cout << "asd" << std::endl;
             auto &jumpCompList = _reg.get_components<Component::Jump>();
             for (auto it = jumpCompList.begin(); it != jumpCompList.end();
                  ++it) {

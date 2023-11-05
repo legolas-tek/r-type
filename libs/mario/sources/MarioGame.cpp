@@ -24,6 +24,7 @@
 #include "Systems/JumpSystem.hpp"
 #include "Systems/KeyHandleSystem.hpp"
 #include "Systems/MoveSystem.hpp"
+#include "Systems/ProcessKeyDownEvents.hpp"
 #include "Systems/RailSystem.hpp"
 
 #include "Key.hpp"
@@ -64,10 +65,7 @@ void MarioGame::registerAdditionalClientSystems(engine::Registry &reg)
         reg.get_components<Component::Collision>()
     );
     reg.add_system<rendering::system::Rendering>(reg);
-    reg.add_system<rendering::system::Key>(
-        reg.events, reg.get_components<Component::Controllable>(),
-        reg.get_components<Component::Velocity>(), 0
-    );
+    reg.add_system<rendering::system::Key>(reg.events);
     reg.add_system<System::KeyHandleSystem>(reg, reg.events);
     reg.add_system<System::JumpSystem>(
         reg, reg.get_components<Component::Jump>(),
@@ -91,6 +89,10 @@ void MarioGame::registerAdditionalClientSystems(engine::Registry &reg)
         reg.get_components<Component::Collision>()
     );
     reg.add_system<System::AnimationSystem>(reg);
+    reg.add_system<System::ProcessKeyDownEvents>(
+        reg.events, reg.get_components<Component::Controllable>(),
+        reg.get_components<Component::Velocity>(), 0
+    );
 }
 
 void MarioGame::registerAdditionalSystems(engine::Registry &reg)
@@ -212,7 +214,7 @@ void MarioGame::initScene(engine::Registry &reg)
     reg.get_components<Component::Solid>().insert_at(mario_player, Component::Solid());
     // ==================== set Velocity ====================
     reg.get_components<Component::Velocity>().insert_at(
-        mario_player, Component::Velocity(1, 1)
+        mario_player, Component::Velocity(0, 0)
     );
     reg.get_components<Component::Velocity>().insert_at(
         background, Component::Velocity(0, 0)
@@ -222,6 +224,8 @@ void MarioGame::initScene(engine::Registry &reg)
     );
     // ==================== set Controllable ====================
     reg.get_components<Component::Controllable>().insert_at(mario_player, 0);
+
+    // ==================== set Jump ====================
     reg.get_components<Component::Jump>().insert_at(
         mario_player, Component::Jump()
     );

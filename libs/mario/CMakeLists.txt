@@ -42,6 +42,7 @@ target_sources ( mario
     ./sources/Systems/KeyHandleSystem.cpp
     ./sources/Systems/JumpSystem.cpp
     ./sources/Systems/RailSystem.cpp
+    ./sources/Systems/ProcessKeyDownEvents.cpp
 )
 
 install(TARGETS  mario
