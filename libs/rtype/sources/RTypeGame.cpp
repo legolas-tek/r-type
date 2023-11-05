@@ -8,6 +8,7 @@
 #include "Components/ScoreOnDeath.hpp"
 #include "Game.hpp"
 
+#include "Components/Bonus.hpp"
 #include "Components/Focusable.hpp"
 #include "Components/RestartOnClick.hpp"
 #include "Components/Solid.hpp"
@@ -27,13 +28,16 @@
 #include "Systems/Focusable.hpp"
 #include "Systems/FollowSystem.hpp"
 #include "Systems/LifeTimeSystem.hpp"
+#include "Systems/LootDropManager.hpp"
 #include "Systems/MoveSystem.hpp"
 #include "Systems/NetworkSystem.hpp"
+#include "Systems/ProcessKeyDownEvents.hpp"
 #include "Systems/RespawnSystem.hpp"
 #include "Systems/Restart.hpp"
 #include "Systems/ScoreOnDeath.hpp"
 #include "Systems/SoundManagerSystem.hpp"
 #include "Systems/SpawnEnemySystem.hpp"
+#include "Systems/TriggerBonus.hpp"
 #include "Systems/WaveManagerSystem.hpp"
 
 #include "Key.hpp"
@@ -68,11 +72,17 @@ void RTypeGame::registerAllComponents(engine::Registry &reg)
     reg.register_component<Component::RestartOnClick>();
     reg.register_component<Component::Focusable>();
     reg.register_component<Component::KillOnCollision>();
+    reg.register_component<Component::Loot>();
+    reg.register_component<Component::Bonus>();
     reg.register_component<Component::ScoreOnDeath>();
 }
 
 void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
 {
+    reg.add_system<System::LootDropManager>(
+        reg.get_components<Component::Loot>(),
+        reg.get_components<Component::Position>(), reg, 10
+    );
     reg.add_system<System::DeathOnCollisions>(
         reg.get_components<Component::Solid>(),
         reg.get_components<Component::KillOnCollision>(), reg.events
@@ -90,6 +100,11 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
         reg.get_components<Component::Life>(),
         reg.get_components<Component::Dependent>(),
         reg.get_components<Component::Follow>(), reg
+    );
+    reg.add_system<System::TriggerBonus>(
+        reg.get_components<Component::Bonus>(),
+        reg.get_components<Component::Controllable>(),
+        reg.get_components<Component::Life>(), reg
     );
     reg.add_system<System::AttackSystem>(
         reg.get_components<Component::FireRate>(),
@@ -138,10 +153,13 @@ void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
     reg.add_system<System::SoundManagerSystem>(reg);
     reg.add_system<System::AnimationSystem>(reg);
     reg.add_system<rendering::system::Rendering>(reg);
-    reg.add_system<rendering::system::Key>(
-        reg.get_components<Component::Controllable>(),
+    reg.add_system<rendering::system::Key>(reg.events);
+
+    reg.add_system<System::ProcessKeyDownEvents>(
+        reg.events, reg.get_components<Component::Controllable>(),
         reg.get_components<Component::Velocity>(), _playerNumber
     );
+
     reg.add_system<System::Restart>(
         reg.events, reg.get_components<Component::RestartOnClick>(),
         reg.get_components<Component::Focusable>()
@@ -210,13 +228,13 @@ void RTypeGame::initAssets(engine::Registry &reg)
     // 10
     reg._assets_paths.emplace_back("./assets/images/big_explosion.png");
     // 11
-    reg._assets_paths.emplace_back(
-        "./assets/images/BODYMAINCOLORCG.png", "./assets/SU-27.obj"
-    );
-    // 12
     reg._assets_paths.emplace_back("./assets/images/small_turret.png");
-    // 13
+    // 12
     reg._assets_paths.emplace_back("./assets/images/first_boss.png");
+    // 13
+    reg._assets_paths.emplace_back("./assets/images/Spinning-orb.png");
+    // 14
+    reg._assets_paths.emplace_back("./assets/images/wrench.png");
 }
 
 void RTypeGame::initScene(engine::Registry &reg)
@@ -352,7 +370,9 @@ void RTypeGame::initScene(engine::Registry &reg)
         reg.get_components<Component::HitBox>().emplace_at(
             player, SHIP_W * 2, SHIP_H * 2
         );
-        reg.get_components<Component::FireRate>().emplace_at(player, 50);
+        reg.get_components<Component::FireRate>().emplace_at(
+            player, SHIP_FIRE_RATE
+        );
         reg.get_components<Component::Controllable>().emplace_at(
             player, client.getPlayerNumber()
         );

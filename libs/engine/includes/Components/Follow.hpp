@@ -18,6 +18,10 @@ struct Follow : engine::Serializable<Follow> {
     /// @brief Constrcust an instance of a Follow component and sets the
     /// followed entity
     /// @param followedEntity The entity wich the owner should follow
+    /// @param offsetX The distance between the position of the followed entity
+    /// and the position of the owner on the X axis
+    /// @param offsetY The distance between the position of the followed entity
+    /// and the position of the owner on the Y axis
     Follow(engine::Entity targetEntity, float offsetX, float offsetY)
         : targetEntity(targetEntity)
         , offsetX(offsetX)

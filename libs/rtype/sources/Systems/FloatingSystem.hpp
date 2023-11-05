@@ -5,8 +5,8 @@
 ** FloatingSystem
 */
 
-#ifndef FLOATINGSYSTEM_HPP_
-#define FLOATINGSYSTEM_HPP_
+#ifndef R_TYPE_FLOATINGSYSTEM_HPP_
+#define R_TYPE_FLOATINGSYSTEM_HPP_
 
 #include "ISystem.hpp"
 #include "SparseArray.hpp"
@@ -52,4 +52,4 @@ private:
 };
 
 }
-#endif /* !FLOATINGSYSTEM_HPP_ */
+#endif /* !R_TYPE_FLOATINGSYSTEM_HPP_ */

@@ -23,6 +23,7 @@ namespace System {
 /// component. If it does it launches an attack creating an entity and set back
 /// the attack component to true.
 class AttackSystem : public ISystem {
+public:
     /// @brief The width of the laser sprite
     static inline constexpr int LASER_WIDTH = 50;
     /// @brief The height of the laser component
