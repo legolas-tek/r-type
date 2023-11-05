@@ -17,13 +17,13 @@
 namespace System {
 class KeyHandleSystem : public ISystem {
 public:
-    KeyHandleSystem(engine::Registry &reg, Event::EventQueue &events);
+    KeyHandleSystem(engine::Registry &reg, event::EventQueue &events);
 
     void operator()() override;
 
 private:
     engine::Registry &_reg;
-    Event::EventQueue &_events;
+    event::EventQueue &_events;
 };
 }
 #endif /* !KEY_HANDLE_SYSTEM_HPP_ */

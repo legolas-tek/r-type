@@ -12,7 +12,7 @@
 #include "raylib.h"
 
 rendering::system::Key::Key(
-    Event::EventQueue &events,
+    event::EventQueue &events,
     SparseArray<Component::Controllable> &controllables,
     SparseArray<Component::Velocity> &velocities, std::size_t playerNumber
 )

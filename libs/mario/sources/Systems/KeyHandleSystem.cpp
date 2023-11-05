@@ -16,7 +16,7 @@
 #include "Components/Jump.hpp"
 
 System::KeyHandleSystem::KeyHandleSystem(
-    engine::Registry &reg, Event::EventQueue &events
+    engine::Registry &reg, event::EventQueue &events
 )
     : _reg(reg)
     , _events(events)

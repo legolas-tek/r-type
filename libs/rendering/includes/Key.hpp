@@ -34,7 +34,7 @@ public:
      * \param velocities The registry of Velocity components.
      * \param playerNumber The player number to move.
      */
-    Key(Event::EventQueue &events,
+    Key(event::EventQueue &events,
         SparseArray<Component::Controllable> &controllables,
         SparseArray<Component::Velocity> &velocities, std::size_t playerNumber);
 
@@ -55,7 +55,7 @@ public:
     void operator()() override;
 
 private:
-    Event::EventQueue &_events;
+    event::EventQueue &_events;
     SparseArray<Component::Controllable> &_controllables;
     SparseArray<Component::Velocity> &_velocities;
     std::size_t _playerNumber;

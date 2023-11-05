@@ -14,7 +14,7 @@
 
 namespace Event {
 
-class Key : public IEvent {
+class Key : public event::IEvent {
 public:
     Key(int key)
         : key(key)
