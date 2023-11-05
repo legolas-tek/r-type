@@ -42,6 +42,6 @@ void System::ProcessKeyDownEvents::operator()()
             res._vx += 5.0f;
 
         velocities = res;
-        keyDown.key = 0;
+        _events.addEvent<event::KeyDown>(keyDown.entity, '\0');
     }
 }
