@@ -5,6 +5,7 @@
 ** Game-specific network system
 */
 
+#include "Components/ChatModifiableText.hpp"
 #include "Components/Controllable.hpp"
 #include "Components/Velocity.hpp"
 
@@ -18,7 +19,10 @@ bool rtype::NetworkServerSystem::canUpdate(
 {
     auto &controllable
         = _registry.get_components<Component::Controllable>()[entity];
-    if (not controllable)
+    auto &modifiable
+        = _registry.get_components<Component::ChatModifiableText>()[entity];
+
+    if (not controllable or not modifiable)
         return false;
     if (getPlayerNumber(client) != controllable->_id)
         return false;
@@ -34,7 +38,10 @@ bool rtype::NetworkClientSystem::canSend(
 {
     auto &controllable
         = _registry.get_components<Component::Controllable>()[entity];
-    if (not controllable)
+    auto &modifiable
+        = _registry.get_components<Component::ChatModifiableText>()[entity];
+
+    if (not controllable or not modifiable)
         return false;
     if (_playerNumber != controllable->_id)
         return false;
