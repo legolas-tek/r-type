@@ -37,6 +37,6 @@ void System::EventLogger::operator()()
     _file << "Tick: " << _tick << std::endl;
     _file << "====" << std::endl;
     for (auto &event : _queue) {
-        _file << "+ " << typeid(*event).name() << std::endl;
+        _file << "+ " << *event << std::endl;
     }
 }
