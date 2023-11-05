@@ -69,7 +69,7 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
 {
     reg.add_system<System::LootDropManager>(
         reg.get_components<Component::Loot>(),
-        reg.get_components<Component::Position>(), reg, 100
+        reg.get_components<Component::Position>(), reg, 5
     );
     reg.add_system<System::DeathOnCollisions>(
         reg.get_components<Component::Solid>(),
