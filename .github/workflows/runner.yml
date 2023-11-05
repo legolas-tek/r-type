@@ -1,5 +1,10 @@
 name: 🔗 GHA
-on: push
+on:
+  push:
+    paths-ignore:
+      - '**/README.md'
+      - '**/CONTRIBUTING'
+      - '**/LICENSE'
 
 jobs:
   linux-build:
