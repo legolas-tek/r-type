@@ -21,7 +21,7 @@ namespace Component {
  */
 struct ChatModifiableText : engine::Serializable<ChatModifiableText> {
 
-    ChatModifiableText(int id)
+    ChatModifiableText(std::size_t id)
         : id(id)
     {
     }
@@ -32,7 +32,7 @@ struct ChatModifiableText : engine::Serializable<ChatModifiableText> {
     /**
      * @brief The number of the player modifying the text
      */
-    int id = 0;
+    std::size_t id = 0;
 };
 
 }
