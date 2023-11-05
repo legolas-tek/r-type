@@ -133,6 +133,7 @@ public:
 
 private:
     engine::Entity _joinButton { 0 };
+    engine::Entity _spectateButton { 0 };
     engine::Entity _addressInput { 0 };
     engine::Entity _portInput { 0 };
     engine::Entity _nameInput { 0 };

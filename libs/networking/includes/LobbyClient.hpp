@@ -34,6 +34,8 @@ public:
 
     /// Send a Join Request with the given player name
     void sendJoinRequest(std::string const &playerName);
+    /// Send a Spectate Request
+    void sendSpectateRequest();
     /// Send a Start Request
     void sendStartRequest();
 
@@ -49,6 +51,9 @@ private:
     virtual void
     onJoinSuccess(std::uint8_t playerNumber, std::uint64_t playerHash)
         = 0;
+
+    /// Called when the server sends a "Join as Spectator Success" packet
+    virtual void onSpectateSuccess(std::uint64_t playerHash) = 0;
 
     /// Called when the server sends a "New Player" packet
     virtual void

@@ -28,6 +28,7 @@ target_sources (engine
     ./sources/Systems/LifeTimeSystem.cpp
     ./sources/Systems/DamageHandler.cpp
     ./sources/Systems/DamageOnCollisionsSystem.cpp
+    ./sources/Systems/DeathOnCollisions.cpp
     ./sources/Systems/DeathSystem.cpp
     ./sources/Systems/CollisionsSystem.cpp
     ./sources/Systems/RespawnSystem.cpp

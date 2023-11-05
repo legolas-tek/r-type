@@ -43,6 +43,12 @@ private:
     /// @param entity the entity on which others entity should depend to die
     void eraseDependentsEntities(engine::Entity entity);
 
+    /// @brief checks whether an entity has already a death event raised or not
+    /// @param entity the entity it checks
+    /// @return returns true if the entity already ahs a death event and false
+    /// if it doesn't
+    bool isAlreadyInDeathEvent(engine::Entity entity) const;
+
     /// @brief A ref to a Health components SparseArray
     SparseArray<Component::Health> &_healths;
     /// @brief A ref to a Life components SparseArray

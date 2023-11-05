@@ -28,6 +28,15 @@ void net::LobbyRemoteClient::sendJoinSuccess(
     _network->write(serializer.finalize());
 }
 
+void net::LobbyRemoteClient::sendSpectateSuccess(std::uint64_t playerHash)
+{
+    engine::Serializer serializer;
+
+    serializer.serializeTrivial(std::byte(0x03));
+    serializer.serializeTrivial(playerHash);
+    _network->write(serializer.finalize());
+}
+
 void net::LobbyRemoteClient::sendNewPlayer(
     size_t playerNumber, std::string const &playerName
 )
@@ -87,6 +96,11 @@ void net::LobbyRemoteClient::parsePacket()
         std::string playerName(playerNameSize, '\0');
         buffer.readInto(playerName.data(), playerNameSize);
         onJoinRequest(std::move(playerName));
+        break;
+    }
+    case std::byte(0x03): {
+        // Join as spectator request
+        onSpectateRequest();
         break;
     }
     case std::byte(0x08): {

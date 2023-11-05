@@ -1,22 +1,23 @@
-name: Windows compiling action
+name: 🏁 Windows Builds & Tests
 
 on:
-  pull_request:
-    branches:
-      - main
+  workflow_call:
 
 jobs:
-  compile_project:
-    name: "Test that the project compile as expected"
+  build_windows:
+    name: "Build on Windows Latest"
     runs-on: "windows-latest"
     steps:
       - uses: "actions/checkout@v3"
         with:
           fetch-depth: 0
+
       - name: "Configure the project using cmake"
         run: "cmake -Bbuild -DCMAKE_CXX_COMPILER=cl -DCMAKE_C_COMPILER=cl -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE='.\\cmake\\windows-base.cmake'"
+
       - name: "Compile the code"
         run: "cmake --build build --config=Release"
+
       - name: "Run unit tests"
         working-directory: build/tests
         run: "ctest -C Release"
