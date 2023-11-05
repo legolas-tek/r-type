@@ -1,4 +1,4 @@
-name: Mirroring action
+name: 🪞 Mirror
 
 env:
   MIRROR_URL: "git@github.com:EpitechPromo2026/B-CPP-500-PAR-5-1-rtype-jeremy.elalouf.git"

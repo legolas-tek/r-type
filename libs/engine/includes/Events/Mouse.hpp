@@ -19,7 +19,11 @@ public:
     Mouse(float x, float y, MouseEventType type)
         : x(x)
         , y(y)
-        , type(type) {};
+        , type(type)
+    {
+    }
+
+    void dump(std::ostream &) const override;
 
     float x;
     float y;

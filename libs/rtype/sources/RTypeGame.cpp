@@ -5,7 +5,6 @@
 ** Game
 */
 
-#include "DiffLogger.hpp"
 #include "Game.hpp"
 
 #include "Components/Solid.hpp"
@@ -31,6 +30,13 @@
 
 #include "Key.hpp"
 #include "Rendering.hpp"
+
+#ifdef DEBUG_LOG_DIFF
+    #include "DiffLogger.hpp"
+#endif
+#ifdef DEBUG_LOG_EVENT
+    #include "Systems/EventLogger.hpp"
+#endif
 
 void RTypeGame::registerAllComponents(engine::Registry &reg)
 {
@@ -137,6 +143,9 @@ void RTypeGame::registerAdditionalSystems(engine::Registry &reg)
         reg.get_components<Component::Follow>(),
         reg.get_components<Component::Position>()
     );
+#ifdef DEBUG_LOG_EVENT
+    reg.add_system<System::EventLogger>("rtype", reg.tick(), reg.events);
+#endif
 }
 
 void RTypeGame::initAssets(engine::Registry &reg)
@@ -281,6 +290,8 @@ void RTypeGame::initScene(engine::Registry &reg)
     reg.get_components<Component::Solid>().emplace_at(bottomBorder);
     // ==================== PLAYER ====================
     for (auto &client : this->_serverClients) {
+        if (client.getPlayerNumber() == 0)
+            continue; // spectator
         engine::Entity player(reg.get_new_entity());
         reg.get_components<Component::Position>().emplace_at(
             player,
@@ -323,14 +334,4 @@ void RTypeGame::initScene(engine::Registry &reg)
         reg.get_components<Component::Follow>().emplace_at(name, player, 0, 50);
         reg.get_components<Component::Damage>().emplace_at(player, 2);
     }
-}
-
-std::unique_ptr<engine::IGame> RTypeGame::createLobby()
-{
-    return std::make_unique<RTypeLobby>(*this);
-}
-
-engine::IGame *createGame()
-{
-    return new RTypeGame();
 }

@@ -20,10 +20,15 @@
 #include "Systems/Focusable.hpp"
 #include "Systems/JoinButton.hpp"
 #include "Systems/LobbyClientImpl.hpp"
+#include "Systems/SpectateButton.hpp"
 #include "Systems/StartGameButton.hpp"
 #include "Systems/Text.hpp"
 
 #include "Rendering.hpp"
+
+#ifdef DEBUG_LOG_EVENT
+    #include "Systems/EventLogger.hpp"
+#endif
 
 static constexpr char const *FONT = "./assets/fonts/Over_There.ttf";
 
@@ -55,6 +60,12 @@ void RTypeLobby::registerAdditionalClientSystems(engine::Registry &reg)
     reg.add_system<System::JoinButton>(
         *this, reg, _joinButton, _addressInput, _portInput, _nameInput
     );
+    reg.add_system<System::SpectateButton>(
+        *this, reg, _spectateButton, _addressInput, _portInput
+    );
+#ifdef DEBUG_LOG_EVENT
+    reg.add_system<System::EventLogger>("lobby", reg.tick(), reg.events);
+#endif
 }
 
 void RTypeLobby::registerAdditionalServerSystems(engine::Registry &reg)
@@ -64,22 +75,19 @@ void RTypeLobby::registerAdditionalServerSystems(engine::Registry &reg)
     );
 }
 
-RTypeLobby::RTypeLobby(RTypeGame &game)
-    : _game(game)
+std::unique_ptr<engine::IGame> RTypeLobby::createNextGame()
 {
-}
-
-RTypeLobby::~RTypeLobby()
-{
-    _game._playerHash = _playerHash;
-    _game._playerNumber = _playerNumber;
-    _game._address = std::move(_address);
-    _game._port = _port;
+    auto game = std::make_unique<RTypeGame>();
+    game->_playerHash = _playerHash;
+    game->_playerNumber = _playerNumber;
+    game->_address = std::move(_address);
+    game->_port = _port;
     if (_serverLobby)
-        _game._serverClients = std::move(_serverLobby->get().getClients());
+        game->_serverClients = std::move(_serverLobby->get().getClients());
+    return game;
 }
 
-void RTypeLobby::registerAdditionalSystems(engine::Registry &reg)
+void RTypeLobby::registerAdditionalSystems(engine::Registry &)
 {
 }
 
@@ -138,6 +146,7 @@ void RTypeLobby::initScene(engine::Registry &reg)
     _portInput = createField(reg, "Port", "4242", 100, 200);
     _nameInput = createField(reg, "Name", "Player", 100, 300);
     _joinButton = createButton(reg, "Join", 500, 200);
+    _spectateButton = createButton(reg, "Spectate", 500, 300);
 }
 
 void RTypeLobby::onJoinSuccess(
@@ -160,4 +169,9 @@ void RTypeLobby::initLobbyScene(
     reg.add_system<System::StartGameButton>(
         client, reg.get_components<Component::Focusable>()[button].value()
     );
+}
+
+engine::IGame *createGame()
+{
+    return new RTypeLobby();
 }
