@@ -21,19 +21,13 @@ System::ProcessKeyDownEvents::ProcessKeyDownEvents(
 {
 }
 
-#include <iostream>
-
 void System::ProcessKeyDownEvents::operator()()
 {
     Component::Velocity res;
 
     for (auto &keyDown : _events.getEvents<event::KeyDown>()) {
 
-        // if (keyDown.key == 'W' or keyDown.key == 'Z')
-        //     res._vy -= 5.0f;
-
         if (keyDown.key == 'S') {
-            // std::cout << "asd" << std::endl;
             res._vy += 5.0f;
         }
 

@@ -24,8 +24,7 @@ System::KeyHandleSystem::KeyHandleSystem(
 void System::KeyHandleSystem::operator()()
 {
     for (auto &keyDown : _events.getEvents<event::KeyDown>()) {
-        if (keyDown.key == KEY_SPACE) {
-            std::cout << "asd" << std::endl;
+        if (keyDown.key == ' ') {
             auto &jumpCompList = _reg.get_components<Component::Jump>();
             for (auto it = jumpCompList.begin(); it != jumpCompList.end();
                  ++it) {
