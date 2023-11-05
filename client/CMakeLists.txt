@@ -10,13 +10,25 @@ cmake_minimum_required (VERSION 3.8)
 
 add_executable (r-type_client MACOSX_BUNDLE)
 
-target_link_libraries (r-type_client
-    PRIVATE
-    engine
-    networking
-    rendering
-    mario
-)
+option(USE_MARIO "Use rtype library instead of mario" OFF)
+
+if(USE_MARIO)
+    target_link_libraries (r-type_client
+        PRIVATE
+        engine
+        networking
+        rendering
+        mario
+    )
+else()
+    target_link_libraries (r-type_client
+        PRIVATE
+        engine
+        networking
+        rendering
+        rtype
+    )
+endif()
 
 target_sources (r-type_client
     PRIVATE
