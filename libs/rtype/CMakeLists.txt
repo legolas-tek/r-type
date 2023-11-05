@@ -47,6 +47,7 @@ target_sources (rtype
     PRIVATE
     ./sources/RTypeGame.cpp
     ./sources/LobbyGame.cpp
+    ./sources/ScoreManager.cpp
     ./sources/Systems/AttackSystem.cpp
     ./sources/Systems/SpawnEnemySystem.cpp
     ./sources/Systems/SoundManagerSystem.cpp
