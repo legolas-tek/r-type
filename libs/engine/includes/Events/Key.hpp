@@ -10,8 +10,6 @@
 
 #include "IEvent.hpp"
 
-#include <iostream>
-
 namespace Event {
 
 class Key : public event::IEvent {

@@ -28,9 +28,7 @@ bool System::JumpSystem::isOnSolid(engine::Entity jumpentity)
 void System::JumpSystem::operator()()
 {
     for (auto it = _jumps.begin(); it != _jumps.end(); it++) {
-        if (isOnSolid(it.get_entity())) {
-            (*it)->canJump = true;
-        }
+        (*it)->canJump = isOnSolid(it.get_entity());
         if ((*it)->isJumping) {
             if (_reg.getTick() - (*it)->startJumpTick < (*it)->jumpForTick) {
                 _gravities[it.get_entity()]->isOffset = true;

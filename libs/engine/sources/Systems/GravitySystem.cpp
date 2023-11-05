@@ -19,7 +19,7 @@ System::GravitySystem::GravitySystem(
 void System::GravitySystem::operator()()
 {
     for (auto it = _gravities.begin(); it != _gravities.end(); it++) {
-        if ((*it)->isOffset == false) {
+        if (not(*it)->isOffset) {
             _velocities[it.get_entity()]->_vy = 5;
         }
     }
