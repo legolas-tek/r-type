@@ -7,6 +7,7 @@
 
 #include "Components/ChatModifiableText.hpp"
 #include "Components/Controllable.hpp"
+#include "Components/Text.hpp"
 #include "Components/Velocity.hpp"
 
 #include "NetworkServerSystem.hpp"
@@ -21,15 +22,16 @@ bool rtype::NetworkServerSystem::canUpdate(
         = _registry.get_components<Component::Controllable>()[entity];
     auto &modifiable
         = _registry.get_components<Component::ChatModifiableText>()[entity];
+    auto &texts = _registry.get_components<Component::Text>()[entity];
 
-    if (not controllable or not modifiable)
+    if (not controllable or not modifiable or not texts)
         return false;
-    if (getPlayerNumber(client) != controllable->_id)
+    if (_playerNumber != controllable->_id or _playerNumber != modifiable->id
+        or not texts)
         return false;
-    if (component_id == _registry.get_component_id<Component::Velocity>())
+    if (component_id == _registry.get_component_id<Component::Velocity>()
+        or component_id == _registry.get_component_id<Component::Text>())
         return true;
-    // TODO: attack etc
-    return false;
 }
 
 bool rtype::NetworkClientSystem::canSend(
@@ -40,12 +42,15 @@ bool rtype::NetworkClientSystem::canSend(
         = _registry.get_components<Component::Controllable>()[entity];
     auto &modifiable
         = _registry.get_components<Component::ChatModifiableText>()[entity];
+    auto &texts = _registry.get_components<Component::Text>()[entity];
 
-    if (not controllable or not modifiable)
+    if (not controllable or not modifiable or not texts)
         return false;
-    if (_playerNumber != controllable->_id)
+    if (_playerNumber != controllable->_id or _playerNumber != modifiable->id
+        or not texts)
         return false;
-    if (component_id == _registry.get_component_id<Component::Velocity>())
+    if (component_id == _registry.get_component_id<Component::Velocity>()
+        or component_id == _registry.get_component_id<Component::Text>())
         return true;
     // TODO: attack etc
     return false;
