@@ -305,10 +305,10 @@ void RTypeGame::initScene(engine::Registry &reg)
 
     // ==================== set Collision ====================
     reg.get_components<Component::Collision>().emplace_at(
-        topBorder, BORDERS_W, BORDERS_H * 3
+        topBorder, BORDERS_W * 3, BORDERS_H * 3
     );
     reg.get_components<Component::Collision>().emplace_at(
-        bottomBorder, BORDERS_W, BORDERS_H * 3
+        bottomBorder, BORDERS_W  * 3, BORDERS_H * 3
     );
     reg.get_components<Component::HitBox>().emplace_at(
         topBorder, BORDERS_W * 3, BORDERS_H * 3

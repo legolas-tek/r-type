@@ -32,16 +32,20 @@ void System::MoveSystem::operator()()
 
         if (not vel)
             continue;
-        if (vel->_vx > 0 and canMoveRight(it.get_entity(), collidingEntity)) {
+        if (vel->_vx > 0 and canMoveRight(it.get_entity(), collidingEntity,
+            vel.value())) {
             pos._x += vel->_vx;
         }
-        if (vel->_vx < 0 and canMoveLeft(it.get_entity(), collidingEntity)) {
+        if (vel->_vx < 0 and canMoveLeft(it.get_entity(), collidingEntity,
+            vel.value())) {
             pos._x += vel->_vx;
         }
-        if (vel->_vy > 0 and canMoveDown(it.get_entity(), collidingEntity)) {
+        if (vel->_vy > 0 and canMoveDown(it.get_entity(), collidingEntity,
+            vel.value())) {
             pos._y += vel->_vy;
         }
-        if (vel->_vy < 0 and canMoveUp(it.get_entity(), collidingEntity)) {
+        if (vel->_vy < 0 and canMoveUp(it.get_entity(), collidingEntity,
+            vel.value())) {
             pos._y += vel->_vy;
         }
     }
@@ -62,7 +66,8 @@ engine::Entity System::MoveSystem::getCollidingSolidEntity(engine::Entity entity
 }
 
 bool System::MoveSystem::canMoveUp(
-    engine::Entity entity, engine::Entity collidingEntity
+    engine::Entity entity, engine::Entity collidingEntity,
+    const Component::Velocity &velocity
 )
 {
     if (collidingEntity == 0 || not _positions[collidingEntity])
@@ -70,13 +75,15 @@ bool System::MoveSystem::canMoveUp(
     auto &collidingPos = _positions[collidingEntity];
     auto &entityPos = _positions[entity];
 
-    if (collidingPos->_y < entityPos->_y)
+    if (collidingPos->_y < entityPos->_y) {
         return false;
+    }
     return true;
 }
 
 bool System::MoveSystem::canMoveDown(
-    engine::Entity entity, engine::Entity collidingEntity
+    engine::Entity entity, engine::Entity collidingEntity,
+    const Component::Velocity &velocity
 )
 {
     if (collidingEntity == 0 || not _positions[collidingEntity])
@@ -84,13 +91,15 @@ bool System::MoveSystem::canMoveDown(
     auto &collidingPos = _positions[collidingEntity];
     auto &entityPos = _positions[entity];
 
-    if (collidingPos->_y > entityPos->_y)
+    if (collidingPos->_y > entityPos->_y) {
         return false;
+    }
     return true;
 }
 
 bool System::MoveSystem::canMoveLeft(
-    engine::Entity entity, engine::Entity collidingEntity
+    engine::Entity entity, engine::Entity collidingEntity,
+    const Component::Velocity &velocity
 )
 {
     if (collidingEntity == 0 || not _positions[collidingEntity])
@@ -98,13 +107,15 @@ bool System::MoveSystem::canMoveLeft(
     auto &collidingPos = _positions[collidingEntity];
     auto &entityPos = _positions[entity];
 
-    if (collidingPos->_x < entityPos->_x)
+    if (collidingPos->_x < entityPos->_x) {
         return false;
+    }
     return true;
 }
 
 bool System::MoveSystem::canMoveRight(
-    engine::Entity entity, engine::Entity collidingEntity
+    engine::Entity entity, engine::Entity collidingEntity,
+    const Component::Velocity &velocity
 )
 {
     if (collidingEntity == 0 || not _positions[collidingEntity])
@@ -112,7 +123,8 @@ bool System::MoveSystem::canMoveRight(
     auto &collidingPos = _positions[collidingEntity];
     auto &entityPos = _positions[entity];
 
-    if (collidingPos->_x > entityPos->_x)
+    if (collidingPos->_x > entityPos->_x) {
         return false;
+    }
     return true;
 }
