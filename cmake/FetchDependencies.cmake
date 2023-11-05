@@ -12,3 +12,5 @@ include (FetchContent)
 
 include (FetchAsio)
 include (FetchRayLib)
+
+FetchContent_MakeAvailable (raylib)

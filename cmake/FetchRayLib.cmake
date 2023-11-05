@@ -14,5 +14,3 @@ FetchContent_Declare (raylib
 
 set (CUSTOMIZE_BUILD ON)
 set (BUILD_SHARED_LIBS ON CACHE INTERNAL "")
-
-FetchContent_MakeAvailable (raylib)
