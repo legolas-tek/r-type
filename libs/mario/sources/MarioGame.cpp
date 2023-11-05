@@ -206,8 +206,16 @@ void MarioGame::initScene(engine::Registry &reg)
             WIDNOW_SPRITE_WIDTH * scaleRatio, FLOOR_SPRITE_HEIGHT * scaleRatio
         )
     );
-    // ==================== set Collision ====================
+    reg.get_components<Component::Collision>().insert_at(
+        mario_player,
+        Component::Collision(
+            MARIO_ONE_SPRITE_WIDTH * marioScale,
+            MARIO_ONE_SPRITE_HEIGHT * marioScale
+        )
+    );
+    // ==================== set Solid ====================
     reg.get_components<Component::Solid>().insert_at(floor, Component::Solid());
+    reg.get_components<Component::Solid>().insert_at(mario_player, Component::Solid());
     // ==================== set Velocity ====================
     reg.get_components<Component::Velocity>().insert_at(
         mario_player, Component::Velocity(1, 1)
