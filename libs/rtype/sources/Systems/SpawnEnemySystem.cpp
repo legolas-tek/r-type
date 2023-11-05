@@ -6,6 +6,7 @@
 */
 
 #include "SpawnEnemySystem.hpp"
+#include "Components/ScoreOnDeath.hpp"
 #include "Rendering.hpp"
 
 #include "Components/Collision.hpp"
@@ -95,4 +96,7 @@ void System::SpawnEnemySystem::operator()()
     if (_entityInfo.solid) {
         _register.get_components<Component::Solid>().emplace_at(enemy);
     }
+    _register.get_components<Component::ScoreOnDeath>().emplace_at(
+        enemy, _entityInfo.points
+    );
 }

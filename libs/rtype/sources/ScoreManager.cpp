@@ -7,6 +7,7 @@
 
 #include "ScoreManager.hpp"
 #include "Entity.hpp"
+
 #include <fstream>
 
 ScoreManager::ScoreManager(Component::Text &scoreText)
@@ -20,6 +21,7 @@ ScoreManager::ScoreManager(Component::Text &scoreText)
     } else {
         _highscore = 0;
     }
+    addScore(0); // Update score text
 }
 
 ScoreManager::~ScoreManager()
@@ -37,6 +39,6 @@ void ScoreManager::addScore(int score)
     _score += score;
     if (_score > _highscore)
         _highscore = _score;
-    _scoreText._text = "Score: " + std::to_string(_score)
-        + "\nHighscore: " + std::to_string(_highscore);
+    _scoreText._text = "Score " + std::to_string(_score) + "\nHighscore "
+        + std::to_string(_highscore);
 }

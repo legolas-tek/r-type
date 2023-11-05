@@ -27,5 +27,7 @@ struct EntityInfo {
     std::optional<size_t> lifeTime;
     std::optional<int> fireRate;
     bool solid;
+    /// The points to add to the players on kill
+    int points;
 };
 #endif /* !ENTITYINFO_HPP_ */
