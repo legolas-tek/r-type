@@ -20,6 +20,8 @@
 #include "Components/HitBox.hpp"
 #include "Components/Velocity.hpp"
 
+#include "Events/FinalBoss.hpp"
+
 System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
     : _register(reg)
 {
@@ -63,6 +65,7 @@ void System::WaveManagerSystem::createBoss()
     engine::Entity secondTurret(_register.get_new_entity());
     engine::Entity bossHead(_register.get_new_entity());
 
+    _register.events.addEvent<event::FinalBoss>(boss);
     _register.get_components<Component::Position>().emplace_at(
         boss, rendering::system::SCREEN_WIDTH + 300, 0, 0
     );

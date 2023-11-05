@@ -18,6 +18,7 @@
 #include "Systems/DamageOnCollisionSystem.hpp"
 #include "Systems/DeathAnimationManager.hpp"
 #include "Systems/DeathSystem.hpp"
+#include "Systems/End.hpp"
 #include "Systems/FloatingSystem.hpp"
 #include "Systems/FollowSystem.hpp"
 #include "Systems/LifeTimeSystem.hpp"
@@ -93,6 +94,9 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
         reg.get_components<Component::Position>(),
         reg.get_components<Component::Velocity>(),
         reg.get_components<Component::Floating>()
+    );
+    reg.add_system<System::End>(
+        reg.events, reg.get_components<Component::Controllable>()
     );
     reg.add_system<rtype::NetworkServerSystem>(reg, 4242, _serverClients);
 }
