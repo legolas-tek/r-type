@@ -28,6 +28,7 @@
 #include "Systems/LifeTimeSystem.hpp"
 #include "Systems/MoveSystem.hpp"
 #include "Systems/NetworkSystem.hpp"
+#include "Systems/ProcessKeyDownEvents.hpp"
 #include "Systems/RespawnSystem.hpp"
 #include "Systems/Restart.hpp"
 #include "Systems/SoundManagerSystem.hpp"
@@ -131,10 +132,13 @@ void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
     reg.add_system<System::SoundManagerSystem>(reg);
     reg.add_system<System::AnimationSystem>(reg);
     reg.add_system<rendering::system::Rendering>(reg);
-    reg.add_system<rendering::system::Key>(
-        reg.get_components<Component::Controllable>(),
+    reg.add_system<rendering::system::Key>(reg.events);
+
+    reg.add_system<System::ProcessKeyDownEvents>(
+        reg.events, reg.get_components<Component::Controllable>(),
         reg.get_components<Component::Velocity>(), _playerNumber
     );
+
     reg.add_system<System::Restart>(
         reg.events, reg.get_components<Component::RestartOnClick>(),
         reg.get_components<Component::Focusable>()
