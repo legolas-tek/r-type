@@ -383,7 +383,7 @@ void RTypeGame::initScene(engine::Registry &reg)
             reaction, player, 0, -50
         );
         reg.get_components<Component::ChatModifiableText>().emplace_at(
-            reaction, _playerNumber
+            reaction, client.getPlayerNumber()
         );
 
         engine::Entity name(reg.get_new_entity());
