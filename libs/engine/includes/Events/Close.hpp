@@ -12,7 +12,9 @@
 
 namespace event {
 
-class Close : public IEvent { };
+class Close : public IEvent {
+    void dump(std::ostream &) const override;
+};
 }
 
 #endif // R_TYPE_CLOSE_EVENT_HPP
