@@ -6,8 +6,8 @@
 */
 
 #include "Events/Collision.hpp"
-#include "Events/Damage.hpp"
 #include "Systems/DamageOnCollisionSystem.hpp"
+#include "Events/Damage.hpp"
 
 System::DamageOnCollisionSystem::DamageOnCollisionSystem(
     SparseArray<Component::Damage> &damages,
