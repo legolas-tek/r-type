@@ -87,6 +87,8 @@ public:
     friend class RemoteClient;
 
 private:
+    /// The minimum number of players to start the game
+    std::size_t _minPlayers = 1;
     /// The maximum number of players that can join the lobby
     std::size_t _maxPlayers;
     /// The random device used to generate player hashes

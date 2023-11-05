@@ -57,6 +57,10 @@ void net::lobby::RemoteClient::onSpectateRequest()
 
 void net::lobby::RemoteClient::onStartRequest()
 {
+    if (_parent.getCurrentPlayerCount() < _parent._minPlayers) {
+        sendError("Not enough players!");
+        return;
+    }
     std::cout << "Player " << _playerName << " requested to start the game"
               << std::endl;
     for (auto &player : _parent._clients) {
