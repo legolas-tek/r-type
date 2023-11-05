@@ -48,11 +48,7 @@ public:
     /// @param reg A ref to the registry
     DeathAnimationManager(
         SparseArray<Component::Position> &positions,
-        SparseArray<Component::Health> &healths,
-        SparseArray<Component::Collision> &collisions,
-        SparseArray<Component::Damage> &damages,
-        SparseArray<Component::Controllable> &controllables,
-        engine::Registry &reg
+        SparseArray<Component::Health> &healths, engine::Registry &reg
     );
 
     /// @brief applys the system logic
@@ -71,14 +67,8 @@ private:
 
     /// @brief A ref to a Position components SparseArray
     SparseArray<Component::Position> &_positions;
-    /// @brief A ref to a Damage components SparseArray
-    SparseArray<Component::Damage> &_damages;
     /// @brief A ref to a Health components SparseArray
     SparseArray<Component::Health> &_healths;
-    /// @brief A ref to a Hitbox components SparseArray
-    SparseArray<Component::Collision> &_collisions;
-    /// @brief A ref to a Controllable components SparseArray
-    SparseArray<Component::Controllable> &_controllables;
     /// @brief A ref to the registry
     engine::Registry &_registry;
 };

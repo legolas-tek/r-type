@@ -13,6 +13,7 @@
 #include "Components/Damage.hpp"
 #include "Components/Drawable.hpp"
 #include "Components/HitBox.hpp"
+#include "Components/KillOnCollision.hpp"
 #include "Components/LifeTime.hpp"
 #include "Components/Position.hpp"
 #include "Components/Velocity.hpp"
@@ -85,6 +86,9 @@ void System::AttackSystem::createLaserEntity(engine::Entity const attacker_index
         attack_entity, 200, _register.getTick()
     );
     _register.get_components<Component::Damage>().emplace_at(attack_entity, 1);
+    _register.get_components<Component::KillOnCollision>().emplace_at(
+        attack_entity
+    );
 }
 
 bool System::AttackSystem::isAbleToAttack(Component::FireRate &fire_rate)
