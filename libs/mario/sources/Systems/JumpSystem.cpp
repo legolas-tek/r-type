@@ -33,7 +33,6 @@ void System::JumpSystem::operator()()
         if (isOnSolid(it.get_entity())) {
             (*it)->canJump = true;
         }
-        // if 바닥에 있으면 isJumping
         if ((*it)->isJumping) {
             if (_reg.getTick() - (*it)->startJumpTick < (*it)->jumpForTick) {
                 _gravities[it.get_entity()]->isOffset = true;

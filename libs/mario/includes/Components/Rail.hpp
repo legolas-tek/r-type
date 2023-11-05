@@ -11,7 +11,7 @@
 #include "Serialization/Serializable.hpp"
 
 namespace Component {
-enum RailType { SATIC, DYNAMIC, DYNAMIC_BACKGROUND };
+enum RailType { STATIC, DYNAMIC, DYNAMIC_BACKGROUND };
 struct Rail : engine::Serializable<Rail> {
 public:
     Rail(RailType type)

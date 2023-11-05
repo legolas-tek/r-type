@@ -101,10 +101,25 @@ void MarioGame::registerAdditionalSystems(engine::Registry &reg)
 
 void MarioGame::initAssets(engine::Registry &reg)
 {
+    // 0
     reg._assets_paths.emplace_back("./assets/mario/images/mario_floor.png");
+    // 1
     reg._assets_paths.emplace_back("./assets/mario/images/mario_background.png"
     );
+    // 2
     reg._assets_paths.emplace_back("./assets/mario/images/mario.png");
+    // 3
+    reg._assets_paths.emplace_back(
+        "./assets/images/blockbrick_alb.png", "./assets/block.obj"
+    );
+    // 4
+    reg._assets_paths.emplace_back(
+        "./assets/images/Dokan_alb.png", "./assets/Dokan.obj"
+    );
+    // // 5
+    // reg._assets_paths.emplace_back(
+    //     "./assets/images/KuriboBody_alb.png", "./assets/Kuribo.obj"
+    // );
 }
 
 void MarioGame::initScene(engine::Registry &reg)
@@ -154,7 +169,7 @@ void MarioGame::initScene(engine::Registry &reg)
             float(rendering::system::SCREEN_HEIGHT)
                 - (FLOOR_SPRITE_HEIGHT * scaleRatio)
                 + FLOOR_SPRITE_HEIGHT * scaleRatio / 2,
-            0
+            -999
         )
     );
     // background
@@ -162,7 +177,7 @@ void MarioGame::initScene(engine::Registry &reg)
         background,
         Component::Position(
             WIDNOW_SPRITE_WIDTH * scaleRatio / 2,
-            BACKGROUND_SPRITE_HEIGHT * scaleRatio / 2, 0
+            BACKGROUND_SPRITE_HEIGHT * scaleRatio / 2, -998
         )
     );
     // mario_player
@@ -222,13 +237,65 @@ void MarioGame::initScene(engine::Registry &reg)
     );
     std::cout << "background: " << background << std::endl; // 2
     reg.get_components<Component::Rail>().insert_at(
-        mario_player, Component::Rail(Component::RailType::SATIC)
+        mario_player, Component::Rail(Component::RailType::STATIC)
     );
     std::cout << "mario_player: " << mario_player << std::endl; // 3
     // ==================== set Animation ====================
     reg.get_components<Component::Animation>().emplace_at(
         mario_player, 350, 160, 150, 160, 150, 10
     );
+
+    for (int i = 0; i < 30; ++i) {
+        engine::Entity block(reg.get_new_entity());
+        reg.get_components<Component::Drawable>().emplace_at(
+            block, Component::Drawable(3, 10, 10, 0.04, 17)
+        );
+        reg.get_components<Component::Position>().emplace_at(
+            block, Component::Position(600 + 50 * i, 540, -1)
+        );
+        reg.get_components<Component::Rail>().insert_at(
+            block, Component::Rail(Component::RailType::DYNAMIC)
+        );
+        reg.get_components<Component::Velocity>().insert_at(
+            block, Component::Velocity(0, 0)
+        );
+    }
+    // ==============================================================
+    engine::Entity dokan(reg.get_new_entity());
+    reg.get_components<Component::Drawable>().emplace_at(
+        dokan, Component::Drawable(4, 10, 10, 0.02, 17)
+    );
+    reg.get_components<Component::Position>().emplace_at(
+        dokan, Component::Position(1200, 500, -1)
+    );
+    reg.get_components<Component::Rail>().insert_at(
+        dokan, Component::Rail(Component::RailType::DYNAMIC)
+    );
+    reg.get_components<Component::Velocity>().insert_at(
+        dokan, Component::Velocity(0, 0)
+    );
+    // ==============================================================
+    // engine::Entity enemy(reg.get_new_entity());
+    // reg.get_components<Component::Drawable>().emplace_at(
+    //     enemy,
+    //     Component::Drawable(
+    //         5, 10, 10, 0.02, 17
+    //     )
+    // );
+    // reg.get_components<Component::Position>().emplace_at(
+    //     enemy,
+    //     Component::Position(
+    //         800,
+    //         500,
+    //         -1
+    //     )
+    // );
+    // reg.get_components<Component::Rail>().insert_at(
+    //     enemy, Component::Rail(Component::RailType::DYNAMIC)
+    // );
+    // reg.get_components<Component::Velocity>().insert_at(
+    //     enemy, Component::Velocity(0, 0)
+    // );
 }
 
 engine::IGame *createGame()
