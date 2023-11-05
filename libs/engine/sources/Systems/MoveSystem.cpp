@@ -59,8 +59,7 @@ bool System::MoveSystem::canMoveX(
 {
     if (collidingEntity == 0 or entity == 0 or not _positions[entity]
         or not _positions[collidingEntity] or not _collisions[entity]
-        or not _collisions[collidingEntity] or not _velocities[entity]
-        or not _velocities[collidingEntity])
+        or not _collisions[collidingEntity] or not _velocities[entity])
         return true;
 
     Component::Position &entityPos = _positions[entity].value();
@@ -72,8 +71,6 @@ bool System::MoveSystem::canMoveX(
         = _collisions[collidingEntity].value();
 
     Component::Velocity const &entityVelocity = _velocities[entity].value();
-    Component::Velocity const &collidingEntityVelocity
-        = _velocities[collidingEntity].value();
 
     float entityPosTop = entityPos._y - entityCollision._height / 2;
     float entityPosBottom = entityPos._y + entityCollision._height / 2;
@@ -110,14 +107,15 @@ bool System::MoveSystem::canMoveX(
     return true;
 }
 
+#include <iostream>
+
 bool System::MoveSystem::canMoveY(
     engine::Entity entity, engine::Entity collidingEntity
 )
 {
     if (collidingEntity == 0 or entity == 0 or not _positions[entity]
         or not _positions[collidingEntity] or not _collisions[entity]
-        or not _collisions[collidingEntity] or not _velocities[entity]
-        or not _velocities[collidingEntity])
+        or not _collisions[collidingEntity] or not _velocities[entity])
         return true;
 
     Component::Position &entityPos = _positions[entity].value();
@@ -129,8 +127,6 @@ bool System::MoveSystem::canMoveY(
         = _collisions[collidingEntity].value();
 
     Component::Velocity const &entityVelocity = _velocities[entity].value();
-    Component::Velocity const &collidingEntityVelocity
-        = _velocities[collidingEntity].value();
 
     float entityPosLeft = entityPos._x - entityCollision._width / 2;
     float entityPosRight = entityPos._x + entityCollision._width / 2;

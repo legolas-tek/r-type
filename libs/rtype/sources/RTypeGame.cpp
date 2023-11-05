@@ -179,9 +179,7 @@ void RTypeGame::initAssets(engine::Registry &reg)
     // 10
     reg._assets_paths.emplace_back("./assets/images/big_explosion.png");
     // 11
-    reg._assets_paths.emplace_back(
-        "./assets/images/BODYMAINCOLORCG.png", "./assets/SU-27.obj"
-    );
+    reg._assets_paths.emplace_back("./assets/images/BODYMAINCOLORCG.png");
     // 12
     reg._assets_paths.emplace_back("./assets/images/small_turret.png");
     // 13
