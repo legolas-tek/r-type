@@ -13,7 +13,3 @@ jobs:
   macos-build:
     name: 🍎 macOS
     uses: ./.github/workflows/macos-builds.yml
-
-  mirror:
-    name: 🪞 Mirror
-    uses: ./.github/workflows/mirror.yml
