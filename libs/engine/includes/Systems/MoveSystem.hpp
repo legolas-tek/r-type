@@ -58,8 +58,10 @@ private:
     /// @param collidingEntity The entity who colids with the owner and has a
     /// solid component
     /// @return returns true if it can move and false if it can't
-    bool canMoveX(engine::Entity entity, engine::Entity collidingEntity);
-    bool canMoveY(engine::Entity entity, engine::Entity collidingEntity);
+    bool canMoveUp(engine::Entity entity, engine::Entity collidingEntity);
+    bool canMoveDown(engine::Entity entity, engine::Entity collidingEntity);
+    bool canMoveLeft(engine::Entity entity, engine::Entity collidingEntity);
+    bool canMoveRight(engine::Entity entity, engine::Entity collidingEntity);
 
     /// @brief A const ref to a Event deque
     event::EventQueue &_events;

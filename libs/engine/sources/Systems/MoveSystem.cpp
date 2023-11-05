@@ -30,10 +30,18 @@ void System::MoveSystem::operator()()
         engine::Entity collidingEntity
             = getCollidingSolidEntity(it.get_entity());
 
-        if (vel && canMoveX(it.get_entity(), collidingEntity)) {
+        if (not vel)
+            continue;
+        if (vel->_vx > 0 and canMoveRight(it.get_entity(), collidingEntity)) {
             pos._x += vel->_vx;
         }
-        if (vel && canMoveY(it.get_entity(), collidingEntity)) {
+        if (vel->_vx < 0 and canMoveLeft(it.get_entity(), collidingEntity)) {
+            pos._x += vel->_vx;
+        }
+        if (vel->_vy > 0 and canMoveDown(it.get_entity(), collidingEntity)) {
+            pos._y += vel->_vy;
+        }
+        if (vel->_vy < 0 and canMoveUp(it.get_entity(), collidingEntity)) {
             pos._y += vel->_vy;
         }
     }
@@ -53,103 +61,58 @@ engine::Entity System::MoveSystem::getCollidingSolidEntity(engine::Entity entity
     return engine::Entity(0);
 }
 
-bool System::MoveSystem::canMoveX(
+bool System::MoveSystem::canMoveUp(
     engine::Entity entity, engine::Entity collidingEntity
 )
 {
-    if (collidingEntity == 0 or entity == 0 or not _positions[entity]
-        or not _positions[collidingEntity] or not _collisions[entity]
-        or not _collisions[collidingEntity] or not _velocities[entity])
+    if (collidingEntity == 0 || not _positions[collidingEntity])
         return true;
+    auto &collidingPos = _positions[collidingEntity];
+    auto &entityPos = _positions[entity];
 
-    Component::Position &entityPos = _positions[entity].value();
-    Component::Position &collidingEntityPos
-        = _positions[collidingEntity].value();
-
-    Component::Collision const &entityCollision = _collisions[entity].value();
-    Component::Collision const &collidingEntityCollision
-        = _collisions[collidingEntity].value();
-
-    Component::Velocity const &entityVelocity = _velocities[entity].value();
-
-    float entityPosTop = entityPos._y - entityCollision._height / 2;
-    float entityPosBottom = entityPos._y + entityCollision._height / 2;
-
-    float collidingEntityPosTop
-        = collidingEntityPos._y - collidingEntityCollision._height / 2;
-    float collidingEntityPosBottom
-        = collidingEntityPos._y + collidingEntityCollision._height / 2;
-
-    bool isInY1 = entityPosTop < collidingEntityPosTop
-        && collidingEntityPosTop < entityPosBottom;
-    bool isInY2 = entityPosTop < collidingEntityPosBottom
-        && collidingEntityPosBottom < entityPosBottom;
-
-    // TODO: 오른쪽 맨 끝이면 / 왼쪽 맨 끝이면
-    // if Y don't overlap, can go X
-    if (isInY1 || isInY2) {
-        return true;
-    }
-
-    float entityLeft = entityPos._x - (entityCollision._width / 2);
-    float entityRight = entityPos._x + (entityCollision._width / 2);
-
-    float collidingEntityLeft
-        = collidingEntityPos._x - (collidingEntityCollision._width / 2);
-    float collidingEntityRight
-        = collidingEntityPos._x + (collidingEntityCollision._width / 2);
-    if (entityRight < collidingEntityLeft && 0 < entityVelocity._vx) {
+    if (collidingPos->_y < entityPos->_y)
         return false;
-    }
-    if (collidingEntityRight < entityLeft && entityVelocity._vx < 0) {
-        return false;
-    }
     return true;
 }
 
-#include <iostream>
-
-bool System::MoveSystem::canMoveY(
+bool System::MoveSystem::canMoveDown(
     engine::Entity entity, engine::Entity collidingEntity
 )
 {
-    if (collidingEntity == 0 or entity == 0 or not _positions[entity]
-        or not _positions[collidingEntity] or not _collisions[entity]
-        or not _collisions[collidingEntity] or not _velocities[entity])
+    if (collidingEntity == 0 || not _positions[collidingEntity])
         return true;
+    auto &collidingPos = _positions[collidingEntity];
+    auto &entityPos = _positions[entity];
 
-    Component::Position &entityPos = _positions[entity].value();
-    Component::Position &collidingEntityPos
-        = _positions[collidingEntity].value();
+    if (collidingPos->_y > entityPos->_y)
+        return false;
+    return true;
+}
 
-    Component::Collision const &entityCollision = _collisions[entity].value();
-    Component::Collision const &collidingEntityCollision
-        = _collisions[collidingEntity].value();
-
-    Component::Velocity const &entityVelocity = _velocities[entity].value();
-
-    float entityPosLeft = entityPos._x - entityCollision._width / 2;
-    float entityPosRight = entityPos._x + entityCollision._width / 2;
-
-    float collidingEntityPosLeft
-        = collidingEntityPos._x - collidingEntityCollision._width / 2;
-    float collidingEntityPosRight
-        = collidingEntityPos._x + collidingEntityCollision._width / 2;
-
-    bool isInX1 = entityPosLeft < collidingEntityPosLeft
-        && collidingEntityPosLeft < entityPosRight;
-    bool isInX2 = entityPosLeft < collidingEntityPosRight
-        && collidingEntityPosRight < entityPosRight;
-
-    if (isInX1 || isInX2) {
+bool System::MoveSystem::canMoveLeft(
+    engine::Entity entity, engine::Entity collidingEntity
+)
+{
+    if (collidingEntity == 0 || not _positions[collidingEntity])
         return true;
-    }
+    auto &collidingPos = _positions[collidingEntity];
+    auto &entityPos = _positions[entity];
 
-    if (entityPos._y < collidingEntityPos._y && 0 < entityVelocity._vy) {
+    if (collidingPos->_x < entityPos->_x)
         return false;
-    }
-    if (entityPos._y > collidingEntityPos._y && 0 < entityVelocity._vy) {
+    return true;
+}
+
+bool System::MoveSystem::canMoveRight(
+    engine::Entity entity, engine::Entity collidingEntity
+)
+{
+    if (collidingEntity == 0 || not _positions[collidingEntity])
+        return true;
+    auto &collidingPos = _positions[collidingEntity];
+    auto &entityPos = _positions[entity];
+
+    if (collidingPos->_x > entityPos->_x)
         return false;
-    }
     return true;
 }
