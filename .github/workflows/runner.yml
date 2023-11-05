@@ -3,5 +3,5 @@ on: [push, pull_request]
 
 jobs:
   linux-build:
-    name: Linux
+    name: 🐧 Linux
     uses: ./.github/workflows/github-actions-compile.yml
