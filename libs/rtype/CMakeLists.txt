@@ -66,6 +66,7 @@ target_sources (rtype
     ./sources/Systems/SoundSystem/ShootSoundSystem.cpp
     ./sources/Systems/SoundSystem/ExplosionSoundSystem.cpp
     ./sources/Systems/ProcessKeyDownEvents.cpp
+    ./sources/Systems/ProcessKeyPressedEvents.cpp
 )
 
 install(TARGETS rtype
