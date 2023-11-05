@@ -30,7 +30,7 @@ public:
     LootDropManager(
         SparseArray<Component::Loot> &loots,
         SparseArray<Component::Position> &positions, engine::Registry &reg,
-        int chancesToDrop
+        float chancesToDrop
     );
 
     /// @brief applies the logic of the system

@@ -21,7 +21,7 @@
 System::LootDropManager::LootDropManager(
     SparseArray<Component::Loot> &loots,
     SparseArray<Component::Position> &positions, engine::Registry &reg,
-    int chancesToDrop
+    float chancesToDrop
 )
     : _loots(loots)
     , _positions(positions)
