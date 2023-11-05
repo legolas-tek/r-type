@@ -42,3 +42,8 @@ void ScoreManager::addScore(int score)
     _scoreText._text = "Score " + std::to_string(_score) + "\nHighscore "
         + std::to_string(_highscore);
 }
+
+int ScoreManager::getScore() const
+{
+    return _score;
+}

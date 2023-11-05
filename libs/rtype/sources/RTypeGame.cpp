@@ -124,7 +124,7 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
     reg.add_system<System::End>(
         reg.events, reg.get_components<Component::Controllable>()
     );
-    reg.add_system<System::EndGameSystem>(reg.events, reg);
+    reg.add_system<System::EndGameSystem>(reg.events, reg, *_scoreManager);
     reg.add_system<rtype::NetworkServerSystem>(reg, 4242, _serverClients);
 }
 

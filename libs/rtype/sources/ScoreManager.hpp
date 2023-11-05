@@ -17,6 +17,7 @@ public:
     ScoreManager(Component::Text &scoreText);
     ~ScoreManager();
     void addScore(int score);
+    int getScore() const;
 
 private:
     Component::Text &_scoreText;
