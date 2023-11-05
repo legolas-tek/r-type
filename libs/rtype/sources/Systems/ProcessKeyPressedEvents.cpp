@@ -30,11 +30,17 @@ void System::ProcessKeyPressedEvents::operator()()
     std::string reaction;
 
     for (auto &keyPressed : _events.getEvents<event::KeyPressed>()) {
+        if (keyPressed.key == 'O') {
+            reaction = "Too strong";
+        }
         if (keyPressed.key == 'L') {
             reaction = "Lol well done";
         }
         if (keyPressed.key == 'P') {
             reaction = "Fuck you";
+        }
+        if (keyPressed.key == 'K') {
+            reaction = "Haha got ya";
         }
     }
 

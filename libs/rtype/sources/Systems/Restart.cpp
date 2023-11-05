@@ -31,6 +31,6 @@ void System::Restart::operator()()
         if (not focusable->isFocused)
             continue;
 
-        throw GameEndException();
+        throw GameRestartException();
     }
 }

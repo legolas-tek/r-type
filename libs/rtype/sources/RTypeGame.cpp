@@ -5,14 +5,15 @@
 ** Game
 */
 
+#include "Components/ScoreOnDeath.hpp"
 #include "Game.hpp"
 
+#include "Components/Bonus.hpp"
 #include "Components/ChatModifiableText.hpp"
 #include "Components/Focusable.hpp"
 #include "Components/RestartOnClick.hpp"
 #include "Components/Solid.hpp"
 #include "Components/Text.hpp"
-#include "Components/Bonus.hpp"
 
 #include "Systems/AnimationSystem.hpp"
 #include "Systems/AttackSystem.hpp"
@@ -28,18 +29,18 @@
 #include "Systems/Focusable.hpp"
 #include "Systems/FollowSystem.hpp"
 #include "Systems/LifeTimeSystem.hpp"
+#include "Systems/LootDropManager.hpp"
 #include "Systems/MoveSystem.hpp"
 #include "Systems/NetworkSystem.hpp"
 #include "Systems/ProcessKeyDownEvents.hpp"
 #include "Systems/ProcessKeyPressedEvents.hpp"
 #include "Systems/RespawnSystem.hpp"
 #include "Systems/Restart.hpp"
+#include "Systems/ScoreOnDeath.hpp"
 #include "Systems/SoundManagerSystem.hpp"
 #include "Systems/SpawnEnemySystem.hpp"
-#include "Systems/WaveManagerSystem.hpp"
-#include "Systems/DeathOnCollisions.hpp"
-#include "Systems/LootDropManager.hpp"
 #include "Systems/TriggerBonus.hpp"
+#include "Systems/WaveManagerSystem.hpp"
 
 #include "Key.hpp"
 #include "Rendering.hpp"
@@ -76,6 +77,7 @@ void RTypeGame::registerAllComponents(engine::Registry &reg)
     reg.register_component<Component::KillOnCollision>();
     reg.register_component<Component::Loot>();
     reg.register_component<Component::Bonus>();
+    reg.register_component<Component::ScoreOnDeath>();
 }
 
 void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
@@ -91,6 +93,10 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
     reg.add_system<System::DeathAnimationManager>(
         reg.get_components<Component::Position>(),
         reg.get_components<Component::Health>(), reg
+    );
+    reg.add_system<System::ScoreOnDeath>(
+        reg.events, *_scoreManager,
+        reg.get_components<Component::ScoreOnDeath>()
     );
     reg.add_system<System::DeathSystem>(
         reg.get_components<Component::Health>(),
@@ -136,7 +142,7 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
     reg.add_system<System::End>(
         reg.events, reg.get_components<Component::Controllable>()
     );
-    reg.add_system<System::EndGameSystem>(reg.events, reg);
+    reg.add_system<System::EndGameSystem>(reg.events, reg, *_scoreManager);
     reg.add_system<rtype::NetworkServerSystem>(reg, 4242, _serverClients);
 }
 
@@ -247,6 +253,7 @@ void RTypeGame::initScene(engine::Registry &reg)
     engine::Entity foreground(reg.get_new_entity());
     engine::Entity topBorder(reg.get_new_entity());
     engine::Entity bottomBorder(reg.get_new_entity());
+    engine::Entity scoreText(reg.get_new_entity());
 
     // ==================== set positions ====================
     // background
@@ -270,6 +277,10 @@ void RTypeGame::initScene(engine::Registry &reg)
     reg.get_components<Component::Position>().emplace_at(
         bottomBorder, float(rendering::system::SCREEN_WIDTH) / 2,
         float(rendering::system::SCREEN_HEIGHT) - float(BORDERS_H) / 2, -7
+    );
+    // scoreText
+    reg.get_components<Component::Position>().emplace_at(
+        scoreText, 150, 25, -5
     );
 
     // ==================== set Drawable ====================
@@ -314,10 +325,10 @@ void RTypeGame::initScene(engine::Registry &reg)
 
     // ==================== set Collision ====================
     reg.get_components<Component::Collision>().emplace_at(
-        topBorder, BORDERS_W, BORDERS_H * 3
+        topBorder, BORDERS_W * 3, BORDERS_H * 3
     );
     reg.get_components<Component::Collision>().emplace_at(
-        bottomBorder, BORDERS_W, BORDERS_H * 3
+        bottomBorder, BORDERS_W * 3, BORDERS_H * 3
     );
     reg.get_components<Component::HitBox>().emplace_at(
         topBorder, BORDERS_W * 3, BORDERS_H * 3
@@ -334,6 +345,9 @@ void RTypeGame::initScene(engine::Registry &reg)
     // ==================== set lifes ========================
 
     // ==================== set Text ====================
+    _scoreManager.emplace(*reg.get_components<Component::Text>().emplace_at(
+        scoreText, "Score", "./assets/fonts/Over_There.ttf", 20, 10, 0xFFFFFFFF
+    ));
 
     reg.get_components<Component::Solid>().emplace_at(topBorder);
     reg.get_components<Component::Solid>().emplace_at(bottomBorder);

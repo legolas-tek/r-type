@@ -6,6 +6,7 @@
 */
 
 #include "SpawnEnemySystem.hpp"
+#include "Components/ScoreOnDeath.hpp"
 #include "Rendering.hpp"
 
 #include "Components/Collision.hpp"
@@ -14,8 +15,8 @@
 #include "Components/Health.hpp"
 #include "Components/HitBox.hpp"
 #include "Components/KillOnCollision.hpp"
-#include "Components/Loot.hpp"
 #include "Components/LifeTime.hpp"
+#include "Components/Loot.hpp"
 #include "Components/Solid.hpp"
 #include "Components/Velocity.hpp"
 
@@ -97,4 +98,7 @@ void System::SpawnEnemySystem::operator()()
     if (_entityInfo.solid) {
         _register.get_components<Component::Solid>().emplace_at(enemy);
     }
+    _register.get_components<Component::ScoreOnDeath>().emplace_at(
+        enemy, _entityInfo.points
+    );
 }

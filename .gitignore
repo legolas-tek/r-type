@@ -43,3 +43,6 @@ CMakeFiles/
 .vscode
 .idea
 cscope*
+
+# Data
+rtype-highscore.txt

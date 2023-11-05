@@ -15,10 +15,10 @@
 
 #include "raylib.h"
 
-constexpr KeyboardKey HANDLED_DOWN_KEY[6]
-    = { KEY_W, KEY_Z, KEY_A, KEY_Q, KEY_S, KEY_D };
+constexpr KeyboardKey HANDLED_DOWN_KEY[7]
+    = { KEY_W, KEY_Z, KEY_A, KEY_Q, KEY_S, KEY_D, KEY_SPACE };
 
-constexpr KeyboardKey HANDLED_PRESSED_KEY[6] = { KEY_L, KEY_P };
+constexpr KeyboardKey HANDLED_PRESSED_KEY[6] = { KEY_L, KEY_P, KEY_O, KEY_K };
 
 rendering::system::Key::Key(event::EventQueue &events)
     : _events(events)
@@ -26,6 +26,8 @@ rendering::system::Key::Key(event::EventQueue &events)
 }
 
 rendering::system::Key::~Key() = default;
+
+#include <iostream>
 
 void rendering::system::Key::operator()()
 {

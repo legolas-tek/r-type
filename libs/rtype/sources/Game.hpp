@@ -10,8 +10,10 @@
 
 #include "IGame.hpp"
 #include "Lobby.hpp"
+#include "ScoreManager.hpp"
 #include <functional>
 #include <memory>
+#include <optional>
 
 namespace System {
 class LobbyClientImpl;
@@ -111,6 +113,8 @@ public:
 public:
     /// Server side, contains the clients, empty on client
     std::vector<net::lobby::RemoteClient> _serverClients;
+    /// Server side, contains the score manager, nullopt on client
+    std::optional<ScoreManager> _scoreManager;
 
 public:
     /// Client side, contains the player number (1-4), 0 on server

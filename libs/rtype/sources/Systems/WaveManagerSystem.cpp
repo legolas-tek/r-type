@@ -6,6 +6,7 @@
 */
 
 #include "WaveManagerSystem.hpp"
+#include "Components/ScoreOnDeath.hpp"
 #include "SoundManagerSystem.hpp"
 #include "SpawnEnemySystem.hpp"
 
@@ -42,7 +43,8 @@ System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
                             .damage = 1,
                             .lifeTime = 500,
                             .fireRate = 100,
-                            .solid = true };
+                            .solid = true,
+                            .points = 3 };
     EntityInfo scourge = { .textureIndex = RTypeGame::BASIC_ENNEMY_I,
                            .textureWidth = RTypeGame::BASIC_ENNEMY_W
                                * RTypeGame::BASIC_ENNEMY_F,
@@ -57,7 +59,8 @@ System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
                            .damage = 1,
                            .lifeTime = 300,
                            .fireRate = std::nullopt,
-                           .solid = true };
+                           .solid = true,
+                           .points = 1 };
 
     _entityList.push_back(scourge);
     _entityList.push_back(mutalisk);
@@ -143,6 +146,9 @@ void System::WaveManagerSystem::createBoss()
     _register.get_components<Component::Health>().emplace_at(
         secondTurret, 10, 10
     );
+    _register.get_components<Component::ScoreOnDeath>().emplace_at(
+        bossHead, 20
+    );
 }
 
 void System::WaveManagerSystem::operator()()
@@ -158,8 +164,8 @@ void System::WaveManagerSystem::operator()()
                 rendering::system::SCREEN_WIDTH + _entityList[0].entityWidth,
                 rendering::system::SCREEN_WIDTH + _entityList[0].entityWidth,
                 RTypeGame::BORDERS_H + _entityList[0].entityHeight,
-                rendering::system::SCREEN_HEIGHT
-                    - _entityList[0].entityHeight - RTypeGame::BORDERS_H
+                rendering::system::SCREEN_HEIGHT - _entityList[0].entityHeight
+                    - RTypeGame::BORDERS_H
             );
         }
         if (_waveNum == 2) {
@@ -169,8 +175,8 @@ void System::WaveManagerSystem::operator()()
                 rendering::system::SCREEN_WIDTH + _entityList[1].entityWidth,
                 rendering::system::SCREEN_WIDTH + _entityList[1].entityWidth,
                 RTypeGame::BORDERS_H + _entityList[1].entityHeight,
-                rendering::system::SCREEN_HEIGHT
-                    - _entityList[1].entityHeight - RTypeGame::BORDERS_H
+                rendering::system::SCREEN_HEIGHT - _entityList[1].entityHeight
+                    - RTypeGame::BORDERS_H
             );
         }
         if (_waveNum == 3) {
