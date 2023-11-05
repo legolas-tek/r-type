@@ -1,0 +1,7 @@
+name: 🔗 GHA
+on: [push, pull_request]
+
+jobs:
+  linux-build:
+    name: Linux
+    uses: ./.github/workflows/github-actions-compile.yml
