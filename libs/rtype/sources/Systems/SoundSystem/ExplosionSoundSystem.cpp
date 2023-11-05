@@ -14,6 +14,11 @@ System::ExplosionSoundSystem::ExplosionSoundSystem(engine::Registry &reg)
     SetSoundVolume(_sound, 0.1f);
 }
 
+System::ExplosionSoundSystem::~ExplosionSoundSystem()
+{
+    UnloadSound(_sound);
+}
+
 void System::ExplosionSoundSystem::operator()()
 {
     auto &lifeList = _register.get_components<Component::Health>();
