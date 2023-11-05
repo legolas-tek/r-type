@@ -140,9 +140,16 @@ public:
     template <typename System, class... Params>
     ISystem &add_system(Params &&...args)
     {
-        return *_systems.emplace_back(
+        return *_systemsToAdd.emplace_back(
             std::make_unique<System>(std::forward<Params>(args)...)
         );
+    }
+
+    void updateSystems()
+    {
+        for (auto &system : _systemsToAdd)
+            _systems.emplace_back(std::move(system));
+        _systemsToAdd.clear();
     }
 
     [[nodiscard]] std::vector<ComponentData> collect_data() const
@@ -229,6 +236,7 @@ private:
      * List of systems
      */
     std::vector<std::unique_ptr<ISystem>> _systems;
+    std::vector<std::unique_ptr<ISystem>> _systemsToAdd;
 
     size_t _entity_counter = 1;
 
