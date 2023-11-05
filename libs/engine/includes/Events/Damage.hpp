@@ -17,7 +17,11 @@ class Damage : public IEvent {
 public:
     Damage(engine::Entity entity, int damages)
         : entity(entity)
-        , damages(damages) {};
+        , damages(damages)
+    {
+    }
+
+    void dump(std::ostream &) const override;
 
     engine::Entity entity;
     int damages;

@@ -16,7 +16,11 @@ namespace event {
 class Death : public IEvent {
 public:
     Death(engine::Entity entity)
-        : entity(entity) {};
+        : entity(entity)
+    {
+    }
+
+    void dump(std::ostream &) const override;
 
     engine::Entity entity;
 };
