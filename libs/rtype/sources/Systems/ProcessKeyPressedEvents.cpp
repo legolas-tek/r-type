@@ -27,7 +27,7 @@ System::ProcessKeyPressedEvents::ProcessKeyPressedEvents(
 
 void System::ProcessKeyPressedEvents::operator()()
 {
-    std::string reaction;
+    std::optional<std::string> reaction(std::nullopt);
 
     for (auto &keyPressed : _events.getEvents<event::KeyPressed>()) {
         if (keyPressed.key == 'O') {
@@ -42,6 +42,9 @@ void System::ProcessKeyPressedEvents::operator()()
         if (keyPressed.key == 'K') {
             reaction = "Haha got ya";
         }
+        if (keyPressed.key == 'R') {
+            reaction = "";
+        }
     }
 
     for (auto it = _texts.begin(); it != _texts.end(); ++it) {
@@ -51,7 +54,10 @@ void System::ProcessKeyPressedEvents::operator()()
         if (not isModifiable)
             continue;
 
-        if ((*it)->_text != reaction and reaction != "")
-            (*it)->_text = std::move(reaction);
+        if (not reaction.has_value())
+            continue;
+
+        if ((*it)->_text != reaction.value())
+            (*it)->_text = std::move(reaction.value());
     }
 }
