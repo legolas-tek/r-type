@@ -35,6 +35,7 @@ target_sources (engine
     ./sources/Systems/FollowSystem.cpp
     ./sources/Systems/EventLogger.cpp
     ./sources/Events.cpp
+    ./sources/Systems/GravitySystem.cpp
 )
 
 install(TARGETS engine

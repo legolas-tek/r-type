@@ -19,8 +19,8 @@ rendering::system::Rendering::Rendering(engine::Registry &registry)
     SetTraceLogLevel(LOG_NONE);
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "raylib background scrolling");
 
-    CameraInfo cameraInfo = { .pos = { 0.0f, 0.0f, 30.0f },
-                              .target = { 0.0f, 0.0f, 20.0f },
+    CameraInfo cameraInfo = { .pos = { 0.0f, 0.0f, 50.0f },
+                              .target = { 0.0f, 0.0f, 0.0f },
                               .up = { 0.0f, 1.0f, 0.0f },
                               .fovy = 45.0f,
                               .projection = CAMERA_PERSPECTIVE };
