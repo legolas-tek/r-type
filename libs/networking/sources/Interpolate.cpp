@@ -22,7 +22,10 @@ void net::Interpolate::operator()()
         auto &pos = **it;
         auto &vel = _velocities[it.get_entity()];
 
-        vel->_vx = pos._futurX - pos._x / 2;
-        vel->_vy = pos._futurY - pos._y / 2;
+        if (it.get_entity() != 6)
+            continue;
+
+        vel->_vx = pos._futureX - pos._x / 6;
+        vel->_vy = pos._futureY - pos._y / 6;
     }
 }

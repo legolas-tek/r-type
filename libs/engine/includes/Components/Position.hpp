@@ -41,19 +41,19 @@ struct Position {
     float _z = 0;
 
     /**
-     * @brief The futur x-coordinate of the position.
+     * @brief The future x-coordinate of the position.
      */
-    float _futurX = 0;
+    float _futureX = 0;
 
     /**
-     * @brief The futur y-coordinate of the position.
+     * @brief The future y-coordinate of the position.
      */
-    float _futurY = 0;
+    float _futureY = 0;
 
     /**
-     * @brief The futur z-coordinate of the position.
+     * @brief The future z-coordinate of the position.
      */
-    float _futurZ = 0;
+    float _futureZ = 0;
 
     /**
      * @brief Default constructor for the Position structure.
@@ -89,21 +89,13 @@ struct Position {
 
     void deserialize(engine::Deserializer &deser)
     {
-        deser.deserializeTrivial<float>(_x);
-        deser.deserializeTrivial<float>(_y);
-        deser.deserializeTrivial<float>(_z);
+        std::swap(_x, _futureX);
+        std::swap(_y, _futureY);
+        std::swap(_z, _futureZ);
 
-        float futurX = _x;
-        float futurY = _y;
-        float futurZ = _z;
-
-        _x = _futurX;
-        _y = _futurY;
-        _z = _futurZ;
-
-        _futurX = futurX;
-        _futurY = futurY;
-        _futurY = futurY;
+        deser.deserializeTrivial<float>(_futureX);
+        deser.deserializeTrivial<float>(_futureY);
+        deser.deserializeTrivial<float>(_futureZ);
     }
 };
 }
