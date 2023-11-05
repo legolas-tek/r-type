@@ -1,4 +1,4 @@
-name: 🏁 Windows Builds
+name: 🏁 Windows Builds & Tests
 
 on:
   workflow_call:

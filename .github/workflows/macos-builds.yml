@@ -1,4 +1,4 @@
-name: 🍎 macOS Builds
+name: 🍎 macOS Builds & Tests
 
 on:
   workflow_call:

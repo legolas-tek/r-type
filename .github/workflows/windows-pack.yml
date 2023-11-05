@@ -12,7 +12,7 @@ jobs:
         run: "choco install cmake --installargs 'ADD_CMAKE_TO_PATH=User'"
 
   pack_project:
-    name: "Pack windows"
+    name: "Pack Windows"
     runs-on: "windows-latest"
     needs: install_cmake
     steps:
