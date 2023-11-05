@@ -1,9 +1,7 @@
-name: Compiling action
+name: 🐧 Linux Builds
 
 on:
-  pull_request:
-    branches:
-      - main
+  workflow_call:
 
 jobs:
   compile_project:
