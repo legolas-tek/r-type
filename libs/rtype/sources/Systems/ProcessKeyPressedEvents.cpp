@@ -12,11 +12,12 @@
 #include <string>
 
 System::ProcessKeyPressedEvents::ProcessKeyPressedEvents(
-    event::EventQueue &events, std::size_t const &tick,
-    SparseArray<Component::Text> &texts,
+    event::EventQueue &events, std::size_t playerNumber,
+    std::size_t const &tick, SparseArray<Component::Text> &texts,
     SparseArray<Component::ChatModifiableText> &modifiables
 )
     : _events(events)
+    , _playerNumber(playerNumber)
     , _tick(tick)
     , _previousTick(0)
     , _texts(texts)
@@ -40,7 +41,7 @@ void System::ProcessKeyPressedEvents::operator()()
     for (auto it = _texts.begin(); it != _texts.end(); ++it) {
         auto &modifiable = _modifiables[it.get_entity()];
 
-        if (not modifiable)
+        if (not modifiable and modifiable->id == _playerNumber)
             continue;
 
         if ((*it)->_text != reaction and reaction != "")

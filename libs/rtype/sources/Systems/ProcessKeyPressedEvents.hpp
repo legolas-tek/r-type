@@ -24,8 +24,8 @@ class ProcessKeyPressedEvents : public ISystem {
 
 public:
     ProcessKeyPressedEvents(
-        event::EventQueue &events, std::size_t const &tick,
-        SparseArray<Component::Text> &texts,
+        event::EventQueue &events, std::size_t playerNumber,
+        std::size_t const &tick, SparseArray<Component::Text> &texts,
         SparseArray<Component::ChatModifiableText> &modifiables
     );
 
@@ -33,6 +33,8 @@ public:
 
 private:
     event::EventQueue &_events;
+
+    std::size_t _playerNumber;
 
     std::size_t const &_tick;
     std::size_t _previousTick;

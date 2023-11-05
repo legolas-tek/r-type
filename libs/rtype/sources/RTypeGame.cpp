@@ -158,7 +158,8 @@ void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
     );
 
     reg.add_system<System::ProcessKeyPressedEvents>(
-        reg.events, reg.getTick(), reg.get_components<Component::Text>(),
+        reg.events, _playerNumber, reg.getTick(),
+        reg.get_components<Component::Text>(),
         reg.get_components<Component::ChatModifiableText>()
     );
 
@@ -376,15 +377,13 @@ void RTypeGame::initScene(engine::Registry &reg)
         engine::Entity reaction(reg.get_new_entity());
         reg.get_components<Component::Position>().emplace_at(reaction);
         reg.get_components<Component::Text>().emplace_at(
-            reaction, std::string(""), "./assets/fonts/Over_There.ttf", 15, 5,
-            0xFFFFFFFF
+            reaction, "", "./assets/fonts/Over_There.ttf", 15, 5, 0xFFFFFFFF
         );
-        reg.get_components<Component::Velocity>().emplace_at(reaction);
         reg.get_components<Component::Follow>().emplace_at(
             reaction, player, 0, -50
         );
         reg.get_components<Component::ChatModifiableText>().emplace_at(
-            reaction, player
+            reaction, _playerNumber
         );
 
         engine::Entity name(reg.get_new_entity());

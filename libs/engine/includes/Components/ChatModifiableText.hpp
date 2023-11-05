@@ -21,8 +21,8 @@ namespace Component {
  */
 struct ChatModifiableText : engine::Serializable<ChatModifiableText> {
 
-    ChatModifiableText(engine::Entity targetEntity)
-        : targetEntity(targetEntity)
+    ChatModifiableText(int id)
+        : id(id)
     {
     }
 
@@ -30,9 +30,9 @@ struct ChatModifiableText : engine::Serializable<ChatModifiableText> {
     ChatModifiableText() = default;
 
     /**
-     * @brief The entity of the player modifying the text
+     * @brief The number of the player modifying the text
      */
-    engine::Entity targetEntity = engine::Entity(0);
+    int id = 0;
 };
 
 }
