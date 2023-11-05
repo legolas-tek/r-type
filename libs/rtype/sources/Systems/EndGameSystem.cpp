@@ -8,6 +8,7 @@
 #include "EndGameSystem.hpp"
 #include "Components/Position.hpp"
 #include "Components/Text.hpp"
+#include "GameLoop.hpp"
 
 System::EndGameSystem::EndGameSystem(
     event::EventQueue &events, engine::Registry &registry
@@ -19,6 +20,12 @@ System::EndGameSystem::EndGameSystem(
 
 void System::EndGameSystem::operator()()
 {
+    if (_isEnded) {
+        _cooldownToRestartServer--;
+        if (_cooldownToRestartServer <= 0)
+            throw GameEndException();
+        return;
+    }
     for (auto &end : _events.getEvents<event::EndGame>()) {
         _registry.reset_scene();
         engine::Entity message(_registry.get_new_entity());
@@ -29,5 +36,6 @@ void System::EndGameSystem::operator()()
             message, end.win ? "You win" : "You lose",
             "./assets/fonts/Over_There.ttf", float(100), float(50)
         );
+        _isEnded = true;
     }
 }
