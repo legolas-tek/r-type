@@ -49,6 +49,7 @@ void RTypeGame::registerAllComponents(engine::Registry &reg)
     reg.register_component<Component::Text>();
     reg.register_component<Component::Solid>();
     reg.register_component<Component::Floating>();
+    reg.register_component<Component::Dependent>();
 }
 
 void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
@@ -86,7 +87,9 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
     );
     reg.add_system<System::DeathSystem>(
         reg.get_components<Component::Health>(),
-        reg.get_components<Component::Life>(), reg
+        reg.get_components<Component::Life>(),
+        reg.get_components<Component::Dependent>(),
+        reg.get_components<Component::Follow>(), reg
     );
     reg.add_system<System::WaveManagerSystem>(reg);
     reg.add_system<System::FloatingSystem>(
@@ -287,7 +290,7 @@ void RTypeGame::initScene(engine::Registry &reg)
         reg.get_components<Component::Solid>().emplace_at(player);
         reg.get_components<Component::Velocity>().emplace_at(player);
         reg.get_components<Component::Drawable>().emplace_at(
-            player, SHIP_I, SHIP_W, SHIP_H, 0.3,
+            player, SHIP_I, SHIP_W, SHIP_H, 3,
             17 * (client.getPlayerNumber() - 1)
         );
         reg.get_components<Component::Animation>().emplace_at(

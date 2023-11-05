@@ -33,5 +33,4 @@ void System::DamageOnCollisionSystem::operator()()
             collision.entity, _damages[collision.secondEntity]->damages
         );
     }
-    _events.update();
 }

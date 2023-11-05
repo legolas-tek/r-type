@@ -25,8 +25,8 @@
         elapsed_time += delta_time;
 
         if (elapsed_time >= target_delta_time) {
+            reg.events.update();
             reg.run_systems();
-
             elapsed_time = 0.0f;
             reg.incrementTick();
             reg.events.clear();
