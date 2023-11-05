@@ -29,8 +29,6 @@
 #include "Key.hpp"
 #include "Rendering.hpp"
 
-#include <iostream>
-
 void MarioGame::registerAllComponents(engine::Registry &reg)
 {
     // to use system rendering -> texture
@@ -134,8 +132,6 @@ void MarioGame::initScene(engine::Registry &reg)
 
     float marioScale = oneUnit / MARIO_ONE_SPRITE_HEIGHT * scaleRatio;
 
-    std::cout << "scaleRatio: " << scaleRatio << std::endl;
-    std::cout << "marioScale: " << marioScale << std::endl;
     // ==================== set Drawable ====================
     // floor
     reg.get_components<Component::Drawable>().insert_at(
@@ -237,15 +233,12 @@ void MarioGame::initScene(engine::Registry &reg)
     reg.get_components<Component::Rail>().insert_at(
         floor, Component::Rail(Component::RailType::DYNAMIC_BACKGROUND)
     );
-    std::cout << "floor: " << floor << std::endl; // 1
     reg.get_components<Component::Rail>().insert_at(
         background, Component::Rail(Component::RailType::DYNAMIC_BACKGROUND)
     );
-    std::cout << "background: " << background << std::endl; // 2
     reg.get_components<Component::Rail>().insert_at(
         mario_player, Component::Rail(Component::RailType::STATIC)
     );
-    std::cout << "mario_player: " << mario_player << std::endl; // 3
     // ==================== set Animation ====================
     reg.get_components<Component::Animation>().insert_at(
         mario_player, Component::Animation(350, 160, 150, 160, 150, 100)

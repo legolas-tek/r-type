@@ -8,8 +8,6 @@
 #include "Systems/MoveSystem.hpp"
 #include "Events/Collision.hpp"
 
-#include <iostream>
-
 System::MoveSystem::MoveSystem(
     event::EventQueue &events, SparseArray<Component::Position> &positions,
     SparseArray<Component::Velocity> const &velocities,
@@ -26,25 +24,17 @@ System::MoveSystem::MoveSystem(
 
 void System::MoveSystem::operator()()
 {
-    // std::cout << "====================" << std::endl;
     for (auto it = _positions.begin(); it != _positions.end(); ++it) {
         auto &pos = **it;
         auto &vel = _velocities[it.get_entity()];
         engine::Entity collidingEntity
             = getCollidingSolidEntity(it.get_entity());
 
-        // std::cout << "pos of " << it.get_entity() << " and " <<
-        // collidingEntity << std::endl;
-
         if (vel && canMoveX(it.get_entity(), collidingEntity)) {
             pos._x += vel->_vx;
-            // std::cout << "entity " << it.get_entity() << " move x" <<
-            // std::endl;
         }
         if (vel && canMoveY(it.get_entity(), collidingEntity)) {
             pos._y += vel->_vy;
-            // std::cout << "entity " << it.get_entity() << " move y" <<
-            // std::endl;
         }
     }
 }
@@ -110,11 +100,9 @@ bool System::MoveSystem::canMoveX(
     float collidingEntityRight
         = collidingEntityPos._x + (collidingEntityCollision._width / 2);
     if (entityRight < collidingEntityLeft && 0 < entityVelocity._vx) {
-        // std::cout << "entity " << entity << " 111" << std::endl;
         return false;
     }
     if (collidingEntityRight < entityLeft && entityVelocity._vx < 0) {
-        // std::cout << "entity " << entity << " 222" << std::endl;
         return false;
     }
     return true;

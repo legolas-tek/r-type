@@ -19,8 +19,6 @@ System::JumpSystem::JumpSystem(
 {
 }
 
-#include <iostream>
-
 // TODO: can Jump if is on solid
 bool System::JumpSystem::isOnSolid(engine::Entity jumpentity)
 {

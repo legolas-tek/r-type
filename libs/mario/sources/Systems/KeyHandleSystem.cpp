@@ -9,8 +9,6 @@
 
 #include "Events/Key.hpp"
 
-#include <iostream>
-
 #include "raylib.h"
 
 #include "Components/Jump.hpp"

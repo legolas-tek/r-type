@@ -7,8 +7,6 @@
 
 #include "Systems/RailSystem.hpp"
 
-#include <iostream>
-
 System::RailSystem::RailSystem(
     SparseArray<Component::Rail> &rails,
     SparseArray<Component::Velocity> &velocities,

@@ -7,7 +7,6 @@
 
 #include "Systems/GravitySystem.hpp"
 
-#include <iostream>
 System::GravitySystem::GravitySystem(
     SparseArray<Component::Gravity> &gravities,
     SparseArray<Component::Velocity> &velocities
