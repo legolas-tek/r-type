@@ -10,7 +10,6 @@
 
 #include <string>
 
-#include "Entity.hpp"
 #include "Events/IEvent.hpp"
 
 namespace event {
@@ -18,15 +17,13 @@ namespace event {
 class KeyDown : public IEvent {
 
 public:
-    KeyDown(engine::Entity entity, char key)
-        : entity(entity)
-        , key(key)
+    KeyDown(char key)
+        : key(key)
     {
     }
 
     void dump(std::ostream &) const override;
 
-    engine::Entity entity;
     char key;
 };
 

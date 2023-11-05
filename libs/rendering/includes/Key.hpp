@@ -35,9 +35,7 @@ public:
      * \param velocities The registry of Velocity components.
      * \param playerNumber The player number to move.
      */
-    Key(event::EventQueue &events,
-        SparseArray<Component::Controllable> &controllables,
-        std::size_t playerNumber);
+    Key(event::EventQueue &events);
 
     /*!
      * \brief Destroy the Key system.
@@ -57,10 +55,6 @@ public:
 
 private:
     event::EventQueue &_events;
-
-    SparseArray<Component::Controllable> &_controllables;
-
-    std::size_t _playerNumber;
 };
 }
 #endif /* !KEY_HPP_ */

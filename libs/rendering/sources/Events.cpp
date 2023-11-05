@@ -12,10 +12,10 @@
 
 void event::KeyPressed::dump(std::ostream &stream) const
 {
-    stream << "KeyPressed (" << entity << ", " << key << ")";
+    stream << "KeyPressed (" << key << ")";
 }
 
 void event::KeyDown::dump(std::ostream &stream) const
 {
-    stream << "KeyDown (" << entity << ", " << key << ")";
+    stream << "KeyDown (" << key << ")";
 }

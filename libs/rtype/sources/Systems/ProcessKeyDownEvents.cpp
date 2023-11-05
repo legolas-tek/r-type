@@ -9,13 +9,15 @@
 
 #include "ProcessKeyDownEvents.hpp"
 
-#include <iostream>
-
 System::ProcessKeyDownEvents::ProcessKeyDownEvents(
-    event::EventQueue &events, SparseArray<Component::Velocity> &velocities
+    event::EventQueue &events,
+    SparseArray<Component::Controllable> &controllables,
+    SparseArray<Component::Velocity> &velocities, std::size_t playerNumber
 )
     : _events(events)
+    , _controllables(controllables)
     , _velocities(velocities)
+    , _playerNumber(playerNumber)
 {
 }
 
@@ -24,10 +26,6 @@ void System::ProcessKeyDownEvents::operator()()
     Component::Velocity res;
 
     for (auto &keyDown : _events.getEvents<event::KeyDown>()) {
-        auto &velocities = _velocities[keyDown.entity];
-
-        if (not velocities)
-            continue;
 
         if (keyDown.key == 'W' or keyDown.key == 'Z')
             res._vy -= 5.0f;
@@ -40,8 +38,15 @@ void System::ProcessKeyDownEvents::operator()()
 
         if (keyDown.key == 'D')
             res._vx += 5.0f;
+    }
 
-        velocities = res;
-        _events.addEvent<event::KeyDown>(keyDown.entity, '\0');
+    for (auto it = _velocities.begin(); it != _velocities.end(); ++it) {
+        auto &controllable = _controllables[it.get_entity()];
+        bool isControllable
+            = controllable && controllable->_id == _playerNumber;
+
+        if (not isControllable)
+            continue;
+        **it = res;
     }
 }

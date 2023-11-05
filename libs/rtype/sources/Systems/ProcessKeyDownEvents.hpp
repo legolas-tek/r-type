@@ -11,6 +11,7 @@
 #include "ISystem.hpp"
 #include "SparseArray.hpp"
 
+#include "Components/Controllable.hpp"
 #include "Components/Velocity.hpp"
 
 #include "Events/EventQueue.hpp"
@@ -21,7 +22,9 @@ class ProcessKeyDownEvents : public ISystem {
 
 public:
     ProcessKeyDownEvents(
-        event::EventQueue &events, SparseArray<Component::Velocity> &velocities
+        event::EventQueue &events,
+        SparseArray<Component::Controllable> &controllables,
+        SparseArray<Component::Velocity> &velocities, std::size_t playerNumber
     );
 
     void operator()() override;
@@ -29,7 +32,10 @@ public:
 private:
     event::EventQueue &_events;
 
+    SparseArray<Component::Controllable> &_controllables;
     SparseArray<Component::Velocity> &_velocities;
+
+    std::size_t _playerNumber;
 };
 
 }
