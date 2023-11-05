@@ -17,6 +17,8 @@ public:
     EndGame(bool win)
         : win(win) {};
 
+    void dump(std::ostream &) const override;
+
     bool win;
 };
 }
