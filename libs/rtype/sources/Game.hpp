@@ -26,7 +26,7 @@ public:
     /// @brief The number of frames for the ship animation
     static inline constexpr int SHIP_F = 4;
     /// @brief The index to find the ship sprite
-    static inline constexpr int SHIP_I = 11;
+    static inline constexpr int SHIP_I = 3;
     /// @brief The Health a ship should have
     static inline constexpr int SHIP_HEALTH = 3;
 
@@ -90,8 +90,6 @@ public:
     void initAssets(engine::Registry &reg) override;
     void initScene(engine::Registry &reg) override;
 
-    std::unique_ptr<engine::IGame> createLobby() override;
-
 public:
     /// Server side, contains the clients, empty on client
     std::vector<net::lobby::RemoteClient> _serverClients;
@@ -109,9 +107,6 @@ public:
 
 class RTypeLobby : public engine::IGame {
 public:
-    explicit RTypeLobby(RTypeGame &game);
-    ~RTypeLobby() override;
-
     void registerAllComponents(engine::Registry &reg) override;
 
     void registerAdditionalServerSystems(engine::Registry &reg) override;
@@ -129,17 +124,16 @@ public:
         std::string address, std::size_t port
     );
 
+    std::unique_ptr<engine::IGame> createNextGame() override;
+
     bool isClientScene() const override
     {
         return true;
     }
 
 private:
-    /// The reference to the game
-    RTypeGame &_game;
-
-private:
     engine::Entity _joinButton { 0 };
+    engine::Entity _spectateButton { 0 };
     engine::Entity _addressInput { 0 };
     engine::Entity _portInput { 0 };
     engine::Entity _nameInput { 0 };

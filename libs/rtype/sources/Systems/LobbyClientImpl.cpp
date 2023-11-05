@@ -36,6 +36,13 @@ void System::LobbyClientImpl::onJoinSuccess(
     _game.initLobbyScene(_registry, *this);
 }
 
+void System::LobbyClientImpl::onSpectateSuccess(std::uint64_t playerHash)
+{
+    std::cout << "Spectate success: " << playerHash << std::endl;
+    _game.onJoinSuccess(0, playerHash, std::move(_address), _port);
+    _game.initLobbyScene(_registry, *this);
+}
+
 void System::LobbyClientImpl::onNewPlayer(
     std::uint8_t playerNumber, std::string &&playerName
 )

@@ -24,28 +24,28 @@ public:
     /**
      * Register extra systems only needed for the client
      */
-    virtual void registerAdditionalClientSystems(engine::Registry &reg)
+    virtual void registerAdditionalClientSystems(engine::Registry &)
     {
     }
 
     /**
      * Register extra systems only needed for the server
      */
-    virtual void registerAdditionalServerSystems(engine::Registry &reg)
+    virtual void registerAdditionalServerSystems(engine::Registry &)
     {
     }
 
     /**
      * Register systems needed for both the client and the server
      */
-    virtual void registerAdditionalSystems(engine::Registry &reg)
+    virtual void registerAdditionalSystems(engine::Registry &)
     {
     }
 
     /**
      * Initialize the initial entities of the game
      */
-    virtual void initScene(engine::Registry &reg)
+    virtual void initScene(engine::Registry &)
     {
     }
 
@@ -53,15 +53,15 @@ public:
      * Initialize the assets of the game, into the `Registry::_assets_paths`
      * vector
      */
-    virtual void initAssets(engine::Registry &reg)
+    virtual void initAssets(engine::Registry &)
     {
     }
 
     /**
-     * Create the lobby game. It will be run before this game starts, if not
-     * null.
+     * Create the next game. It will be run when this game throws a
+     * StartGameException.
      */
-    virtual std::unique_ptr<engine::IGame> createLobby()
+    virtual std::unique_ptr<engine::IGame> createNextGame()
     {
         return nullptr;
     }
@@ -80,13 +80,14 @@ public:
      * @brief The exception thrown when the game should start after the lobby
      *
      * This exception is thrown when the game should start, and is caught by
-     * the main, which then starts the real game.
+     * the main, which then starts the real game. The lobby game must override
+     * the `createNextGame` method to return a non-null pointer to a game.
      */
     class StartGameException : public std::exception {
     public:
         [[nodiscard]] char const *what() const noexcept override
         {
-            return "Game is starting, lobby has finished.";
+            return "Next game requested";
         }
     };
 };

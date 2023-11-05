@@ -19,6 +19,7 @@
 #include "Components/Health.hpp"
 #include "Components/HitBox.hpp"
 #include "Components/Velocity.hpp"
+#include "Components/Dependent.hpp"
 
 #include "Events/FinalBoss.hpp"
 
@@ -60,33 +61,33 @@ System::WaveManagerSystem::WaveManagerSystem(engine::Registry &reg)
 
 void System::WaveManagerSystem::createBoss()
 {
-    engine::Entity boss(_register.get_new_entity());
+    engine::Entity bossBody(_register.get_new_entity());
     engine::Entity firstTurret(_register.get_new_entity());
     engine::Entity secondTurret(_register.get_new_entity());
     engine::Entity bossHead(_register.get_new_entity());
 
     _register.events.addEvent<event::FinalBoss>(boss);
     _register.get_components<Component::Position>().emplace_at(
-        boss, rendering::system::SCREEN_WIDTH + 300, 0, 0
+        bossBody, rendering::system::SCREEN_WIDTH + 300, 0, 0
     );
     _register.get_components<Component::Drawable>().emplace_at(
-        boss, RTypeGame::FIRST_BOSS_I, RTypeGame::FIRST_BOSS_W,
+        bossBody, RTypeGame::FIRST_BOSS_I, RTypeGame::FIRST_BOSS_W,
         RTypeGame::FIRST_BOSS_H
     );
     _register.get_components<Component::Animation>().emplace_at(
-        boss, RTypeGame::FIRST_BOSS_W * RTypeGame::FIRST_BOSS_F,
+        bossBody, RTypeGame::FIRST_BOSS_W * RTypeGame::FIRST_BOSS_F,
         RTypeGame::FIRST_BOSS_H, RTypeGame::FIRST_BOSS_W,
         RTypeGame::FIRST_BOSS_H, RTypeGame::FIRST_BOSS_W, 20
     );
     _register.get_components<Component::Floating>().emplace_at(
-        boss,
+        bossBody,
         rendering::system::SCREEN_HEIGHT - RTypeGame::BORDERS_H / 2
             - RTypeGame::FIRST_BOSS_H / 2,
         rendering::system::SCREEN_WIDTH - RTypeGame::FIRST_BOSS_W / 2,
         0 + RTypeGame::BORDERS_H / 2 + RTypeGame::FIRST_BOSS_H / 2,
         0 + RTypeGame::FIRST_BOSS_W + RTypeGame::SHIP_W * 3, 3
     );
-    _register.get_components<Component::Velocity>().emplace_at(boss, 0, 0);
+    _register.get_components<Component::Velocity>().emplace_at(bossBody, 0, 0);
     _register.get_components<Component::Position>().emplace_at(
         firstTurret, 0, 1
     );
@@ -95,7 +96,7 @@ void System::WaveManagerSystem::createBoss()
         RTypeGame::SMALL_TURRET_H
     );
     _register.get_components<Component::Follow>().emplace_at(
-        firstTurret, boss, 7, 2
+        firstTurret, bossBody, 7, 2
     );
     _register.get_components<Component::FireRate>().emplace_at(firstTurret, 75);
     _register.get_components<Component::Position>().emplace_at(
@@ -106,22 +107,29 @@ void System::WaveManagerSystem::createBoss()
         RTypeGame::SMALL_TURRET_H
     );
     _register.get_components<Component::Follow>().emplace_at(
-        secondTurret, boss, 7, 2 + RTypeGame::SMALL_TURRET_H
+        secondTurret, bossBody, 7, 2 + RTypeGame::SMALL_TURRET_H
     );
     _register.get_components<Component::FireRate>().emplace_at(
         secondTurret, 75
     );
     _register.get_components<Component::Position>().emplace_at(bossHead, 0, 0);
     _register.get_components<Component::Follow>().emplace_at(
-        bossHead, boss, 0, -80
+        bossHead, bossBody, 0, -80
     );
     _register.get_components<Component::Collision>().emplace_at(
         bossHead, 113, 83
     );
     _register.get_components<Component::HitBox>().emplace_at(bossHead, 113, 83);
     _register.get_components<Component::Health>().emplace_at(bossHead, 10, 10);
-    // TODO: add depends components so all entities dies together when head is
-    // destroyed
+    _register.get_components<Component::Dependent>().emplace_at(
+        bossBody, bossHead
+    );
+    _register.get_components<Component::Dependent>().emplace_at(
+        firstTurret, bossHead
+    );
+    _register.get_components<Component::Dependent>().emplace_at(
+        secondTurret, bossHead
+    );
 }
 
 void System::WaveManagerSystem::operator()()

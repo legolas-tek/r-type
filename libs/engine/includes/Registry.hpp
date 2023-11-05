@@ -190,6 +190,11 @@ public:
         return _tick;
     }
 
+    [[nodiscard]] std::size_t const &tick() const
+    {
+        return _tick;
+    }
+
     std::vector<TextureWrapper> _assets_paths;
 
     event::EventQueue events;

@@ -45,6 +45,8 @@ public:
 
     /// Send a join success packet to the client
     void sendJoinSuccess(size_t playerNumber, std::uint64_t playerHash);
+    /// Send a join as spectator success packet to the client
+    void sendSpectateSuccess(std::uint64_t playerHash);
     /// Send a New Player notification to the client
     void sendNewPlayer(size_t playerNumber, std::string const &playerName);
     /// Send a Game Start notification to the client
@@ -62,6 +64,8 @@ private:
 private:
     /// Called when the client sends a join request
     virtual void onJoinRequest(std::string &&playerName) = 0;
+    /// Called when the client sends a join as spectator request
+    virtual void onSpectateRequest() = 0;
     /// Called when the client sends a start request
     virtual void onStartRequest() = 0;
 
