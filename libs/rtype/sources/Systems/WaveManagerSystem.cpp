@@ -66,7 +66,7 @@ void System::WaveManagerSystem::createBoss()
     engine::Entity secondTurret(_register.get_new_entity());
     engine::Entity bossHead(_register.get_new_entity());
 
-    _register.events.addEvent<event::FinalBoss>(boss);
+    _register.events.addEvent<event::FinalBoss>(bossHead);
     _register.get_components<Component::Position>().emplace_at(
         bossBody, rendering::system::SCREEN_WIDTH + 300, 0, 0
     );

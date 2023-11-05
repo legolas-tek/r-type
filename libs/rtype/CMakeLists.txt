@@ -59,6 +59,7 @@ target_sources (rtype
     ./sources/Systems/LobbyClientImpl.cpp
     ./sources/Systems/FloatingSystem.cpp
     ./sources/Systems/End.cpp
+    ./sources/Systems/EndGameSystem.cpp
     ./sources/Systems/SoundSystem/ShootSoundSystem.cpp
     ./sources/Systems/SoundSystem/ExplosionSoundSystem.cpp
 )

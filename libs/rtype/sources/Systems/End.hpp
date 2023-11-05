@@ -34,6 +34,7 @@ private:
     int _defaultCooldown = 200;
     int _cooldown = _defaultCooldown;
     bool _finalBossSpawned = false;
+    bool _gameIsEnded = false;
     engine::Entity _finalBoss = engine::Entity(0);
 };
 }

@@ -20,8 +20,8 @@ System::End::End(
 
 bool System::End::hasControllables()
 {
-    for (auto &controllable : _controllables) {
-        if (controllable)
+    for (auto it = _controllables.begin(); it != _controllables.end(); it++) {
+        if (it->has_value())
             return true;
     }
     return false;
@@ -54,10 +54,12 @@ void System::End::operator()()
             _finalBossSpawned = true;
         }
     }
-    if (isDefeat()) {
+    if (isDefeat() && not _gameIsEnded) {
         _events.addEvent<event::EndGame>(false);
+        _gameIsEnded = true;
     }
-    if (_finalBossSpawned and finalBossDied()) {
+    if (_finalBossSpawned and finalBossDied() and not _gameIsEnded) {
         _events.addEvent<event::EndGame>(true);
+        _gameIsEnded = true;
     }
 }
