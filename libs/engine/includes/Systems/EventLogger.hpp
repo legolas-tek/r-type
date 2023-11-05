@@ -17,7 +17,10 @@ namespace System {
 
 class EventLogger : public ISystem {
 public:
-    EventLogger(std::size_t const &tick, event::EventQueue &queue);
+    EventLogger(
+        std::string const &name, std::size_t const &tick,
+        event::EventQueue &queue
+    );
     void operator()() override;
 
 private:

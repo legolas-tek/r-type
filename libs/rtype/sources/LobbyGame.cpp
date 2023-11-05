@@ -25,6 +25,10 @@
 
 #include "Rendering.hpp"
 
+#ifdef DEBUG_LOG_EVENT
+    #include "Systems/EventLogger.hpp"
+#endif
+
 static constexpr char const *FONT = "./assets/fonts/Over_There.ttf";
 
 void RTypeLobby::registerAllComponents(engine::Registry &reg)
@@ -55,6 +59,9 @@ void RTypeLobby::registerAdditionalClientSystems(engine::Registry &reg)
     reg.add_system<System::JoinButton>(
         *this, reg, _joinButton, _addressInput, _portInput, _nameInput
     );
+#ifdef DEBUG_LOG_EVENT
+    reg.add_system<System::EventLogger>("lobby", reg.tick(), reg.events);
+#endif
 }
 
 void RTypeLobby::registerAdditionalServerSystems(engine::Registry &reg)
@@ -79,7 +86,7 @@ RTypeLobby::~RTypeLobby()
         _game._serverClients = std::move(_serverLobby->get().getClients());
 }
 
-void RTypeLobby::registerAdditionalSystems(engine::Registry &reg)
+void RTypeLobby::registerAdditionalSystems(engine::Registry &)
 {
 }
 

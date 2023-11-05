@@ -138,7 +138,7 @@ void RTypeGame::registerAdditionalSystems(engine::Registry &reg)
         reg.get_components<Component::Position>()
     );
 #ifdef DEBUG_LOG_EVENT
-    reg.add_system<System::EventLogger>(reg.tick(), reg.events);
+    reg.add_system<System::EventLogger>("rtype", reg.tick(), reg.events);
 #endif
 }
 

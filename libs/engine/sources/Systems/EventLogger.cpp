@@ -16,14 +16,14 @@
 #endif
 
 System::EventLogger::EventLogger(
-    std::size_t const &tick, event::EventQueue &queue
+    std::string const &name, std::size_t const &tick, event::EventQueue &queue
 )
     : _tick(tick)
     , _queue(queue)
 {
     auto pid = getpid();
     _file.open(
-        "events-" + std::to_string(pid) + ".log",
+        "events-" + name + "-" + std::to_string(pid) + ".log",
         std::ios::out | std::ios::trunc
     );
 }
