@@ -30,6 +30,7 @@ target_sources (rendering
     PRIVATE
     ./sources/Rendering.cpp
     ./sources/Key.cpp
+    ./sources/Events.cpp
     ./sources/Systems/Text.cpp
     ./sources/Systems/Focusable.cpp
     ./sources/Systems/Editable.cpp

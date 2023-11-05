@@ -9,6 +9,8 @@
 #include "Events/Collision.hpp"
 #include "Events/Damage.hpp"
 #include "Events/Death.hpp"
+#include "Events/End.hpp"
+#include "Events/FinalBoss.hpp"
 #include "Events/IEvent.hpp"
 #include "Events/Mouse.hpp"
 
@@ -43,4 +45,14 @@ void event::Mouse::dump(std::ostream &stream) const
 {
     char const *names[] = { "RIGHT", "LEFT", "MIDDLE" };
     stream << "Mouse (" << names[int(type)] << " at " << x << ", " << y << ")";
+}
+
+void event::EndGame::dump(std::ostream &stream) const
+{
+    stream << "EndGame (" << (win ? "won" : "lost") << ")";
+}
+
+void event::FinalBoss::dump(std::ostream &stream) const
+{
+    stream << "FinalBoss (" << entity << ")";
 }
