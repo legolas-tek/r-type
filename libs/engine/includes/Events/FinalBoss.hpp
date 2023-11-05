@@ -20,6 +20,8 @@ public:
     {
     }
 
+    void dump(std::ostream &) const override;
+
     engine::Entity entity;
 };
 
