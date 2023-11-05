@@ -57,8 +57,10 @@ bool System::MoveSystem::canMoveX(
     engine::Entity entity, engine::Entity collidingEntity
 )
 {
-    if (collidingEntity == 0 or not _positions[collidingEntity]
-        or not _solids[collidingEntity] or not _collisions[entity])
+    if (collidingEntity == 0 or entity == 0 or not _positions[entity]
+        or not _positions[collidingEntity] or not _collisions[entity]
+        or not _collisions[collidingEntity] or not _velocities[entity]
+        or not _velocities[collidingEntity])
         return true;
 
     Component::Position &entityPos = _positions[entity].value();
@@ -112,8 +114,10 @@ bool System::MoveSystem::canMoveY(
     engine::Entity entity, engine::Entity collidingEntity
 )
 {
-    if (collidingEntity == 0 or not _positions[collidingEntity]
-        or not _solids[collidingEntity] or not _collisions[entity])
+    if (collidingEntity == 0 or entity == 0 or not _positions[entity]
+        or not _positions[collidingEntity] or not _collisions[entity]
+        or not _collisions[collidingEntity] or not _velocities[entity]
+        or not _velocities[collidingEntity])
         return true;
 
     Component::Position &entityPos = _positions[entity].value();
