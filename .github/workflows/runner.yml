@@ -4,4 +4,12 @@ on: [push, pull_request]
 jobs:
   linux-build:
     name: 🐧 Linux
-    uses: ./.github/workflows/github-actions-compile.yml
+    uses: ./.github/workflows/linux-builds.yml
+
+  windows-build:
+    name: 🏁 Windows
+    uses: ./.github/workflows/windows-builds.yml
+
+  macos-build:
+    name: 🍎 macOS
+    uses: ./.github/workflows/macos-builds.yml

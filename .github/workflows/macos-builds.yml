@@ -1,0 +1,22 @@
+name: 🍎 macOS Builds
+
+on:
+  workflow_call:
+
+jobs:
+  build_macOS:
+    name: "Build on macOS latest"
+    runs-on: "macos-latest"
+    steps:
+      - uses: "actions/checkout@v3"
+        with:
+          fetch-depth: 0
+
+      - name: "Configure the project using cmake"
+        run: "cmake -Bbuild --preset macos-arm64"
+
+      - name: "Compile the code"
+        run: "cmake --build build"
+
+      - name: "Run unit tests"
+        run: "cd build/tests; ctest"
