@@ -45,16 +45,19 @@ public:
 private:
     /// Called when the client sends a join request
     void onJoinRequest(std::string &&playerName) override;
+    /// Called when the client sends a spectate request
+    void onSpectateRequest() override;
     /// Called when the client sends a start request
     void onStartRequest() override;
 
 private:
     /// The name of the player
     std::string _playerName;
-    /// The player number (1-maxPlayers), or 0 if not joined
+    /// The player number (1-maxPlayers), or 0 if not joined or spectator
     size_t _playerNumber = 0;
-    /// The player hash, a random number used to identify the player uniquely
-    size_t _playerHash {};
+    /// The player hash, a random number used to identify the player uniquely,
+    /// or 0 if not joined
+    size_t _playerHash = 0;
     /// The parent lobby server
     Lobby &_parent;
 

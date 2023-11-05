@@ -32,12 +32,26 @@ void net::lobby::RemoteClient::onJoinRequest(std::string &&playerName)
               << _playerNumber << " with hash " << _playerHash << std::endl;
     sendJoinSuccess(_playerNumber, _playerHash);
     for (auto &player : _parent._clients) {
-        if (not player._playerNumber)
+        if (not player._playerHash)
             continue;
         player.sendNewPlayer(_playerNumber, _playerName);
-        if (player._playerNumber != _playerNumber) {
+        if (player._playerNumber != _playerNumber and player._playerNumber) {
             sendNewPlayer(player._playerNumber, player._playerName);
         }
+    }
+}
+
+void net::lobby::RemoteClient::onSpectateRequest()
+{
+    _playerNumber = 0;
+    _playerHash = _parent._dist(_parent._random);
+    std::cout << "Player joined the lobby as spectator with hash "
+              << _playerHash << std::endl;
+    sendSpectateSuccess(_playerHash);
+    for (auto &player : _parent._clients) {
+        if (not player._playerNumber)
+            continue;
+        sendNewPlayer(player._playerNumber, player._playerName);
     }
 }
 
@@ -46,7 +60,7 @@ void net::lobby::RemoteClient::onStartRequest()
     std::cout << "Player " << _playerName << " requested to start the game"
               << std::endl;
     for (auto &player : _parent._clients) {
-        if (player._playerNumber) {
+        if (player._playerHash) {
             player.sendGameStart();
         }
     }

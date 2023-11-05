@@ -287,6 +287,8 @@ void RTypeGame::initScene(engine::Registry &reg)
     reg.get_components<Component::Solid>().emplace_at(bottomBorder);
     // ==================== PLAYER ====================
     for (auto &client : this->_serverClients) {
+        if (client.getPlayerNumber() == 0)
+            continue; // spectator
         engine::Entity player(reg.get_new_entity());
         reg.get_components<Component::Position>().emplace_at(
             player,

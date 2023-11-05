@@ -45,6 +45,9 @@ private:
     /// game object so it can be used by the game later
     void
     onJoinSuccess(std::uint8_t playerNumber, std::uint64_t playerHash) override;
+    /// When the user successfully spectates the lobby, send the information to
+    /// the game object so it can be used by the game later
+    void onSpectateSuccess(std::uint64_t playerHash) override;
     /// When a new player joins the lobby, show it in the lobby
     void
     onNewPlayer(std::uint8_t playerNumber, std::string &&playerName) override;
