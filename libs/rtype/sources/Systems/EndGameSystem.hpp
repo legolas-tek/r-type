@@ -24,7 +24,7 @@ public:
 private:
     event::EventQueue &_events;
     engine::Registry &_registry;
-    int _cooldownToRestartServer = 150;
+    int _cooldownToRestartServer = 50;
     int _isEnded = false;
 };
 

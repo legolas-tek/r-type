@@ -7,6 +7,8 @@
 
 #include "Game.hpp"
 
+#include "Components/Focusable.hpp"
+#include "Components/RestartOnClick.hpp"
 #include "Components/Solid.hpp"
 #include "Components/Text.hpp"
 
@@ -20,11 +22,13 @@
 #include "Systems/End.hpp"
 #include "Systems/EndGameSystem.hpp"
 #include "Systems/FloatingSystem.hpp"
+#include "Systems/Focusable.hpp"
 #include "Systems/FollowSystem.hpp"
 #include "Systems/LifeTimeSystem.hpp"
 #include "Systems/MoveSystem.hpp"
 #include "Systems/NetworkSystem.hpp"
 #include "Systems/RespawnSystem.hpp"
+#include "Systems/Restart.hpp"
 #include "Systems/SoundManagerSystem.hpp"
 #include "Systems/SpawnEnemySystem.hpp"
 #include "Systems/WaveManagerSystem.hpp"
@@ -58,6 +62,8 @@ void RTypeGame::registerAllComponents(engine::Registry &reg)
     reg.register_component<Component::Solid>();
     reg.register_component<Component::Floating>();
     reg.register_component<Component::Dependent>();
+    reg.register_component<Component::RestartOnClick>();
+    reg.register_component<Component::Focusable>();
 }
 
 void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
@@ -114,12 +120,21 @@ void RTypeGame::registerAdditionalServerSystems(engine::Registry &reg)
 
 void RTypeGame::registerAdditionalClientSystems(engine::Registry &reg)
 {
+    reg.add_system<rendering::system::Focusable>(
+        reg.events, reg.get_components<Component::Focusable>(),
+        reg.get_components<Component::HitBox>(),
+        reg.get_components<Component::Position>()
+    );
     reg.add_system<System::SoundManagerSystem>(reg);
     reg.add_system<System::AnimationSystem>(reg);
     reg.add_system<rendering::system::Rendering>(reg);
     reg.add_system<rendering::system::Key>(
         reg.get_components<Component::Controllable>(),
         reg.get_components<Component::Velocity>(), _playerNumber
+    );
+    reg.add_system<System::Restart>(
+        reg.events, reg.get_components<Component::RestartOnClick>(),
+        reg.get_components<Component::Focusable>()
     );
     reg.add_system<rtype::NetworkClientSystem>(
         reg, _address, _port, _playerNumber, _playerHash
