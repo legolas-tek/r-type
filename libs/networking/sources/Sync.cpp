@@ -96,7 +96,7 @@ void net::Sync::sendAckPacket(
 void net::Sync::applyInterpolationNeededUpdates()
 {
     engine::Deserializer deserializer(_lastUpdate);
-    std::size_t velocityComponentId
+    std::size_t positionComponentId
         = _registry.get_component_id<Component::Position>();
 
     deserializer.skip(
@@ -120,7 +120,7 @@ void net::Sync::applyInterpolationNeededUpdates()
         deserializer.deserializeTrivial(updateType);
 
         if (updateType) {
-            if (component_id != velocityComponentId) {
+            if (component_id != positionComponentId) {
                 _registry.apply_data(
                     engine::Entity(0), component_id, deserializer
                 );

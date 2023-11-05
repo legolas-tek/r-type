@@ -25,7 +25,7 @@ void net::Interpolate::operator()()
         if (it.get_entity() != 6)
             continue;
 
-        vel->_vx = pos._futureX - pos._x / 6;
-        vel->_vy = pos._futureY - pos._y / 6;
+        vel->_vx = (pos._futureX - pos._x) / 6;
+        vel->_vy = (pos._futureY - pos._y) / 6;
     }
 }
