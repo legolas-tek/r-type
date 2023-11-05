@@ -14,6 +14,11 @@ System::ShootSoundSystem::ShootSoundSystem(engine::Registry &reg)
     SetSoundVolume(_sound, 0.1f);
 }
 
+System::ShootSoundSystem::~ShootSoundSystem()
+{
+    UnloadSound(_sound);
+}
+
 bool System::ShootSoundSystem::isAbleToAttack(Component::FireRate &fire_rate)
 {
     if (fire_rate.reload_ticks == 0)

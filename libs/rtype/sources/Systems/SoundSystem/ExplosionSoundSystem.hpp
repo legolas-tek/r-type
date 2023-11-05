@@ -19,7 +19,7 @@ namespace System {
 class ExplosionSoundSystem : public ISystem {
 public:
     ExplosionSoundSystem(engine::Registry &reg);
-    ~ExplosionSoundSystem() = default;
+    ~ExplosionSoundSystem();
 
     void operator()() override;
 

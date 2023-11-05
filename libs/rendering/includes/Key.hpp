@@ -26,6 +26,7 @@ namespace rendering::system {
  * velocity based on user keyboard input if they have a Controllable component.
  */
 class Key : public ISystem {
+
 public:
     /*!
      * \brief Construct a Key system.
@@ -34,9 +35,7 @@ public:
      * \param velocities The registry of Velocity components.
      * \param playerNumber The player number to move.
      */
-    Key(event::EventQueue &events,
-        SparseArray<Component::Controllable> &controllables,
-        SparseArray<Component::Velocity> &velocities, std::size_t playerNumber);
+    Key(event::EventQueue &events);
 
     /*!
      * \brief Destroy the Key system.
@@ -56,9 +55,6 @@ public:
 
 private:
     event::EventQueue &_events;
-    SparseArray<Component::Controllable> &_controllables;
-    SparseArray<Component::Velocity> &_velocities;
-    std::size_t _playerNumber;
 };
 }
 #endif /* !KEY_HPP_ */
