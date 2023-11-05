@@ -32,6 +32,7 @@ target_sources (engine
     ./sources/Systems/CollisionsSystem.cpp
     ./sources/Systems/RespawnSystem.cpp
     ./sources/Systems/FollowSystem.cpp
+    ./sources/Systems/EventLogger.cpp
 )
 
 install(TARGETS engine

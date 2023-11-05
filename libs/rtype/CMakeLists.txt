@@ -15,6 +15,7 @@ set_target_properties (rtype PROPERTIES
 )
 
 option (DEBUG_LOG_DIFF "Enable logging component diffs to a file" OFF)
+option (DEBUG_LOG_EVENT "Enable logging events to a file" OFF)
 
 if (DEBUG_LOG_DIFF)
     target_compile_definitions (rtype
@@ -22,6 +23,13 @@ if (DEBUG_LOG_DIFF)
         DEBUG_LOG_DIFF
     )
 endif (DEBUG_LOG_DIFF)
+
+if (DEBUG_LOG_EVENT)
+    target_compile_definitions (rtype
+        PRIVATE
+        DEBUG_LOG_EVENT
+    )
+endif (DEBUG_LOG_EVENT)
 
 target_link_libraries (rtype
     PUBLIC

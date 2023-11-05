@@ -5,7 +5,6 @@
 ** Game
 */
 
-#include "DiffLogger.hpp"
 #include "Game.hpp"
 
 #include "Components/Solid.hpp"
@@ -30,6 +29,13 @@
 
 #include "Key.hpp"
 #include "Rendering.hpp"
+
+#ifdef DEBUG_LOG_DIFF
+    #include "DiffLogger.hpp"
+#endif
+#ifdef DEBUG_LOG_EVENT
+    #include "Systems/EventLogger.hpp"
+#endif
 
 void RTypeGame::registerAllComponents(engine::Registry &reg)
 {
@@ -131,6 +137,9 @@ void RTypeGame::registerAdditionalSystems(engine::Registry &reg)
         reg.get_components<Component::Follow>(),
         reg.get_components<Component::Position>()
     );
+#ifdef DEBUG_LOG_EVENT
+    reg.add_system<System::EventLogger>(reg.tick(), reg.events);
+#endif
 }
 
 void RTypeGame::initAssets(engine::Registry &reg)
