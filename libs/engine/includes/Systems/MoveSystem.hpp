@@ -60,19 +60,19 @@ private:
     /// @return returns true if it can move and false if it can't
     bool canMoveUp(
         engine::Entity entity, engine::Entity collidingEntity,
-        const Component::Velocity &velocity
+        Component::Velocity const &velocity
     );
     bool canMoveDown(
         engine::Entity entity, engine::Entity collidingEntity,
-        const Component::Velocity &velocity
+        Component::Velocity const &velocity
     );
     bool canMoveLeft(
         engine::Entity entity, engine::Entity collidingEntity,
-        const Component::Velocity &velocity
+        Component::Velocity const &velocity
     );
     bool canMoveRight(
         engine::Entity entity, engine::Entity collidingEntity,
-        const Component::Velocity &velocity
+        Component::Velocity const &velocity
     );
 
     /// @brief A const ref to a Event deque

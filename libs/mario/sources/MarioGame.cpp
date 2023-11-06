@@ -211,7 +211,9 @@ void MarioGame::initScene(engine::Registry &reg)
     );
     // ==================== set Solid ====================
     reg.get_components<Component::Solid>().insert_at(floor, Component::Solid());
-    reg.get_components<Component::Solid>().insert_at(mario_player, Component::Solid());
+    reg.get_components<Component::Solid>().insert_at(
+        mario_player, Component::Solid()
+    );
     // ==================== set Velocity ====================
     reg.get_components<Component::Velocity>().insert_at(
         mario_player, Component::Velocity(0, 0)

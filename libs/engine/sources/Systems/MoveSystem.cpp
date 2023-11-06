@@ -32,20 +32,20 @@ void System::MoveSystem::operator()()
 
         if (not vel)
             continue;
-        if (vel->_vx > 0 and canMoveRight(it.get_entity(), collidingEntity,
-            vel.value())) {
+        if (vel->_vx > 0
+            and canMoveRight(it.get_entity(), collidingEntity, vel.value())) {
             pos._x += vel->_vx;
         }
-        if (vel->_vx < 0 and canMoveLeft(it.get_entity(), collidingEntity,
-            vel.value())) {
+        if (vel->_vx < 0
+            and canMoveLeft(it.get_entity(), collidingEntity, vel.value())) {
             pos._x += vel->_vx;
         }
-        if (vel->_vy > 0 and canMoveDown(it.get_entity(), collidingEntity,
-            vel.value())) {
+        if (vel->_vy > 0
+            and canMoveDown(it.get_entity(), collidingEntity, vel.value())) {
             pos._y += vel->_vy;
         }
-        if (vel->_vy < 0 and canMoveUp(it.get_entity(), collidingEntity,
-            vel.value())) {
+        if (vel->_vy < 0
+            and canMoveUp(it.get_entity(), collidingEntity, vel.value())) {
             pos._y += vel->_vy;
         }
     }
@@ -67,7 +67,7 @@ engine::Entity System::MoveSystem::getCollidingSolidEntity(engine::Entity entity
 
 bool System::MoveSystem::canMoveUp(
     engine::Entity entity, engine::Entity collidingEntity,
-    const Component::Velocity &velocity
+    Component::Velocity const &velocity
 )
 {
     if (collidingEntity == 0 || not _positions[collidingEntity])
@@ -83,7 +83,7 @@ bool System::MoveSystem::canMoveUp(
 
 bool System::MoveSystem::canMoveDown(
     engine::Entity entity, engine::Entity collidingEntity,
-    const Component::Velocity &velocity
+    Component::Velocity const &velocity
 )
 {
     if (collidingEntity == 0 || not _positions[collidingEntity])
@@ -99,7 +99,7 @@ bool System::MoveSystem::canMoveDown(
 
 bool System::MoveSystem::canMoveLeft(
     engine::Entity entity, engine::Entity collidingEntity,
-    const Component::Velocity &velocity
+    Component::Velocity const &velocity
 )
 {
     if (collidingEntity == 0 || not _positions[collidingEntity])
@@ -115,7 +115,7 @@ bool System::MoveSystem::canMoveLeft(
 
 bool System::MoveSystem::canMoveRight(
     engine::Entity entity, engine::Entity collidingEntity,
-    const Component::Velocity &velocity
+    Component::Velocity const &velocity
 )
 {
     if (collidingEntity == 0 || not _positions[collidingEntity])
