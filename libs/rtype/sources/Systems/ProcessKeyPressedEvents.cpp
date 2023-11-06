@@ -27,7 +27,7 @@ System::ProcessKeyPressedEvents::ProcessKeyPressedEvents(
 
 void System::ProcessKeyPressedEvents::operator()()
 {
-    std::optional<std::string> reaction(std::nullopt);
+    std::optional<std::string> reaction;
 
     for (auto &keyPressed : _events.getEvents<event::KeyPressed>()) {
         if (keyPressed.key == 'O') {
@@ -47,6 +47,9 @@ void System::ProcessKeyPressedEvents::operator()()
         }
     }
 
+    if (not reaction.has_value())
+        return;
+
     for (auto it = _texts.begin(); it != _texts.end(); ++it) {
         auto &modifiable = _modifiables[it.get_entity()];
         bool isModifiable = modifiable && modifiable->id == _playerNumber;
@@ -54,10 +57,6 @@ void System::ProcessKeyPressedEvents::operator()()
         if (not isModifiable)
             continue;
 
-        if (not reaction.has_value())
-            continue;
-
-        if ((*it)->_text != reaction.value())
-            (*it)->_text = std::move(reaction.value());
+        (*it)->_text = std::move(reaction.value());
     }
 }
