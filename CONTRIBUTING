@@ -1,1 +1,42 @@
-# Contributing
+# Contributing to R-Type
+
+In this document are enumerated the different guidelines related to the contribution to R-Type 🚀.
+
+## Repository structure
+### `libs`
+One of the most important directory. You will find in it all the needed library's that compose the R-Type project.
+
+Keep in mind that the most important part of the R-Type is in this directory.
+
+### `libs/engine`
+This is the principal lib, the engine lib. The engine lib contains the ECS, his systems and his components.
+
+### `libs/networking`
+This lib contain the network part of the R-Type. The principal's Sync system and his sub-systems. 
+
+### `libs/rendering`
+Here you will find an interface (of you're choice) of a graphical library. You will use in order to render you're game.
+
+### `libs/rtype`
+As the name say it, it contains a R-Type game. Of course, built with the ECS (engine library).
+
+### `CMakeLists.txt`
+We use CMake to build this project. If you don't know how it works, you probably should take a look at the [cmake's](https://cmake.org/cmake/help/latest/index.html) documentation.
+
+### `server`
+Directory containing the C++ source files for the server's part.
+
+### `client`
+Directory containing the C++ source files for the client's part.
+
+### `tests`
+Directory containing all the test files related to the `networking` library.
+
+## Adding a new feature to R-Type
+When adding a feature to R-Type, the following steps should be followed:
+
+1. Create a new branch named `feature/XX` from the `main` branch, with `XX` being a descriptive name of you're feature.
+2. When you're work is done, open a pull request named `Feature: XXXX` (with `XXXX` being a short comment on you're feature) aimed at being merged into `main`, and request a review.
+9. Iterate on the reviews and requests made.
+10. When everything is OK and approved, your PR will be merged into `main`.
+11. Congratulations, you have now added a feature to R-Type!
