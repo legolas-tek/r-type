@@ -90,5 +90,5 @@
 
   <h2>Contributing 🤝</h2>
 
-  <p>Contributions are always welcome! See <a href="https://github.com/legolas-tek/r-type/CONTRIBUTING.md">CONTRIBUTING</a> for ways to get started. Please adhere to this project's code of conduct.</p>
+  <p>Contributions are always welcome! See CONTRIBUTING.md for ways to get started. Please adhere to this project's code of conduct.</p>
 </div>
