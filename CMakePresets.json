@@ -24,8 +24,8 @@
             "installDir": "${sourceDir}/out/install/${presetName}",
             "toolchainFile": "./cmake/macos-arm64.cmake",
             "cacheVariables": {
-                "CMAKE_C_COMPILER": "clang",
-                "CMAKE_CXX_COMPILER": "clang++",
+                "CMAKE_C_COMPILER": "/usr/bin/clang",
+                "CMAKE_CXX_COMPILER": "/usr/bin/clang++",
                 "CMAKE_BUILD_TYPE": "Release"
             },
             "condition": {
